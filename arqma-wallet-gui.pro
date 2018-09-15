@@ -249,6 +249,8 @@ win32 {
         -lcrypto \
         -Wl,-Bdynamic \
         -lwinscard \
+	-lcrypt32 \
+        -luser32 \
         -lws2_32 \
         -lwsock32 \
         -lIphlpapi \
