@@ -1,5 +1,5 @@
 #!/bin/bash
-ARQMA_URL=https://github.com/arqma/arqma.git
+ARQMA_URL=https://github.com/malbit/arqma.git
 ARQMA_BRANCH=master
 
 pushd $(pwd)

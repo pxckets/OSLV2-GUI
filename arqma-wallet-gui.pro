@@ -13,10 +13,9 @@ CONFIG += c++11 link_pkgconfig
 packagesExist(libpcsclite) {
     PKGCONFIG += libpcsclite
 }
-!win32 {
-    QMAKE_CXXFLAGS += -fPIC -fstack-protector 
-    QMAKE_LFLAGS += -fstack-protector 
-}
+
+QMAKE_CXXFLAGS += -fPIC -fstack-protector
+QMAKE_LFLAGS += -fstack-protector
 
 # cleaning "auto-generated" Arqma directory on "make distclean"
 QMAKE_DISTCLEAN += -r $$WALLET_ROOT
