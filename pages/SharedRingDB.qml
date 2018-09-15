@@ -72,7 +72,7 @@ Rectangle {
         id: mainLayout
         anchors.margins: (isMobile)? 17 : 20
         anchors.topMargin: 40 * scaleRatio
-  
+
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
@@ -238,7 +238,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.topMargin: 24 * scaleRatio
             textFormat: Text.RichText
-            text: "<style type='text/css'>a {text-decoration: none; color: #171DC0; font-size: 14px;}</style>" +
+            text: "<style type='text/css'>a {text-decoration: none; color: #171FD0; font-size: 14px;}</style>" +
                   qsTr("Rings") + " <a href='#'>" + qsTr("Help") + "</a>" + translationManager.emptyString
             onLinkActivated: {
                 sharedRingDBDialog.title  = qsTr("Rings") + translationManager.emptyString;

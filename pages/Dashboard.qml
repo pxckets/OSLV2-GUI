@@ -1,21 +1,21 @@
 // Copyright (c) 2014-2018, The Monero Project
-// 
+//
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modification, are
 // permitted provided that the following conditions are met:
-// 
+//
 // 1. Redistributions of source code must retain the above copyright notice, this list of
 //    conditions and the following disclaimer.
-// 
+//
 // 2. Redistributions in binary form must reproduce the above copyright notice, this list
 //    of conditions and the following disclaimer in the documentation and/or other
 //    materials provided with the distribution.
-// 
+//
 // 3. Neither the name of the copyright holder nor the names of its contributors may be
 //    used to endorse or promote products derived from this software without specific
 //    prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -53,7 +53,7 @@ Rectangle {
         anchors.margins: 17
         font.family: "Arial"
         font.pixelSize: 18
-        color: "#4A4949"
+        color: "#2700FF"
         text: qsTr("Quick transfer") + translationManager.emptyString
     }
 
@@ -97,9 +97,9 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             font.family: "Arial"
             font.pixelSize: 12
-            color: "#545454"
+            color: "#FFFFFF"
             textFormat: Text.RichText
-            text: qsTr("<style type='text/css'>a {text-decoration: none; color: #FF6C3C; font-size: 14px;}</style>\
+            text: qsTr("<style type='text/css'>a {text-decoration: none; color: #17FD0; font-size: 14px;}</style>\
                         looking for security level and address book? go to <a href='#'>Transfer</a> tab")
                      + translationManager.emptyString
             font.underline: false

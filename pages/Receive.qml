@@ -53,7 +53,7 @@ Rectangle {
     property alias addressText : pageReceive.current_address
 
     function makeQRCodeString() {
-        var s = "monero:"
+        var s = "arq:"
         var nfields = 0
         s += current_address;
         var amount = amountToReceiveLine.text.trim()
@@ -196,7 +196,7 @@ Rectangle {
             LabelSubheader {
                 Layout.fillWidth: true
                 textFormat: Text.RichText
-                text: "<style type='text/css'>a {text-decoration: none; color: #1E38CA; font-size: 14px;}</style>" +
+                text: "<style type='text/css'>a {text-decoration: none; color: #171FD0; font-size: 14px;}</style>" +
                       qsTr("Addresses") +
                       "<font size='2'> </font><a href='#'>" +
                       qsTr("Help") + "</a>" +
@@ -364,7 +364,7 @@ Rectangle {
                     Layout.fillWidth: true
 
                     Label {
-                        color: "#757575"
+                        color: "#3F42FF"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 6
@@ -409,7 +409,7 @@ Rectangle {
                 text: qsTr("Advanced options") + translationManager.emptyString
             }
         }
-        
+
         GridLayout {
             id: advancedRow
             columns: (isMobile)? 1 : 2

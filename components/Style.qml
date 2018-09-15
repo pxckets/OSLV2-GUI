@@ -10,7 +10,7 @@ QtObject {
 
     property string grey: "#504C4B"
 
-    property string defaultFontColor: "FFFFFF"
+    property string defaultFontColor: "white"
     property string dimmedFontColor: "#BBBBBB"
     property string inputBoxBackground: "black"
     property string inputBoxBackgroundError: "#FFDDDD"
@@ -27,5 +27,5 @@ QtObject {
     property string buttonTextColor: "white"
     property string buttonTextColorDisabled: "black"
     property string dividerColor: "white"
-    property real dividerOpacity: 0.25
+    property real dividerOpacity: 0.20
 }

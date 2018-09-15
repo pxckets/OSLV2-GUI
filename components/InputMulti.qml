@@ -53,7 +53,7 @@ TextArea {
 
     onTextChanged: {
         if(addressValidation){
-            // js replacement for `RegExpValidator { regExp: /[0-9A-Fa-f]{95}/g }`
+            // js replacement for `RegExpValidator { regExp: /[0-9A-Fa-f]{97}/g }`
             textArea.text = textArea.text.replace(/[^a-z0-9.@_]/gi,'');
             var address_ok = TxUtils.checkAddress(textArea.text, appWindow.persistentSettings.nettype);
             if(!address_ok) error = true;

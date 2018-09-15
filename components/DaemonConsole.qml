@@ -102,7 +102,7 @@ Window {
                     selectByMouse: true
                     selectByKeyboard: true
                     anchors.fill: parent
-                    font.family: "Ariel"
+                    font.family: "Arial"
                     font.pixelSize: 14 * scaleRatio
                     color: MoneroComponents.Style.defaultFontColor
                     selectionColor: MoneroComponents.Style.dimmedFontColor

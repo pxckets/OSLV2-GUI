@@ -1,21 +1,21 @@
 // Copyright (c) 2014-2018, The Monero Project
-// 
+//
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modification, are
 // permitted provided that the following conditions are met:
-// 
+//
 // 1. Redistributions of source code must retain the above copyright notice, this list of
 //    conditions and the following disclaimer.
-// 
+//
 // 2. Redistributions in binary form must reproduce the above copyright notice, this list
 //    of conditions and the following disclaimer in the documentation and/or other
 //    materials provided with the distribution.
-// 
+//
 // 3. Neither the name of the copyright holder nor the names of its contributors may be
 //    used to endorse or promote products derived from this software without specific
 //    prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -33,7 +33,7 @@ ListView {
     id: listView
     clip: true
     boundsBehavior: ListView.StopAtBounds
-    
+
     footer: Rectangle {
         height: 127
         width: listView.width
@@ -56,14 +56,14 @@ ListView {
         color: index % 2 ? "#F8F8F8" : "#FFFFFF"
         z: listView.count - index
         function collapseDropdown() { dropdown.expanded = false }
-        
+
         Row {
             id: row1
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.topMargin: 14
-            
+
             Rectangle {
                 id: dot
                 width: 14
@@ -71,12 +71,12 @@ ListView {
                 radius: width / 2
                 color: out ? "#FF4F41" : "#36B05B"
             }
-            
+
             Item { //separator
                 width: 12
                 height: 14
             }
-            
+
             Text {
                 id: descriptionText
                 width: text.length ? (descriptionArea.containsMouse ? parent.width - x - 12 : 120) : 0
@@ -94,13 +94,13 @@ ListView {
                     hoverEnabled: true
                 }
             }
-            
+
             Item { //separator
                 width: descriptionText.width ? 12 : 0
                 height: 14
                 visible: !descriptionArea.containsMouse
             }
-            
+
             Text {
                 id: addressText
                 anchors.verticalCenter: dot.verticalCenter
@@ -113,22 +113,22 @@ ListView {
                 visible: !descriptionArea.containsMouse
             }
         }
-        
+
         Row {
             anchors.left: parent.left
             anchors.top: row1.bottom
             anchors.topMargin: 8
             spacing: 12
-            
+
             Item { //separator
                 width: 14
                 height: 14
             }
-            
+
             Column {
                 anchors.top: parent.top
                 width: 215
-                
+
                 Text {
                     anchors.left: parent.left
                     font.family: "Arial"
@@ -136,7 +136,7 @@ ListView {
                     color: "#545454"
                     text: qsTr("Date")  + translationManager.emptyString
                 }
-                
+
                 Row {
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -145,23 +145,23 @@ ListView {
                     Text {
                         font.family: "Arial"
                         font.pixelSize: 18
-                        color: "#000000"
+                        color: "#FFFFFF"
                         text: date
                     }
 
                     Text {
                         font.family: "Arial"
                         font.pixelSize: 18
-                        color: "#000000"
+                        color: "#FFFFFF"
                         text: time
                     }
                 }
             }
-            
+
             Column {
                 anchors.top: parent.top
                 width: 148
-                
+
                 Text {
                     anchors.left: parent.left
                     font.family: "Arial"
@@ -169,19 +169,19 @@ ListView {
                     color: "#545454"
                     text: qsTr("Balance") + translationManager.emptyString
                 }
-                
+
                 Text {
                     font.family: "Arial"
                     font.pixelSize: 18
-                    color: "#000000"
+                    color: "#FFFFFF"
                     text: balance
                 }
             }
-            
+
             Column {
                 anchors.top: parent.top
                 width: 148
-                
+
                 Text {
                     anchors.left: parent.left
                     font.family: "Arial"
@@ -189,7 +189,7 @@ ListView {
                     color: "#545454"
                     text: qsTr("Amount") + translationManager.emptyString
                 }
-                
+
                 Row {
                     spacing: 2
                     Text {
@@ -200,7 +200,7 @@ ListView {
                         color: out ? "#FF4F41" : "#36B05B"
                         text: out ? "↓" : "↑"
                     }
-                    
+
                     Text {
                         anchors.bottom: parent.bottom
                         font.family: "Arial"

@@ -29,7 +29,7 @@ Rectangle {
         visible: !logo.visible
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        anchors.leftMargin: 40 * scaleRatio 
+        anchors.leftMargin: 40 * scaleRatio
         source: "../images/arqmaIcon.png"
     }
 
@@ -51,7 +51,7 @@ Rectangle {
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignBottom
-            color: "#535353"
+            color: "#FFFFFF"
             text: leftPanel.balanceLabelText + ":"
         }
 
@@ -65,7 +65,7 @@ Rectangle {
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignBottom
-            color: "#000000"
+            color: "#FFFFFF"
             text: leftPanel.balanceText
         }
 
@@ -89,7 +89,7 @@ Rectangle {
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignBottom
-            color: "#535353"
+            color: "#FFFFFF"
             text: qsTr("Unlocked Balance:")
         }
 
@@ -103,7 +103,7 @@ Rectangle {
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignBottom
-            color: "#000000"
+            color: "#FFFFFF"
             text: leftPanel.unlockedBalanceText
         }
     }

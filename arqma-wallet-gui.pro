@@ -18,7 +18,7 @@ packagesExist(libpcsclite) {
     QMAKE_LFLAGS += -fstack-protector -fstack-protector-strong
 }
 
-# cleaning "auto-generated" bitmonero directory on "make distclean"
+# cleaning "auto-generated" Arqma directory on "make distclean"
 QMAKE_DISTCLEAN += -r $$WALLET_ROOT
 
 INCLUDEPATH +=  $$WALLET_ROOT/include \
@@ -216,7 +216,7 @@ win32 {
     } else {
         MSYS_MINGW_PATH=/mingw32
     }
-    
+
     MSYS_PATH=$$MSYS_ROOT_PATH$$MSYS_MINGW_PATH
 
     # boost root path
@@ -227,7 +227,7 @@ win32 {
     LIBS+=-L$$MSYS_MINGW_PATH/lib
     LIBS+=-L$$BOOST_PATH/lib
     LIBS+=-L$$BOOST_MINGW_PATH/lib
-    
+
     LIBS+= \
         -Wl,-Bstatic \
         -lboost_serialization-mt \
@@ -253,7 +253,7 @@ win32 {
         -lwsock32 \
         -lIphlpapi \
         -lgdi32
-    
+
     !contains(QMAKE_TARGET.arch, x86_64) {
         message("Target is 32bit")
         ## Windows x86 (32bit) specific build here
@@ -270,7 +270,7 @@ win32 {
 linux {
     CONFIG(static) {
         message("using static libraries")
-        LIBS+= -Wl,-Bstatic    
+        LIBS+= -Wl,-Bstatic
         QMAKE_LFLAGS += -static-libgcc -static-libstdc++
    #     contains(QT_ARCH, x86_64) {
             LIBS+= -lunbound

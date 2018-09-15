@@ -1,21 +1,21 @@
 // Copyright (c) 2014-2018, The Monero Project
-// 
+//
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modification, are
 // permitted provided that the following conditions are met:
-// 
+//
 // 1. Redistributions of source code must retain the above copyright notice, this list of
 //    conditions and the following disclaimer.
-// 
+//
 // 2. Redistributions in binary form must reproduce the above copyright notice, this list
 //    of conditions and the following disclaimer in the documentation and/or other
 //    materials provided with the distribution.
-// 
+//
 // 3. Neither the name of the copyright holder nor the names of its contributors may be
 //    used to endorse or promote products derived from this software without specific
 //    prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -90,7 +90,7 @@ Rectangle {
         z: 1
     }
 
-    // card with monero logo
+    // card with Arqma Card
     Column {
         visible: true
         z: 2
@@ -128,7 +128,7 @@ Rectangle {
                     anchors.leftMargin: 192
                     font.bold: true
                     font.pixelSize: 12
-                    color: "#f33434"
+                    color: "#FF0000"
                 }
 
                 Text {
@@ -141,7 +141,7 @@ Rectangle {
                     anchors.rightMargin: 8
                     font.pixelSize: 12
                     font.bold: true
-                    color: "#FF1212"
+                    color: "#FF0000"
                 }
             }
 
@@ -252,8 +252,8 @@ Rectangle {
 
         Flickable {
             id:flicker
-            contentHeight: (progressBar.visible)? menuColumn.height + separator.height + 
-                networkStatus.height + progressBar.height + daemonProgressBar.height : 
+            contentHeight: (progressBar.visible)? menuColumn.height + separator.height +
+                networkStatus.height + progressBar.height + daemonProgressBar.height :
                 menuColumn.height + separator.height + networkStatus.height
             anchors.fill: parent
             clip: true
@@ -291,7 +291,7 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.leftMargin: 16
-                color: dashboardButton.checked || transferButton.checked ? "#1C1C1C" : "#313131"
+                color: dashboardButton.checked || transferButton.checked ? "#FFEF7E" : "#7E6E00"
                 height: 1
             }
             */
@@ -446,7 +446,7 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.leftMargin: 16
-                color: miningButton.checked || settingsButton.checked ? "#1C1C1C" : "#313131"
+                color: miningButton.checked || settingsButton.checked ? "#E16B6B" : "#860000"
                 height: 1
             }
             // ------------- TxKey tab ---------------
