@@ -14,8 +14,8 @@ packagesExist(libpcsclite) {
     PKGCONFIG += libpcsclite
 }
 !win32 {
-    QMAKE_CXXFLAGS += -fPIC -fstack-protector -fstack-protector-strong
-    QMAKE_LFLAGS += -fstack-protector -fstack-protector-strong
+    QMAKE_CXXFLAGS += -fPIC -fstack-protector 
+    QMAKE_LFLAGS += -fstack-protector 
 }
 
 # cleaning "auto-generated" Arqma directory on "make distclean"
@@ -132,8 +132,8 @@ android {
 
 
 
-QMAKE_CXXFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security
-QMAKE_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security
+QMAKE_CXXFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security -fstack-protector -fstack-protector-strong
+QMAKE_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security -fstack-protector -fstack-protector-strong
 
 ios {
     message("Host is IOS")
@@ -205,7 +205,7 @@ win32 {
     # WIN32 Host settings
     } else {
         message("Host is 32bit")
-        MSYS_ROOT_PATH=c:/msys32
+        MSYS_ROOT_PATH=c:/msys64
     }
 
     # WIN64 Target settings
@@ -249,7 +249,7 @@ win32 {
         -lcrypto \
         -Wl,-Bdynamic \
         -lwinscard \
-	-lcrypt32 \
+		-lcrypt32 \
         -luser32 \
         -lws2_32 \
         -lwsock32 \
@@ -423,7 +423,7 @@ macx {
 }
 
 win32 {
-    deploy.commands += windeployqt $$sprintf("%1/%2/%3.exe", $$OUT_PWD, $$DESTDIR, $$TARGET) -release -no-translations -qmldir=$$PWD
+    deploy.commands += windeployqt $$sprintf("%1/%2/%3.exe", $$OUT_PWD, $$DESTDIR, $$TARGET) -release -qmldir=$$PWD
     # Win64 msys2 deploy settings
     contains(QMAKE_HOST.arch, x86_64) {
         deploy.commands += $$escape_expand(\n\t) $$PWD/windeploy_helper.sh $$DESTDIR
