@@ -1,5 +1,5 @@
 ; Arqma Devils Touch
-; Copyright (c)      2018. The Arqma Project
+; Copyright (c) 2018. The Arqma Project
 ; Copyright (c) 2014-2018, The Monero Project
 ; See LICENSE
 
@@ -20,7 +20,9 @@ WizardSmallImageFile=WizardSmallImage.bmp
 WizardImageFile=WelcomeImage.bmp
 DisableWelcomePage=no
 LicenseFile=LICENSE
-OutputBaseFilename=Arq-WinGUI
+AppPublisher=ArQmA Network
+AppPublisherURL=https://arqma.com
+OutputBaseFilename=Arqma-WinGUI
 
 
 [Languages]
@@ -62,6 +64,7 @@ Source: "arqma-wallet-gui.log"; DestDir: "{app}"; Flags: onlyifdoesntexist; Perm
 
 ; Arqma CLI wallet
 Source: "bin\arqma-wallet-cli.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\arqma-gen-trusted-multisig.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Arqma wallet RPC interface implementation
 Source: "bin\arqma-wallet-rpc.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -118,8 +121,6 @@ Source: "bin\playlistformats\*"; DestDir: "{app}\playlistformats"; Flags: recurs
 ; Qt graphical effects as part of the core runtime, effects like blurring and blending
 Source: "bin\QtGraphicalEffects\*"; DestDir: "{app}\QtGraphicalEffects"; Flags: recursesubdirs ignoreversion
 
-; No more Qt "private" directory in 0.12.0.0
-
 ; Qt QML files
 Source: "bin\QtQml\*"; DestDir: "{app}\QtQml"; Flags: recursesubdirs ignoreversion
 
@@ -133,8 +134,6 @@ Source: "bin\start-low-graphics-mode.bat"; DestDir: "{app}"; Flags: ignoreversio
 
 ; Mesa, open-source OpenGL implementation; part of "low-level graphics" support
 Source: "bin\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
-
-; Left out subdirectory "qmltooling" with the Qt QML debugger: Probably not relevant in an end-user package
 
 ; Microsoft Direct3D runtime
 Source: "bin\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -178,10 +177,6 @@ Source: "bin\libicuuc61.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Library for native language support, part of GNU gettext
 Source: "bin\libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion
-
-; JasPer, support for JPEG-2000
-; was present in 0.10.3.1, not present anymore in 0.11.1.0 and after
-; Source: "bin\libjasper-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; libjpeg, C library for reading and writing JPEG image files
 Source: "bin\libjpeg-8.dll"; DestDir: "{app}"; Flags: ignoreversion
