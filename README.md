@@ -22,11 +22,11 @@ Copyright (c) 2014-2018, The Monero Project
 
 2. Grab an up-to-date copy of the arqma-gui repository
 
-	`git clone https://github.com/malbit/arq-gui.git`
+	`git clone https://github.com/arqma/arqma-gui.git`
 
 3. Go into the repository
 
-	`cd arq-gui`
+	`cd arqma-gui`
 
 4. Install the GUI dependencies
 
@@ -95,7 +95,6 @@ The executable can be found in the build/release/bin folder.
   
   `brew install zbar`
   
-  `brew install hidapi`
 
   *Note*: If cmake can not find zmq.hpp file on OS X, installing `zmq.hpp` from https://github.com/zeromq/cppzmq to `/usr/local/include` should fix that error.
 
@@ -115,11 +114,11 @@ The executable can be found in the build/release/bin folder.
 
 6. Grab an up-to-date copy of the arq-gui repository
 
-  `git clone https://github.com/malbit/arq-gui.git`
+  `git clone https://github.com/arqma/arqma-gui.git`
 
 7. Go into the repository
 
-  `cd arq-gui`
+  `cd arqma-gui`
 
 8. Start the build
 
@@ -185,13 +184,13 @@ application.
 7. Clone repository
     ```
     cd
-    git clone https://github.com/malbit/arq-gui.git
+    git clone https://github.com/arqma/arqma-gui.git
     ```
 
 8. Build the GUI
     ```
-    cd arq-gui
-    ./build.sh release-static
+    cd arqma-gui
+    ./build.sh
     cd build
     make deploy
     ```
