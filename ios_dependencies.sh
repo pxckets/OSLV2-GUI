@@ -1,3 +1,4 @@
+# Copyright (c) 2018, The ArQmA Project
 #!/bin/bash
 
 # OpenSSL for iOS Build
