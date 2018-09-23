@@ -1,3 +1,4 @@
+## Copyright (c) 2018, The ArQmA Project
 FROM monero-android
 
 #INSTALL JAVA
