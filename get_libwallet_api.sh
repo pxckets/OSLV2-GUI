@@ -1,6 +1,6 @@
 # Copyright (c) 2018, The ArQmA Project
 #!/bin/bash
-ARQMA_URL=https://github.com/malbit/arqma.git
+ARQMA_URL=https://github.com/arqma/arqma.git
 ARQMA_BRANCH=master
 
 pushd $(pwd)
