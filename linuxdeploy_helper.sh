@@ -1,3 +1,4 @@
+# Copyright (c) 2018, The ArQmA Project
 #!/bin/bash
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
