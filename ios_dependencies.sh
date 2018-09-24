@@ -2,7 +2,7 @@
 
 # OpenSSL for iOS Build
 git clone https://github.com/x2on/OpenSSL-for-iPhone.git && cd OpenSSL-for-iPhone \
-  && ./build-libssl.sh --archs="arm64 armv7s armv7" --targets="ios64-cross-arm64 ios-cross-armv7s ios-cross-armv7" \
+  && ./build-libssl.sh --archs="arm64" --targets="ios64-cross-arm64" \
   && cd ..
 
 # BOOST

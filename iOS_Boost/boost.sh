@@ -40,7 +40,7 @@ CLEAN=
 NO_CLEAN=
 NO_FRAMEWORK=
 
-BOOST_VERSION=1.67.0
+BOOST_VERSION=1.68.0
 
 MIN_IOS_VERSION=11.0
 IOS_SDK_VERSION=`xcrun --sdk iphoneos --show-sdk-version`

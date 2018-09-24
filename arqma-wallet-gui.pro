@@ -103,12 +103,12 @@ SOURCES = *.qml \
 ios:armv7 {
     message("target is armv7")
     LIBS += \
-        -L$$PWD/iOS_Boost/build/boost/1.63.0/ios/build/armv7 \
+        -L$$PWD/iOS_Boost/build/boost/1.68.0/ios/build/armv7 \
 }
 ios:arm64 {
     message("target is arm64")
     LIBS += \
-        -L$$PWD/iOS_Boost/build/boost/1.63.0/ios/build/arm64 \
+        -L$$PWD/iOS_Boost/build/boost/1.68.0/ios/build/arm64 \
 }
 !ios:!android {
 LIBS += -L$$WALLET_ROOT/lib \
@@ -140,16 +140,18 @@ ios {
     QMAKE_LFLAGS += -v
     QMAKE_IOS_DEVICE_ARCHS = arm64
     CONFIG += arm64
-    LIBS += -L$$WALLET_ROOT/lib-ios \
+    LIBS += -L$$WALLET_ROOT/lib-arm64 \
         -lwallet_merged \
+        -lepee
+
+    LIBS += -L$$WALLET_ROOT/lib-armv8-a \
         -llmdb \
-        -lepee \
         -lunbound \
         -leasylogging
 
     LIBS+= \
         -L$$PWD/OpenSSL-for-iPhone/lib \
-        -L$$PWD/iOS_Boost/build/boost/1.63.0/ios/build/arm64 \
+        -L$$PWD/iOS_Boost/build/boost/1.68.0/ios/build/arm64 \
         -lboost_serialization \
         -lboost_thread \
         -lboost_system \
