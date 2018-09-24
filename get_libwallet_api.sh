@@ -1,4 +1,3 @@
-# Copyright (c) 2018, The ArQmA Project
 #!/bin/bash
 ARQMA_URL=https://github.com/arqma/arqma.git
 ARQMA_BRANCH=master
@@ -50,14 +49,14 @@ $(git -C $ARQMA_DIR config user.name "$OLD_GIT_USER")
 $(git -C $ARQMA_DIR config user.email "$OLD_GIT_EMAIL")
 
 # Build libwallet if it doesnt exist
-if [ ! -f $ARQMA_DIR/lib/libwallet_merged.a ]; then 
+if [ ! -f $ARQMA_DIR/lib/libwallet_merged.a ]; then
     echo "libwallet_merged.a not found - Building libwallet"
     BUILD_LIBWALLET=true
 # Build libwallet if no previous version file exists
-elif [ ! -f $ARQMA_DIR/version.sh ]; then 
+elif [ ! -f $ARQMA_DIR/version.sh ]; then
     echo "arqma/version.h not found - Building libwallet"
     BUILD_LIBWALLET=true
-## Compare previously built version with submodule + merged PR's version. 
+## Compare previously built version with submodule + merged PR's version.
 else
     source $ARQMA_DIR/version.sh
     # compare submodule version with latest build
@@ -172,7 +171,7 @@ elif [ "$platform" == "linuxarmv7" ]; then
         cmake -D BUILD_TESTS=OFF -D ARCH="armv7-a" -D -D BUILD_64=OFF  -D BUILD_GUI_DEPS=ON -D CMAKE_INSTALL_PREFIX="$ARQMA_DIR"  ../..
     fi
 
-## LINUX other 
+## LINUX other
 elif [ "$platform" == "linux" ]; then
     echo "Configuring build for Linux general"
     if [ "$STATIC" == true ]; then

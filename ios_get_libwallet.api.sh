@@ -1,4 +1,3 @@
-# Copyright (c) 2018, The ArQmA Project
 #!/bin/bash -e
 
 # 3 header files required by monero are missing from the IOS SDK. I copied them from iphoneSimulator SDK

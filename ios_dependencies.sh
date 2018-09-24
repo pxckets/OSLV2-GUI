@@ -1,4 +1,3 @@
-# Copyright (c) 2018, The ArQmA Project
 #!/bin/bash
 
 # OpenSSL for iOS Build
@@ -14,4 +13,3 @@ cd iOS_Boost \
 # Building zxcvbn realistic password strength estimation
 #cd src/zxcvbn-c \
 #  && make & cd ..
-  

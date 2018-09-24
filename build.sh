@@ -1,4 +1,3 @@
-# Copyright (c) 2018, The ArQmA Project
 #!/bin/bash
 
 BUILD_TYPE=$1
