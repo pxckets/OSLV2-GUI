@@ -9,7 +9,7 @@ AppName=Arqma GUI Wallet
 ; Thus it's important to keep this stable over releases
 ; With a different "AppName" InnoSetup would treat a mere update as a completely new application and thus mess up
 
-AppVersion=0.1.2.6
+AppVersion=0.1.3.1
 DefaultDirName={pf}\Arqma GUI Wallet
 DefaultGroupName=Arqma GUI Wallet
 UninstallDisplayIcon={app}\arqma-wallet-gui.exe
@@ -79,9 +79,6 @@ Source: "arqma-daemon.bat"; DestDir: "{app}"; Flags: ignoreversion;
 Source: "bin\arqma-blockchain-export.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\arqma-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
 
-; was present in 0.10.3.1, not present anymore in 0.11.1.0 and after
-; Source: "bin\arqma-utils-deserialize.exe"; DestDir: "{app}"; Flags: ignoreversion
-
 ; Various .qm files for translating the wallet UI "on the fly" into all supported languages
 Source: "bin\translations\*"; DestDir: "{app}\translations"; Flags: recursesubdirs ignoreversion
 
@@ -129,21 +126,21 @@ Source: "bin\QtQuick\*"; DestDir: "{app}\QtQuick"; Flags: recursesubdirs ignorev
 Source: "bin\QtQuick.2\*"; DestDir: "{app}\QtQuick.2"; Flags: recursesubdirs ignoreversion
 
 ; Qt Quick 2D Renderer fallback for systems / environments with "low-level graphics" i.e. without 3D support
-Source: "bin\scenegraph\*"; DestDir: "{app}\scenegraph"; Flags: recursesubdirs ignoreversion
-Source: "bin\start-low-graphics-mode.bat"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "bin\scenegraph\*"; DestDir: "{app}\scenegraph"; Flags: recursesubdirs ignoreversion
+;Source: "bin\start-low-graphics-mode.bat"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Mesa, open-source OpenGL implementation; part of "low-level graphics" support
-Source: "bin\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "bin\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Microsoft Direct3D runtime
-Source: "bin\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "bin\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; bzip2 support
-Source: "bin\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "bin\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; ANGLE ("Almost Native Graphics Layer Engine") support, as used by Qt
-Source: "bin\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "bin\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "bin\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; FreeType font engine, as used by Qt
 Source: "bin\libfreetype-6.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -168,12 +165,11 @@ Source: "bin\libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; ICU, International Components for Unicode
 ; After changes for supporting UTF-8 path and file names by using Boost Locale, all those 5
-; ICU libraries are needed in 0.12.0.0
-Source: "bin\libicudt61.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicuin61.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicuio61.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicutu61.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicuuc61.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicudt62.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicuin62.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicuio62.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicutu62.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicuuc62.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Library for native language support, part of GNU gettext
 Source: "bin\libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion
