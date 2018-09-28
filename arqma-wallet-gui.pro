@@ -162,7 +162,7 @@ ios {
         -lboost_program_options \
         -lssl \
         -lcrypto \
-        -ldl 
+        -ldl \
 	-lsodium
 }
 
@@ -276,7 +276,7 @@ linux {
         message("using static libraries")
         LIBS+= -Wl,-Bstatic,-lunbound
         QMAKE_LFLAGS += -static-libgcc -static-libstdc++
-	{
+	}
 	
     LIBS+= \
         -lboost_serialization \
@@ -306,7 +306,7 @@ linux {
         LIBS += -Wl,-Bdynamic -lunwind
     }
 
-    QMAKE_LFLAGS += -pie -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack
+    QMAKE_LFLAGS += -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack
 }
 
 macx {
