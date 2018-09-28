@@ -118,6 +118,7 @@ LIBS += -L$$WALLET_ROOT/lib \
         -lepee \
         -lunbound \
         -leasylogging \
+	-lsodium
 }
 
 android {
@@ -161,7 +162,8 @@ ios {
         -lboost_program_options \
         -lssl \
         -lcrypto \
-        -ldl
+        -ldl 
+	-lsodium
 }
 
 CONFIG(WITH_SCANNER) {
@@ -249,7 +251,7 @@ win32 {
         -lcrypto \
         -Wl,-Bdynamic \
         -lwinscard \
-	    -lcrypt32 \
+	-lcrypt32 \
         -luser32 \
         -lws2_32 \
         -lwsock32 \
@@ -272,16 +274,10 @@ win32 {
 linux {
     CONFIG(static) {
         message("using static libraries")
-        LIBS+= -Wl,-Bstatic
+        LIBS+= -Wl,-Bstatic,-lunbound
         QMAKE_LFLAGS += -static-libgcc -static-libstdc++
-        contains(QT_ARCH, x86_64) {
-            LIBS+= -lunbound
-        }
-    } else {
-      # On some distro's we need to add dynload
-      LIBS+= -ldl
-    }
-
+	{
+	
     LIBS+= \
         -lboost_serialization \
         -lboost_thread \
@@ -293,7 +289,8 @@ linux {
         -lboost_program_options \
         -lssl \
         -llmdb \
-        -lcrypto
+        -lcrypto \
+	-lsodium
 
     if(!android) {
         LIBS+= \
@@ -332,10 +329,10 @@ macx {
         -lboost_program_options \
         -lssl \
         -lcrypto \
-        -ldl
+        -ldl \
+	-lsodium
     LIBS+= -framework PCSC
 
-    QMAKE_LFLAGS += -pie
 }
 
 
