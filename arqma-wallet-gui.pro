@@ -438,7 +438,7 @@ linux:!android {
 }
 
 android{
-    deploy.commands += make install INSTALL_ROOT=$$DESTDIR && androiddeployqt --input android-arqma-wallet-gui.so-deployment-settings.json --output $$DESTDIR --deployment bundled --android-platform android-21 --jdk /usr/lib/jvm/java-8-openjdk-amd64 -qmldir=$$PWD
+    deploy.commands += make install INSTALL_ROOT=$$DESTDIR && androiddeployqt --input android-libarqma-wallet-gui.so-deployment-settings.json --output $$DESTDIR --deployment bundled --android-platform android-21 --jdk /usr/lib/jvm/java-8-openjdk-amd64 -qmldir=$$PWD
 }
 
 
