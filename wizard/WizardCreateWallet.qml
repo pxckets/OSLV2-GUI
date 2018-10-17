@@ -86,9 +86,8 @@ ColumnLayout {
         var tmp_wallet_filename = oshelper.temporaryFilename();
         console.log("Creating temporary wallet", tmp_wallet_filename)
         var nettype = appWindow.persistentSettings.nettype;
-        var kdfRounds = appWindow.persistentSettings.kdfRounds;
         var wallet = walletManager.createWallet(tmp_wallet_filename, "", settingsObject.wallet_language,
-                                                nettype, kdfRounds)
+                                                nettype)
         uiItem.wordsTextItem.memoText = wallet.seed
         // saving wallet in "global" settings object
         // TODO: wallet should have a property pointing to the file where it stored or loaded from

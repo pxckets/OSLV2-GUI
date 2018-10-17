@@ -33,7 +33,7 @@ public:
     static WalletManager * instance();
     // wizard: createWallet path;
     Q_INVOKABLE Wallet * createWallet(const QString &path, const QString &password,
-                                      const QString &language, NetworkType::Type nettype = NetworkType::MAINNET, quint64 kdfRounds = 1);
+                                      const QString &language, NetworkType::Type nettype = NetworkType::MAINNET);
 
     /*!
      * \brief openWallet - opens wallet by given path
@@ -42,17 +42,17 @@ public:
      * \param nettype    - type of network the wallet is running on
      * \return wallet object pointer
      */
-    Q_INVOKABLE Wallet * openWallet(const QString &path, const QString &password, NetworkType::Type nettype = NetworkType::MAINNET, quint64 kdfRounds = 1);
+    Q_INVOKABLE Wallet * openWallet(const QString &path, const QString &password, NetworkType::Type nettype = NetworkType::MAINNET);
 
     /*!
      * \brief openWalletAsync - asynchronous version of "openWallet". Returns immediately. "walletOpened" signal
      *                          emitted when wallet opened;
      */
-    Q_INVOKABLE void openWalletAsync(const QString &path, const QString &password, NetworkType::Type nettype = NetworkType::MAINNET, quint64 kdfRounds = 1);
+    Q_INVOKABLE void openWalletAsync(const QString &path, const QString &password, NetworkType::Type nettype = NetworkType::MAINNET);
 
     // wizard: recoveryWallet path; hint: internally it recorvers wallet and set password = ""
     Q_INVOKABLE Wallet * recoveryWallet(const QString &path, const QString &memo,
-                                       NetworkType::Type nettype = NetworkType::MAINNET, quint64 restoreHeight = 0, quint64 kdfRounds = 1);
+                                       NetworkType::Type nettype = NetworkType::MAINNET, quint64 restoreHeight = 0);
 
     Q_INVOKABLE Wallet * createWalletFromKeys(const QString &path,
                                               const QString &language,
@@ -60,8 +60,8 @@ public:
                                               const QString &address,
                                               const QString &viewkey,
                                               const QString &spendkey = "",
-                                              quint64 restoreHeight = 0,
-                                              quint64 kdfRounds = 1);
+                                              quint64 restoreHeight = 0);
+
 
     Q_INVOKABLE Wallet * createWalletFromDevice(const QString &path,
                                                 const QString &password,

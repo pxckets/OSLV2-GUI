@@ -190,7 +190,7 @@ Rectangle {
                                     walletManager.closeWallet();
                                     walletManager.clearWalletCache(persistentSettings.wallet_path);
                                     walletManager.openWalletAsync(persistentSettings.wallet_path, appWindow.walletPassword,
-                                                                      persistentSettings.nettype, persistentSettings.kdfRounds);
+                                                                      persistentSettings.nettype);
                                 }
 
                                 confirmationDialog.onRejectedCallback = null;
