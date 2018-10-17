@@ -86,6 +86,16 @@ ApplicationWindow {
 
     function altKeyReleased() { ctrlPressed = false; }
 
+    function getRemoteNodeList()
+    {
+        if (persistentSettings.nettype == NetworkType.TESTNET)
+            return testnetRemoteNodeList;
+        if (persistentSettings.nettype == NetworkType.STAGENET)
+            return stagenetRemoteNodeList;
+
+        return mainnetRemoteNodeList;
+    }
+
     function showPageRequest(page) {
         middlePanel.state = page
         leftPanel.selectItem(page)
@@ -243,7 +253,7 @@ ApplicationWindow {
             // console.log("opening wallet at: ", wallet_path, "with password: ", appWindow.walletPassword);
             console.log("opening wallet at: ", wallet_path, ", network type: ", persistentSettings.nettype == NetworkType.MAINNET ? "mainnet" : persistentSettings.nettype == NetworkType.TESTNET ? "testnet" : "stagenet");
             walletManager.openWalletAsync(wallet_path, walletPassword,
-                                              persistentSettings.nettype);
+                                              persistentSettings.nettype, persistentSettings.kdfRounds);
         }
 
         // Hide titlebar based on persistentSettings.customDecorations
@@ -373,7 +383,7 @@ ApplicationWindow {
 
         // If wallet isnt connected and no daemon is running - Ask
         if(!isMobile && walletManager.isDaemonLocal(appWindow.persistentSettings.daemon_address) && !walletInitialized && status === Wallet.ConnectionStatus_Disconnected && !daemonManager.running(persistentSettings.nettype)){
-            daemonManagerDialog.open();
+            chooseDaemonModalDialog.open();
         }
         // initialize transaction history once wallet is initialized first time;
         if (!walletInitialized) {
@@ -1035,6 +1045,7 @@ ApplicationWindow {
         property bool segregatePreForkOutputs: true
         property bool keyReuseMitigation2: true
         property int segregationHeight: 0
+        property int kdfRounds: 1
     }
 
     // Information dialog
@@ -1248,6 +1259,11 @@ ApplicationWindow {
         }
 
     }
+
+    ChooseDaemonModalDialog {
+        id: chooseDaemonModalDialog
+    }
+
 
     ProcessingSplash {
         id: splash

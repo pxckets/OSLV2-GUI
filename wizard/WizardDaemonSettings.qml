@@ -36,7 +36,7 @@ ColumnLayout {
     Layout.leftMargin: wizardLeftMargin
     Layout.rightMargin: wizardRightMargin
 
-    id: passwordPage
+    id: root
     opacity: 0
     visible: false
     property alias titleText: titleText.text
@@ -48,6 +48,8 @@ ColumnLayout {
 
 
     function onPageOpened(settingsObject) {
+        localNode.checked  = true;
+        remoteNode.checked = false;
     }
     function onWizardRestarted(){
     }
@@ -86,6 +88,8 @@ ColumnLayout {
 
     ColumnLayout {
         id: headerColumn
+        Layout.fillWidth: true
+        Layout.bottomMargin: 14 * scaleRatio;
 
         Text {
             Layout.fillWidth: true
@@ -101,7 +105,7 @@ ColumnLayout {
         }
 
         Text {
-            Layout.fillWidth: true
+            //Layout.fillWidth: true
             Layout.topMargin: 30 * scaleRatio
             Layout.bottomMargin: 30 * scaleRatio
             font.family: "Arial"
@@ -116,133 +120,186 @@ ColumnLayout {
                         If you don't have the option to run your own node, there's an option to connect to a remote node.")
                     + translationManager.emptyString
         }
+
+        RadioButton {
+            id: localNode
+            text: qsTr("Start a node automatically in background or use an already running local node\n(Downloads blockchain, slow but private)") + translationManager.emptyString
+            fontColor: Style.defaultFontColor
+            fontSize: 16 * scaleRatio
+            checked: !appWindow.persistentSettings.useRemoteNode && !isAndroid && !isIOS
+            visible: !isAndroid && !isIOS
+            onClicked: {
+                checked = true;
+                remoteNode.checked = false;
+            }
+        }
+
+        RadioButton {
+            id: remoteNode
+            text: qsTr("Connect to a remote node\n(Recommended, fast but less private)") + translationManager.emptyString
+            Layout.topMargin: 20 * scaleRatio
+            fontColor: Style.defaultFontColor
+            fontSize: 16 * scaleRatio
+            checked: appWindow.persistentSettings.useRemoteNode
+            onClicked: {
+                checked = true
+                localNode.checked = false
+            }
+        }
     }
 
     ColumnLayout {
+        visible: localNode.checked
+        id: blockchainFolderRow
 
-        RowLayout {
-            RadioButton {
-                id: localNode
-                text: qsTr("Start a node automatically in background (recommended)") + translationManager.emptyString
-                checkedColor: Qt.rgba(0, 0, 0, 0.75)
-                borderColor: Qt.rgba(0, 0, 0, 0.45)
-                fontColor: "#000AD8"
-                fontSize: 16 * scaleRatio
-                checked: !appWindow.persistentSettings.useRemoteNode && !isAndroid && !isIOS
-                visible: !isAndroid && !isIOS
+        Label {
+            Layout.fillWidth: true
+            Layout.topMargin: 20 * scaleRatio
+            fontSize: 16 * scaleRatio
+            fontColor: Style.defaultFontColor
+            text: qsTr("Blockchain Location") + translationManager.emptyString
+        }
+
+        LineEdit {
+            id: blockchainFolder
+            Layout.minimumWidth: 300 * scaleRatio
+            Layout.maximumWidth: 620 * scaleRatio
+            Layout.fillWidth: true
+            text: persistentSettings.blockchainDataDir
+            placeholderFontFamily: "Arial"
+            placeholderColor: Style.legacy_placeholderFontColor
+            placeholderText: qsTr("(Optional)") + translationManager.emptyString
+
+            MouseArea {
+                anchors.fill: parent
                 onClicked: {
-                    checked = true;
-                    remoteNode.checked = false;
+                    mouse.accepted = false
+                    if(persistentSettings.blockchainDataDir != "")
+                        blockchainFileDialog.folder = "file://" + persistentSettings.blockchainDataDir
+                    blockchainFileDialog.open()
+                    blockchainFolder.focus = true
                 }
             }
         }
 
-        ColumnLayout {
-            visible: localNode.checked
-            id: blockchainFolderRow
-            Label {
-                Layout.fillWidth: true
-                Layout.topMargin: 20 * scaleRatio
-                fontSize: 14 * scaleRatio
-                fontColor: "black"
-                text: qsTr("Blockchain location") + translationManager.emptyString
-            }
-            LineEdit {
-                id: blockchainFolder
-                Layout.preferredWidth:  200 * scaleRatio
-                Layout.fillWidth: true
-                text: persistentSettings.blockchainDataDir
-                placeholderFontBold: true
-                placeholderFontFamily: "Arial"
-                placeholderColor: Style.legacy_placeholderFontColor
-                placeholderOpacity: 1.0
-                placeholderText: qsTr("(optional)") + translationManager.emptyString
+        RemoteNodeEdit {
+            Layout.minimumWidth: 300 * scaleRatio
+            Layout.maximumWidth: 620 * scaleRatio
+            opacity: localNode.checked
+            id: bootstrapNodeEdit
 
-                borderColor: Qt.rgba(0, 0, 0, 0.15)
-                backgroundColor: "white"
-                fontColor: "black"
-                fontBold: false
+            lineEditBackgroundColor: "transparent"
+            lineEditFontColor: "white"
+            lineEditFontBold: false
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        mouse.accepted = false
-                        if(persistentSettings.blockchainDataDir != "")
-                            blockchainFileDialog.folder = "file://" + persistentSettings.blockchainDataDir
-                        blockchainFileDialog.open()
-                        blockchainFolder.focus = true
-                    }
+            placeholderFontFamily: "Arial"
+            placeholderColor: Style.legacy_placeholderFontColor
+
+            daemonAddrLabelText: qsTr("Bootstrap Address")
+            daemonPortLabelText: qsTr("Bootstrap Port")
+            daemonAddrText: persistentSettings.bootstrapNodeAddress.split(":")[0].trim()
+            daemonPortText: {
+                var node_split = persistentSettings.bootstrapNodeAddress.split(":");
+                if(node_split.length == 2){
+                    (node_split[1].trim() == "") ? "" : node_split[1];
+                } else {
+                    return ""
                 }
-
-            }
-            Label {
-                Layout.fillWidth: true
-                Layout.topMargin: 20 * scaleRatio
-                fontSize: 14 * scaleRatio
-                color: 'black'
-                text: qsTr("Bootstrap node (leave blank if not wanted)") + translationManager.emptyString
-            }
-            RemoteNodeEdit {
-                Layout.minimumWidth: 300 * scaleRatio
-                opacity: localNode.checked
-                id: bootstrapNodeEdit
-
-                placeholderFontBold: true
-                placeholderFontFamily: "Arial"
-                placeholderColor: Style.legacy_placeholderFontColor
-                placeholderOpacity: 1.0
-
-                daemonAddrText: persistentSettings.bootstrapNodeAddress.split(":")[0].trim()
-                daemonPortText: {
-                    var node_split = persistentSettings.bootstrapNodeAddress.split(":");
-                    if(node_split.length == 2){
-                        (node_split[1].trim() == "") ? "19994" : node_split[1];
-                    } else {
-                        return ""
-                    }
-                }
-            }
-        }
-
-        RowLayout {
-            RadioButton {
-                id: remoteNode
-                text: qsTr("Connect to a remote node") + translationManager.emptyString
-                checkedColor: Qt.rgba(0, 0, 0, 0.75)
-                borderColor: Qt.rgba(0, 0, 0, 0.45)
-                Layout.topMargin: 20 * scaleRatio
-                fontColor: "#000AD8"
-                fontSize: 16 * scaleRatio
-                checked: appWindow.persistentSettings.useRemoteNode
-                onClicked: {
-                    checked = true
-                    localNode.checked = false
-                }
-            }
-        }
-
-        RowLayout {
-            RemoteNodeEdit {
-                Layout.minimumWidth: 300 * scaleRatio
-                opacity: remoteNode.checked
-                id: remoteNodeEdit
-                property var rna: persistentSettings.remoteNodeAddress
-                daemonAddrText: rna.search(":") != -1 ? rna.split(":")[0].trim() : "us.supportarqma.com"
-                daemonPortText: rna.search(":") != -1 ? (rna.split(":")[1].trim() == "") ? "19994" : persistentSettings.remoteNodeAddress.split(":")[1] : ""
-
-                placeholderFontBold: true
-                placeholderFontFamily: "Arial"
-                placeholderColor: Style.legacy_placeholderFontColor
-                placeholderOpacity: 1.0
-
-                lineEditBorderColor: Qt.rgba(0, 0, 0, 0.15)
-                lineEditBackgroundColor: "white"
-                lineEditFontColor: "black"
-                lineEditFontBold: false
             }
         }
     }
+    ColumnLayout {
+        visible: remoteNode.checked
+        spacing: 10
+        Layout.bottomMargin: 20
 
+        WarningBox {
+            Layout.bottomMargin: 6 * scaleRatio
+            Layout.maximumWidth: 620 * scaleRatio
+            text: qsTr("To find other remote nodes, type 'Loki remote node' into your favorite search engine. Please ensure the node is run by a trusted third-party.") + translationManager.emptyString
+        }
+
+        Text {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 20 * scaleRatio
+            Layout.topMargin: 8 * scaleRatio
+            color: Style.defaultFontColor
+            font.family: Style.fontRegular.name
+            font.pixelSize: 16 * scaleRatio
+            text: qsTr("Default Remote Node(s)") + translationManager.emptyString
+        }
+
+        Rectangle {
+            Layout.preferredHeight: 1 * scaleRatio
+            color: Style.dividerColor
+            opacity: Style.dividerOpacity
+        }
+
+        ListView {
+            height: 110 * scaleRatio
+            Layout.fillWidth: true
+            clip: true
+            boundsBehavior: Flickable.StopAtBounds
+            model: getRemoteNodeList()
+
+            delegate: Rectangle {
+                color: "transparent"
+                height: 34 * scaleRatio
+                Layout.fillWidth: true
+
+                StandardButton {
+                    id: defaultNodeButton
+                    anchors.left: parent.left
+                    small: true
+                    text: qsTr("Load Preset") + translationManager.emptyString
+                    width: 120 * scaleRatio
+                    onClicked: {
+
+                        var node_split = modelData.split(":");
+                        if(node_split.length == 2){
+                            (node_split[1].trim() == "") ? "" : node_split[1];
+                        } else {
+                            return;
+                        }
+
+                        remoteNodeEdit.daemonAddrText = node_split[0];
+                        remoteNodeEdit.daemonPortText = node_split[1];
+                    }
+                }
+
+                Text {
+                    Layout.preferredHeight: 16 * scaleRatio
+                    anchors.left: defaultNodeButton.right
+                    anchors.leftMargin: 8 * scaleRatio
+                    anchors.verticalCenter: defaultNodeButton.verticalCenter
+                    color: Style.defaultFontColor
+                    font.family: Style.fontRegular.name
+                    font.pixelSize: 14 * scaleRatio
+                    text: "Address: " + modelData
+                }
+            }
+        }
+
+        RemoteNodeEdit {
+            Layout.minimumWidth: 300 * scaleRatio
+            Layout.maximumWidth: 620 * scaleRatio
+            Layout.fillWidth: true
+            id: remoteNodeEdit
+            property var rna: persistentSettings.remoteNodeAddress
+
+            lineEditBackgroundColor: "transparent"
+            lineEditFontColor: "white"
+            lineEditFontBold: false
+            labelFontSize: 14 * scaleRatio
+            placeholderFontSize: 15 * scaleRatio
+
+            daemonAddrLabelText: qsTr("Address")
+            daemonPortLabelText: qsTr("Port")
+            daemonAddrText: rna.search(":") != -1 ? rna.split(":")[0].trim() : ""
+            daemonPortText: rna.search(":") != -1 ? (rna.split(":")[1].trim() == "") ? "" : persistentSettings.remoteNodeAddress.split(":")[1] : ""
+        }
+
+    }
 
     Component.onCompleted: {
         parent.wizardRestarted.connect(onWizardRestarted)

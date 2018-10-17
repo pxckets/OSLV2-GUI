@@ -95,7 +95,7 @@ Rectangle {
         visible: true
         z: 2
         id: column1
-        height: 200
+        height: 210
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
@@ -110,10 +110,10 @@ Rectangle {
                 anchors.leftMargin: 20
                 anchors.verticalCenter: parent.verticalCenter
                 height: 490 * scaleRatio
-                width: 259 * scaleRatio
+                width: 260 * scaleRatio
 
                 Image {
-                    width: 259; height: 170
+                    width: 260; height: 170
                     fillMode: Image.PreserveAspectFit
                     source: "images/card-background.png"
                 }
@@ -246,18 +246,16 @@ Rectangle {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.top: (isMobile)? parent.top : column1.bottom
-        anchors.topMargin: (isMobile)? 0 : 32
         color: "transparent"
 
 
         Flickable {
             id:flicker
-            contentHeight: (progressBar.visible)? menuColumn.height + separator.height +
-                networkStatus.height + progressBar.height + daemonProgressBar.height :
-                menuColumn.height + separator.height + networkStatus.height
-            anchors.fill: parent
+            contentHeight: menuColumn.height
+            anchors.top: parent.top
+            anchors.bottom: networkStatus.top
+            width: parent.width
             clip: true
-
 
         Column {
 
@@ -587,9 +585,19 @@ Rectangle {
             anchors.right: parent.right
             anchors.leftMargin: 0
             anchors.rightMargin: 0
-            anchors.bottom: (progressBar.visible)? progressBar.top : parent.bottom;
+            anchors.bottom: (progressBar.visible)? progressBar.top : networkStatusSpacer.top;
             connected: Wallet.ConnectionStatus_Disconnected
-            height: 48 * scaleRatio
+            height: 54 * scaleRatio
+        }
+
+        Rectangle {
+            id: networkStatusSpacer
+            visible: !progressBar.visible
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 10 * scaleRatio
+            color: "transparent"
         }
 
         ProgressBar {

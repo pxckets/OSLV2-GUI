@@ -49,7 +49,7 @@ Rectangle{
         spacing: 0 * scaleRatio
         property int labelWidth: 120
         property int editWidth: 400
-        property int lineEditFontSize: 14 * scaleRatio
+        //property int lineEditFontSize: 14 * scaleRatio
         property int buttonWidth: 110
 
         Rectangle {
@@ -264,11 +264,12 @@ Rectangle{
         }
 
         ColumnLayout {
-            id: remoteNodeLayout
+            id: defaultRemoteNodes
             anchors.margins: 0
             spacing: 20 * scaleRatio
             Layout.fillWidth: true
             Layout.topMargin: 20
+            spacing: 5 * scaleRatio
             visible: !isMobile && persistentSettings.useRemoteNode
 
             MoneroComponents.WarningBox {
@@ -277,23 +278,120 @@ Rectangle{
                 text: qsTr("To find a remote node, type 'Arqma remote node' into your favorite search engine. Please ensure the node is run by a trusted and verified third-party.") + translationManager.emptyString
             }
 
+            Text {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 20 * scaleRatio
+                Layout.topMargin: 8 * scaleRatio
+                color: MoneroComponents.Style.defaultFontColor
+                font.family: MoneroComponents.Style.fontRegular.name
+                font.pixelSize: 16 * scaleRatio
+                text: qsTr("Default Remote Arq-Net Node(s)") + translationManager.emptyString
+            }
+
+            Rectangle {
+                Layout.preferredHeight: 1 * scaleRatio
+                Layout.fillWidth: true
+                color: MoneroComponents.Style.dividerColor
+                opacity: MoneroComponents.Style.dividerOpacity
+            }
+
+            Text {
+                visible: (getRemoteNodeList().length == 0)
+                Layout.fillWidth: true
+                color: MoneroComponents.Style.defaultFontColor
+                font.family: MoneroComponents.Style.fontRegular.name
+                font.pixelSize: 16 * scaleRatio
+                text: qsTr("No default Arq-Net Remote Nodes available") + translationManager.emptyString
+                Layout.bottomMargin: 6 * scaleRatio
+            }
+
+            ColumnLayout {
+                anchors.margins: 0
+                Layout.topMargin: 20
+                Layout.fillWidth: true
+                spacing: 5 * scaleRatio
+
+                ListView {
+                    visible: getRemoteNodeList().length > 0
+                    height: 200 * scaleRatio
+                    Layout.fillWidth: true
+                    clip: true
+                    boundsBehavior: Flickable.StopAtBounds
+                    model: getRemoteNodeList()
+
+                    delegate: Rectangle {
+                        color: "transparent"
+                        height: 34 * scaleRatio
+                        Layout.fillWidth: true
+
+                        MoneroComponents.StandardButton {
+                            id: defaultNodeButton
+                            anchors.left: parent.left
+                            small: true
+                            text: qsTr("Load Preset") + translationManager.emptyString
+                            width: 120 * scaleRatio
+                            onClicked: {
+
+                                var node_split = modelData.split(":");
+                                if(node_split.length == 2){
+                                    (node_split[1].trim() == "") ? "" : node_split[1];
+                                } else {
+                                    return;
+                                }
+
+                                remoteNodeEdit.daemonAddrText = node_split[0];
+                                remoteNodeEdit.daemonPortText = node_split[1];
+                            }
+                        }
+
+                        Text {
+                            Layout.preferredHeight: 16 * scaleRatio
+                            anchors.left: defaultNodeButton.right
+                            anchors.leftMargin: 8 * scaleRatio
+                            anchors.verticalCenter: defaultNodeButton.verticalCenter
+                            color: MoneroComponents.Style.defaultFontColor
+                            font.family: MoneroComponents.Style.fontRegular.name
+                            font.pixelSize: 14 * scaleRatio
+                            text: "Address: " + modelData
+                        }
+                    }
+                }
+
+                Rectangle {
+                    Layout.preferredHeight: 1 * scaleRatio
+                    Layout.fillWidth: true
+                    color: MoneroComponents.Style.dividerColor
+                    opacity: MoneroComponents.Style.dividerOpacity
+                }
+            }
+
+        }
+
+        ColumnLayout {
+            id: remoteNodeLayout
+            anchors.margins: 0
+            spacing: 20 * scaleRatio
+            Layout.fillWidth: true
+            Layout.topMargin: 20
+            visible: !isMobile && persistentSettings.useRemoteNode
+
             MoneroComponents.RemoteNodeEdit {
                 id: remoteNodeEdit
-                Layout.minimumWidth: 100 * scaleRatio
+                Layout.minimumWidth: 200 * scaleRatio
 
                 lineEditBackgroundColor: "transparent"
                 lineEditFontColor: "white"
                 lineEditFontBold: false
-                lineEditBorderColor: Qt.rgba(255, 255, 255, 0.35)
-                labelFontSize: 14 * scaleRatio
+                //lineEditBorderColor: Qt.rgba(255, 255, 255, 0.35)
+                //labelFontSize: 14 * scaleRatio
                 placeholderFontSize: 15 * scaleRatio
 
                 daemonAddrLabelText: qsTr("Address")
                 daemonPortLabelText: qsTr("Port")
 
                 property var rna: persistentSettings.remoteNodeAddress
-                daemonAddrText: rna.search(":") != -1 ? rna.split(":")[0].trim() : "us.supportarqma.com"
-                daemonPortText: rna.search(":") != -1 ? (rna.split(":")[1].trim() == "") ? "19994" : rna.split(":")[1] : ""
+                daemonAddrText: rna.search(":") != -1 ? rna.split(":")[0].trim() : ""
+                daemonPortText: rna.search(":") != -1 ? (rna.split(":")[1].trim() == "") ? "" : rna.split(":")[1] : ""
                 onEditingFinished: {
                     persistentSettings.remoteNodeAddress = remoteNodeEdit.getAddress();
                     console.log("setting remote node to " + persistentSettings.remoteNodeAddress)
@@ -311,8 +409,8 @@ Rectangle{
                     text: persistentSettings.daemonUsername
                     placeholderText: qsTr("(optional)") + translationManager.emptyString
                     placeholderFontSize: 15 * scaleRatio
-                    labelFontSize: 14 * scaleRatio
-                    fontSize: 15 * scaleRatio
+                    //labelFontSize: 14 * scaleRatio
+                    //fontSize: 15 * scaleRatio
                 }
 
                 MoneroComponents.LineEdit {
@@ -322,9 +420,9 @@ Rectangle{
                     text: persistentSettings.daemonPassword
                     placeholderText: qsTr("Password") + translationManager.emptyString
                     echoMode: TextInput.Password
-                    placeholderFontSize: 15 * scaleRatio
-                    labelFontSize: 14 * scaleRatio
-                    fontSize: 15 * scaleRatio
+                    //placeholderFontSize: 15 * scaleRatio
+                    //labelFontSize: 14 * scaleRatio
+                    //fontSize: 15 * scaleRatio
                 }
             }
 
@@ -374,48 +472,48 @@ Rectangle{
             anchors.right: parent.right
             visible: !isMobile && !persistentSettings.useRemoteNode
 
-            Rectangle {
-                color: "transparent"
-                Layout.topMargin: 0 * scaleRatio
-                Layout.bottomMargin: 8 * scaleRatio
-                Layout.preferredHeight: 24 * scaleRatio
-                Layout.preferredWidth: parent.width
+//            Rectangle {
+//                color: "transparent"
+//                Layout.topMargin: 0 * scaleRatio
+//                Layout.bottomMargin: 8 * scaleRatio
+//                Layout.preferredHeight: 24 * scaleRatio
+//                Layout.preferredWidth: parent.width
 
-                Rectangle {
-                    id: rectStopNode
-                    color: MoneroComponents.Style.buttonBackgroundColorDisabled
-                    width: btnStopNode.width + 40
-                    height: 24
-                    radius: 2
+//                Rectangle {
+//                    id: rectStopNode
+//                    color: MoneroComponents.Style.buttonBackgroundColorDisabled
+//                    width: btnStopNode.width + 40
+//                    height: 24
+//                    radius: 2
 
-                    Text {
-                        id: btnStopNode
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: MoneroComponents.Style.defaultFontColor
-                        font.family: MoneroComponents.Style.fontRegular.name
-                        font.pixelSize: 14 * scaleRatio
-                        font.bold: true
-                        text: qsTr("Stop local node") + translationManager.emptyString
-                    }
+//                    Text {
+//                        id: btnStopNode
+//                        anchors.verticalCenter: parent.verticalCenter
+//                        anchors.horizontalCenter: parent.horizontalCenter
+//                        color: MoneroComponents.Style.defaultFontColor
+//                        font.family: MoneroComponents.Style.fontRegular.name
+//                        font.pixelSize: 14 * scaleRatio
+//                        font.bold: true
+//                        text: qsTr("Stop local node") + translationManager.emptyString
+//                    }
 
-                    MouseArea {
-                        cursorShape: Qt.PointingHandCursor
-                        anchors.fill: parent
-                        onClicked: {
-                            appWindow.stopDaemon();
-                        }
-                    }
-                }
-            }
+//                    MouseArea {
+//                        cursorShape: Qt.PointingHandCursor
+//                        anchors.fill: parent
+//                        onClicked: {
+//                            appWindow.stopDaemon();
+//                        }
+//                    }
+//                }
+//            }
 
             RowLayout {
                 MoneroComponents.LineEditMulti {
                     id: blockchainFolder
                     Layout.preferredWidth: 200
                     Layout.fillWidth: true
-                    fontSize: 15 * scaleRatio
-                    labelFontSize: 14 * scaleRatio
+                    //fontSize: 15 * scaleRatio
+                    //labelFontSize: 14 * scaleRatio
                     property string style: "<style type='text/css'>a {cursor:pointer;text-decoration: none; color: #000465}</style>"
                     labelText: qsTr("Blockchain file location") + style + qsTr(" <a href='#'> (change)</a>") + translationManager.emptyString
                     placeholderText: qsTr("(default)") + translationManager.emptyString
@@ -444,8 +542,8 @@ Rectangle{
                     id: daemonFlags
                     Layout.preferredWidth:  200
                     Layout.fillWidth: true
-                    labelFontSize: 14 * scaleRatio
-                    fontSize: 15 * scaleRatio
+                    //labelFontSize: 14 * scaleRatio
+                    //fontSize: 15 * scaleRatio
                     labelText: qsTr("Daemon startup flags") + translationManager.emptyString
                     placeholderText: qsTr("(optional)") + translationManager.emptyString
                     placeholderFontSize: 15 * scaleRatio
@@ -467,11 +565,11 @@ Rectangle{
 
                         lineEditBackgroundColor: "transparent"
                         lineEditFontColor: "white"
-                        lineEditBorderColor: MoneroComponents.Style.inputBorderColorActive
+                        //lineEditBorderColor: MoneroComponents.Style.inputBorderColorActive
                         placeholderFontSize: 15 * scaleRatio
-                        labelFontSize: 14 * scaleRatio
+                        //labelFontSize: 14 * scaleRatio
                         lineEditFontBold: false
-                        lineEditFontSize: 15 * scaleRatio
+                        //lineEditFontSize: 15 * scaleRatio
 
                         daemonAddrLabelText: qsTr("Bootstrap Address")
                         daemonPortLabelText: qsTr("Bootstrap Port")
@@ -479,7 +577,7 @@ Rectangle{
                         daemonPortText: {
                             var node_split = persistentSettings.bootstrapNodeAddress.split(":");
                             if(node_split.length == 2){
-                                (node_split[1].trim() == "") ? "19994" : node_split[1];
+                                (node_split[1].trim() == "") ? "" : node_split[1];
                             } else {
                                 return ""
                             }
@@ -491,6 +589,29 @@ Rectangle{
                     }
                 }
             }
+
+            MoneroComponents.StandardButton {
+                id: startDaemonButton
+                small: true
+                visible: !appWindow.daemonRunning
+                text: qsTr("Start Local Node") + translationManager.emptyString
+                onClicked: {
+                    persistentSettings.bootstrapNodeAddress = bootstrapNodeEdit.daemonAddrText ? bootstrapNodeEdit.getAddress() : "";
+                    appWindow.currentDaemonAddress = appWindow.localDaemonAddress;
+                    appWindow.startDaemon(daemonFlags.text);
+                }
+            }
+
+            MoneroComponents.StandardButton {
+                id: stopDaemonButton
+                small: true
+                visible: appWindow.daemonRunning
+                text: qsTr("Stop Local Node") + translationManager.emptyString
+                onClicked: {
+                    appWindow.stopDaemon()
+                }
+            }
+
         }
     }
 }

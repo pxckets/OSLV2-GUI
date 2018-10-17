@@ -25,7 +25,7 @@ get_tag
 git -C $ARQMA_DIR checkout -B $VERSIONTAG
 
 git -C $ARQMA_DIR submodule init
-git -C $ARQMA_DIR submodule update
+git -C $ARQMA_DIR submodule update --remote
 
 # Merge arqma PR dependencies
 

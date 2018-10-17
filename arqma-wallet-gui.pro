@@ -10,8 +10,8 @@ QT += qml quick widgets
 WALLET_ROOT=$$PWD/arqma
 
 CONFIG += c++11 link_pkgconfig
-packagesExist(libpcsclite) {
-    PKGCONFIG += libpcsclite
+packagesExist(hidapi-libusb) {
+    PKGCONFIG += hidapi-libusb
 }
 win32 {
     QMAKE_CXXFLAGS += -fPIC -fstack-protector -fstack-protector-strong
@@ -161,9 +161,9 @@ ios {
         -lboost_chrono \
         -lboost_program_options \
         -lssl \
+        -lsodium \
         -lcrypto \
-        -ldl \
-	-lsodium
+        -ldl
 }
 
 CONFIG(WITH_SCANNER) {
@@ -251,10 +251,11 @@ win32 {
         -lcrypto \
         -Wl,-Bdynamic \
         -lwinscard \
-	-lcrypt32 \
+	      -lcrypt32 \
         -luser32 \
         -lws2_32 \
         -lwsock32 \
+        -lhidapi \
         -lIphlpapi \
         -lgdi32
 
@@ -283,7 +284,7 @@ linux {
       # On some distro's we need to add dynload
       LIBS+= -ldl
     }
-	
+
     LIBS+= \
         -lboost_serialization \
         -lboost_thread \
@@ -295,8 +296,10 @@ linux {
         -lboost_program_options \
         -lssl \
         -llmdb \
-        -lcrypto \
-	-lsodium
+        -lsodium \
+        -lhidapi-libusb \
+        -lcrypto
+
 
     if(!android) {
         LIBS+= \
@@ -326,6 +329,7 @@ macx {
         -L/usr/local/opt/openssl/lib \
         -L/usr/local/opt/boost/lib \
         -lboost_serialization \
+        -lhidapi \
         -lboost_thread-mt \
         -lboost_system \
         -lboost_date_time \
@@ -334,9 +338,10 @@ macx {
         -lboost_chrono \
         -lboost_program_options \
         -lssl \
+        -lsodium \
         -lcrypto \
-        -ldl \
-	-lsodium
+        -ldl
+
     LIBS+= -framework PCSC
 
 }
