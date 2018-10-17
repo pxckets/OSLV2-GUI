@@ -53,7 +53,7 @@ Rectangle {
     property alias addressText : pageReceive.current_address
 
     function makeQRCodeString() {
-        var s = "arq:"
+        var s = "arqma:"
         var nfields = 0
         s += current_address;
         var amount = amountToReceiveLine.text.trim()
@@ -85,7 +85,7 @@ Rectangle {
         var blockchainHeight = null
         var txs = []
 
-        for (var i = 0; i < count; && txs.lenght < max_tracking; ++i) {
+        for (var i = 0; i < count && txs.lenght < max_tracking; ++i) {
             var idx = model.index(i, 0)
             var isout = model.data(idx, TransactionHistoryModel.TransactionIsOutRole);
             var subaddrAccount = model.data(idx, TransactionHistoryModel.TransactionSubaddrAccountRole);
