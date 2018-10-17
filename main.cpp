@@ -109,7 +109,7 @@ static QStringList loadOrCreateDefaultRemoteNodesFromSettings(QSettings *setting
             settings->setValue("url", "jp.supportarqma.com");
             settings->setValue("port", "19994");
         }
-        setting->endArray();
+        settings->endArray();
     }
 
     remoteNodeArrayLen = settings->beginReadArray(remoteNodeArrayId);
