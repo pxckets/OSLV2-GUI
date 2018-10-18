@@ -89,30 +89,6 @@ static QStringList loadOrCreateDefaultRemoteNodesFromSettings(QSettings *setting
 
     settings->beginGroup(group_id);
     int remoteNodeArrayLen = settings->beginReadArray(remoteNodeArrayId);
-    settings->endArray();
-
-    if (remoteNodeArrayLen == 0)
-    {
-        size_t remoteNodeIndex = 0;
-        settings->beginWriteArray(remoteNodeArrayId);
-        if (nettype == NetworkType::Type::MAINNET)
-        {
-            settings->setArrayIndex(remoteNodeIndex++);
-            settings->setValue("url", "eu.supportarqma.com");
-            settings->setValue("port", "19994");
-
-            settings->setArrayIndex(remoteNodeIndex++);
-            settings->setValue("url", "us.supportarqma.com");
-            settings->setValue("port", "19994");
-
-            settings->setArrayIndex(remoteNodeIndex++);
-            settings->setValue("url", "jp.supportarqma.com");
-            settings->setValue("port", "19994");
-        }
-        settings->endArray();
-    }
-
-    remoteNodeArrayLen = settings->beginReadArray(remoteNodeArrayId);
     QStringList result;
     result.reserve(remoteNodeArrayLen);
     for (int i = 0; i < remoteNodeArrayLen; ++i)
@@ -363,6 +339,19 @@ int main(int argc, char *argv[])
     QObject::connect(eventFilter, SIGNAL(sequenceReleased(QVariant,QVariant)), rootObject, SLOT(sequenceReleased(QVariant,QVariant)));
     QObject::connect(eventFilter, SIGNAL(mousePressed(QVariant,QVariant,QVariant)), rootObject, SLOT(mousePressed(QVariant,QVariant,QVariant)));
     QObject::connect(eventFilter, SIGNAL(mouseReleased(QVariant,QVariant,QVariant)), rootObject, SLOT(mouseReleased(QVariant,QVariant,QVariant)));
+
+    {
+         QString const fullSettingsPath = app.applicationDirPath() + "/arqma-nodes.ini";
+         QSettings settings(fullSettingsPath, QSettings::IniFormat);
+
+         QStringList mainnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::MAINNET);
+         QStringList testnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::TESTNET);
+         QStringList stagenetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::STAGENET);
+         engine.rootContext()->setContextProperty("mainnetRemoteNodeList", QVariant::fromValue(mainnetRemoteNodeList));
+         engine.rootContext()->setContextProperty("testnetRemoteNodeList", QVariant::fromValue(testnetRemoteNodeList));
+         engine.rootContext()->setContextProperty("stagenetRemoteNodeList", QVariant::fromValue(stagenetRemoteNodeList));
+     }
+
 
     return app.exec();
 }
