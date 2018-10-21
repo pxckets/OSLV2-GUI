@@ -45,6 +45,7 @@
          doxygen \
          git \
          curl \
+         unzip \
          libtool-bin \
          autoconf \
          automake
