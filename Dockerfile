@@ -149,24 +149,24 @@
          python
 
  # Setup QT in separate steps because its absurdly slow, so we can cache as much work as possible
+ ARG QT_VERSION=5.11.2
  RUN set -ex \
-     && curl -O -L http://download.qt.io/official_releases/qt/5.11/5.11.1/single/qt-everywhere-src-5.11.1.zip \
-     && unzip qt-everywhere-src-5.11.1.zip
+     && curl -O -L http://download.qt.io/official_releases/qt/5.11/${QT_VERSION}/single/qt-everywhere-src-${QT_VERSION}.tar.xz \
+     && tar xvf qt-everywhere-src-${QT_VERSION}.tar.xz
 
  RUN set -ex \
-     && cd /usr/local/qt-everywhere-src-5.11.1 \
-     && chmod +x configure \
+     && cd /usr/local/qt-everywhere-src-${QT_VERSION} \
      && ./configure -prefix /usr/lib/x86_64-linux-gnu/qt5 -static -nomake tests -nomake examples -opensource -confirm-license -opengl desktop -qt-zlib -qt-libjpeg -qt-libpng -qt-xcb -qt-xkbcommon-x11 -qt-freetype -qt-pcre -qt-harfbuzz -fontconfig
 
  RUN set -ex \
-     && cd qt-everywhere-src-5.11.1 \
+     && cd qt-everywhere-src-${QT_VERSION} \
      && make -j${NUM_COMPILE_JOBS} \
      && make install
 
  ARG QT_DIR=/usr/lib/x86_64-linux-gnu/qt5
  ENV PATH=/usr/lib/x86_64-linux-gnu/qt5/bin:${PATH}
  RUN set -ex \
-     && cd qt-everywhere-src-5.11.1/qtdeclarative \
+     && cd qt-everywhere-src-${QT_VERSION}/qtdeclarative \
      && qmake && make -j${NUM_COMPILE_JOBS} \
      && make install
 
