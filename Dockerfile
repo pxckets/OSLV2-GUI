@@ -132,63 +132,63 @@
      && make install
 
  # Setup gui dependencies
- # QT External Dependencies
- RUN set -ex && \
-     apt-get --no-install-recommends --yes install \
-         ^libxcb.* \
-         libfontconfig1-dev \
-         libfreetype6-dev \
-         libgl1-mesa-dev \
-         libglu1-mesa-dev \
-         libx11-dev \
-         libx11-xcb-dev \
-         libxfixes-dev \
-         libxkbcommon-dev \
-         libxrender-dev \
-         p7zip-full \
-         python
+# QT External Dependencies
+RUN set -ex && \
+    apt-get --no-install-recommends --yes install \
+        ^libxcb.* \
+        libfontconfig1-dev \
+        libfreetype6-dev \
+        libgl1-mesa-dev \
+        libglu1-mesa-dev \
+        libx11-dev \
+        libx11-xcb-dev \
+        libxfixes-dev \
+        libxkbcommon-dev \
+        libxrender-dev \
+        p7zip-full \
+        python
 
- # Setup QT in separate steps because its absurdly slow, so we can cache as much work as possible
- ARG QT_VERSION=5.7.1
- RUN set -ex \
-     && curl -O -L https://download.qt.io/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-${QT_VERSION}.7z \
-     && 7z x qt-everywhere-opensource-src-${QT_VERSION}.7z
+# Setup QT in separate steps because its absurdly slow, so we can cache as much work as possible
+ARG QT_VERSION=5.7.1
+RUN set -ex \
+    && curl -O -L https://download.qt.io/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-${QT_VERSION}.7z \
+    && 7z x qt-everywhere-opensource-src-${QT_VERSION}.7z
 
- RUN set -ex \
-     && qt-everywhere-opensource-src-${QT_VERSION} \
-     && ./configure -prefix /usr/lib/x86_64-linux-gnu/qt5 -static -nomake tests -nomake examples -opensource -confirm-license -opengl desktop -qt-zlib -qt-libjpeg -qt-libpng -qt-xcb -qt-xkbcommon-x11 -qt-freetype -qt-pcre -qt-harfbuzz -fontconfig
+RUN set -ex \
+    && cd qt-everywhere-opensource-src-${QT_VERSION} \
+    && ./configure -prefix /usr/lib/x86_64-linux-gnu/qt5 -static -nomake tests -nomake examples -opensource -confirm-license -opengl desktop -qt-zlib -qt-libjpeg -qt-libpng -qt-xcb -qt-xkbcommon-x11 -qt-freetype -qt-pcre -qt-harfbuzz -fontconfig
 
- RUN set -ex \
-     && cd qt-everywhere-opensource-src-${QT_VERSION} \
-     && make -j${NUM_COMPILE_JOBS} \
-     && make install
+RUN set -ex \
+    && cd qt-everywhere-opensource-src-${QT_VERSION} \
+    && make -j${NUM_COMPILE_JOBS} \
+    && make install
 
- ARG QT_DIR=/usr/lib/x86_64-linux-gnu/qt5
- ENV PATH=/usr/lib/x86_64-linux-gnu/qt5/bin:${PATH}
- RUN set -ex \
-     && cd qt-everywhere-opensource-src-${QT_VERSION}/qtdeclarative \
-     && qmake && make -j${NUM_COMPILE_JOBS} \
-     && make install
+ARG QT_DIR=/usr/lib/x86_64-linux-gnu/qt5
+ENV PATH=/usr/lib/x86_64-linux-gnu/qt5/bin:${PATH}
+RUN set -ex \
+    && cd qt-everywhere-opensource-src-${QT_VERSION}/qtdeclarative \
+    && qmake && make -j${NUM_COMPILE_JOBS} \
+    && make install
 
- # I don't know why this is necessary for the GUI and not the daemon, but it works
- ARG ZMQ_INCLUDE_PATH=/usr/local/include/
- ARG ZMQ_LIBRARY=/usr/local/libzmq/src/.libs/libzmq.a
+# I don't know why this is necessary for the GUI and not the daemon, but it works
+ARG ZMQ_INCLUDE_PATH=/usr/local/include/
+ARG ZMQ_LIBRARY=/usr/local/libzmq/src/.libs/libzmq.a
 
- ARG LIBUNWIND_VERSION=1.2.1
- ARG LIBUNWIND_HASH=3f3ecb90e28cbe53fba7a4a27ccce7aad188d3210bb1964a923a731a27a75acb
- RUN set -ex \
-     && curl -O -L http://download.savannah.nongnu.org/releases/libunwind/libunwind-${LIBUNWIND_VERSION}.tar.gz \
-     && tar xvf libunwind-${LIBUNWIND_VERSION}.tar.gz \
-     && echo "${LIBUNWIND_HASH}  libunwind-${LIBUNWIND_VERSION}.tar.gz" | sha256sum -c \
-     && cd libunwind-${LIBUNWIND_VERSION} \
-     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-shared=no \
-     && make install
+ARG LIBUNWIND_VERSION=1.2.1
+ARG LIBUNWIND_HASH=3f3ecb90e28cbe53fba7a4a27ccce7aad188d3210bb1964a923a731a27a75acb
+RUN set -ex \
+    && curl -O -L http://download.savannah.nongnu.org/releases/libunwind/libunwind-${LIBUNWIND_VERSION}.tar.gz \
+    && tar xvf libunwind-${LIBUNWIND_VERSION}.tar.gz \
+    && echo "${LIBUNWIND_HASH}  libunwind-${LIBUNWIND_VERSION}.tar.gz" | sha256sum -c \
+    && cd libunwind-${LIBUNWIND_VERSION} \
+    && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-shared=no \
+    && make install
 
- ADD . /src
- WORKDIR /src
+ADD . /src
+WORKDIR /src
 
- RUN set -ex \
-     && rm -rf build \
-     && ./build.sh release-static \
-     && cd build \
-     && make deploy
+RUN set -ex \
+    && rm -rf build \
+    && ./build.sh release-static \
+    && cd build \
+    && make deploy
