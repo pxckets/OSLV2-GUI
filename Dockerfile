@@ -48,7 +48,8 @@
          unzip \
          libtool-bin \
          autoconf \
-         automake
+         automake \
+         libhidapi-dev
 
  ARG NUM_COMPILE_JOBS=1
  WORKDIR /usr/local
@@ -131,7 +132,7 @@
      && make -j${NUM_COMPILE_JOBS} \
      && make install
 
- # Setup gui dependencies
+# Setup gui dependencies
 # QT External Dependencies
 RUN set -ex && \
     apt-get --no-install-recommends --yes install \
