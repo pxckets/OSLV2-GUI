@@ -154,7 +154,8 @@
      && unzip qt-everywhere-src-5.11.1.zip
 
  RUN set -ex \
-     && cd qt-everywhere-src-5.11.1 \
+     && cd /usr/local/qt-everywhere-src-5.11.1 \
+     && chmod +x configure \
      && ./configure -prefix /usr/lib/x86_64-linux-gnu/qt5 -static -nomake tests -nomake examples -opensource -confirm-license -opengl desktop -qt-zlib -qt-libjpeg -qt-libpng -qt-xcb -qt-xkbcommon-x11 -qt-freetype -qt-pcre -qt-harfbuzz -fontconfig
 
  RUN set -ex \
