@@ -86,6 +86,16 @@ ApplicationWindow {
 
     function altKeyReleased() { ctrlPressed = false; }
 
+    function getRemoteNodeList()
+    {
+        if (persistentSettings.nettype == NetworkType.TESTNET)
+            return testnetRemoteNodeList;
+        if (persistentSettings.nettype == NetworkType.STAGENET)
+            return stagenetRemoteNodeList;
+
+        return mainnetRemoteNodeList;
+    }
+
     function showPageRequest(page) {
         middlePanel.state = page
         leftPanel.selectItem(page)
@@ -373,7 +383,7 @@ ApplicationWindow {
 
         // If wallet isnt connected and no daemon is running - Ask
         if(!isMobile && walletManager.isDaemonLocal(appWindow.persistentSettings.daemon_address) && !walletInitialized && status === Wallet.ConnectionStatus_Disconnected && !daemonManager.running(persistentSettings.nettype)){
-            daemonManagerDialog.open();
+            chooseDaemonModalDialog.open();
         }
         // initialize transaction history once wallet is initialized first time;
         if (!walletInitialized) {
@@ -1248,6 +1258,11 @@ ApplicationWindow {
         }
 
     }
+
+    ChooseDaemonModalDialog {
+        id: chooseDaemonModalDialog
+    }
+
 
     ProcessingSplash {
         id: splash

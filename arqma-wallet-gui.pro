@@ -10,12 +10,13 @@ QT += qml quick widgets
 WALLET_ROOT=$$PWD/arqma
 
 CONFIG += c++11 link_pkgconfig
-packagesExist(libpcsclite) {
-    PKGCONFIG += libpcsclite
+packagesExist(hidapi-libusb) {
+    PKGCONFIG += hidapi-libusb
 }
-
-QMAKE_CXXFLAGS += -fPIC -fstack-protector
-QMAKE_LFLAGS += -fstack-protector
+win32 {
+    QMAKE_CXXFLAGS += -fPIC -fstack-protector -fstack-protector-strong
+    QMAKE_LFLAGS += -fstack-protector -fstack-protector-strong
+}
 
 # cleaning "auto-generated" Arqma directory on "make distclean"
 QMAKE_DISTCLEAN += -r $$WALLET_ROOT
@@ -103,12 +104,12 @@ SOURCES = *.qml \
 ios:armv7 {
     message("target is armv7")
     LIBS += \
-        -L$$PWD/iOS_Boost/build/boost/1.68.0/ios/build/armv7 \
+        -L$$PWD/../ofxiOSBoost/build/libs/boost/lib/armv7 \
 }
 ios:arm64 {
     message("target is arm64")
     LIBS += \
-        -L$$PWD/iOS_Boost/build/boost/1.68.0/ios/build/arm64 \
+        -L$$PWD/../ofxiOSBoost/build/libs/boost/lib/arm64 \
 }
 !ios:!android {
 LIBS += -L$$WALLET_ROOT/lib \
@@ -117,6 +118,7 @@ LIBS += -L$$WALLET_ROOT/lib \
         -lepee \
         -lunbound \
         -leasylogging \
+	-lsodium
 }
 
 android {
@@ -131,8 +133,8 @@ android {
 
 
 
-QMAKE_CXXFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security -fstack-protector -fstack-protector-strong
-QMAKE_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security -fstack-protector -fstack-protector-strong
+QMAKE_CXXFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security
+QMAKE_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security
 
 ios {
     message("Host is IOS")
@@ -140,18 +142,16 @@ ios {
     QMAKE_LFLAGS += -v
     QMAKE_IOS_DEVICE_ARCHS = arm64
     CONFIG += arm64
-    LIBS += -L$$WALLET_ROOT/lib-arm64 \
+  LIBS += -L$$WALLET_ROOT/lib-ios \
         -lwallet_merged \
-        -lepee
-
-    LIBS += -L$$WALLET_ROOT/lib-armv8-a \
         -llmdb \
+        -lepee \
         -lunbound \
         -leasylogging
 
     LIBS+= \
-        -L$$PWD/OpenSSL-for-iPhone/lib \
-        -L$$PWD/iOS_Boost/build/boost/1.68.0/ios/build/arm64 \
+        -L$$PWD/../OpenSSL-for-iPhone/lib \
+        -L$$PWD/../ofxiOSBoost/build/libs/boost/lib/arm64 \
         -lboost_serialization \
         -lboost_thread \
         -lboost_system \
@@ -161,6 +161,7 @@ ios {
         -lboost_chrono \
         -lboost_program_options \
         -lssl \
+        -lsodium \
         -lcrypto \
         -ldl
 }
@@ -206,7 +207,7 @@ win32 {
     # WIN32 Host settings
     } else {
         message("Host is 32bit")
-        MSYS_ROOT_PATH=c:/msys64
+        MSYS_ROOT_PATH=c:/msys32
     }
 
     # WIN64 Target settings
@@ -250,22 +251,23 @@ win32 {
         -lcrypto \
         -Wl,-Bdynamic \
         -lwinscard \
-		    -lcrypt32 \
+	      -lcrypt32 \
         -luser32 \
         -lws2_32 \
         -lwsock32 \
+        -lhidapi \
         -lIphlpapi \
         -lgdi32
 
-    !contains(QMAKE_TARGET.arch, x86_64) {
-        message("Target is 32bit")
-        ## Windows x86 (32bit) specific build here
-        ## there's 2Mb stack in libwallet allocated internally, so we set stack=4Mb
-        ## this fixes app crash for x86 Windows build
-        QMAKE_LFLAGS += -Wl,--stack,4194304
-    } else {
-        message("Target is 64bit")
-    }
+#    !contains(QMAKE_TARGET.arch, x86_64) {
+#        message("Target is 32bit")
+#        ## Windows x86 (32bit) specific build here
+#        ## there's 2Mb stack in libwallet allocated internally, so we set stack=4Mb
+#        ## this fixes app crash for x86 Windows build
+#        QMAKE_LFLAGS += -Wl,--stack,4194304
+#    } else {
+#        message("Target is 64bit")
+#    }
 
     QMAKE_LFLAGS += -Wl,--dynamicbase -Wl,--nxcompat
 }
@@ -294,7 +296,10 @@ linux {
         -lboost_program_options \
         -lssl \
         -llmdb \
+        -lsodium \
+        -lhidapi-libusb \
         -lcrypto
+
 
     if(!android) {
         LIBS+= \
@@ -310,7 +315,7 @@ linux {
         LIBS += -Wl,-Bdynamic -lunwind
     }
 
-    QMAKE_LFLAGS += -pie -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack
+    QMAKE_LFLAGS += -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack
 }
 
 macx {
@@ -324,6 +329,7 @@ macx {
         -L/usr/local/opt/openssl/lib \
         -L/usr/local/opt/boost/lib \
         -lboost_serialization \
+        -lhidapi \
         -lboost_thread-mt \
         -lboost_system \
         -lboost_date_time \
@@ -332,11 +338,12 @@ macx {
         -lboost_chrono \
         -lboost_program_options \
         -lssl \
+        -lsodium \
         -lcrypto \
         -ldl
+
     LIBS+= -framework PCSC
 
-    QMAKE_LFLAGS += -pie
 }
 
 
@@ -436,7 +443,7 @@ linux:!android {
 }
 
 android{
-    deploy.commands += make install INSTALL_ROOT=$$DESTDIR && androiddeployqt --input android-arqma-wallet-gui.so-deployment-settings.json --output $$DESTDIR --deployment bundled --android-platform android-21 --jdk /usr/lib/jvm/java-8-openjdk-amd64 -qmldir=$$PWD
+    deploy.commands += make install INSTALL_ROOT=$$DESTDIR && androiddeployqt --input android-libarqma-wallet-gui.so-deployment-settings.json --output $$DESTDIR --deployment bundled --android-platform android-21 --jdk /usr/lib/jvm/java-8-openjdk-amd64 -qmldir=$$PWD
 }
 
 

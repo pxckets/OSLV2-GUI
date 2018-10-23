@@ -1,22 +1,22 @@
 // Copyright (c) 2018, The ArQmA Project
 // Copyright (c) 2014-2018, The Monero Project
-// 
+//
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modification, are
 // permitted provided that the following conditions are met:
-// 
+//
 // 1. Redistributions of source code must retain the above copyright notice, this list of
 //    conditions and the following disclaimer.
-// 
+//
 // 2. Redistributions in binary form must reproduce the above copyright notice, this list
 //    of conditions and the following disclaimer in the documentation and/or other
 //    materials provided with the distribution.
-// 
+//
 // 3. Neither the name of the copyright holder nor the names of its contributors may be
 //    used to endorse or promote products derived from this software without specific
 //    prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -36,6 +36,7 @@
 #include <QObject>
 #include <QDesktopWidget>
 #include <QScreen>
+#include <QFileInfo>
 #include "clipboardAdapter.h"
 #include "filter.h"
 #include "oscursor.h"
@@ -72,6 +73,36 @@ bool isAndroid = false;
 bool isWindows = false;
 bool isDesktop = false;
 
+static QStringList loadOrCreateDefaultRemoteNodesFromSettings(QSettings *settings, NetworkType::Type nettype)
+{
+    char const mainnet_group_id[]  = "MainnetDefaultRemoteNodes";
+    char const stagenet_group_id[] = "StagenetDefaultRemoteNodes";
+    char const testnet_group_id[]  = "TestnetDefaultRemoteNodes";
+
+    char const *group_id = mainnet_group_id;
+    if (nettype == NetworkType::Type::TESTNET)
+        group_id = testnet_group_id;
+    else if (nettype == NetworkType::Type::STAGENET)
+        group_id = stagenet_group_id;
+
+    char const remoteNodeArrayId[] = "RemoteNodes";
+
+    settings->beginGroup(group_id);
+    int remoteNodeArrayLen = settings->beginReadArray(remoteNodeArrayId);
+    QStringList result;
+    result.reserve(remoteNodeArrayLen);
+    for (int i = 0; i < remoteNodeArrayLen; ++i)
+    {
+        settings->setArrayIndex(i);
+        QString const fullAddress = settings->value("url").toString() + ":" + settings->value("port").toString();
+        result.push_back(fullAddress);
+    }
+    settings->endArray();
+    settings->endGroup();
+
+    return result;
+}
+
 int main(int argc, char *argv[])
 {
     // platform dependant settings
@@ -101,7 +132,7 @@ int main(int argc, char *argv[])
 
     MainApp app(argc, argv);
 
-    app.setApplicationName("arqma-gui");
+    app.setApplicationName("arqma-gui-wallet");
     app.setOrganizationDomain("arqma.com");
     app.setOrganizationName("Arqma Network");
 
@@ -308,6 +339,19 @@ int main(int argc, char *argv[])
     QObject::connect(eventFilter, SIGNAL(sequenceReleased(QVariant,QVariant)), rootObject, SLOT(sequenceReleased(QVariant,QVariant)));
     QObject::connect(eventFilter, SIGNAL(mousePressed(QVariant,QVariant,QVariant)), rootObject, SLOT(mousePressed(QVariant,QVariant,QVariant)));
     QObject::connect(eventFilter, SIGNAL(mouseReleased(QVariant,QVariant,QVariant)), rootObject, SLOT(mouseReleased(QVariant,QVariant,QVariant)));
+
+    {
+         QString const fullSettingsPath = app.applicationDirPath() + "/arqma-nodes.ini";
+         QSettings settings(fullSettingsPath, QSettings::IniFormat);
+
+         QStringList mainnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::MAINNET);
+         QStringList testnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::TESTNET);
+         QStringList stagenetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::STAGENET);
+         engine.rootContext()->setContextProperty("mainnetRemoteNodeList", QVariant::fromValue(mainnetRemoteNodeList));
+         engine.rootContext()->setContextProperty("testnetRemoteNodeList", QVariant::fromValue(testnetRemoteNodeList));
+         engine.rootContext()->setContextProperty("stagenetRemoteNodeList", QVariant::fromValue(stagenetRemoteNodeList));
+     }
+
 
     return app.exec();
 }

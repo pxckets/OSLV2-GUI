@@ -62,6 +62,7 @@ public:
                                               const QString &spendkey = "",
                                               quint64 restoreHeight = 0);
 
+
     Q_INVOKABLE Wallet * createWalletFromDevice(const QString &path,
                                                 const QString &password,
                                                 NetworkType::Type nettype,

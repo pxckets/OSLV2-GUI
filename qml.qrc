@@ -97,7 +97,7 @@
         <file>wizard/WizardDonation.qml</file>
         <file>wizard/WizardFinish.qml</file>
         <file>wizard/WizardPasswordInput.qml</file>
-        <file>lang/languages.xml</file>        
+        <file>lang/languages.xml</file>
         <file>lang/flags/catalonia.png</file>
         <file>lang/flags/esperanto.png</file>
         <file>lang/flags/bangladesh.png</file>
@@ -154,6 +154,7 @@
         <file>version.js</file>
         <file>wizard/WizardPasswordUI.qml</file>
         <file>wizard/WizardCreateViewOnlyWallet.qml</file>
+        <file>components/ChooseDaemonModalDialog.qml</file>
         <file>components/DaemonConsole.qml</file>
         <file>components/QRCodeScanner.qml</file>
         <file>components/Notifier.qml</file>

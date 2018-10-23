@@ -117,5 +117,7 @@ if [ "$platform" != "mingw32" ] && [ "$ANDROID" != true ]; then
 cp ../$ARQMA_DIR/bin/$ARQMA_EXEC $BIN_PATH
 fi
 
-# make deploy
+make deploy
 popd
+
+cp arqma-nodes.ini build/$BIN_PATH/arqma-nodes.ini
