@@ -228,16 +228,17 @@ Source: "bin\libssp-0.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; HIDAPI, library for communicating with USB and Bluetooth devices, for hardware wallets
 Source: "bin\libhidapi-0.dll"; DestDir: "{app}"; Flags: ignoreversion
 
+; Arqma GUI Wallet Remote-Nodes settings ini file
+Source: "bin\arqma-nodes.ini"; DestDir: "{app}"; Flags: ignoreversion
+
 [Tasks]
 Name: desktopicon; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:";
-
 
 [Run]
 Filename: "{app}\ReadMe.htm"; Description: "Show ReadMe"; Flags: postinstall shellexec skipifsilent
 
 ; DON'T offer to run the wallet right away, let the people read about initial blockchain download first in the ReadMe
 ; Filename: "{app}\arqma-wallet-gui.exe"; Description: "Run GUI Wallet now"; Flags: postinstall nowait skipifsilent
-
 
 [Code]
 var
