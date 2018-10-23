@@ -1,5 +1,5 @@
-; Arqma Devils Touch
-; Copyright (c) 2018. The Arqma Project
+; Arqma Devils Touch Installer for Microsoft Windows Operating Systems
+; Copyright (c) 2018 The Arqma Project
 ; Copyright (c) 2014-2018, The Monero Project
 ; See LICENSE
 
@@ -23,6 +23,21 @@ LicenseFile=LICENSE
 AppPublisher=ArQmA Network
 AppPublisherURL=https://arqma.com
 OutputBaseFilename=Arqma-WinGUI
+
+UsedUserAreasWarning=no
+; The above directive silences the following compiler warning:
+;    Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (HKCU,userdocs)
+;    are used by the script. Regardless of the version of Windows, if the installation is administrative then you should
+;    be careful about making any per-user area changes: such changes may not achieve what you are intending.
+; Background info:
+; This installer indeed asks for admin rights so the Arqma files can be copied to a place where they have at least
+; a minimum of protection against changes, e.g. by malware, plus it handles things for the currently logged-in user
+; in the registry (GUI wallet per-user options) and for some of the icons. For reasons too complicated to fully explain
+; here this does not work as intended if the installing user does not have admin rights and has to provide the password
+; of a user that does for installing: The settings of the admin user instead of those of the installing user are changed.
+; Short of ripping out that per-user functionality the issue has no suitable solution. Fortunately, this will probably
+; play a role in only in few cases as the first standard user in a Windows installation does have admin rights.
+; So, for the time being, this installer simply disregards this problem.
 
 
 [Languages]
@@ -210,6 +225,8 @@ Source: "bin\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; Stack protection
 Source: "bin\libssp-0.dll"; DestDir: "{app}"; Flags: ignoreversion
 
+; HIDAPI, library for communicating with USB and Bluetooth devices, for hardware wallets
+Source: "bin\libhidapi-0.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 [Tasks]
 Name: desktopicon; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:";
