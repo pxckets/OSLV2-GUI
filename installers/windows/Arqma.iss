@@ -180,11 +180,11 @@ Source: "bin\libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; ICU, International Components for Unicode
 ; After changes for supporting UTF-8 path and file names by using Boost Locale, all those 5
-Source: "bin\libicudt62.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicuin62.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicuio62.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicutu62.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicuuc62.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicudt6?.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicuin6?.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicuio6?.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicutu6?.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicuuc6?.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Library for native language support, part of GNU gettext
 Source: "bin\libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion
