@@ -23,7 +23,7 @@ else
 	ICU_FILES=(libicudtd??.dll libicuind??.dll libicuiod??.dll libicutud??.dll libicuucd??.dll)
 fi
 
-FILES=(zlib1.dll libwinpthread-1.dll libtiff-5.dll libstdc++-6.dll libpng16-16.dll libpcre16-0.dll libpcre-1.dll libmng-2.dll liblzma-5.dll liblcms2-2.dll libjpeg-8.dll libintl-8.dll libiconv-2.dll libharfbuzz-0.dll libgraphite2.dll libglib-2.0-0.dll libfreetype-6.dll libbz2-1.dll libssp-0.dll libpcre2-16-0.dll libhidapi-0.dll)
+FILES=(zlib1.dll libwinpthread-1.dll libtiff-5.dll libstdc++-6.dll libpng16-16.dll libpcre16-0.dll libpcre-1.dll libmng-2.dll liblzma-5.dll liblcms2-2.dll libjpeg-8.dll libintl-8.dll libiconv-2.dll libharfbuzz-0.dll libgraphite2.dll libglib-2.0-0.dll libfreetype-6.dll libbz2-1.dll libssp-0.dll libpcre2-16-0.dll D3Dcompiler_47.dll libEGL.dll libGLESV2.dll libhidapi-0.dll)
 
 platform=$(get_platform)
 
