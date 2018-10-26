@@ -148,14 +148,14 @@ Source: "bin\QtQuick.2\*"; DestDir: "{app}\QtQuick.2"; Flags: recursesubdirs ign
 ;Source: "bin\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Microsoft Direct3D runtime
-;Source: "bin\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; bzip2 support
-;Source: "bin\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; ANGLE ("Almost Native Graphics Layer Engine") support, as used by Qt
-;Source: "bin\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "bin\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; FreeType font engine, as used by Qt
 Source: "bin\libfreetype-6.dll"; DestDir: "{app}"; Flags: ignoreversion
