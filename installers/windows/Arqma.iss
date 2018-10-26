@@ -111,23 +111,23 @@ Source: "bin\audio\*"; DestDir: "{app}\audio"; Flags: recursesubdirs ignoreversi
 ; Qt bearer / network connection management
 Source: "bin\bearer\*"; DestDir: "{app}\bearer"; Flags: recursesubdirs ignoreversion
 
-; Qt Windows platform plugins	
+; Qt Windows platform plugins
 Source: "bin\platforms\*"; DestDir: "{app}\platforms"; Flags: recursesubdirs ignoreversion
 Source: "bin\platforminputcontexts\*"; DestDir: "{app}\platforminputcontexts"; Flags: recursesubdirs ignoreversion
 Source: "bin\styles\*"; DestDir: "{app}\styles"; Flags: recursesubdirs ignoreversion
 
-; Qt support for SVG icons	
+; Qt support for SVG icons
 Source: "bin\iconengines\*"; DestDir: "{app}\iconengines"; Flags: recursesubdirs ignoreversion
 
-; Qt support for various image formats (JPEG, BMP, SVG etc)	
+; Qt support for various image formats (JPEG, BMP, SVG etc)
 Source: "bin\imageformats\*"; DestDir: "{app}\imageformats"; Flags: recursesubdirs ignoreversion
 
-; Qt multimedia support	
+; Qt multimedia support
 Source: "bin\QtMultimedia\*"; DestDir: "{app}\QtMultimedia"; Flags: recursesubdirs ignoreversion
 Source: "bin\mediaservice\*"; DestDir: "{app}\mediaservice"; Flags: recursesubdirs ignoreversion
 
 ; Qt support for "m3u" playlists
-; candidate for elimination? Don't think the GUI wallet needs such playlists	
+; candidate for elimination? Don't think the GUI wallet needs such playlists
 Source: "bin\playlistformats\*"; DestDir: "{app}\playlistformats"; Flags: recursesubdirs ignoreversion
 
 ; Qt graphical effects as part of the core runtime, effects like blurring and blending
@@ -148,14 +148,14 @@ Source: "bin\QtQuick.2\*"; DestDir: "{app}\QtQuick.2"; Flags: recursesubdirs ign
 ;Source: "bin\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Microsoft Direct3D runtime
-Source: "bin\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Source: "bin\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; bzip2 support
 Source: "bin\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; ANGLE ("Almost Native Graphics Layer Engine") support, as used by Qt
-Source: "bin\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Source: "bin\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Source: "bin\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; FreeType font engine, as used by Qt
 Source: "bin\libfreetype-6.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -198,7 +198,7 @@ Source: "bin\liblcms2-2.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; XZ Utils, LZMA compression library
 Source: "bin\liblzma-5.dll"; DestDir: "{app}"; Flags: ignoreversion
 
-; MNG / Portable Network Graphics ("animated PNG") 
+; MNG / Portable Network Graphics ("animated PNG")
 Source: "bin\libmng-2.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; PCRE, Perl Compatible Regular Expressions
@@ -375,7 +375,7 @@ Name: "{group}\Utilities\Textual (CLI) Wallet"; Filename: "{app}\arqma-wallet-cl
 
 ; Icons for troubleshooting problems / testing / debugging
 ; To show that they are in some way different (not for everyday use), make them visually different
-; from the others by text, and make them sort at the end by the help of "x" in front 
+; from the others by text, and make them sort at the end by the help of "x" in front
 Name: "{group}\Utilities\x (Check Blockchain Folder)"; Filename: "{win}\Explorer.exe"; Parameters: {code:BlockChainDir}
 Name: "{group}\Utilities\x (Check Daemon Log)"; Filename: "Notepad"; Parameters: {code:DaemonLog}
 Name: "{group}\Utilities\x (Check Default Wallet Folder)"; Filename: "{win}\Explorer.exe"; Parameters: "{userdocs}\Arqma\wallets"
@@ -395,4 +395,3 @@ Name: "{userdesktop}\GUI Wallet"; Filename: "{app}\arqma-wallet-gui.exe"; Tasks:
 Root: HKCU; Subkey: "Software\arqma"; Flags: uninsdeletekeyifempty
 Root: HKCU; Subkey: "Software\arqma\arqma"; Flags: uninsdeletekey
 Root: HKCU; Subkey: "Software\arqma\arqma"; ValueType: string; ValueName: "daemonFlags"; ValueData: {code:DaemonFlags};
-

@@ -112,10 +112,12 @@ ColumnLayout {
             font.pixelSize: 18 * scaleRatio
             wrapMode: Text.Wrap
             //renderType: Text.NativeRendering
-            color: "#000AD8"
+            color: "#4A4646"
             textFormat: Text.RichText
-//            horizontalAlignment: Text.AlignHCenter
-            text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to a Arqma node. For best privacy it's recommended to run your own node. \
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to a Arqma node. \
+                        <br> \
+                        For best privacy it's recommended to run your own node. \
                         <br><br> \
                         If you don't have the option to run your own node, there's an option to connect to a remote node.")
                     + translationManager.emptyString
@@ -124,7 +126,7 @@ ColumnLayout {
         RadioButton {
             id: localNode
             text: qsTr("Start a node automatically in background or use an already running local node\n(Downloads blockchain, slow but private)") + translationManager.emptyString
-            fontColor: Style.defaultFontColor
+            fontColor: "#4A4646"
             fontSize: 16 * scaleRatio
             checked: !appWindow.persistentSettings.useRemoteNode && !isAndroid && !isIOS
             visible: !isAndroid && !isIOS
@@ -138,7 +140,7 @@ ColumnLayout {
             id: remoteNode
             text: qsTr("Connect to a remote node\n(Recommended, fast but less private)") + translationManager.emptyString
             Layout.topMargin: 20 * scaleRatio
-            fontColor: Style.defaultFontColor
+            fontColor: "#4A4646"
             fontSize: 16 * scaleRatio
             checked: appWindow.persistentSettings.useRemoteNode
             onClicked: {
@@ -156,7 +158,7 @@ ColumnLayout {
             Layout.fillWidth: true
             Layout.topMargin: 20 * scaleRatio
             fontSize: 16 * scaleRatio
-            fontColor: Style.defaultFontColor
+            fontColor: "#4A4646"
             text: qsTr("Blockchain Location") + translationManager.emptyString
         }
 
@@ -216,14 +218,14 @@ ColumnLayout {
         WarningBox {
             Layout.bottomMargin: 6 * scaleRatio
             Layout.maximumWidth: 620 * scaleRatio
-            text: qsTr("To find other remote nodes, type 'Loki remote node' into your favorite search engine. Please ensure the node is run by a trusted third-party.") + translationManager.emptyString
+            text: qsTr("To find other remote nodes, type 'Arqma remote node' into your favorite search engine. Please ensure the node is run by a trusted third-party.") + translationManager.emptyString
         }
 
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 20 * scaleRatio
             Layout.topMargin: 8 * scaleRatio
-            color: Style.defaultFontColor
+            color: "#4A4646"
             font.family: Style.fontRegular.name
             font.pixelSize: 16 * scaleRatio
             text: qsTr("Default Remote Node(s)") + translationManager.emptyString
