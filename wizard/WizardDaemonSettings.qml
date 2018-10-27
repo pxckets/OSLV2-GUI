@@ -88,8 +88,8 @@ ColumnLayout {
 
     ColumnLayout {
         id: headerColumn
-        Layout.fillWidth: true
-        Layout.bottomMargin: 14 * scaleRatio;
+        //Layout.fillWidth: true
+        //Layout.bottomMargin: 14 * scaleRatio;
 
         Text {
             Layout.fillWidth: true
@@ -105,15 +105,15 @@ ColumnLayout {
         }
 
         Text {
-            //Layout.fillWidth: true
-            Layout.topMargin: 30 * scaleRatio
+            Layout.fillWidth: true
+            //Layout.topMargin: 30 * scaleRatio
             Layout.bottomMargin: 30 * scaleRatio
             font.family: "Arial"
             font.pixelSize: 18 * scaleRatio
             wrapMode: Text.Wrap
             //renderType: Text.NativeRendering
             color: "#4A4646"
-            textFormat: Text.RichText
+            //textFormat: Text.RichText
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to a Arqma node. \
                         <br> \
@@ -191,7 +191,7 @@ ColumnLayout {
             id: bootstrapNodeEdit
 
             lineEditBackgroundColor: "transparent"
-            lineEditFontColor: "white"
+            lineEditFontColor: "#4A4646"
             lineEditFontBold: false
 
             placeholderFontFamily: "Arial"
@@ -290,7 +290,7 @@ ColumnLayout {
             property var rna: persistentSettings.remoteNodeAddress
 
             lineEditBackgroundColor: "transparent"
-            lineEditFontColor: "white"
+            lineEditFontColor: "#4A4646"
             lineEditFontBold: false
             labelFontSize: 14 * scaleRatio
             placeholderFontSize: 15 * scaleRatio
