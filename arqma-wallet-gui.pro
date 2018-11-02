@@ -182,7 +182,7 @@ CONFIG(WITH_SCANNER) {
             INCLUDEPATH += $$PWD/../ZBar/include
             LIBS += -lzbarjni -liconv
         } else {
-			INCLUDEPATH += $$PWD/src/ZBarSDK
+	    INCLUDEPATH += $$PWD/src/ZBarSDK
             LIBS += -lzbar
         }
     } else {
@@ -251,7 +251,7 @@ win32 {
         -lcrypto \
         -Wl,-Bdynamic \
         -lwinscard \
-	      -lcrypt32 \
+	-lcrypt32 \
         -luser32 \
         -lws2_32 \
         -lwsock32 \
@@ -278,7 +278,10 @@ linux {
         LIBS+= -Wl,-Bstatic
         QMAKE_LFLAGS += -static-libgcc -static-libstdc++
         contains(QT_ARCH, x86_64) {
-            LIBS+= -lunbound
+            LIBS+= -lunbound \
+	    -lusb-1.0 \
+	    -lhidapi-hidraw \
+	    -ludev 
         }
     } else {
       # On some distro's we need to add dynload
