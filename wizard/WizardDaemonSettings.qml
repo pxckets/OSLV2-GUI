@@ -272,7 +272,7 @@ ColumnLayout {
                     anchors.left: defaultNodeButton.right
                     anchors.leftMargin: 8 * scaleRatio
                     anchors.verticalCenter: defaultNodeButton.verticalCenter
-                    color: #4A4646
+                    color: "#4A4646"
                     font.family: Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     text: "Address: " + modelData
