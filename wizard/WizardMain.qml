@@ -34,7 +34,7 @@ import QtQuick.Layouts 1.1
 import "../components"
 
 ColumnLayout {
-  //  anchors.fill: parent
+    anchors.fill: parent
     Layout.fillHeight: true
     id: wizard
     property alias nextButton : nextButton
@@ -263,7 +263,7 @@ ColumnLayout {
 
     WizardWelcome {
         id: welcomePage
-//        Layout.bottomMargin: wizardBottomMargin
+        Layout.bottomMargin: wizardBottomMargin
         Layout.topMargin: wizardTopMargin
 
     }

@@ -169,7 +169,7 @@ ColumnLayout {
         LineEdit {
             id: accountName
             Layout.fillWidth: true
-            Layout.maximumWidth: 600 * scaleRatio
+            Layout.maximumWidth: 800 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
             text: defaultAccountName
             onTextUpdated: checkNextButton()
@@ -224,7 +224,7 @@ ColumnLayout {
         WizardMemoTextInput {
             id : memoTextItem
             Layout.fillWidth: true
-            Layout.maximumWidth: 600 * scaleRatio
+            Layout.maximumWidth: 800 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
         }
     }
@@ -239,7 +239,7 @@ ColumnLayout {
         LineEdit {
             Layout.fillWidth: true
             id: addressLine
-            Layout.maximumWidth: 600 * scaleRatio
+            Layout.maximumWidth: 800 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
             placeholderFontBold: true
             placeholderFontFamily: "Arial"
@@ -255,7 +255,7 @@ ColumnLayout {
         LineEdit {
             Layout.fillWidth: true
             id: viewKeyLine
-            Layout.maximumWidth: 600 * scaleRatio
+            Layout.maximumWidth: 800 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
             placeholderFontBold: true
             placeholderFontFamily: "Arial"
@@ -271,7 +271,7 @@ ColumnLayout {
         }
         LineEdit {
             Layout.fillWidth: true
-            Layout.maximumWidth: 600 * scaleRatio
+            Layout.maximumWidth: 800 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
             id: spendKeyLine
             placeholderFontBold: true
@@ -292,7 +292,7 @@ ColumnLayout {
         LineEdit {
             id: restoreHeightItem
             Layout.fillWidth: true
-            Layout.maximumWidth: 600 * scaleRatio
+            Layout.maximumWidth: 800 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
             placeholderFontBold: true
             placeholderFontFamily: "Arial"
@@ -315,7 +315,7 @@ ColumnLayout {
         LineEdit {
             id: subaddressLookaheadItem
             Layout.fillWidth: true
-            Layout.maximumWidth: 600 * scaleRatio
+            Layout.maximumWidth: 800 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
             placeholderFontBold: true
             placeholderFontFamily: "Arial"
@@ -369,7 +369,7 @@ ColumnLayout {
 
         LineEdit {
             Layout.fillWidth: true
-            Layout.maximumWidth: 600 * scaleRatio
+            Layout.maximumWidth: 800 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
             id: fileUrlInput
             text: arqmaAccountsDir + "/"

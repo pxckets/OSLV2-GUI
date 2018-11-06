@@ -62,7 +62,7 @@ ApplicationWindow {
     property int restoreHeight:0
     property bool daemonSynced: false
     property bool walletSynced: false
-    property int maxWindowHeight: (isAndroid || isIOS)? screenHeight : (screenHeight < 900)? 720 : 800;
+    property int maxWindowHeight: (isAndroid || isIOS)? screenHeight : (screenHeight < 1100)? 1080 : 1050;
     property bool daemonRunning: false
     property alias toolTip: toolTip
     property string walletName
@@ -1287,7 +1287,7 @@ ApplicationWindow {
                 PropertyChanges { target: middlePanel; visible: false }
                 PropertyChanges { target: titleBar; basicButtonVisible: false }
                 PropertyChanges { target: wizard; visible: true }
-                PropertyChanges { target: appWindow; width: (screenWidth < 930 || isAndroid || isIOS)? screenWidth : 930; }
+                PropertyChanges { target: appWindow; width: (screenWidth < 1600 || isAndroid || isIOS)? screenWidth : 1600; }
                 PropertyChanges { target: appWindow; height: maxWindowHeight; }
                 PropertyChanges { target: resizeArea; visible: true }
                 PropertyChanges { target: titleBar; showMaximizeButton: false }
@@ -1303,7 +1303,7 @@ ApplicationWindow {
                 PropertyChanges { target: middlePanel; visible: true }
                 PropertyChanges { target: titleBar; basicButtonVisible: true }
                 PropertyChanges { target: wizard; visible: false }
-                PropertyChanges { target: appWindow; width: (screenWidth < 969 || isAndroid || isIOS)? screenWidth : 969 } //rightPanelExpanded ? 1269 : 1269 - 300;
+                PropertyChanges { target: appWindow; width: (screenWidth < 1366 || isAndroid || isIOS)? screenWidth : 1366 } //rightPanelExpanded ? 1269 : 1269 - 300;
                 PropertyChanges { target: appWindow; height: maxWindowHeight; }
                 PropertyChanges { target: resizeArea; visible: true }
                 PropertyChanges { target: titleBar; showMaximizeButton: true }

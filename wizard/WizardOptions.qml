@@ -279,7 +279,7 @@ ColumnLayout {
         Layout.leftMargin: wizardLeftMargin
         Layout.rightMargin: wizardRightMargin
         Layout.topMargin: 30 * scaleRatio
-        //Layout.alignment: Qt.AlignCenter
+        Layout.alignment: Qt.AlignCenter
         Layout.fillWidth: true
         spacing: 38 * scaleRatio
 
@@ -288,12 +288,12 @@ ColumnLayout {
                 id: showAdvancedCheckbox
                 darkDropIndicator: true
                 text: qsTr("Advanced options") + translationManager.emptyString
-                //fontColor: "#4A4646"
+                fontColor: "#4A4646"
             }
         }
 
         Rectangle {
-            width: 100 * scaleRatio
+            width: 300 * scaleRatio
             RadioButton {
                 visible: showAdvancedCheckbox.checked
                 enabled: !this.checked
@@ -301,7 +301,7 @@ ColumnLayout {
                 text: qsTr("Mainnet") + translationManager.emptyString
                 //checkedColor: Qt.rgba(0, 0, 0, 0.75)
                 //borderColor: Qt.rgba(0, 0, 0, 0.45)
-                //fontColor: "#4A4646"
+                fontColor: "#4A4646"
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.MAINNET;
                 onClicked: {
@@ -314,7 +314,7 @@ ColumnLayout {
         }
 
         Rectangle {
-            width: 100 * scaleRatio
+            width: 300 * scaleRatio
             RadioButton {
                 visible: showAdvancedCheckbox.checked
                 enabled: !this.checked
@@ -322,7 +322,7 @@ ColumnLayout {
                 text: qsTr("Testnet") + translationManager.emptyString
                 //checkedColor: Qt.rgba(0, 0, 0, 0.75)
                 //borderColor: Qt.rgba(0, 0, 0, 0.45)
-                //fontColor: "#4A4646"
+                fontColor: "#4A4646"
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.TESTNET;
                 onClicked: {
@@ -335,7 +335,7 @@ ColumnLayout {
         }
 
         Rectangle {
-            width: 100 * scaleRatio
+            width: 300 * scaleRatio
             RadioButton {
                 visible: showAdvancedCheckbox.checked
                 enabled: !this.checked
@@ -343,7 +343,7 @@ ColumnLayout {
                 text: qsTr("Stagenet") + translationManager.emptyString
                 //checkedColor: Qt.rgba(0, 0, 0, 0.75)
                 //borderColor: Qt.rgba(0, 0, 0, 0.45)
-                //fontColor: "#4A4646"
+                fontColor: "#4A4646"
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.STAGENET;
                 onClicked: {

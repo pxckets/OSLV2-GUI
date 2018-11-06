@@ -29,14 +29,14 @@
 import moneroComponents.WalletManager 1.0
 import QtQuick 2.2
 import QtQuick.Layouts 1.1
-import "../components"
+import "../components" as MoneroComponents
 import "utils.js" as Utils
 
 ColumnLayout {
     Layout.leftMargin: wizardLeftMargin
     Layout.rightMargin: wizardRightMargin
 
-    id: root
+    id: daemonSettingsPage
     opacity: 0
     visible: false
     property alias titleText: titleText.text
@@ -63,7 +63,7 @@ ColumnLayout {
 
     RowLayout {
         id: dotsRow
-        Layout.alignment: Qt.AlignRight
+        Layout.alignment: Qt.AlignLeft
 
         ListModel {
             id: dotsModel
@@ -96,7 +96,6 @@ ColumnLayout {
             id: titleText
             font.family: "Arial"
             font.pixelSize: 28 * scaleRatio
-            wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
             //renderType: Text.NativeRendering
             color: "#000AD8"
@@ -108,11 +107,10 @@ ColumnLayout {
             Layout.bottomMargin: 30 * scaleRatio
             font.family: "Arial"
             font.pixelSize: 18 * scaleRatio
-            wrapMode: Text.Wrap
             //renderType: Text.NativeRendering
             color: "#4A4646"
             textFormat: Text.RichText
-            //horizontalAlignment: Text.AlignHCenter
+            horizontalAlignment: Text.AlignHCenter
             text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to a Arqma node. \
                         <br> \
                         For best privacy it's recommended to run your own node. \
