@@ -15,7 +15,7 @@ QtObject {
     property string inputBoxBackground: "black"
     property string inputBoxBackgroundError: "#FFDDDD"
     property string inputBoxColor: "white"
-    property string legacy_placeholderFontColor: "#BABABA"
+    property string legacy_placeholderFontColor: "#000C70"
     property string inputBorderColorActive: Qt.rgba(255, 255, 255, 0.38)
     property string inputBorderColorInActive: Qt.rgba(255, 255, 255, 0.32)
     property string inputBorderColorInvalid: Qt.rgba(255, 0, 0, 0.40)

@@ -40,7 +40,7 @@ ColumnLayout {
     signal createWalletFromDeviceClicked()
     opacity: 0
     visible: false
-    property int buttonSize: (isMobile) ? 80 * scaleRatio : 140 * scaleRatio
+    property int buttonSize: (isMobile) ? 80 * scaleRatio : 190 * scaleRatio
     property int buttonImageSize: (isMobile) ? buttonSize - 10 * scaleRatio : buttonSize - 30 * scaleRatio
 
     function onPageClosed() {
@@ -279,7 +279,7 @@ ColumnLayout {
         Layout.leftMargin: wizardLeftMargin
         Layout.rightMargin: wizardRightMargin
         Layout.topMargin: 30 * scaleRatio
-        Layout.alignment: Qt.AlignCenter
+        //Layout.alignment: Qt.AlignCenter
         Layout.fillWidth: true
         spacing: 38 * scaleRatio
 
@@ -288,7 +288,7 @@ ColumnLayout {
                 id: showAdvancedCheckbox
                 darkDropIndicator: true
                 text: qsTr("Advanced options") + translationManager.emptyString
-                fontColor: "#4A4646"
+                //fontColor: "#4A4646"
             }
         }
 
@@ -299,9 +299,9 @@ ColumnLayout {
                 enabled: !this.checked
                 id: mainNet
                 text: qsTr("Mainnet") + translationManager.emptyString
-                checkedColor: Qt.rgba(0, 0, 0, 0.75)
-                borderColor: Qt.rgba(0, 0, 0, 0.45)
-                fontColor: "#4A4646"
+                //checkedColor: Qt.rgba(0, 0, 0, 0.75)
+                //borderColor: Qt.rgba(0, 0, 0, 0.45)
+                //fontColor: "#4A4646"
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.MAINNET;
                 onClicked: {
@@ -320,9 +320,9 @@ ColumnLayout {
                 enabled: !this.checked
                 id: testNet
                 text: qsTr("Testnet") + translationManager.emptyString
-                checkedColor: Qt.rgba(0, 0, 0, 0.75)
-                borderColor: Qt.rgba(0, 0, 0, 0.45)
-                fontColor: "#4A4646"
+                //checkedColor: Qt.rgba(0, 0, 0, 0.75)
+                //borderColor: Qt.rgba(0, 0, 0, 0.45)
+                //fontColor: "#4A4646"
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.TESTNET;
                 onClicked: {
@@ -341,9 +341,9 @@ ColumnLayout {
                 enabled: !this.checked
                 id: stageNet
                 text: qsTr("Stagenet") + translationManager.emptyString
-                checkedColor: Qt.rgba(0, 0, 0, 0.75)
-                borderColor: Qt.rgba(0, 0, 0, 0.45)
-                fontColor: "#4A4646"
+                //checkedColor: Qt.rgba(0, 0, 0, 0.75)
+                //borderColor: Qt.rgba(0, 0, 0, 0.45)
+                //fontColor: "#4A4646"
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.STAGENET;
                 onClicked: {
