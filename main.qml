@@ -1811,7 +1811,7 @@ ApplicationWindow {
     }
 
     function checkUpdates() {
-        walletManager.checkUpdatesAsync("arqma-gui, "gui")
+        walletManager.checkUpdatesAsync("arqma-gui", "gui")
     }
 
     Timer {
