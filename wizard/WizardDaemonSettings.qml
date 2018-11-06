@@ -36,7 +36,7 @@ ColumnLayout {
     Layout.leftMargin: wizardLeftMargin
     Layout.rightMargin: wizardRightMargin
 
-    id: passwordPage
+    id: daemonSettingsPage
     opacity: 0
     visible: false
     property alias titleText: titleText.text
@@ -219,7 +219,6 @@ ColumnLayout {
         WarningBox {
             Layout.bottomMargin: 6 * scaleRatio
             //Layout.maximumWidth: 620 * scaleRatio
-            wrapMode: Text.Wrap
             text: qsTr("To find other remote nodes, type 'Arqma remote node' into your favorite search engine. Please ensure the node is run by a trusted third-party.") + translationManager.emptyString
         }
 
