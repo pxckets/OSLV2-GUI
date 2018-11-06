@@ -34,7 +34,7 @@ import QtQuick.Layouts 1.1
 import "../components"
 
 ColumnLayout {
-    anchors.fill: parent
+  //  anchors.fill: parent
     Layout.fillHeight: true
     id: wizard
     property alias nextButton : nextButton
@@ -189,7 +189,7 @@ ColumnLayout {
 
     function walletPathValid(path){
         if(isIOS)
-            path = moneroAccountsDir + path;
+            path = arqmaAccountsDir + path;
         if (walletManager.walletExists(path)) {
             walletErrorDialog.text = qsTr("A wallet with same name already exists. Please change wallet name") + translationManager.emptyString;
             walletErrorDialog.open();
@@ -212,8 +212,8 @@ ColumnLayout {
         // Save wallet files in user specified location
         var new_wallet_filename = createWalletPath(settings.wallet_path,settings.account_name)
         if(isIOS) {
-            console.log("saving in ios: "+ moneroAccountsDir + new_wallet_filename)
-            m_wallet.store(moneroAccountsDir + new_wallet_filename);
+            console.log("saving in ios: "+ arqmaAccountsDir + new_wallet_filename)
+            m_wallet.store(arqmaAccountsDir + new_wallet_filename);
         } else {
             console.log("saving in wizard: "+ new_wallet_filename)
             m_wallet.store(new_wallet_filename);

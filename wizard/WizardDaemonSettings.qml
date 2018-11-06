@@ -36,7 +36,7 @@ ColumnLayout {
     Layout.leftMargin: wizardLeftMargin
     Layout.rightMargin: wizardRightMargin
 
-    id: daemonSettingsPage
+    id: root
     opacity: 0
     visible: false
     property alias titleText: titleText.text
@@ -68,8 +68,8 @@ ColumnLayout {
         ListModel {
             id: dotsModel
             ListElement { dotColor: "#36B05B" }
-            ListElement { dotColor: "#36B05B" }
             ListElement { dotColor: "#FFE00A" }
+            ListElement { dotColor: "#DBDBDB" }
             ListElement { dotColor: "#DBDBDB" }
         }
 
@@ -88,8 +88,8 @@ ColumnLayout {
 
     ColumnLayout {
         id: headerColumn
-        //Layout.fillWidth: true
-        //Layout.bottomMargin: 14 * scaleRatio;
+        Layout.fillWidth: true
+        Layout.bottomMargin: 14 * scaleRatio;
 
         Text {
             Layout.fillWidth: true
@@ -101,11 +101,9 @@ ColumnLayout {
             //renderType: Text.NativeRendering
             color: "#000AD8"
             text: "Daemon settings"
-
         }
 
         Text {
-            Layout.fillWidth: true
             Layout.topMargin: 30 * scaleRatio
             Layout.bottomMargin: 30 * scaleRatio
             font.family: "Arial"
@@ -165,10 +163,9 @@ ColumnLayout {
         LineEdit {
             id: blockchainFolder
             Layout.minimumWidth: 200 * scaleRatio
-            //Layout.maximumWidth: 620 * scaleRatio
+            Layout.maximumWidth: 620 * scaleRatio
             Layout.fillWidth: true
             text: persistentSettings.blockchainDataDir
-            placeholderFontBold: true
             placeholderFontFamily: "Arial"
             placeholderColor: Style.legacy_placeholderFontColor
             placeholderText: qsTr("(Optional)") + translationManager.emptyString
@@ -187,7 +184,7 @@ ColumnLayout {
 
         RemoteNodeEdit {
             Layout.minimumWidth: 300 * scaleRatio
-            //Layout.maximumWidth: 620 * scaleRatio
+            Layout.maximumWidth: 620 * scaleRatio
             opacity: localNode.checked
             id: bootstrapNodeEdit
 
@@ -218,7 +215,7 @@ ColumnLayout {
 
         WarningBox {
             Layout.bottomMargin: 6 * scaleRatio
-            //Layout.maximumWidth: 620 * scaleRatio
+            Layout.maximumWidth: 620 * scaleRatio
             text: qsTr("To find other remote nodes, type 'Arqma remote node' into your favorite search engine. Please ensure the node is run by a trusted third-party.") + translationManager.emptyString
         }
 
@@ -275,7 +272,7 @@ ColumnLayout {
                     anchors.left: defaultNodeButton.right
                     anchors.leftMargin: 8 * scaleRatio
                     anchors.verticalCenter: defaultNodeButton.verticalCenter
-                    color: Style.defaultFontColor
+                    color: #4A4646
                     font.family: Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     text: "Address: " + modelData
@@ -285,7 +282,7 @@ ColumnLayout {
 
         RemoteNodeEdit {
             Layout.minimumWidth: 300 * scaleRatio
-            //Layout.maximumWidth: 620 * scaleRatio
+            Layout.maximumWidth: 620 * scaleRatio
             Layout.fillWidth: true
             id: remoteNodeEdit
             property var rna: persistentSettings.remoteNodeAddress

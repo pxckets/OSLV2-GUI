@@ -165,7 +165,7 @@ int main(int argc, char *argv[])
 
     // screen settings
     // Mobile is designed on 128dpi
-    qreal ref_dpi = 128;
+    qreal ref_dpi = 326;
     QRect geo = QApplication::desktop()->availableGeometry();
     QRect rect = QGuiApplication::primaryScreen()->geometry();
     qreal dpi = QGuiApplication::primaryScreen()->logicalDotsPerInch();
@@ -285,10 +285,10 @@ int main(int argc, char *argv[])
 #endif
 
 
-    if (!moneroAccountsRootDir.empty())
+    if (!arqmaAccountsRootDir.empty())
     {
-        QString moneroAccountsDir = moneroAccountsRootDir.at(0) + "/Arqma/wallets";
-        engine.rootContext()->setContextProperty("arqmaAccountsDir", moneroAccountsDir);
+        QString arqmaAccountsDir = arqmaAccountsRootDir.at(0) + "/arqma/wallets";
+        engine.rootContext()->setContextProperty("arqmaAccountsDir", arqmaAccountsDir);
     }
 
 
