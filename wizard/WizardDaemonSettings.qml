@@ -36,7 +36,7 @@ ColumnLayout {
     Layout.leftMargin: wizardLeftMargin
     Layout.rightMargin: wizardRightMargin
 
-    id: root
+    id: passwordPage
     opacity: 0
     visible: false
     property alias titleText: titleText.text
@@ -106,15 +106,15 @@ ColumnLayout {
 
         Text {
             Layout.fillWidth: true
-            //Layout.topMargin: 30 * scaleRatio
+            Layout.topMargin: 30 * scaleRatio
             Layout.bottomMargin: 30 * scaleRatio
             font.family: "Arial"
             font.pixelSize: 18 * scaleRatio
             wrapMode: Text.Wrap
             //renderType: Text.NativeRendering
             color: "#4A4646"
-            //textFormat: Text.RichText
-            horizontalAlignment: Text.AlignHCenter
+            textFormat: Text.RichText
+            //horizontalAlignment: Text.AlignHCenter
             text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to a Arqma node. \
                         <br> \
                         For best privacy it's recommended to run your own node. \
@@ -164,10 +164,11 @@ ColumnLayout {
 
         LineEdit {
             id: blockchainFolder
-            Layout.minimumWidth: 300 * scaleRatio
-            Layout.maximumWidth: 620 * scaleRatio
+            Layout.minimumWidth: 200 * scaleRatio
+            //Layout.maximumWidth: 620 * scaleRatio
             Layout.fillWidth: true
             text: persistentSettings.blockchainDataDir
+            placeholderFontBold: true
             placeholderFontFamily: "Arial"
             placeholderColor: Style.legacy_placeholderFontColor
             placeholderText: qsTr("(Optional)") + translationManager.emptyString
@@ -186,7 +187,7 @@ ColumnLayout {
 
         RemoteNodeEdit {
             Layout.minimumWidth: 300 * scaleRatio
-            Layout.maximumWidth: 620 * scaleRatio
+            //Layout.maximumWidth: 620 * scaleRatio
             opacity: localNode.checked
             id: bootstrapNodeEdit
 
@@ -217,7 +218,8 @@ ColumnLayout {
 
         WarningBox {
             Layout.bottomMargin: 6 * scaleRatio
-            Layout.maximumWidth: 620 * scaleRatio
+            //Layout.maximumWidth: 620 * scaleRatio
+            wrapMode: Text.Wrap
             text: qsTr("To find other remote nodes, type 'Arqma remote node' into your favorite search engine. Please ensure the node is run by a trusted third-party.") + translationManager.emptyString
         }
 
@@ -284,7 +286,7 @@ ColumnLayout {
 
         RemoteNodeEdit {
             Layout.minimumWidth: 300 * scaleRatio
-            Layout.maximumWidth: 620 * scaleRatio
+            //Layout.maximumWidth: 620 * scaleRatio
             Layout.fillWidth: true
             id: remoteNodeEdit
             property var rna: persistentSettings.remoteNodeAddress

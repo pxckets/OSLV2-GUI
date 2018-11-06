@@ -554,9 +554,13 @@ Rectangle{
                 id: stopDaemonButton
                 small: true
                 visible: appWindow.daemonRunning
-                text: qsTr("Stop Local Node") + translationManager.emptyString
+                text: (appWindow.daemonRunning ? qsTr("Stop local node") : qsTr("Start daemon")) + translationManager.emptyString
                 onClicked: {
-                    appWindow.stopDaemon()
+                    if (appWindow.daemonRunning) {
+                        appWindow.stopDaemon();
+                    } else {
+                        appWindow.startDaemon(persistentSettings.daemonFlags);
+                    }
                 }
             }
 
