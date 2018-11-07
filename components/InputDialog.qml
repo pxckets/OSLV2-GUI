@@ -131,7 +131,7 @@ Item {
                 Layout.topMargin: 16
                 Layout.alignment: Qt.AlignRight
 
-                ArqnaComponents.StandardButton {
+                ArqmaComponents.StandardButton {
                     id: cancelButton
                     small: true
                     width: 120
