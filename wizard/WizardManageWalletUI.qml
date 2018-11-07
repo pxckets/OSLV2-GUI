@@ -63,7 +63,6 @@ ColumnLayout {
     property var deviceName: deviceNameModel.get(deviceNameDropdown.currentIndex).column2
     property alias deviceNameDropdown: deviceNameDropdown
     property int rowSpacing: 10
-    property int rowSpacing: 10
 
     function checkFields(){
         var addressOK = (viewKeyLine.text.length > 0 || spendKeyLine.text.length > 0)? walletManager.addressValid(addressLine.text, persistentSettings.nettype) : false
