@@ -30,7 +30,7 @@
 import QtQuick 2.2
 import QtQml 2.2
 import QtQuick.Layouts 1.1
-import moneroComponents.NetworkType 1.0
+import ArqmaComponents.NetworkType 1.0
 import "../components"
 
 ColumnLayout {
@@ -276,6 +276,7 @@ ColumnLayout {
         Layout.leftMargin: wizardLeftMargin
         Layout.rightMargin: wizardRightMargin
         Layout.topMargin: 30 * scaleRatio
+        Layout.alignment: Qt.AlignCenter
         Layout.fillWidth: true
         spacing: 38 * scaleRatio
 
@@ -284,6 +285,7 @@ ColumnLayout {
                 id: showAdvancedCheckbox
                 darkDropIndicator: true
                 text: qsTr("Advanced Options") + translationManager.emptyString
+                fontColor: "#4A4646"
             }
         }
 

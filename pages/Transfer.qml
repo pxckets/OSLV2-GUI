@@ -29,11 +29,11 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
-import moneroComponents.Clipboard 1.0
-import moneroComponents.PendingTransaction 1.0
-import moneroComponents.Wallet 1.0
+import ArqmaComponents.Clipboard 1.0
+import ArqmaComponents.PendingTransaction 1.0
+import ArqmaComponents.Wallet 1.0
 import "../components"
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 import "." 1.0
 
 
@@ -127,7 +127,7 @@ Rectangle {
       RowLayout {
           visible: root.warningContent !== ""
 
-          MoneroComponents.WarningBox {
+          ArqmaComponents.WarningBox {
               text: warningContent
               onLinkActivated: {
                   appWindow.startDaemon(appWindow.persistentSettings.daemonFlags);

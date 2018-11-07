@@ -33,7 +33,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 
 import "../components"
-import moneroComponents.Clipboard 1.0
+import ArqmaComponents.Clipboard 1.0
 
 Rectangle {
     property alias panelHeight: mainLayout.height

@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -29,12 +30,12 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 
-import moneroComponents.Wallet 1.0
-import "../components" as MoneroComponents
+import ArqmaComponents.Wallet 1.0
+import "../components" as ArqmaComponents
 
 Rectangle {
     id: item
-    color: "transparent"
+    color: "#1a1a1a"
     property var connected: Wallet.ConnectionStatus_Disconnected
 
     function getConnectionStatusString(status) {
@@ -42,7 +43,7 @@ Rectangle {
             if(!appWindow.daemonSynced)
                 return qsTr("Synchronizing")
             if(appWindow.remoteNodeConnected)
-                return qsTr("Remote Arq-Net Node")
+                return qsTr("Remote Node")
             return qsTr("Connected")
         }
         if (status == Wallet.ConnectionStatus_WrongVersion)
@@ -94,12 +95,12 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.topMargin: 0
-                font.family: MoneroComponents.Style.fontMedium.name
+                font.family: ArqmaComponents.Style.fontMedium.name
                 font.bold: true
                 font.pixelSize: 13 * scaleRatio
                 color: "white"
                 opacity: 0.5
-                text: qsTr("Network status") + translationManager.emptyString
+                text: qsTr("Network Status") + translationManager.emptyString
             }
 
             Text {
@@ -107,7 +108,7 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.topMargin: 14
-                font.family: MoneroComponents.Style.fontMedium.name
+                font.family: ArqmaComponents.Style.fontMedium.name
                 font.pixelSize: 20 * scaleRatio
                 color: "white"
                 text: getConnectionStatusString(item.connected) + translationManager.emptyString
@@ -118,9 +119,9 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.topMargin: 40
-                font.family: MoneroComponents.Style.fontMedium.name
+                font.family: ArqmaComponents.Style.fontMedium.name
                 font.pixelSize: 12 * scaleRatio
-                color: MoneroComponents.Style.dimmedFontColor
+                color: ArqmaComponents.Style.dimmedFontColor
                 text: (appWindow.currentDaemonAddress == ":") ? "Daemon Address Not Set" : appWindow.currentDaemonAddress
             }
         }

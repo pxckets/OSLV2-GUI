@@ -33,13 +33,13 @@ import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 
 import "../components"
-import moneroComponents.Clipboard 1.0
-import moneroComponents.Wallet 1.0
-import moneroComponents.WalletManager 1.0
-import moneroComponents.TransactionHistory 1.0
-import moneroComponents.TransactionHistoryModel 1.0
-import moneroComponents.Subaddress 1.0
-import moneroComponents.SubaddressModel 1.0
+import ArqmaComponents.Clipboard 1.0
+import ArqmaComponents.Wallet 1.0
+import ArqmaComponents.WalletManager 1.0
+import ArqmaComponents.TransactionHistory 1.0
+import ArqmaComponents.TransactionHistoryModel 1.0
+import ArqmaComponents.Subaddress 1.0
+import ArqmaComponents.SubaddressModel 1.0
 import "../js/TxUtils.js" as TxUtils
 
 Rectangle {

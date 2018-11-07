@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -33,7 +34,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.2
 
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 import "../js/Windows.js" as Windows
 import "../js/Utils.js" as Utils
 
@@ -104,8 +105,8 @@ Window {
                     anchors.fill: parent
                     font.family: "Arial"
                     font.pixelSize: 14 * scaleRatio
-                    color: MoneroComponents.Style.defaultFontColor
-                    selectionColor: MoneroComponents.Style.dimmedFontColor
+                    color: ArqmaComponents.Style.defaultFontColor
+                    selectionColor: ArqmaComponents.Style.dimmedFontColor
                     wrapMode: TextEdit.Wrap
                     readOnly: true
                     background: Rectangle {
@@ -171,10 +172,10 @@ Window {
         RowLayout {
             Layout.fillWidth: true
 
-            MoneroComponents.LineEdit {
+            ArqmaComponents.LineEdit {
                 id: sendCommandText
                 Layout.fillWidth: true
-                placeholderText: qsTr("command + enter (e.g help)") + translationManager.emptyString
+                placeholderText: qsTr("Command + Enter (e.g Help)") + translationManager.emptyString
                 onAccepted: {
                     if(text.length > 0) {
                         textArea.logCommand(">>> " + text)

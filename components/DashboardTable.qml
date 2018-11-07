@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -27,7 +28,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
-import moneroComponents.Clipboard 1.0
+import ArqmaComponents.Clipboard 1.0
 
 ListView {
     id: listView
@@ -145,14 +146,14 @@ ListView {
                     Text {
                         font.family: "Arial"
                         font.pixelSize: 18
-                        color: "#FFFFFF"
+                        color: "#000000"
                         text: date
                     }
 
                     Text {
                         font.family: "Arial"
                         font.pixelSize: 18
-                        color: "#FFFFFF"
+                        color: "#000000"
                         text: time
                     }
                 }
@@ -173,7 +174,7 @@ ListView {
                 Text {
                     font.family: "Arial"
                     font.pixelSize: 18
-                    color: "#FFFFFF"
+                    color: "#000000"
                     text: balance
                 }
             }

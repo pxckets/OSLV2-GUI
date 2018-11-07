@@ -28,7 +28,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.2
-import moneroComponents.TranslationManager 1.0
+import ArqmaComponents.TranslationManager 1.0
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.2
 import "../components"
@@ -45,6 +45,7 @@ ColumnLayout {
     property alias wordsTextItem : memoTextItem
     property alias restoreHeight : restoreHeightItem.text
     property alias restoreHeightVisible: restoreHeightItem.visible
+    property alias subaddressLookahead : subaddressLookaheadItem.text
     property alias walletName : accountName.text
     property alias progressDotsModel : progressDots.model
     property alias recoverFromKeysAddress: addressLine.text;

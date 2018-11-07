@@ -49,20 +49,20 @@ ColumnLayout {
     property var m_wallet;
 
     property var paths: {
-     //   "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, donationPage, finishPage ],
-     //   "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, donationPage, finishPage ],
+     //   "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, finishPage ],
+     //   "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, finishPage ],
         // disable donation page
-        "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, donationPage, daemonSettingsPage, finishPage ],
-        "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, donationPage, daemonSettingsPage, finishPage ],
+        "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, donationPage, finishPage ],
+        "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, donationPage, finishPage ],
         "create_view_only_wallet" : [ createViewOnlyWalletPage, passwordPage ],
-        "create_wallet_from_device" : [welcomePage, optionsPage, createWalletFromDevicePage, passwordPage, donationPage, daemonSettingsPage, finishPage ],
+        "create_wallet_from_device" : [welcomePage, optionsPage, createWalletFromDevicePage, passwordPage, daemonSettingsPage, finishPage ],
 
     }
     property string currentPath: "create_wallet"
     property var pages: paths[currentPath]
 
     signal wizardRestarted();
-    signal useMoneroClicked()
+    signal useArqmaClicked()
     signal openWalletFromFileClicked()
 
     function restart(){
@@ -385,7 +385,7 @@ ColumnLayout {
         visible: parent.paths[currentPath][currentPage] === finishPage
         onClicked: {
             wizard.applySettings();
-            wizard.useMoneroClicked();
+            wizard.useArqmaClicked();
         }
     }
 

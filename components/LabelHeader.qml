@@ -1,5 +1,4 @@
 // Copyright (c) 2018, The Arqma Network
-// Copyright (c) 2014-2015, The Monero Project
 //
 // All rights reserved.
 //
@@ -28,26 +27,21 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
 
-import "../components" as ArqmaComponents
+import "../components"
 
 Label {
-    id: item
-    fontSize: 18 * scaleRatio
+    Layout.fillWidth: true
 
     Rectangle {
-        anchors.top: item.bottom
+        anchors.top: parent.bottom
         anchors.topMargin: 4
         anchors.left: parent.left
         anchors.right: parent.right
+        Layout.fillWidth: true
         height: 2
-        color: ArqmaComponents.Style.dividerColor
-        opacity: ArqmaComponents.Style.dividerOpacity
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        acceptedButtons: Qt.NoButton
-        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+        color: Style.dividerColor
+        opacity: Style.dividerOpacity
     }
 }

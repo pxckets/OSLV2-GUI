@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -27,10 +28,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
-import moneroComponents.Clipboard 1.0
-import moneroComponents.AddressBookModel 1.0
+import ArqmaComponents.Clipboard 1.0
+import ArqmaComponents.AddressBookModel 1.0
 
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 import "../js/TxUtils.js" as TxUtils
 
 ListView {
@@ -106,7 +107,7 @@ ListView {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: collapsed ? 2 : 1
-            color: collapsed ? "#BBBBBB" : "#404040"
+            color: collapsed ? ArqmaComponents.Style.heroBlue : "#404040"
         }
 
         Rectangle{
@@ -149,10 +150,10 @@ ListView {
                 id: txrxLabel
                 anchors.left: arrowImage.right
                 anchors.leftMargin: 18 * scaleRatio
-                font.family: MoneroComponents.Style.fontLight.name
+                font.family: ArqmaComponents.Style.fontLight.name
                 font.pixelSize: 14 * scaleRatio
                 text: isOut ? "Sent" : "Received"
-                color: "#DF000A"
+                color: "#808080"
             }
 
             Text {
@@ -161,7 +162,7 @@ ListView {
                 anchors.leftMargin: 18 * scaleRatio
                 anchors.top: txrxLabel.bottom
                 anchors.topMargin: 0 * scaleRatio
-                font.family: MoneroComponents.Style.fontBold.name
+                font.family: ArqmaComponents.Style.fontBold.name
                 font.pixelSize: 18 * scaleRatio
                 font.bold: true
                 text: {
@@ -173,9 +174,9 @@ ListView {
                         _amount = (_amount *1);
                     }
 
-                    return _amount + " ARQ";
+                    return _amount + " LOK";
                 }
-                color: isOut ? "white" : "#DF000A"
+                color: isOut ? "white" : "#2eb358"
             }
 
             Rectangle {
@@ -187,10 +188,10 @@ ListView {
                 Text {
                     id: dateLabel
                     anchors.left: parent.left
-                    font.family: MoneroComponents.Style.fontRegular.name
+                    font.family: ArqmaComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     text: date
-                    color: "#FFFFFF"
+                    color: "#808080"
                 }
 
                 Text {
@@ -201,7 +202,7 @@ ListView {
                     anchors.topMargin: 3 * scaleRatio
                     font.pixelSize: 12 * scaleRatio
                     text: time
-                    color: "#FFFFFF"
+                    color: "#808080"
                 }
 
                 Text {
@@ -211,7 +212,7 @@ ListView {
                     anchors.left: parent.left
                     anchors.top: dateLabel.bottom
                     anchors.topMargin: 0
-                    font.family: MoneroComponents.Style.fontRegular.name
+                    font.family: ArqmaComponents.Style.fontRegular.name
                     font.pixelSize: 16 * scaleRatio
                     text: {
                         if(isOut){
@@ -289,7 +290,7 @@ ListView {
             visible: delegate.collapsed
 
             // left column
-            MoneroComponents.HistoryTableInnerColumn{
+            ArqmaComponents.HistoryTableInnerColumn{
                 anchors.left: parent.left
                 anchors.leftMargin: 30 * scaleRatio
 
@@ -299,7 +300,7 @@ ListView {
             }
 
             // right column
-            MoneroComponents.HistoryTableInnerColumn{
+            ArqmaComponents.HistoryTableInnerColumn{
                 anchors.right: parent.right
                 anchors.rightMargin: 100 * scaleRatio
                 width: 200 * scaleRatio
@@ -311,7 +312,7 @@ ListView {
                     if(!isOut && !fee){
                         return "-";
                     } else if(isOut && fee){
-                        return fee + " ARQ";
+                        return fee + " LOK";
                     } else {
                         return "Unknown"
                     }
@@ -337,7 +338,7 @@ ListView {
             visible: delegate.collapsed
 
             // left column
-            MoneroComponents.HistoryTableInnerColumn{
+            ArqmaComponents.HistoryTableInnerColumn{
                 anchors.left: parent.left
                 anchors.leftMargin: 30 * scaleRatio
                 labelHeader: qsTr("Blockheight")
@@ -357,7 +358,7 @@ ListView {
             }
 
             // right column
-            MoneroComponents.HistoryTableInnerColumn {
+            ArqmaComponents.HistoryTableInnerColumn {
                 visible: currentWallet.getUserNote(hash)
                 anchors.right: parent.right
                 anchors.rightMargin: 80 * scaleRatio
@@ -425,7 +426,7 @@ ListView {
                 }
 
                 Text {
-                    color: MoneroComponents.Style.defaultFontColor
+                    color: ArqmaComponents.Style.defaultFontColor
                     text: "P"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
@@ -470,7 +471,7 @@ ListView {
                 }
 
                 Text {
-                    color: MoneroComponents.Style.defaultFontColor
+                    color: LokiComponents.Style.defaultFontColor
                     text: "?"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter

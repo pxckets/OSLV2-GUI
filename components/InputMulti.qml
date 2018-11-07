@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2015, The Monero Project
 //
 // All rights reserved.
@@ -30,31 +31,31 @@ import QtQuick.Controls 2.0
 import QtQuick 2.7
 
 import "../js/TxUtils.js" as TxUtils
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 
 TextArea {
     property int fontSize: 18 * scaleRatio
     property bool fontBold: false
-    property string fontColor: MoneroComponents.Style.defaultFontColor
+    property string fontColor: ArqmaComponents.Style.defaultFontColor
 
     property bool mouseSelection: true
     property bool error: false
     property bool addressValidation: false
 
     id: textArea
-    font.family: MoneroComponents.Style.fontRegular.name
+    font.family: ArqmaComponents.Style.fontRegular.name
     color: fontColor
     font.pixelSize: fontSize
     font.bold: fontBold
     horizontalAlignment: TextInput.AlignLeft
     selectByMouse: mouseSelection
-    selectionColor: MoneroComponents.Style.dimmedFontColor
-    selectedTextColor: MoneroComponents.Style.defaultFontColor
+    selectionColor: ArqmaComponents.Style.dimmedFontColor
+    selectedTextColor: ArqmaComponents.Style.defaultFontColor
 
     onTextChanged: {
         if(addressValidation){
             // js replacement for `RegExpValidator { regExp: /[0-9A-Fa-f]{97}/g }`
-            textArea.text = textArea.text.replace(/[^a-z0-9.@_]/gi,'');
+            textArea.text = textArea.text.replace(/[^a-z0-9._@]/gi,'');
             var address_ok = TxUtils.checkAddress(textArea.text, appWindow.persistentSettings.nettype);
             if(!address_ok) error = true;
             else error = false;

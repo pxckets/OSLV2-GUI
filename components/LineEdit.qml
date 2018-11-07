@@ -1,21 +1,22 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
-// 
+//
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modification, are
 // permitted provided that the following conditions are met:
-// 
+//
 // 1. Redistributions of source code must retain the above copyright notice, this list of
 //    conditions and the following disclaimer.
-// 
+//
 // 2. Redistributions in binary form must reproduce the above copyright notice, this list
 //    of conditions and the following disclaimer in the documentation and/or other
 //    materials provided with the distribution.
-// 
+//
 // 3. Neither the name of the copyright holder nor the names of its contributors may be
 //    used to endorse or promote products derived from this software without specific
 //    prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -28,7 +29,7 @@
 
 import QtQuick 2.0
 
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 
 Item {
     id: item
@@ -36,11 +37,11 @@ Item {
 
     property alias placeholderText: placeholderLabel.text
     property bool placeholderCenter: false
-    property string placeholderFontFamily: MoneroComponents.Style.fontRegular.name
+    property string placeholderFontFamily: ArqmaComponents.Style.fontRegular.name
     property bool placeholderFontBold: false
     property int placeholderFontSize: 18 * scaleRatio
-    property string placeholderColor: MoneroComponents.Style.defaultFontColor
-    property real placeholderOpacity: 0.35
+    property string placeholderColor: ArqmaComponents.Style.defaultFontColor
+    property real placeholderOpacity: 0.25
 
     property alias validator: input.validator
     property alias readOnly : input.readOnly
@@ -54,9 +55,9 @@ Item {
     property bool borderDisabled: false
     property string borderColor: {
         if(input.activeFocus){
-            return MoneroComponents.Style.inputBorderColorActive;
+            return ArqmaComponents.Style.heroBlue;
         } else {
-            return MoneroComponents.Style.inputBorderColorInActive;
+            return ArqmaComponents.Style.inputBorderColorInActive;
         }
     }
 
@@ -107,11 +108,11 @@ Item {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.topMargin: 2 * scaleRatio
-        font.family: MoneroComponents.Style.fontLight.name
+        font.family: ArqmaComponents.Style.fontLight.name
         font.pixelSize: labelFontSize
         font.bold: labelFontBold
         textFormat: Text.RichText
-        color: MoneroComponents.Style.defaultFontColor
+        color: ArqmaComponents.Style.defaultFontColor
         onLinkActivated: item.labelLinkActivated()
 
         MouseArea {
@@ -121,7 +122,7 @@ Item {
         }
     }
 
-    MoneroComponents.LabelButton {
+    ArqmaComponents.LabelButton {
         id: copyButtonId
         text: qsTr("Copy")
         anchors.right: parent.right
@@ -178,7 +179,6 @@ Item {
             anchors.fill: parent
             border.width: borderDisabled ? 0 : 1
             border.color: borderColor
-            radius: 4
         }
 
         Image {
@@ -193,10 +193,10 @@ Item {
             visible: false
         }
 
-        MoneroComponents.Input {
+        ArqmaComponents.Input {
             id: input
             anchors.fill: parent
-            anchors.leftMargin: inlineIcon.visible ? 44 * scaleRatio : 0
+            anchors.leftMargin: inlineIcon.visible ? 38 : 0
             font.pixelSize: item.fontSize
             font.bold: item.fontBold
             onEditingFinished: item.editingFinished()
@@ -206,7 +206,7 @@ Item {
             bottomPadding: 10 * scaleRatio
         }
 
-        MoneroComponents.InlineButton {
+        ArqmaComponents.InlineButton {
             id: inlineButtonId
             visible: item.inlineButtonText ? true : false
             anchors.right: parent.right

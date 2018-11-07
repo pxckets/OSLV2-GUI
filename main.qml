@@ -34,9 +34,9 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import Qt.labs.settings 1.0
 
-import moneroComponents.Wallet 1.0
-import moneroComponents.PendingTransaction 1.0
-import moneroComponents.NetworkType 1.0
+import ArqmaComponents.Wallet 1.0
+import ArqmaComponents.PendingTransaction 1.0
+import ArqmaComponents.NetworkType 1.0
 
 
 import "components"
@@ -62,7 +62,7 @@ ApplicationWindow {
     property int restoreHeight:0
     property bool daemonSynced: false
     property bool walletSynced: false
-    property int maxWindowHeight: (isAndroid || isIOS)? screenHeight : (screenHeight < 1100)? 1080 : 1050;
+    property int maxWindowHeight: (isAndroid || isIOS)? screenHeight : (screenHeight < 900)? 720 : 800;
     property bool daemonRunning: false
     property alias toolTip: toolTip
     property string walletName
@@ -956,7 +956,7 @@ ApplicationWindow {
     visible: true
 //    width: screenWidth //rightPanelExpanded ? 1269 : 1269 - 300
 //    height: 900 //300//maxWindowHeight;
-    color: "#FFFFFF"
+    color: Style.backgroundColor
     flags: persistentSettings.customDecorations ? Windows.flagsCustomDecorations : Windows.flags
     onWidthChanged: x -= 0
 
@@ -1562,7 +1562,7 @@ ApplicationWindow {
         WizardMain {
             id: wizard
             anchors.fill: parent
-            onUseMoneroClicked: {
+            onUseArqmaClicked: {
                 rootItem.state = "normal" // TODO: listen for this state change in appWindow;
                 appWindow.initialize();
             }
@@ -1626,7 +1626,7 @@ ApplicationWindow {
             showMinimizeButton: true
             showMaximizeButton: true
             showWhatIsButton: false
-            showMoneroLogo: true
+            showArqmaLogo: true
             onCloseClicked: appWindow.close();
             onMaximizeClicked: {
                 appWindow.visibility = appWindow.visibility !== Window.Maximized ? Window.Maximized :
@@ -1669,7 +1669,7 @@ ApplicationWindow {
             property alias text: content.text
             width: content.width + 12
             height: content.height + 17
-            color: "#453CFF"
+            color: Style.heroBlue
             //radius: 3
             visible:false;
 

@@ -2,7 +2,7 @@ import QtQuick 2.7
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
 
-import "." as MoneroComponents
+import "." as ArqmaComponents
 
 Rectangle {
     id: root
@@ -14,11 +14,11 @@ Rectangle {
 
     color: "#09FFFFFF"
     radius: 4
-    border.color: MoneroComponents.Style.inputBorderColorInActive
+    border.color: ArqmaComponents.Style.inputBorderColorInActive
     border.width: 1
-    
+
     signal linkActivated;
-    
+
     RowLayout {
         id: warningLayout
         spacing: 0
@@ -39,8 +39,8 @@ Rectangle {
         TextArea {
             id: content
             Layout.fillWidth: true
-            color: MoneroComponents.Style.defaultFontColor
-            font.family: MoneroComponents.Style.fontRegular.name
+            color: ArqmaComponents.Style.defaultFontColor
+            font.family: ArqmaComponents.Style.fontRegular.name
             font.pixelSize: root.fontSize
             horizontalAlignment: TextInput.AlignLeft
             selectByMouse: false
