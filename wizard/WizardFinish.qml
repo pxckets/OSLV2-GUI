@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma-Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -30,6 +31,7 @@ import QtQuick 2.2
 import QtQuick.Layouts 1.1
 import moneroComponents.NetworkType 1.0
 
+import "../components"
 
 ColumnLayout {
     Layout.leftMargin: wizardLeftMargin
@@ -63,20 +65,20 @@ ColumnLayout {
 
         return "<table>"
             + trStart + qsTr("Language") + trMiddle + wizard.settings["language"] + trEnd
-            + trStart + qsTr("Wallet name") + trMiddle + wizard.settings["account_name"] + trEnd
+            + trStart + qsTr("Wallet Name") + trMiddle + wizard.settings["account_name"] + trEnd
             // TODO: wizard.settings['wallet'].seed doesnt work anymore; yields undefined.
-//            + trStart + qsTr("Backup seed") + trMiddle + wizard.settings["wallet"].seed + trEnd
-            + trStart + qsTr("Backup seed") + trMiddle + '****' + trEnd
-            + trStart + qsTr("Wallet path") + trMiddle + wizard.settings["wallet_path"] + trEnd
-            // + trStart + qsTr("Auto donations") + trMiddle + autoDonationText + trEnd
+//            + trStart + qsTr("Backup Seed") + trMiddle + wizard.settings["wallet"].seed + trEnd
+            + trStart + qsTr("Backup Seed") + trMiddle + '****' + trEnd
+            + trStart + qsTr("Wallet Path") + trMiddle + wizard.settings["wallet_path"] + trEnd
+            // + trStart + qsTr("Auto Donations") + trMiddle + autoDonationText + trEnd
             // + (autoDonationEnabled
-                // ? trStart + qsTr("Donation amount") + trMiddle + autoDonationAmount + trEnd
+                // ? trStart + qsTr("Donation Mmount") + trMiddle + autoDonationAmount + trEnd
                 // : "")
-            // + trStart + qsTr("Background mining") + trMiddle + backgroundMiningText + trEnd
-            + trStart + qsTr("Daemon address") + trMiddle + daemonAddress + trEnd
+            // + trStart + qsTr("Background Mining") + trMiddle + backgroundMiningText + trEnd
+            + trStart + qsTr("Daemon Address") + trMiddle + daemonAddress + trEnd
             + trStart + qsTr("Network Type") + trMiddle + networkText + trEnd
             + (restoreHeightEnabled
-                ? trStart + qsTr("Restore height") + trMiddle + wizard.settings['restore_height'] + trEnd
+                ? trStart + qsTr("Restore Height") + trMiddle + wizard.settings['restore_height'] + trEnd
                 : "")
             + "</table>"
             + translationManager.emptyString;
@@ -84,11 +86,11 @@ ColumnLayout {
 
     function updateSettingsSummary() {
         if (!isMobile){
-            settingsText.text = qsTr("New wallet details:") + translationManager.emptyString
+            settingsText.text = qsTr("New Wallet Details:") + translationManager.emptyString
                                 + "<br>"
                                 + buildSettingsString();
         } else {
-            settingsText.text = qsTr("Don't forget to write down your Mnemonic seed. You can view your seed and change your settings on settings page.")
+            settingsText.text = qsTr("Don't forget to write down your seed. You can view your seed and change your settings on settings page.")
         }
 
 
@@ -131,10 +133,9 @@ ColumnLayout {
             font.family: "Arial"
             font.pixelSize: 28 * scaleRatio
             wrapMode: Text.Wrap
-            horizontalAlignment: Text.AlignHCenter
             //renderType: Text.NativeRendering
-            color: "#4A4646"
-            text: qsTr("You’re all set up!") + translationManager.emptyString
+            color: Style.defaultFontColor
+            text: qsTr("You’re All Set Up!") + translationManager.emptyString
         }
 
         Text {
@@ -146,7 +147,7 @@ ColumnLayout {
             textFormat: Text.RichText
             horizontalAlignment: Text.AlignHLeft
             //renderType: Text.NativeRendering
-            color: "#4A4646"
+            color: Style.defaultFontColor
         }
     }
 }

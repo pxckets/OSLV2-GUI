@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma-Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -36,7 +37,7 @@ ColumnLayout {
     Layout.leftMargin: wizardLeftMargin
     Layout.rightMargin: wizardRightMargin
 
-    id: daemonSettingsPage
+    id: root
     opacity: 0
     visible: false
     property alias titleText: titleText.text
@@ -63,13 +64,13 @@ ColumnLayout {
 
     RowLayout {
         id: dotsRow
-        Layout.alignment: Qt.AlignLeft
+        Layout.alignment: Qt.AlignRight
 
         ListModel {
             id: dotsModel
             ListElement { dotColor: "#36B05B" }
+            ListElement { dotColor: "#36B05B" }
             ListElement { dotColor: "#FFE00A" }
-            ListElement { dotColor: "#DBDBDB" }
             ListElement { dotColor: "#DBDBDB" }
         }
 
@@ -96,10 +97,10 @@ ColumnLayout {
             id: titleText
             font.family: "Arial"
             font.pixelSize: 28 * scaleRatio
-            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
             //renderType: Text.NativeRendering
-            color: "#000AD8"
-            text: "Daemon settings"
+            color: Style.defaultFontColor
+            text: "Daemon Settings"
         }
 
         Text {
@@ -107,22 +108,26 @@ ColumnLayout {
             Layout.bottomMargin: 30 * scaleRatio
             font.family: "Arial"
             font.pixelSize: 18 * scaleRatio
+            wrapMode: Text.Wrap
             //renderType: Text.NativeRendering
-            color: "#4A4646"
+            color: Style.defaultFontColor
             textFormat: Text.RichText
-            horizontalAlignment: Text.AlignHCenter
-            text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to a Arqma node. \
+//            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected \
                         <br> \
-                        For best privacy it's recommended to run your own node. \
-                        <br><br> \
-                        If you don't have the option to run your own node, there's an option to connect to a remote node.")
+                        to an Arqma Node. For best privacy it's recommended to run your own node. \
+                        <br> \
+                        <br> \
+                        If you don't have the option to run your own node, there's an option to connect \
+                        <br> \
+                        to a remote node.")
                     + translationManager.emptyString
         }
 
         RadioButton {
             id: localNode
             text: qsTr("Start a node automatically in background or use an already running local node\n(Downloads blockchain, slow but private)") + translationManager.emptyString
-            fontColor: "#4A4646"
+            fontColor: Style.defaultFontColor
             fontSize: 16 * scaleRatio
             checked: !appWindow.persistentSettings.useRemoteNode && !isAndroid && !isIOS
             visible: !isAndroid && !isIOS
@@ -136,7 +141,7 @@ ColumnLayout {
             id: remoteNode
             text: qsTr("Connect to a remote node\n(Recommended, fast but less private)") + translationManager.emptyString
             Layout.topMargin: 20 * scaleRatio
-            fontColor: "#4A4646"
+            fontColor: Style.defaultFontColor
             fontSize: 16 * scaleRatio
             checked: appWindow.persistentSettings.useRemoteNode
             onClicked: {
@@ -146,6 +151,7 @@ ColumnLayout {
         }
     }
 
+
     ColumnLayout {
         visible: localNode.checked
         id: blockchainFolderRow
@@ -154,13 +160,13 @@ ColumnLayout {
             Layout.fillWidth: true
             Layout.topMargin: 20 * scaleRatio
             fontSize: 16 * scaleRatio
-            fontColor: "#4A4646"
+            fontColor: Style.defaultFontColor
             text: qsTr("Blockchain Location") + translationManager.emptyString
         }
 
         LineEdit {
             id: blockchainFolder
-            Layout.minimumWidth: 200 * scaleRatio
+            Layout.minimumWidth: 300 * scaleRatio
             Layout.maximumWidth: 620 * scaleRatio
             Layout.fillWidth: true
             text: persistentSettings.blockchainDataDir
@@ -187,7 +193,7 @@ ColumnLayout {
             id: bootstrapNodeEdit
 
             lineEditBackgroundColor: "transparent"
-            lineEditFontColor: "#4A4646"
+            lineEditFontColor: "white"
             lineEditFontBold: false
 
             placeholderFontFamily: "Arial"
@@ -206,6 +212,7 @@ ColumnLayout {
             }
         }
     }
+
     ColumnLayout {
         visible: remoteNode.checked
         spacing: 10
@@ -214,14 +221,14 @@ ColumnLayout {
         WarningBox {
             Layout.bottomMargin: 6 * scaleRatio
             Layout.maximumWidth: 620 * scaleRatio
-            text: qsTr("To find other remote nodes, type 'Arqma remote node' into your favorite search engine. Please ensure the node is run by a trusted third-party.") + translationManager.emptyString
+            text: qsTr("To find other remote nodes, type 'Arq-Net nodes' into your favorite search engine. Please ensure the node is run by a trusted third-party.") + translationManager.emptyString
         }
 
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 20 * scaleRatio
             Layout.topMargin: 8 * scaleRatio
-            color: "#4A4646"
+            color: Style.defaultFontColor
             font.family: Style.fontRegular.name
             font.pixelSize: 16 * scaleRatio
             text: qsTr("Default Remote Node(s)") + translationManager.emptyString
@@ -270,7 +277,7 @@ ColumnLayout {
                     anchors.left: defaultNodeButton.right
                     anchors.leftMargin: 8 * scaleRatio
                     anchors.verticalCenter: defaultNodeButton.verticalCenter
-                    color: "#4A4646"
+                    color: Style.defaultFontColor
                     font.family: Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     text: "Address: " + modelData
@@ -286,7 +293,7 @@ ColumnLayout {
             property var rna: persistentSettings.remoteNodeAddress
 
             lineEditBackgroundColor: "transparent"
-            lineEditFontColor: "#4A4646"
+            lineEditFontColor: "white"
             lineEditFontBold: false
             labelFontSize: 14 * scaleRatio
             placeholderFontSize: 15 * scaleRatio

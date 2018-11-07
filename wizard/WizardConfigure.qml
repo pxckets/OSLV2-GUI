@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma-Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -74,8 +75,8 @@ Item {
         font.family: "Arial"
         font.pixelSize: 28
         wrapMode: Text.Wrap
-        //renderType: Text.NativeRendering
-        color: "#000CFF"
+        // renderType: Text.NativeRendering
+        color: Style.defaultFontColor
         text: qsTr("We’re almost there - let’s just configure some Arqma preferences") + translationManager.emptyString
     }
 
@@ -94,7 +95,7 @@ Item {
             spacing: 12
 
             CheckBox {
-                text: qsTr("Kickstart the Arqma blockchain?") + translationManager.emptyString
+                text: qsTr("Kickstart the Arq-Net blockchain?") + translationManager.emptyString
                 anchors.left: parent.left
                 anchors.right: parent.right
                 background: "#F0EEEE"
@@ -108,7 +109,7 @@ Item {
                 anchors.right: parent.right
                 font.family: "Arial"
                 font.pixelSize: 15
-                color: "#4A4646"
+                color: Style.defaultFontColor
                 wrapMode: Text.Wrap
                 text: qsTr("It is very important to write it down as this is the only backup you will need for your wallet.")
                         + translationManager.emptyString
@@ -125,7 +126,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 background: "#F0EEEE"
-                fontColor: "#4A4646"
+                fontColor: Style.defaultFontColor
                 fontSize: 18
                 checked: true
             }
@@ -135,11 +136,11 @@ Item {
                 anchors.right: parent.right
                 font.family: "Arial"
                 font.pixelSize: 15
-                color: "#4A4646"
+                color: Style.defaultFontColor
                 wrapMode: Text.Wrap
                 text: qsTr("Disk conservation mode uses substantially less disk-space, but the same amount of bandwidth as " +
                            "a regular Arqma instance. However, storing the full blockchain is beneficial to the security " +
-                           "of the Arqma network. If you are on a device with limited disk space, then this option is appropriate for you.")
+                           "of the Arq-Net. If you are on a device with limited disk space, then this option is appropriate for you.")
                         + translationManager.emptyString
             }
         }
@@ -154,7 +155,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 background: "#F0EEEE"
-                fontColor: "#4A4646"
+                fontColor: Style.defaultFontColor
                 fontSize: 18
                 checked: true
             }
@@ -164,9 +165,9 @@ Item {
                 anchors.right: parent.right
                 font.family: "Arial"
                 font.pixelSize: 15
-                color: "#4A4646"
+                color: Style.defaultFontColor
                 wrapMode: Text.Wrap
-                text: qsTr("Mining secures the Arqma network, and also pays a small reward for the work done. This option " +
+                text: qsTr("Mining secures the Arq-Net, and also pays a small reward for the work done. This option " +
                            "will let Arqma mine when your computer is on mains power and is idle. It will stop mining when you continue working.")
                         + translationManager.emptyString
             }

@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma-Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -44,20 +45,23 @@ ColumnLayout {
     property alias wordsTextItem : memoTextItem
     property alias restoreHeight : restoreHeightItem.text
     property alias restoreHeightVisible: restoreHeightItem.visible
-    property alias subaddressLookahead : subaddressLookaheadItem.text
     property alias walletName : accountName.text
     property alias progressDotsModel : progressDots.model
     property alias recoverFromKeysAddress: addressLine.text;
     property alias recoverFromKeysViewKey: viewKeyLine.text;
     property alias recoverFromKeysSpendKey: spendKeyLine.text;
+
     // recover mode or create new wallet
     property bool recoverMode: false
+
     // Recover form seed or keys
     property bool recoverFromSeedMode: true
+
     // Recover form hardware device
     property bool recoverFromDevice: false
     property var deviceName: deviceNameModel.get(deviceNameDropdown.currentIndex).column2
     property alias deviceNameDropdown: deviceNameDropdown
+    property int rowSpacing: 10
     property int rowSpacing: 10
 
     function checkFields(){
@@ -143,14 +147,14 @@ ColumnLayout {
     RowLayout {
         id: headerColumn
         Layout.fillWidth: true
+
         Text {
             Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
             id: titleText
             font.family: "Arial"
             font.pixelSize: 28 * scaleRatio
             wrapMode: Text.Wrap
-            color: "#0013FF"
+            color: Style.defaultFontColor
         }
     }
 
@@ -160,23 +164,17 @@ ColumnLayout {
         Label {
             Layout.topMargin: 20 * scaleRatio
             fontFamily: "Arial"
-            fontColor: "#0013FF"
-            fontSize: 14 * scaleRatio
-            text:  qsTr("Wallet name")
-                   + translationManager.emptyString
+            fontColor: Style.defaultFontColor
+            text:  qsTr("Wallet Name") + translationManager.emptyString
         }
 
         LineEdit {
             id: accountName
             Layout.fillWidth: true
-            Layout.maximumWidth: 800 * scaleRatio
+            Layout.maximumWidth: 600 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
             text: defaultAccountName
             onTextUpdated: checkNextButton()
-            borderColor: Qt.rgba(0, 0, 0, 0.15)
-            backgroundColor: "white"
-            fontColor: "black"
-            fontBold: false
         }
     }
 
@@ -186,8 +184,7 @@ ColumnLayout {
 
         StandardButton {
             id: recoverFromSeedButton
-            text: qsTr("Restore from seed") + translationManager.emptyString
-            enabled: recoverFromKeys.visible
+            text: qsTr("Restore From Seed") + translationManager.emptyString
             onClicked: {
                 recoverFromSeedMode = true;
                 checkNextButton();
@@ -196,8 +193,7 @@ ColumnLayout {
 
         StandardButton {
             id: recoverFromKeysButton
-            text: qsTr("Restore from keys") + translationManager.emptyString
-            enabled: recoverFromSeed.visible
+            text: qsTr("Restore From Keys") + translationManager.emptyString
             onClicked: {
                 recoverFromSeedMode = false;
                 checkNextButton();
@@ -224,7 +220,7 @@ ColumnLayout {
         WizardMemoTextInput {
             id : memoTextItem
             Layout.fillWidth: true
-            Layout.maximumWidth: 800 * scaleRatio
+            Layout.maximumWidth: 600 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
         }
     }
@@ -236,54 +232,38 @@ ColumnLayout {
         id: recoverFromKeys
         visible: recoverMode && !recoverFromSeedMode
         columns: 1
+
         LineEdit {
             Layout.fillWidth: true
             id: addressLine
-            Layout.maximumWidth: 800 * scaleRatio
+            Layout.maximumWidth: 600 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
-            placeholderFontBold: true
             placeholderFontFamily: "Arial"
             placeholderColor: Style.legacy_placeholderFontColor
             placeholderText: qsTr("Account address (public)") + translationManager.emptyString
-            placeholderOpacity: 1.0
             onTextUpdated: checkNextButton()
-            borderColor: Qt.rgba(0, 0, 0, 0.15)
-            backgroundColor: "white"
-            fontColor: "black"
-            fontBold: false
         }
+
         LineEdit {
             Layout.fillWidth: true
             id: viewKeyLine
-            Layout.maximumWidth: 800 * scaleRatio
+            Layout.maximumWidth: 600 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
-            placeholderFontBold: true
             placeholderFontFamily: "Arial"
             placeholderColor: Style.legacy_placeholderFontColor
             placeholderText: qsTr("View key (private)") + translationManager.emptyString
-            placeholderOpacity: 1.0
             onTextUpdated: checkNextButton()
-            borderColor: Qt.rgba(0, 0, 0, 0.15)
-            backgroundColor: "white"
-            fontColor: "black"
-            fontBold: false
-
         }
+
         LineEdit {
             Layout.fillWidth: true
-            Layout.maximumWidth: 800 * scaleRatio
+            Layout.maximumWidth: 600 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
             id: spendKeyLine
-            placeholderFontBold: true
             placeholderFontFamily: "Arial"
             placeholderColor: Style.legacy_placeholderFontColor
             placeholderText: qsTr("Spend key (private)") + translationManager.emptyString
-            placeholderOpacity: 1.0
             onTextUpdated: checkNextButton()
-            borderColor: Qt.rgba(0, 0, 0, 0.15)
-            backgroundColor: "white"
-            fontColor: "black"
-            fontBold: false
         }
     }
 
@@ -292,20 +272,14 @@ ColumnLayout {
         LineEdit {
             id: restoreHeightItem
             Layout.fillWidth: true
-            Layout.maximumWidth: 800 * scaleRatio
+            Layout.maximumWidth: 600 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
-            placeholderFontBold: true
             placeholderFontFamily: "Arial"
             placeholderColor: Style.legacy_placeholderFontColor
             placeholderText: qsTr("Restore height (optional)") + translationManager.emptyString
-            placeholderOpacity: 1.0
             validator: IntValidator {
                 bottom:0
             }
-            borderColor: Qt.rgba(0, 0, 0, 0.15)
-            backgroundColor: "white"
-            fontColor: "black"
-            fontBold: false
         }
     }
 
@@ -315,7 +289,7 @@ ColumnLayout {
         LineEdit {
             id: subaddressLookaheadItem
             Layout.fillWidth: true
-            Layout.maximumWidth: 800 * scaleRatio
+            Layout.maximumWidth: 600 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
             placeholderFontBold: true
             placeholderFontFamily: "Arial"
@@ -363,13 +337,13 @@ ColumnLayout {
             Layout.topMargin: 20 * scaleRatio
             fontSize: 14
             fontFamily: "Arial"
-            fontColor: "#0013FF"
+            fontColor: Style.defaultFontColor
             text: qsTr("Your wallet is stored in") + ": " + fileUrlInput.text;
         }
 
         LineEdit {
             Layout.fillWidth: true
-            Layout.maximumWidth: 800 * scaleRatio
+            Layout.maximumWidth: 600 * scaleRatio
             Layout.minimumWidth: 200 * scaleRatio
             id: fileUrlInput
             text: arqmaAccountsDir + "/"
@@ -384,10 +358,6 @@ ColumnLayout {
                     fileUrlInput.focus = true
                 }
             }
-            borderColor: Qt.rgba(0, 0, 0, 0.15)
-            backgroundColor: "white"
-            fontColor: "black"
-            fontBold: false
         }
 
         FileDialog {

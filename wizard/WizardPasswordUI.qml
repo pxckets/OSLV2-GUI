@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma-Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -92,7 +93,6 @@ ColumnLayout {
         Layout.topMargin: isAndroid ? 20 * scaleRatio : 40 * scaleRatio
         Layout.fillWidth: true
         id: privacyLevel
-        background: "#F0EEEE"
         interactive: false
     }
 

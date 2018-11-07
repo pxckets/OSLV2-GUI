@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma-Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -70,9 +71,6 @@ ColumnLayout {
     }
 
     //! function called each time we hide this page
-    //
-
-
     function createWallet(settingsObject) {
         // TODO: create wallet in temporary filename and a) move it to the path specified by user after the final
         // page submitted or b) delete it when program closed before reaching final page
@@ -97,7 +95,7 @@ ColumnLayout {
 
     WizardManageWalletUI {
         id: uiItem
-        titleText: qsTr("Create a new wallet") + translationManager.emptyString
+        titleText: qsTr("Create A New Wallet") + translationManager.emptyString
         wordsTextItem.clipboardButtonVisible: true
         wordsTextItem.tipTextVisible: true
         wordsTextItem.memoTextReadOnly: true

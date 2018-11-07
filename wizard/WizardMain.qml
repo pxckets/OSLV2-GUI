@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma-Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -51,10 +52,10 @@ ColumnLayout {
      //   "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, donationPage, finishPage ],
      //   "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, donationPage, finishPage ],
         // disable donation page
-        "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, daemonSettingsPage, finishPage ],
-        "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, daemonSettingsPage, finishPage ],
+        "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, donationPage, daemonSettingsPage, finishPage ],
+        "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, donationPage, daemonSettingsPage, finishPage ],
         "create_view_only_wallet" : [ createViewOnlyWalletPage, passwordPage ],
-        "create_wallet_from_device" : [welcomePage, optionsPage, createWalletFromDevicePage, passwordPage, daemonSettingsPage, finishPage ],
+        "create_wallet_from_device" : [welcomePage, optionsPage, createWalletFromDevicePage, passwordPage, donationPage, daemonSettingsPage, finishPage ],
 
     }
     property string currentPath: "create_wallet"
@@ -63,9 +64,6 @@ ColumnLayout {
     signal wizardRestarted();
     signal useMoneroClicked()
     signal openWalletFromFileClicked()
-//    border.color: "#DBDBDB"
-//    border.width: 1
-//    color: "#FFFFFF"
 
     function restart(){
         wizard.currentPage = 0;
@@ -263,7 +261,7 @@ ColumnLayout {
 
     WizardWelcome {
         id: welcomePage
-        Layout.bottomMargin: wizardBottomMargin
+//        Layout.bottomMargin: wizardBottomMargin
         Layout.topMargin: wizardTopMargin
 
     }
@@ -431,8 +429,4 @@ ColumnLayout {
            rootItem.state = "normal"
        }
    }
-
-
-
-
 }
