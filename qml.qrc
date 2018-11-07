@@ -20,6 +20,9 @@
         <file>pages/AddressBook.qml</file>
         <file>pages/Mining.qml</file>
         <file>components/NetworkStatusItem.qml</file>
+        <file>images/checkedBlueIcon.png</file>
+        <file>components/SubaddressTable.qml</file>
+        <file>components/LabelHeader.qml</file>
         <file>images/statusConnected.png</file>
         <file>images/statusDisconnected.png</file>
         <file>components/Input.qml</file>

@@ -73,7 +73,8 @@ ColumnLayout {
             //renderType: Text.NativeRendering
             color: Style.defaultFontColor
             wrapMode: Text.Wrap
-            text: qsTr("Welcome To The Arqma. The House of All Things Better Than The Best!") + translationManager.emptyString
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("Welcome to Arqma! The House of All Things Better Than The Best!") + translationManager.emptyString
         }
 
         Text {
@@ -83,6 +84,7 @@ ColumnLayout {
             //renderType: Text.NativeRendering
             color: Style.defaultFontColor
             wrapMode: Text.Wrap
+            horizontalAlignment: Text.AlignHCenter
             text: qsTr("Please select one of the following options:") + translationManager.emptyString
         }
     }
@@ -111,6 +113,7 @@ ColumnLayout {
                 radius: page.buttonSize
                 color: createWalletArea.containsMouse ? "#DBDBDB" : "#FFFFFF"
 
+
                 Image {
                     width: page.buttonImageSize
                     height: page.buttonImageSize
@@ -118,7 +121,7 @@ ColumnLayout {
                     horizontalAlignment: Image.AlignRight
                     verticalAlignment: Image.AlignTop
                     anchors.centerIn: parent
-                    source: "qrc:///images/CreateNewWallet.png"
+                    source: "qrc:///images/createWallet.png"
                 }
 
                 MouseArea {
@@ -136,8 +139,9 @@ ColumnLayout {
                 font.family: "Arial"
                 font.pixelSize: 16 * scaleRatio
                 color: Style.defaultFontColor
+                horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
-                text: qsTr("Create A New Wallet") + translationManager.emptyString
+                text: qsTr("Create a new wallet") + translationManager.emptyString
             }
         }
 
@@ -159,7 +163,7 @@ ColumnLayout {
                     height: page.buttonImageSize
                     fillMode: Image.PreserveAspectFit
                     anchors.centerIn: parent
-                    source: "qrc:///images/RecoverFromKey.png"
+                    source: "qrc:///images/recoverWallet.png"
                 }
 
                 MouseArea {
@@ -178,7 +182,7 @@ ColumnLayout {
                 font.pixelSize: 16 * scaleRatio
                 color: Style.defaultFontColor
                 horizontalAlignment: Text.AlignHCenter
-                text: qsTr("Restore wallet from keys or mnemonic seed") + translationManager.emptyString
+                text: qsTr("Restore wallet from keys or Mnemonic seed") + translationManager.emptyString
                 width:page.buttonSize
                 wrapMode: Text.WordWrap
             }
@@ -202,7 +206,7 @@ ColumnLayout {
                     height: page.buttonImageSize
                     fillMode: Image.PreserveAspectFit
                     anchors.centerIn: parent
-                    source: "qrc:///images/RestoreFromFile.png"
+                    source: "qrc:///images/openAccount.png"
                 }
 
                 MouseArea {
@@ -220,13 +224,13 @@ ColumnLayout {
                 font.family: "Arial"
                 font.pixelSize: 16 * scaleRatio
                 color: Style.defaultFontColor
+                horizontalAlignment: Text.AlignHCenter
                 text: qsTr("Open a wallet from file") + translationManager.emptyString
                 wrapMode: Text.WordWrap
             }
         }
-    }
 
-    GridLayout {
+        GridLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
             flow: !isMobile ? GridLayout.TopToBottom : GridLayout.LeftToRight
@@ -264,7 +268,7 @@ ColumnLayout {
                 Layout.preferredWidth: page.buttonSize
                 font.family: "Arial"
                 font.pixelSize: 16 * scaleRatio
-                color: "#4A4949"
+                color: Style.defaultFontColor
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
                 text: qsTr("Create a new wallet from hardware device") + translationManager.emptyString
@@ -284,8 +288,8 @@ ColumnLayout {
             CheckBox2 {
                 id: showAdvancedCheckbox
                 darkDropIndicator: true
-                text: qsTr("Advanced Options") + translationManager.emptyString
-                fontColor: "#4A4646"
+                text: qsTr("Advanced options") + translationManager.emptyString
+                fontColor: Style.defaultFontColor
             }
         }
 
@@ -296,6 +300,9 @@ ColumnLayout {
                 enabled: !this.checked
                 id: mainNet
                 text: qsTr("Mainnet") + translationManager.emptyString
+                checkedColor: Qt.rgba(0, 0, 0, 0.75)
+                borderColor: Qt.rgba(0, 0, 0, 0.45)
+                fontColor: Style.defaultFontColor
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.MAINNET;
                 onClicked: {
@@ -314,6 +321,9 @@ ColumnLayout {
                 enabled: !this.checked
                 id: testNet
                 text: qsTr("Testnet") + translationManager.emptyString
+                checkedColor: Qt.rgba(0, 0, 0, 0.75)
+                borderColor: Qt.rgba(0, 0, 0, 0.45)
+                fontColor: Style.defaultFontColor
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.TESTNET;
                 onClicked: {
@@ -332,6 +342,9 @@ ColumnLayout {
                 enabled: !this.checked
                 id: stageNet
                 text: qsTr("Stagenet") + translationManager.emptyString
+                checkedColor: Qt.rgba(0, 0, 0, 0.75)
+                borderColor: Qt.rgba(0, 0, 0, 0.45)
+                fontColor: Style.defaultFontColor
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.STAGENET;
                 onClicked: {
