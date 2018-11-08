@@ -1,4 +1,4 @@
-// Copyright (c) 2018, The Arqma-Network
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -90,7 +90,7 @@ ColumnLayout {
                                 + "<br>"
                                 + buildSettingsString();
         } else {
-            settingsText.text = qsTr("Don't forget to write down your seed. You can view your seed and change your settings on settings page.")
+            settingsText.text = qsTr("Don't forget to write down your Mnemonic Seed. You can view your seed and change your settings on settings page.")
         }
 
 

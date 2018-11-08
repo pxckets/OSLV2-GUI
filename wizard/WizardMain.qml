@@ -1,4 +1,4 @@
-// Copyright (c) 2018, The Arqma-Network
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -51,11 +51,11 @@ ColumnLayout {
     property var paths: {
      //   "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, finishPage ],
      //   "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, finishPage ],
-        // disable donation page
-        "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, donationPage, finishPage ],
-        "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, donationPage, finishPage ],
+        // enable donation page
+        "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, daemonSettingsPage, donationPage, finishPage ],
+        "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, daemonSettingsPage, donationPage, finishPage ],
         "create_view_only_wallet" : [ createViewOnlyWalletPage, passwordPage ],
-        "create_wallet_from_device" : [welcomePage, optionsPage, createWalletFromDevicePage, passwordPage, daemonSettingsPage, finishPage ],
+        "create_wallet_from_device" : [welcomePage, optionsPage, createWalletFromDevicePage, passwordPage, daemonSettingsPage, donationPage, finishPage ],
 
     }
     property string currentPath: "create_wallet"
@@ -187,7 +187,7 @@ ColumnLayout {
 
     function walletPathValid(path){
         if(isIOS)
-            path = arqmaAccountsDir + path;
+            path = ArqmaAccountsDir + path;
         if (walletManager.walletExists(path)) {
             walletErrorDialog.text = qsTr("A wallet with same name already exists. Please change wallet name") + translationManager.emptyString;
             walletErrorDialog.open();
@@ -210,8 +210,8 @@ ColumnLayout {
         // Save wallet files in user specified location
         var new_wallet_filename = createWalletPath(settings.wallet_path,settings.account_name)
         if(isIOS) {
-            console.log("saving in ios: "+ arqmaAccountsDir + new_wallet_filename)
-            m_wallet.store(arqmaAccountsDir + new_wallet_filename);
+            console.log("saving in ios: "+ AarqmaAccountsDir + new_wallet_filename)
+            m_wallet.store(ArqmaAccountsDir + new_wallet_filename);
         } else {
             console.log("saving in wizard: "+ new_wallet_filename)
             m_wallet.store(new_wallet_filename);

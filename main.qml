@@ -1,4 +1,4 @@
-// Copyright (c) 2018, The ArQmA Project
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -249,7 +249,7 @@ ApplicationWindow {
         }  else {
             var wallet_path = walletPath();
             if(isIOS)
-                wallet_path = arqmaAccountsDir + wallet_path;
+                wallet_path = ArqmaAccountsDir + wallet_path;
             // console.log("opening wallet at: ", wallet_path, "with password: ", appWindow.walletPassword);
             console.log("opening wallet at: ", wallet_path, ", network type: ", persistentSettings.nettype == NetworkType.MAINNET ? "mainnet" : persistentSettings.nettype == NetworkType.TESTNET ? "testnet" : "stagenet");
             walletManager.openWalletAsync(wallet_path, walletPassword,
@@ -600,7 +600,7 @@ ApplicationWindow {
     function walletsFound() {
         if (persistentSettings.wallet_path.length > 0) {
             if(isIOS)
-                return walletManager.walletExists(arqmaAccountsDir + persistentSettings.wallet_path);
+                return walletManager.walletExists(ArqmaAccountsDir + persistentSettings.wallet_path);
             else
                 return walletManager.walletExists(persistentSettings.wallet_path);
         }
@@ -716,7 +716,7 @@ ApplicationWindow {
     FileDialog {
         id: saveTxDialog
         title: "Please choose a location"
-        folder: "file://" +arqmaAccountsDir
+        folder: "file://" +ArqmaAccountsDir
         selectExisting: false;
 
         onAccepted: {
@@ -878,10 +878,10 @@ ApplicationWindow {
             } else if (received > 0) {
                 received = received / 1e12
                 if (in_pool) {
-                    informationPopup.text = qsTr("This address received %1 arqma, but the transaction is not yet mined").arg(received);
+                    informationPopup.text = qsTr("This address received %1 Arqma, but the transaction is not yet mined").arg(received);
                 }
                 else {
-                    informationPopup.text = qsTr("This address received %1 arqma, with %2 confirmation(s).").arg(received).arg(confirmations);
+                    informationPopup.text = qsTr("This address received %1 Arqma, with %2 confirmation(s).").arg(received).arg(confirmations);
                 }
             }
             else {
@@ -1111,7 +1111,7 @@ ApplicationWindow {
     FileDialog {
         id: fileDialog
         title: "Please choose a file"
-        folder: "file://" +arqmaAccountsDir
+        folder: "file://" +ArqmaAccountsDir
         nameFilters: [ "Wallet files (*.keys)"]
         sidebarVisible: false
 
@@ -1119,9 +1119,9 @@ ApplicationWindow {
         onAccepted: {
             persistentSettings.wallet_path = walletManager.urlToLocalPath(fileDialog.fileUrl)
             if(isIOS)
-                persistentSettings.wallet_path = persistentSettings.wallet_path.replace(arqmaAccountsDir,"")
+                persistentSettings.wallet_path = persistentSettings.wallet_path.replace(ArqmaAccountsDir,"")
             console.log("ÖPPPPNA")
-            console.log(arqmaAccountsDir)
+            console.log(ArqmaAccountsDir)
             console.log(fileDialog.fileUrl)
             console.log(persistentSettings.wallet_path)
             passwordDialog.onAcceptedCallback = function() {
@@ -1287,7 +1287,7 @@ ApplicationWindow {
                 PropertyChanges { target: middlePanel; visible: false }
                 PropertyChanges { target: titleBar; basicButtonVisible: false }
                 PropertyChanges { target: wizard; visible: true }
-                PropertyChanges { target: appWindow; width: (screenWidth < 1600 || isAndroid || isIOS)? screenWidth : 1600; }
+                PropertyChanges { target: appWindow; width: (screenWidth < 930 || isAndroid || isIOS)? screenWidth : 930; }
                 PropertyChanges { target: appWindow; height: maxWindowHeight; }
                 PropertyChanges { target: resizeArea; visible: true }
                 PropertyChanges { target: titleBar; showMaximizeButton: false }
@@ -1303,7 +1303,7 @@ ApplicationWindow {
                 PropertyChanges { target: middlePanel; visible: true }
                 PropertyChanges { target: titleBar; basicButtonVisible: true }
                 PropertyChanges { target: wizard; visible: false }
-                PropertyChanges { target: appWindow; width: (screenWidth < 1366 || isAndroid || isIOS)? screenWidth : 1366 } //rightPanelExpanded ? 1269 : 1269 - 300;
+                PropertyChanges { target: appWindow; width: (screenWidth < 939 || isAndroid || isIOS)? screenWidth : 939 } //rightPanelExpanded ? 1269 : 1269 - 300;
                 PropertyChanges { target: appWindow; height: maxWindowHeight; }
                 PropertyChanges { target: resizeArea; visible: true }
                 PropertyChanges { target: titleBar; showMaximizeButton: true }

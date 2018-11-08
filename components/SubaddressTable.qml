@@ -151,7 +151,7 @@ ListView {
 
         Rectangle {
             width: 3
-            color: ArqmaComponents.Style.lightGreen
+            color: ArqmaComponents.Style.lightBlue
             visible: listView.currentIndex == index
             anchors.left: parent.left
             anchors.top: parent.top

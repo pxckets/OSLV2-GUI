@@ -125,7 +125,7 @@ Rectangle {
                 text: {
                     var wallet_path = walletPath();
                     if(isIOS)
-                        wallet_path = arqmaAccountsDir + wallet_path;
+                        wallet_path = ArqmaAccountsDir + wallet_path;
                     return wallet_path;
                 }
             }
@@ -278,7 +278,7 @@ Rectangle {
 
                         var wallet_path = walletPath();
                         if(isIOS)
-                            wallet_path = arqmaAccountsDir + wallet_path;
+                            wallet_path = ArqmaAccountsDir + wallet_path;
                         data += wallet_path;
 
                         data += "\nWallet creation height: ";

@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -543,7 +544,7 @@ Rectangle {
     FileDialog {
         id: signTxDialog
         title: qsTr("Please choose a file") + translationManager.emptyString
-        folder: "file://" +arqmaAccountsDir
+        folder: "file://" +ArqmaAccountsDir
         nameFilters: [ "Unsigned transfers (*)"]
 
         onAccepted: {
@@ -604,7 +605,7 @@ Rectangle {
     FileDialog {
         id: submitTxDialog
         title: qsTr("Please choose a file") + translationManager.emptyString
-        folder: "file://" +arqmaAccountsDir
+        folder: "file://" +ArqmaAccountsDir
         nameFilters: [ "signed transfers (*)"]
 
         onAccepted: {

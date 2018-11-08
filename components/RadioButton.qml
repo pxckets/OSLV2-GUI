@@ -41,8 +41,8 @@ RowLayout {
     signal clicked()
     height: 26 * scaleRatio
     // legacy properties
-    property var checkedColor: ArqmaComponents.Style.heroGreen
-    property var borderColor: checked ? ArqmaComponents.Style.heroGreen : Qt.rgba(1, 1, 1, 0.25)
+    property var checkedColor: ArqmaComponents.Style.heroBlue
+    property var borderColor: checked ? ArqmaComponents.Style.heroBlue : Qt.rgba(1, 1, 1, 0.25)
 
     function toggle(){
         radioButton.checked = !radioButton.checked

@@ -42,7 +42,7 @@ Item {
         anchors.top: parent.top
         height: 24
         color: "transparent"
-        border.color: Style.heroGreen
+        border.color: Style.heroBlue
     }
 
     Rectangle {

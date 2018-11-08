@@ -174,7 +174,7 @@ ListView {
                         _amount = (_amount *1);
                     }
 
-                    return _amount + " LOK";
+                    return _amount + " ARQ";
                 }
                 color: isOut ? "white" : "#2eb358"
             }
@@ -312,7 +312,7 @@ ListView {
                     if(!isOut && !fee){
                         return "-";
                     } else if(isOut && fee){
-                        return fee + " LOK";
+                        return fee + " ARQ";
                     } else {
                         return "Unknown"
                     }

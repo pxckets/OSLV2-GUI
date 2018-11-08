@@ -84,7 +84,7 @@ Column {
             color: Qt.rgba(0, 0, 0, 0)
 
             anchors.bottom: memoTextRect.bottom
-            border.color: Style.heroGreen
+            border.color: Style.heroBlue
             height: wordsTipText.contentHeight + wordsTipText.anchors.topMargin
             property alias text: wordsTipText.text
 

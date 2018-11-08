@@ -1,4 +1,4 @@
-// Copyright (c) 2018, The ArQmA Project
+// Copyright (c) 2018, The Arqma Network
 #include "MainApp.h"
 #include <QCloseEvent>
 

@@ -1,5 +1,5 @@
 ; Arqma Devils Touch Installer for Microsoft Windows Operating Systems
-; Copyright (c) 2018 The Arqma Project
+; Copyright (c) 2018 The Arqma Network
 ; Copyright (c) 2014-2018, The Monero Project
 ; See LICENSE
 
