@@ -145,6 +145,34 @@ Rectangle {
                 }
             }
 
+            Rectangle {
+                    height: (logoutImage.height + 8) * scaleRatio
+                    width: (logoutImage.width + 8) * scaleRatio
+                    color: "transparent"
+                    anchors.right: parent.right
+                    anchors.rightMargin: 8
+                    anchors.top: parent.top
+                    anchors.topMargin: 25
+
+                    Image {
+                        id: logoutImage
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        height: 16 * scaleRatio
+                        width: 13 * scaleRatio
+                        source: "../images/logout.png"
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            appWindow.showWizard();
+                        }
+                    }
+                }
+
             Item {
                 anchors.left: parent.left
                 anchors.top: parent.top
