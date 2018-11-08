@@ -456,7 +456,6 @@ Rectangle {
                             regExp: /(\d{1,8})([.]\d{1,9})?$/
                         }
                     }
-                }
 
                     Rectangle {
                         color: "white"
