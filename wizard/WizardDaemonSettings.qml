@@ -89,8 +89,10 @@ ColumnLayout {
 
     ColumnLayout {
         id: headerColumn
-        Layout.fillWidth: true
-        Layout.bottomMargin: 14 * scaleRatio;
+        Layout.leftMargin: wizardLeftMargin
+        Layout.rightMargin: wizardRightMargin
+        Layout.bottomMargin: (!isMobile) ? 40 * scaleRatio : 20
+        spacing: 30 * scaleRatio
 
         Text {
             Layout.fillWidth: true
