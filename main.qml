@@ -1292,8 +1292,7 @@ ApplicationWindow {
                 PropertyChanges { target: resizeArea; visible: true }
                 PropertyChanges { target: titleBar; showMaximizeButton: false }
 //                PropertyChanges { target: frameArea; blocked: true }
-                PropertyChanges { target: titleBar; visible: false }
-                PropertyChanges { target: titleBar; y: 0 }
+                PropertyChanges { target: titleBar; visible: persistentSettings.customDecorations }
                 PropertyChanges { target: titleBar; title: qsTr("Program setup wizard") + translationManager.emptyString }
                 PropertyChanges { target: mobileHeader; visible: false }
             }, State {
