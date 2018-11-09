@@ -91,6 +91,11 @@ ColumnLayout {
         id: headerColumn
         Layout.fillWidth: true
         Layout.bottomMargin: 14 * scaleRatio;
+        anchors {
+            left: parent.left
+            right: parent.right
+            verticalCenter: parent.verticalCenter
+        }
 
         Text {
             Layout.fillWidth: true
@@ -113,6 +118,7 @@ ColumnLayout {
             //renderType: Text.NativeRendering
             color: Style.defaultFontColor
             textFormat: Text.RichText
+            horizontalAlignment: Text.AlignHCenter
             text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to an Arqma Node. For best privacy it's recommended to run your own node. \
                         <br><br> \
                         If you don't have the option to run your own node, there's an option to connect to a remote node.") + translationManager.emptyString
