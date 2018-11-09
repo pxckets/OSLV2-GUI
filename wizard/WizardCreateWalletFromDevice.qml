@@ -29,7 +29,7 @@
 import QtQuick 2.2
 import ArqmaComponents.WalletManager 1.0
 import ArqmaComponents.Wallet 1.0
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import QtQuick.Dialogs 1.2
 import 'utils.js' as Utils
 

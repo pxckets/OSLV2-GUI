@@ -33,7 +33,7 @@ import QtQuick 2.2
 // QtQuick.Controls 2.0 isn't stable enough yet. Needs more testing.
 //import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 import ArqmaComponents.Wallet 1.0
 

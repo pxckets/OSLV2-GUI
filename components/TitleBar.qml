@@ -28,7 +28,7 @@
 
 import QtQuick 2.5
 import QtQuick.Window 2.0
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 
 Rectangle {
     id: titleBar

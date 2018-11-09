@@ -29,7 +29,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 
 import "../components"
 import ArqmaComponents.Clipboard 1.0

@@ -28,7 +28,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.5
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 
 import "../components" as ArqmaComponents
 

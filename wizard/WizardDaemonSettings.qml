@@ -29,7 +29,7 @@
 
 import ArqmaComponents.WalletManager 1.0
 import QtQuick 2.2
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import "../components"
 import "utils.js" as Utils
 
@@ -89,7 +89,7 @@ ColumnLayout {
 
     ColumnLayout {
         id: headerColumn
-        Layout.leftMargin: wizardLeftMargin
+        Layout.fillWidth: true
         Layout.bottomMargin: 14 * scaleRatio;
 
         Text {
@@ -107,6 +107,7 @@ ColumnLayout {
         Text {
             //Layout.topMargin: 30 * scaleRatio
             //Layout.bottomMargin: 30 * scaleRatio
+            Layout.preferredWidth: 640
             font.family: "Arial"
             font.pixelSize: 18 * scaleRatio
             wrapMode: Text.Wrap
