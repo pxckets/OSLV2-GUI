@@ -87,6 +87,8 @@ Rectangle {
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.topMargin: 11
+            width: 125
+            height: 28
             source: "../images/titlebarLogo.png"
         }
     }

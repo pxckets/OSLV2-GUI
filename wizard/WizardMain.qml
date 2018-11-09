@@ -210,7 +210,7 @@ ColumnLayout {
         // Save wallet files in user specified location
         var new_wallet_filename = createWalletPath(settings.wallet_path,settings.account_name)
         if(isIOS) {
-            console.log("saving in ios: "+ AarqmaAccountsDir + new_wallet_filename)
+            console.log("saving in ios: "+ ArqmaAccountsDir + new_wallet_filename)
             m_wallet.store(ArqmaAccountsDir + new_wallet_filename);
         } else {
             console.log("saving in wizard: "+ new_wallet_filename)

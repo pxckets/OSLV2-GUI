@@ -113,15 +113,8 @@ ColumnLayout {
             color: Style.defaultFontColor
             textFormat: Text.RichText
 //            horizontalAlignment: Text.AlignHCenter
-            text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected \
-                        <br> \
-                        to an Arqma Node. For best privacy it's recommended to run your own node. \
-                        <br> \
-                        <br> \
-                        If you don't have the option to run your own node, there's an option to connect \
-                        <br> \
-                        to a remote node.")
-                    + translationManager.emptyString
+            text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to an Arqma Node. For best privacy it's recommended to run your own node.\n
+                        If you don't have the option to run your own node, there's an option to connect to a remote node.") + translationManager.emptyString
         }
 
         RadioButton {

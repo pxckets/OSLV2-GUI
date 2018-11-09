@@ -143,9 +143,8 @@ Rectangle {
                     font.bold: true
                     color: "#FF0000"
                 }
-            }
 
-            Rectangle {
+                Rectangle {
                     height: (logoutImage.height + 8) * scaleRatio
                     width: (logoutImage.width + 8) * scaleRatio
                     color: "transparent"
@@ -172,6 +171,7 @@ Rectangle {
                         }
                     }
                 }
+            }
 
             Item {
                 anchors.left: parent.left

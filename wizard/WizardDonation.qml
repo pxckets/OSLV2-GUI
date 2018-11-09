@@ -28,6 +28,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.2
+import QtQuick.Layouts 1.1
 import "../components"
 
 Item {
@@ -111,7 +112,7 @@ Item {
             CheckBox {
                 id: enableAutoDonationCheckBox
                 anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("Enable auto-donations of?") + translationManager.emptyString
+                text: qsTr("Enable auto-donations ON?") + translationManager.emptyString
                 background: "#F0EEEE"
                 fontColor: Style.defaultFontColor
                 fontSize: 18
@@ -131,7 +132,7 @@ Item {
                     font.family: "Arial"
                     font.pixelSize: 18
                     color: "#6B0072"
-                    text: "50"
+                    text: "1"
                     validator: IntValidator { bottom: 0; top: 100 }
                 }
 
@@ -160,9 +161,9 @@ Item {
             font.pixelSize: 15
             color: "#4A4646"
             wrapMode: Text.Wrap
-            text: qsTr("For every transaction, a small transaction fee is charged. This option lets you add an additional amount, " +
-                       "as a percentage of that fee, to your transaction to support Arqma-Network Development. For instance, a 50% " +
-                       "autodonation take a transaction fee of 0.005 ARQ and add a 0.0025 ARQ to support Arqma-Network Development.")
+            text: qsTr("For every transaction, a small transaction fee is charged. This option lets you add an additional amount<br/>
+                        as a percentage of that fee, to your transaction to support Arqma Network Development.<br/>
+                        For instance, a 50% autodonation take a transaction fee of 0.0008 ARQ and add a 0.0004 ARQ to support Arqma Network Development.")
                     + translationManager.emptyString
         }
         Column {

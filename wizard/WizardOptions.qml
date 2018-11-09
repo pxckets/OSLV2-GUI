@@ -41,7 +41,7 @@ ColumnLayout {
     signal createWalletFromDeviceClicked()
     opacity: 0
     visible: false
-    property int buttonSize: (isMobile) ? 80 * scaleRatio : 190 * scaleRatio
+    property int buttonSize: (isMobile) ? 80 * scaleRatio : 140 * scaleRatio
     property int buttonImageSize: (isMobile) ? buttonSize - 10 * scaleRatio : buttonSize - 30 * scaleRatio
 
     function onPageClosed() {
