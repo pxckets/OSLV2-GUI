@@ -204,6 +204,5 @@ ColumnLayout {
                            "will let Arqma mine when your computer is on mains power and is idle. It will stop mining when you continue working.")
                       + translationManager.emptyString
             }
-        }
     }
 }
