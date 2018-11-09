@@ -31,7 +31,11 @@ import QtQuick 2.2
 import QtQuick.Layouts 1.1
 import "../components"
 
-Item {
+ColumnLayout {
+    Layout.leftMargin: wizardLeftMargin
+    Layout.rightMargin: wizardRightMargin
+
+    id: donations
     opacity: 0
     visible: false
     Behavior on opacity {
@@ -54,7 +58,8 @@ Item {
         return true;
     }
 
-    Row {
+
+    RowLayout {
         id: dotsRow
         anchors.top: parent.top
         anchors.right: parent.right
@@ -79,23 +84,27 @@ Item {
         }
     }
 
-    Text {
-        id: headerText
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.topMargin: 74
-        anchors.leftMargin: 16
-        width: parent.width - dotsRow.width - 16
+    ColumnLayout {
+        id: headerColumn
+        Layout.leftMargin: wizardLeftMargin
+        Layout.rightMargin: wizardRightMargin
+        Layout.bottomMargin: (!isMobile) ? 40 * scaleRatio : 20
+        spacing: 30 * scaleRatio
 
-        font.family: "Arial"
-        font.pixelSize: 28
-        wrapMode: Text.Wrap
-        //renderType: Text.NativeRendering
-        color: Style.defaultFontColor
-        text: qsTr("Arqma Network Development is solely supported by donations") + translationManager.emptyString
+        Text {
+            Layout.fillWidth: true
+            font.family: "Arial"
+            font.pixelSize: 18 * scaleRatio
+            //renderType: Text.NativeRendering
+            color: Style.defaultFontColor
+            wrapMode: Text.Wrap
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("Arqma Network Development is solely supported by donations") + translationManager.emptyString
+        }
     }
 
-    Column {
+    ColumnLayout {
+        id: checkboxes
         anchors.top: headerText.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -104,7 +113,7 @@ Item {
         anchors.topMargin: 34
         spacing: 12
 
-        Row {
+        RowLayout {
             anchors.left: parent.left
             anchors.right: parent.right
             spacing: 2
@@ -166,7 +175,9 @@ Item {
                         For instance, a 50% autodonation take a transaction fee of 0.0008 ARQ and add a 0.0004 ARQ to support Arqma Network Development.")
                     + translationManager.emptyString
         }
-        Column {
+      }
+
+    ColumnLayout {
             anchors.left: parent.left
             anchors.right: parent.right
             spacing: 12
