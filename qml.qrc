@@ -218,6 +218,7 @@
         <file>wizard/WizardConfigure.qml</file>
         <file>wizard/WizardCreateViewOnlyWallet.qml</file>
         <file>wizard/WizardCreateWallet.qml</file>
+        <file>wizard/WizardCreateWalletFromDevice.qml</file>
         <file>wizard/WizardDaemonSettings.qml</file>
         <file>wizard/WizardDonation.qml</file>
         <file>wizard/WizardFinish.qml</file>
