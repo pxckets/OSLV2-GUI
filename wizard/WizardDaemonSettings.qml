@@ -89,16 +89,11 @@ ColumnLayout {
 
     ColumnLayout {
         id: headerColumn
-        Layout.fillWidth: true
+        Layout.leftMargin: wizardLeftMargin
         Layout.bottomMargin: 14 * scaleRatio;
 
         Text {
-            anchors {
-                  left: parent.left
-                  right: parent.right
-                  verticalCenter: parent.verticalCenter
-            }
-            //Layout.fillWidth: true
+            Layout.fillWidth: true
             id: titleText
             font.family: "Arial"
             font.pixelSize: 28 * scaleRatio
@@ -110,11 +105,6 @@ ColumnLayout {
         }
 
         Text {
-            anchors {
-                left: parent.left
-                right: parent.right
-                verticalCenter: parent.verticalCenter
-            }
             //Layout.topMargin: 30 * scaleRatio
             //Layout.bottomMargin: 30 * scaleRatio
             font.family: "Arial"
