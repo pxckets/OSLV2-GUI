@@ -89,10 +89,8 @@ ColumnLayout {
 
     ColumnLayout {
         id: headerColumn
-        Layout.leftMargin: wizardLeftMargin
-        Layout.rightMargin: wizardRightMargin
-        Layout.bottomMargin: (!isMobile) ? 40 * scaleRatio : 20
-        spacing: 30 * scaleRatio
+        Layout.fillWidth: true
+        Layout.bottomMargin: 14 * scaleRatio;
 
         Text {
             Layout.fillWidth: true
@@ -100,6 +98,7 @@ ColumnLayout {
             font.family: "Arial"
             font.pixelSize: 28 * scaleRatio
             wrapMode: Text.Wrap
+            horizontalAlignment: Text.AlignHCenter
             //renderType: Text.NativeRendering
             color: Style.defaultFontColor
             text: "Daemon Settings"
@@ -114,9 +113,9 @@ ColumnLayout {
             //renderType: Text.NativeRendering
             color: Style.defaultFontColor
             textFormat: Text.RichText
-            horizontalAlignment: Text.AlignHCenter
-            text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to an Arqma Node. For best privacy it's recommended to run your own node. " +
-                        "If you don't have the option to run your own node, there's an option to connect to a remote node.") + translationManager.emptyString
+            text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to an Arqma Node. For best privacy it's recommended to run your own node. \
+                        <br><br> \
+                        If you don't have the option to run your own node, there's an option to connect to a remote node.") + translationManager.emptyString
         }
 
         RadioButton {
