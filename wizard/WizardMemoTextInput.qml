@@ -101,7 +101,7 @@ Column {
                 font.family: "Arial"
                 font.pixelSize: 15 * scaleRatio
 
-                color: Style.defaultFontColor
+                color: Style.infoRed
                 wrapMode: Text.Wrap
                 text: qsTr("This seed is <b>very</b> important to write down and keep secret. It is all you need to backup and restore your wallet.")
                     + translationManager.emptyString

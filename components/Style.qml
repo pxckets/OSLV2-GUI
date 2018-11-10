@@ -19,6 +19,8 @@ QtObject {
     property string darkTurquoise: "#00207C"
     property string darkNavy: "#00143A"
 
+    property string infoRed: "#FF0000"
+
     property string backgroundColor: "#1A1A1A"
 
     property string defaultFontColor: "white"

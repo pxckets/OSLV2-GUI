@@ -390,7 +390,7 @@ ApplicationWindow {
             currentWallet.history.refresh(currentWallet.currentSubaddressAccount)
             walletInitialized = true
         }
-     }
+    }
 
     function onWalletOpened(wallet) {
         walletName = usefulName(wallet.path)
@@ -677,10 +677,10 @@ ApplicationWindow {
 
         // validate amount;
         if (amount !== "(all)") {
-            var amountxmr = walletManager.amountFromString(amount);
-            console.log("integer amount: ", amountxmr);
+            var arqamount = walletManager.amountFromString(amount);
+            console.log("integer amount: ", arqamount);
             console.log("integer unlocked",currentWallet.unlockedBalance)
-            if (amountxmr <= 0) {
+            if (arqamount <= 0) {
                 hideProcessingSplash()
                 informationPopup.title = qsTr("Error") + translationManager.emptyString;
                 informationPopup.text  = qsTr("Amount is wrong: expected number from %1 to %2")
@@ -692,7 +692,7 @@ ApplicationWindow {
                 informationPopup.onCloseCallback = null
                 informationPopup.open()
                 return;
-            } else if (amountxmr > currentWallet.unlockedBalance) {
+            } else if (arqamount > currentWallet.unlockedBalance) {
                 hideProcessingSplash()
                 informationPopup.title = qsTr("Error") + translationManager.emptyString;
                 informationPopup.text  = qsTr("Insufficient funds. Unlocked balance: %1")
@@ -709,7 +709,7 @@ ApplicationWindow {
         if (amount === "(all)")
             currentWallet.createTransactionAllAsync(address, paymentId, mixinCount, priority);
         else
-            currentWallet.createTransactionAsync(address, paymentId, amountxmr, mixinCount, priority);
+            currentWallet.createTransactionAsync(address, paymentId, arqamount, mixinCount, priority);
     }
 
     //Choose where to save transaction
