@@ -129,7 +129,6 @@ ColumnLayout {
         }
     }
 
-
     Component.onCompleted: {
         parent.wizardRestarted.connect(onWizardRestarted)
     }

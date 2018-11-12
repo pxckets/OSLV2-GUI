@@ -37,7 +37,7 @@ ColumnLayout {
     Layout.leftMargin: wizardLeftMargin
     Layout.rightMargin: wizardRightMargin
 
-    id: root
+    id: passwordPage
     opacity: 0
     visible: false
     property alias titleText: titleText.text
@@ -98,25 +98,26 @@ ColumnLayout {
             font.family: "Arial"
             font.pixelSize: 28 * scaleRatio
             wrapMode: Text.Wrap
-            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
             //renderType: Text.NativeRendering
             color: Style.defaultFontColor
             text: "Daemon Settings"
+
         }
 
         Text {
+            Layout.fillWidth: true
             Layout.topMargin: 30 * scaleRatio
             Layout.bottomMargin: 30 * scaleRatio
-            Layout.minimumWidth: 300 * scaleRatio
-            Layout.maximumWidth: 620 * scaleRatio
-            Layout.fillWidth: true
+            //Layout.minimumWidth: 300 * scaleRatio
+            //Layout.maximumWidth: 620 * scaleRatio
             font.family: "Arial"
             font.pixelSize: 18 * scaleRatio
             wrapMode: Text.Wrap
             //renderType: Text.NativeRendering
             color: Style.defaultFontColor
             textFormat: Text.RichText
-            verticalAlignment: Text.AlignVCenter
+            //verticalAlignment: Text.AlignVCenter
             text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to an Arqma Node. \
                         <br><br> For best privacy it's recommended to run your own node. \
                         <br><br> \
@@ -149,7 +150,6 @@ ColumnLayout {
             }
         }
     }
-
 
     ColumnLayout {
         visible: localNode.checked
