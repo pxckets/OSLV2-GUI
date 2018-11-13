@@ -102,12 +102,20 @@ ColumnLayout {
 
     ColumnLayout {
         id: headerColumn
-        anchors.fill: parent
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.topMargin: 25 * scaleRatio
+        anchors.bottomMargin: 25 * scaleRatio
+        anchors.rightMargin: 25 * scaleRatio
+        anchors.leftMargin: 25 * scaleRatio
+        spacing: 6
         //Layout.fillWidth: true
         //Layout.bottomMargin: 14 * scaleRatio;
 
         Text {
-            Layout.fillWidth: true
+            //Layout.fillWidth: true
             id: titleText
             font.family: "Arial"
             font.pixelSize: 28 * scaleRatio
@@ -120,9 +128,9 @@ ColumnLayout {
         }
 
         Text {
-            Layout.fillWidth: true
-            Layout.topMargin: 30 * scaleRatio
-            Layout.bottomMargin: 30 * scaleRatio
+            //Layout.fillWidth: true
+            //Layout.topMargin: 30 * scaleRatio
+            //Layout.bottomMargin: 30 * scaleRatio
             //Layout.minimumWidth: 300 * scaleRatio
             //Layout.maximumWidth: 620 * scaleRatio
             font.family: "Arial"
