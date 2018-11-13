@@ -34,10 +34,14 @@ import "../components"
 import "utils.js" as Utils
 
 ColumnLayout {
-    Layout.leftMargin: wizardLeftMargin
-    Layout.rightMargin: wizardRightMargin
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    //Layout.leftMargin: wizardLeftMargin
+    //Layout.rightMargin: wizardRightMargin
 
-    id: passwordPage
+    id: daemonSettingsPage
     opacity: 0
     visible: false
     property alias titleText: titleText.text
@@ -64,7 +68,10 @@ ColumnLayout {
 
     RowLayout {
         id: dotsRow
-        anchors.fill: parent
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.topMargin: 85
+        spacing: 6
         Layout.alignment: Qt.AlignRight
 
         ListModel {
