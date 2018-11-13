@@ -34,19 +34,10 @@ import "../components"
 import "utils.js" as Utils
 
 ColumnLayout {
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.topMargin: 25 * scaleRatio
-    anchors.bottomMargin: 25 * scaleRatio
-    anchors.rightMargin: 25 * scaleRatio
-    anchors.leftMargin: 25 * scaleRatio
-    spacing: 6
-    //Layout.leftMargin: wizardLeftMargin
-    //Layout.rightMargin: wizardRightMargin
+    Layout.leftMargin: wizardLeftMargin
+    Layout.rightMargin: wizardRightMargin
 
-    id: daemonSettingsPage
+    id: root
     opacity: 0
     visible: false
     property alias titleText: titleText.text
@@ -73,10 +64,6 @@ ColumnLayout {
 
     RowLayout {
         id: dotsRow
-        anchors.top: parent.top
-        anchors.right: parent.right
-        anchors.topMargin: 85
-        spacing: 6
         Layout.alignment: Qt.AlignRight
 
         ListModel {
@@ -102,25 +89,15 @@ ColumnLayout {
 
     ColumnLayout {
         id: headerColumn
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.topMargin: 25 * scaleRatio
-        anchors.bottomMargin: 25 * scaleRatio
-        anchors.rightMargin: 25 * scaleRatio
-        anchors.leftMargin: 25 * scaleRatio
-        spacing: 6
-        //Layout.fillWidth: true
-        //Layout.bottomMargin: 14 * scaleRatio;
+        Layout.fillWidth: true
+        Layout.bottomMargin: 14 * scaleRatio;
 
         Text {
-            //Layout.fillWidth: true
+            Layout.fillWidth: true
             id: titleText
             font.family: "Arial"
             font.pixelSize: 28 * scaleRatio
             wrapMode: Text.Wrap
-            horizontalAlignment: Text.AlignHCenter
             //renderType: Text.NativeRendering
             color: Style.defaultFontColor
             text: "Daemon Settings"
@@ -128,19 +105,17 @@ ColumnLayout {
         }
 
         Text {
-            //Layout.fillWidth: true
             //Layout.topMargin: 30 * scaleRatio
             //Layout.bottomMargin: 30 * scaleRatio
-            //Layout.minimumWidth: 300 * scaleRatio
-            //Layout.maximumWidth: 620 * scaleRatio
             font.family: "Arial"
             font.pixelSize: 18 * scaleRatio
             wrapMode: Text.Wrap
             //renderType: Text.NativeRendering
             color: Style.defaultFontColor
             textFormat: Text.RichText
-            //verticalAlignment: Text.AlignVCenter
-            text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to an Arqma Node. \
+            text: qsTr("To be able to communicate with the Arq-Net your wallet \
+                        <br> \
+                        needs to be connected to an Arqma Node. \
                         <br><br> For best privacy it's recommended to run your own node. \
                         <br><br> \
                         If you don't have the option to run your own node, there's an option to connect to a remote node.") + translationManager.emptyString
