@@ -105,8 +105,8 @@ ColumnLayout {
         }
 
         Text {
-            //Layout.topMargin: 30 * scaleRatio
-            //Layout.bottomMargin: 30 * scaleRatio
+            Layout.topMargin: 30 * scaleRatio
+            Layout.bottomMargin: 30 * scaleRatio
             font.family: "Arial"
             font.pixelSize: 18 * scaleRatio
             wrapMode: Text.Wrap
