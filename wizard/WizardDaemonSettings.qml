@@ -38,6 +38,11 @@ ColumnLayout {
     anchors.bottom: parent.bottom
     anchors.left: parent.left
     anchors.right: parent.right
+    anchors.topMargin: 25 * scaleRatio
+    anchors.bottomMargin: 25 * scaleRatio
+    anchors.rightMargin: 25 * scaleRatio
+    anchors.leftMargin: 25 * scaleRatio
+    spacing: 6
     //Layout.leftMargin: wizardLeftMargin
     //Layout.rightMargin: wizardRightMargin
 

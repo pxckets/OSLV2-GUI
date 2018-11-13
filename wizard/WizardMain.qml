@@ -48,7 +48,7 @@ ColumnLayout {
     property int wizardLeftMargin: (!isMobile) ?  150 : 25 * scaleRatio
     property int wizardRightMargin: (!isMobile) ? 150 : 25 * scaleRatio
     property int wizardBottomMargin: (isMobile) ? 150 : 25 * scaleRatio
-    property int wizardTopMargin: (isMobile) ? 15 * scaleRatio : 50
+    property int wizardTopMargin: (isMobile) ? 75 * scaleRatio : 75
     // Storing wallet in Settings object doesn't work in qt 5.8 on android
     property var m_wallet;
 
