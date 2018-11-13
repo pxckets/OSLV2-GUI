@@ -471,7 +471,7 @@ ListView {
                 }
 
                 Text {
-                    color: LokiComponents.Style.defaultFontColor
+                    color: ArqmaComponents.Style.defaultFontColor
                     text: "?"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
