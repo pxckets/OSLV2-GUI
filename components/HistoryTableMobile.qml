@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -27,11 +28,11 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
-import QtQuick.Layouts 1.1
-import moneroComponents.Clipboard 1.0
-import moneroComponents.AddressBookModel 1.0
+import QtQuick.Layouts 1.2
+import ArqmaComponents.Clipboard 1.0
+import ArqmaComponents.AddressBookModel 1.0
 
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 
 ListView {
     id: listView
@@ -154,16 +155,16 @@ ListView {
                 Layout.topMargin: 20 * scaleRatio
                 Layout.leftMargin: 10 * scaleRatio
                 Text {
-                    font.family: MoneroComponents.Style.fontMedium.name
+                    font.family: ArqmaComponents.Style.fontMedium.name
                     font.pixelSize: 14 * scaleRatio
-                    color: MoneroComponents.Style.defaultFontColor
+                    color: ArqmaComponents.Style.defaultFontColor
                     text: date
                 }
 
                 Text {
-                    font.family: Style.fontRegular.name
+                    font.family: ArqmaComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
-                    color: MoneroComponents.Style.dimmedFontColor
+                    color: ArqmaComponents.Style.dimmedFontColor
                     text: time
                 }
 
@@ -171,7 +172,7 @@ ListView {
                 Text {
                     visible: confirmations < confirmationsRequired || isPending
                     Layout.leftMargin: 5 * scaleRatio
-                    font.family: MoneroComponents.Style.fontRegular.name
+                    font.family: ArqmaComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     color:  (confirmations < confirmationsRequired)? "#02009E" : "#A40000"
                     text: {
@@ -195,7 +196,7 @@ ListView {
                 Text {
                     font.family: "Arial"
                     font.pixelSize: 14 * scaleRatio
-                    color: isOut ? MoneroComponents.Style.defaultFontColor : "#00079E"
+                    color: isOut ? ArqmaComponents.Style.defaultFontColor : "#00079E"
                     text: isOut ? "↓" : "↑"
                 }
 
@@ -203,7 +204,7 @@ ListView {
                     id: amountText
                     font.family: "Arial"
                     font.pixelSize: 18 * scaleRatio
-                    color: isOut ? MoneroComponents.Style.defaultFontColor : "#2eb358"
+                    color: isOut ? ArqmaComponents.Style.defaultFontColor : "#2eb358"
                     text:  displayAmount
                 }
             }

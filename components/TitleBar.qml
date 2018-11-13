@@ -28,7 +28,7 @@
 
 import QtQuick 2.5
 import QtQuick.Window 2.0
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 
 Rectangle {
     id: titleBar
@@ -53,7 +53,7 @@ Rectangle {
     property bool showMinimizeButton: false
     property bool showMaximizeButton: false
     property bool showCloseButton: true
-    property bool showMoneroLogo: false
+    property bool showArqmaLogo: false
     property bool small: false
 
     signal closeClicked
@@ -80,7 +80,7 @@ Rectangle {
         width: 125
         height: parent.height
         anchors.centerIn: parent
-        visible: customDecorations && showMoneroLogo
+        visible: customDecorations && showArqmaLogo
         z: parent.z + 1
 
         Image {
@@ -95,7 +95,7 @@ Rectangle {
 
     Label {
         id: titleLabel
-        visible: !showMoneroLogo && customDecorations && titleBar.title !== ''
+        visible: !showArqmaLogo && customDecorations && titleBar.title !== ''
         anchors.centerIn: parent
         fontSize: 18
         text: titleBar.title
@@ -202,7 +202,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: 42
-            color: containsMouse ? "#FF0000" : "#0A009D"
+            color: containsMouse ? "#E04343" : "#00000000"
 
             Image {
                 anchors.centerIn: parent

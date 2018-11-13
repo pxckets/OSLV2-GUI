@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -29,9 +30,9 @@
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick 2.2
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 
 GridLayout {
     columns: (isMobile) ? 1 : 2
@@ -44,13 +45,12 @@ GridLayout {
 
     // TODO: LEGACY; remove these placeHolder variables when
     // the wizards get redesigned to the black-theme
-    property string placeholderFontFamily: MoneroComponents.Style.fontRegular.name
+    property string placeholderFontFamily: ArqmaComponents.Style.fontRegular.name
     property bool placeholderFontBold: false
     property int placeholderFontSize: 18 * scaleRatio
-    property string placeholderColor: MoneroComponents.Style.defaultFontColor
-    property real placeholderOpacity: 0.35
+    property string placeholderColor: ArqmaComponents.Style.defaultFontColor
+    property real placeholderOpacity: 0.25
 
-    //property string lineEditBorderColor: Qt.rgba(0, 0, 0, 0.15)
     property string lineEditBackgroundColor: "white"
     property string lineEditFontColor: "black"
     property int lineEditFontSize: 18 * scaleRatio
@@ -66,14 +66,13 @@ GridLayout {
     LineEditMulti {
         id: daemonAddr
         Layout.fillWidth: true
-        placeholderText: qsTr("Remote Arq-Net Node (Hostname/IP)") + translationManager.emptyString
+        placeholderText: qsTr("Remote Arqma-Node Hostname / IP") + translationManager.emptyString
         placeholderFontFamily: root.placeholderFontFamily
         placeholderFontBold: root.placeholderFontBold
         placeholderFontSize: root.placeholderFontSize
         placeholderColor: root.placeholderColor
         placeholderOpacity: root.placeholderOpacity
         labelFontSize: root.labelFontSize
-        //borderColor: lineEditBorderColor
         backgroundColor: lineEditBackgroundColor
         fontColor: lineEditFontColor
         fontBold: lineEditFontBold
@@ -91,7 +90,6 @@ GridLayout {
         placeholderColor: root.placeholderColor
         placeholderOpacity: root.placeholderOpacity
         labelFontSize: root.labelFontSize
-        //borderColor: lineEditBorderColor
         backgroundColor: lineEditBackgroundColor
         fontColor: lineEditFontColor
         fontBold: lineEditFontBold

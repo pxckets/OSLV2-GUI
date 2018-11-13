@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -26,9 +27,9 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import moneroComponents.WalletManager 1.0
+import ArqmaComponents.WalletManager 1.0
 import QtQuick 2.2
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import "../components"
 import "utils.js" as Utils
 
@@ -97,28 +98,30 @@ ColumnLayout {
             font.family: "Arial"
             font.pixelSize: 28 * scaleRatio
             wrapMode: Text.Wrap
-            horizontalAlignment: Text.AlignHCenter
             //renderType: Text.NativeRendering
-            color: "#000AD8"
-            text: "Daemon settings"
+            color: Style.defaultFontColor
+            text: "Daemon Settings"
 
         }
 
         Text {
-            //Layout.fillWidth: true
             Layout.topMargin: 30 * scaleRatio
             Layout.bottomMargin: 30 * scaleRatio
+            Layout.fillWidth: true
+            Layout.maximumWidth: 600 * scaleRatio
+            Layout.minimumWidth: 200 * scaleRatio
             font.family: "Arial"
             font.pixelSize: 18 * scaleRatio
             wrapMode: Text.Wrap
             //renderType: Text.NativeRendering
-            color: "#000AD8"
+            color: Style.defaultFontColor
             textFormat: Text.RichText
-//            horizontalAlignment: Text.AlignHCenter
-            text: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to a Arqma node. For best privacy it's recommended to run your own node. \
+            text: qsTr("To be able to communicate with the Arq-Net your wallet \
+                        <br> \
+                        needs to be connected to an Arqma Node. \
+                        <br><br> For best privacy it's recommended to run your own node. \
                         <br><br> \
-                        If you don't have the option to run your own node, there's an option to connect to a remote node.")
-                    + translationManager.emptyString
+                        If you don't have the option to run your own node, there's an option to connect to a remote node.") + translationManager.emptyString
         }
 
         RadioButton {
@@ -208,6 +211,7 @@ ColumnLayout {
             }
         }
     }
+
     ColumnLayout {
         visible: remoteNode.checked
         spacing: 10
@@ -216,7 +220,7 @@ ColumnLayout {
         WarningBox {
             Layout.bottomMargin: 6 * scaleRatio
             Layout.maximumWidth: 620 * scaleRatio
-            text: qsTr("To find other remote nodes, type 'Loki remote node' into your favorite search engine. Please ensure the node is run by a trusted third-party.") + translationManager.emptyString
+            text: qsTr("To find other remote nodes, type 'Arq-Net nodes' into your favorite search engine. Please ensure the node is run by a trusted third-party.") + translationManager.emptyString
         }
 
         Text {

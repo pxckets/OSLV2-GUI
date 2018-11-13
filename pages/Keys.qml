@@ -1,21 +1,21 @@
 // Copyright (c) 2014-2018, The Monero Project
-// 
+//
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modification, are
 // permitted provided that the following conditions are met:
-// 
+//
 // 1. Redistributions of source code must retain the above copyright notice, this list of
 //    conditions and the following disclaimer.
-// 
+//
 // 2. Redistributions in binary form must reproduce the above copyright notice, this list
 //    of conditions and the following disclaimer in the documentation and/or other
 //    materials provided with the distribution.
-// 
+//
 // 3. Neither the name of the copyright holder nor the names of its contributors may be
 //    used to endorse or promote products derived from this software without specific
 //    prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -29,9 +29,9 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import QtQuick.Dialogs 1.2
-import moneroComponents.Clipboard 1.0
+import ArqmaComponents.Clipboard 1.0
 import "../version.js" as Version
 import "../components"
 import "." 1.0
@@ -61,21 +61,21 @@ Rectangle {
         RowLayout{
             // TODO: Move the warning box to its own component, so it can be used in multiple places
             visible: warningText.text !== ""
-  
+
             Rectangle {
                 id: statusRect
                 Layout.preferredHeight: warningText.height + 26
                 Layout.fillWidth: true
-  
+
                 radius: 2
                 border.color: Qt.rgba(255, 255, 255, 0.25)
                 border.width: 1
                 color: "transparent"
-  
+
                 GridLayout{
                     Layout.fillWidth: true
                     Layout.preferredHeight: warningText.height + 40
-  
+
                     Image {
                         Layout.alignment: Qt.AlignVCenter
                         Layout.preferredHeight: 33
@@ -84,7 +84,7 @@ Rectangle {
                         Layout.topMargin: 10
                         source: "../images/warning.png"
                     }
-  
+
                     Text {
                         id: warningText
                         Layout.topMargin: 12 * scaleRatio
@@ -103,7 +103,7 @@ Rectangle {
                 }
             }
         }
-        
+
         //! Manage wallet
         ColumnLayout {
             Layout.fillWidth: true
@@ -286,8 +286,3 @@ Rectangle {
     }
 
 }
-
-
-
-
-

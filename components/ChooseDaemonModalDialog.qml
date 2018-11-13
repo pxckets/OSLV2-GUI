@@ -30,12 +30,12 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.0
 
-import moneroComponents.NetworkType 1.0
-import "../components" as MoneroComponents
+import ArqmaComponents.NetworkType 1.0
+import "../components" as ArqmaComponents
 
 Item {
     id: root
@@ -72,8 +72,8 @@ Item {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
             Layout.maximumWidth: 400 * scaleRatio
-            Layout.topMargin: inactiveOverlay.height * 0.35 // TODO(doyle): I cant get this to vertically align. help me pls
-            Layout.leftMargin: inactiveOverlay.width * 0.075 // TODO(doyle): I cant get this to horizontally align. help me pls
+            Layout.topMargin: inactiveOverlay.height * 0.35
+            Layout.leftMargin: inactiveOverlay.width * 0.075
 
             Label {
                 text: qsTr("Please choose how to connect to the Arq-Net Blockchain")
@@ -82,8 +82,8 @@ Item {
                 Layout.alignment: Qt.AlignHCenter
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: 16 * scaleRatio
-                font.family: MoneroComponents.Style.fontLight.name
-                color: MoneroComponents.Style.defaultFontColor
+                font.family: ArqmaComponents.Style.fontLight.name
+                color: ArqmaComponents.Style.defaultFontColor
             }
 
             RowLayout {
@@ -91,7 +91,7 @@ Item {
                 spacing: 16 * scaleRatio
                 Layout.topMargin: 16
 
-                MoneroComponents.StandardButton {
+                ArqmaComponents.StandardButton {
                     id: defaultRemoteNodeButton
                     height: 48 * scaleRatio
                     enabled: appWindow.getRemoteNodeList().length > 0
@@ -107,7 +107,7 @@ Item {
                     }
                 }
 
-                MoneroComponents.StandardButton {
+                ArqmaComponents.StandardButton {
                     id: localNodeButton
                     height: 48 * scaleRatio
                     text: qsTr("Start Local Daemon\n(Downloads blockchain, slow but private)") + translationManager.emptyString
@@ -118,7 +118,7 @@ Item {
                     }
                 }
 
-                MoneroComponents.StandardButton {
+                ArqmaComponents.StandardButton {
                     id: customSettingsButton
                     height: 48 * scaleRatio
                     text: qsTr("Use Custom Settings\n(Setup later in settings)") + translationManager.emptyString

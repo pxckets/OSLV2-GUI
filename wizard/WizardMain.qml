@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -29,12 +30,16 @@
 import QtQuick 2.2
 import Qt.labs.settings 1.0
 import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 
 import "../components"
 
 ColumnLayout {
-    anchors.fill: parent
+    //anchors.fill: parent
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
     Layout.fillHeight: true
     id: wizard
     property alias nextButton : nextButton
@@ -43,14 +48,14 @@ ColumnLayout {
     property int wizardLeftMargin: (!isMobile) ?  150 : 25 * scaleRatio
     property int wizardRightMargin: (!isMobile) ? 150 : 25 * scaleRatio
     property int wizardBottomMargin: (isMobile) ? 150 : 25 * scaleRatio
-    property int wizardTopMargin: (isMobile) ? 15 * scaleRatio : 50
+    property int wizardTopMargin: (isMobile) ? 75 * scaleRatio : 75
     // Storing wallet in Settings object doesn't work in qt 5.8 on android
     property var m_wallet;
 
     property var paths: {
-     //   "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, donationPage, finishPage ],
-     //   "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, donationPage, finishPage ],
-        // disable donation page
+     //   "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, finishPage ],
+     //   "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, finishPage ],
+        // enable donation page
         "create_wallet" : [welcomePage, optionsPage, createWalletPage, passwordPage, daemonSettingsPage, finishPage ],
         "recovery_wallet" : [welcomePage, optionsPage, recoveryWalletPage, passwordPage, daemonSettingsPage, finishPage ],
         "create_view_only_wallet" : [ createViewOnlyWalletPage, passwordPage ],
@@ -61,11 +66,8 @@ ColumnLayout {
     property var pages: paths[currentPath]
 
     signal wizardRestarted();
-    signal useMoneroClicked()
+    signal useArqmaClicked()
     signal openWalletFromFileClicked()
-//    border.color: "#DBDBDB"
-//    border.width: 1
-//    color: "#FFFFFF"
 
     function restart(){
         wizard.currentPage = 0;
@@ -189,9 +191,9 @@ ColumnLayout {
 
     function walletPathValid(path){
         if(isIOS)
-            path = moneroAccountsDir + path;
+            path = ArqmaAccountsDir + path;
         if (walletManager.walletExists(path)) {
-            walletErrorDialog.text = qsTr("A wallet with same name already exists. Please change wallet name") + translationManager.emptyString;
+            walletErrorDialog.text = qsTr("Wallet with same name already exists. Please change wallet name") + translationManager.emptyString;
             walletErrorDialog.open();
             return false;
         }
@@ -212,8 +214,8 @@ ColumnLayout {
         // Save wallet files in user specified location
         var new_wallet_filename = createWalletPath(settings.wallet_path,settings.account_name)
         if(isIOS) {
-            console.log("saving in ios: "+ moneroAccountsDir + new_wallet_filename)
-            m_wallet.store(moneroAccountsDir + new_wallet_filename);
+            console.log("saving in ios: "+ ArqmaAccountsDir + new_wallet_filename)
+            m_wallet.store(ArqmaAccountsDir + new_wallet_filename);
         } else {
             console.log("saving in wizard: "+ new_wallet_filename)
             m_wallet.store(new_wallet_filename);
@@ -387,7 +389,7 @@ ColumnLayout {
         visible: parent.paths[currentPath][currentPage] === finishPage
         onClicked: {
             wizard.applySettings();
-            wizard.useMoneroClicked();
+            wizard.useArqmaClicked();
         }
     }
 
@@ -431,8 +433,4 @@ ColumnLayout {
            rootItem.state = "normal"
        }
    }
-
-
-
-
 }

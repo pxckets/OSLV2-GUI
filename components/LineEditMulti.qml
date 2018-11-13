@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2015, The Monero Project
 //
 // All rights reserved.
@@ -27,9 +28,9 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 
 ColumnLayout {
     id: item
@@ -43,26 +44,26 @@ ColumnLayout {
     property alias placeholderText: placeholderLabel.text
 
     property bool placeholderCenter: false
-    property string placeholderFontFamily: MoneroComponents.Style.fontRegular.name
+    property string placeholderFontFamily: ArqmaComponents.Style.fontRegular.name
     property bool placeholderFontBold: false
     property int placeholderFontSize: 18 * scaleRatio
-    property string placeholderColor: MoneroComponents.Style.defaultFontColor
+    property string placeholderColor: ArqmaComponents.Style.defaultFontColor
     property real placeholderOpacity: 0.35
 
     property bool borderDisabled: false
     property string borderColor: {
         if(input.error && input.text !== ""){
-            return MoneroComponents.Style.inputBorderColorInvalid;
-        } else if(input.activeFocus){
-            return MoneroComponents.Style.inputBorderColorActive;
+            return ArqmaComponents.Style.inputBorderColorInvalid;
+        } else if(input.activeFocus) {
+            return ArqmaComponents.Style.heroGreen;
         } else {
-            return MoneroComponents.Style.inputBorderColorInActive;
+            return ArqmaComponents.Style.inputBorderColorInActive;
         }
     }
 
     property bool error: false
 
-    property string labelFontColor: MoneroComponents.Style.defaultFontColor
+    property string labelFontColor: ArqmaComponents.Style.defaultFontColor
     property bool labelFontBold: false
     property int labelFontSize: 16 * scaleRatio
     property bool labelButtonVisible: false
@@ -95,11 +96,11 @@ ColumnLayout {
             id: inputLabel
             anchors.top: parent.top
             anchors.left: parent.left
-            font.family: MoneroComponents.Style.fontRegular.name
+            font.family: ArqmaComponents.Style.fontRegular.name
             font.pixelSize: item.labelFontSize
             font.bold: labelFontBold
             textFormat: Text.RichText
-            color: item.labelFontColor
+            color: ArqmaComponents.Style.defaultFontColor
             onLinkActivated: inputLabelLinkActivated()
 
             MouseArea {
@@ -109,13 +110,13 @@ ColumnLayout {
             }
         }
 
-        MoneroComponents.LabelButton {
+        ArqmaComponents.LabelButton {
             id: labelButton
             onClicked: labelButtonClicked()
             visible: labelButtonVisible
         }
 
-        MoneroComponents.LabelButton {
+        ArqmaComponents.LabelButton {
             id: copyButtonId
             visible: copyButton && input.text !== ""
             text: qsTr("Copy")
@@ -131,7 +132,7 @@ ColumnLayout {
         }
     }
 
-    MoneroComponents.InputMulti {
+    ArqmaComponents.InputMulti {
         id: input
         readOnly: false
         addressValidation: false
@@ -166,7 +167,6 @@ ColumnLayout {
             color: "transparent"
             border.width: 1
             border.color: item.borderColor
-            radius: 4
             anchors.fill: parent
             visible: !item.borderDisabled
         }

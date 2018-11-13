@@ -1,3 +1,4 @@
+// Copyright (c) 2015, The Arqma Network
 // Copyright (c) 2014-2015, The Monero Project
 //
 // All rights reserved.
@@ -27,14 +28,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 import "." 1.0
 
 RowLayout {
     id: checkBox
     property alias text: label.text
-    property string checkedIcon: "../images/checkedIcon-black.png"
+    property string checkedIcon: "../images/CheckedBlueIcon.png"
     property string uncheckedIcon
     property bool checked: false
     property string background: "backgroundRect.color"

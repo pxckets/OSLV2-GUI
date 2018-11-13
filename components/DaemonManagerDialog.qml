@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -29,11 +30,11 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.0
 
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 
 Window {
     id: root
@@ -42,6 +43,7 @@ Window {
     property int countDown: 10;
     signal rejected()
     signal started();
+    color: "#101010"
 
     function open() {
         show()
@@ -92,6 +94,7 @@ Window {
             Text {
                 text: qsTr("Starting local node in %1 seconds").arg(countDown);
                 font.pixelSize: 18
+                color: ArqmaComponents.Style.defaultFontColor
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
@@ -104,11 +107,11 @@ Window {
             spacing: 60
             Layout.alignment: Qt.AlignHCenter
 
-            MoneroComponents.StandardButton {
+            ArqmaComponents.StandardButton {
                 id: okButton
-                visible:false
+                visible: true
                 fontSize: 14
-                text: qsTr("Start daemon (%1)").arg(countDown)
+                text: qsTr("Start Daemon")
                 KeyNavigation.tab: cancelButton
                 onClicked: {
                     timer.stop();
@@ -118,10 +121,10 @@ Window {
                 }
             }
 
-            MoneroComponents.StandardButton {
+            ArqmaComponents.StandardButton {
                 id: cancelButton
                 fontSize: 14
-                text: qsTr("Use custom settings")
+                text: qsTr("Use Custom Settings")
 
                 onClicked: {
                     timer.stop();
@@ -132,6 +135,3 @@ Window {
         }
     }
 }
-
-
-

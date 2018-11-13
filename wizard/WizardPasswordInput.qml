@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -29,40 +30,45 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
+
+import "../components"
 
 ColumnLayout {
     property alias password: password.text
     property alias placeholderText: password.placeholderText
     signal changed(string password)
 
-
     TextField {
         Layout.fillWidth: true
-        id : password
-        focus:true
+        id: password
+        focus: true
         font.family: "Arial"
-        font.pixelSize: (isMobile) ? 25 * scaleRatio : 26 * scaleRatio
+        font.pixelSize: (isMobile) ? 24 * scaleRatio : 25 * scaleRatio
         echoMode: TextInput.Password
+
         style: TextFieldStyle {
             renderType: Text.NativeRendering
-            textColor: "#0004FF"
+            textColor: Style.defaultFontColor
             passwordCharacter: "•"
+            placeholderTextColor: Style.legacy_placeholderFontColor
+
             background: Rectangle {
                 radius: 0
-                border.width: 0
+                color: "#1A1A1A"
+                border.color: {
+                    if (password.activeFocus) {
+                        return "#000A85"
+                    } else {
+                        return Qt.rgba(255, 255, 255, 0.5)
+                    }
+                }
             }
         }
-        onTextChanged: changed(text)
 
+        onTextChanged: changed(text)
         Keys.onReleased: {
             changed(text)
         }
-    }
-
-    Rectangle {
-        Layout.fillWidth:true
-        height: 1
-        color: "#DBDBDB"
     }
 }

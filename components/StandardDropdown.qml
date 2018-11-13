@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -28,7 +29,7 @@
 
 import QtQuick 2.0
 
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 
 Item {
     id: dropdown
@@ -44,7 +45,7 @@ Item {
     property int dropdownHeight: 42
     property int fontHeaderSize: 16 * scaleRatio
     property int fontItemSize: 14 * scaleRatio
-    property string colorBorder: MoneroComponents.Style.inputBorderColorInActive
+    property string colorBorder: ArqmaComponents.Style.inputBorderColorInActive
     property string colorHeaderBackground: "transparent"
     property bool headerBorder: true
     property bool headerFontBold: false
@@ -83,8 +84,13 @@ Item {
         Rectangle {
             color: dropdown.colorHeaderBackground
             border.width: dropdown.headerBorder ? 1 : 0
-            border.color: dropdown.colorBorder
-            //radius: 4
+            border.color: {
+                if (dropdown.expanded) {
+                    return ArqmaComponents.Style.heroBlue;
+                } else {
+                    return Qt.rgba(255, 255, 255, 0.25);
+                }
+            }
             anchors.fill: parent
         }
 
@@ -94,7 +100,7 @@ Item {
             anchors.left: parent.left
             anchors.leftMargin: 12 * scaleRatio
             elide: Text.ElideRight
-            font.family: MoneroComponents.Style.fontRegular.name
+            font.family: ArqmaComponents.Style.fontRegular.name
             font.bold: dropdown.headerFontBold
             font.pixelSize: dropdown.fontHeaderSize
             color: "#FFFFFF"
@@ -187,10 +193,10 @@ Item {
                         anchors.right: col2Text.left
                         anchors.leftMargin: 12 * scaleRatio
                         anchors.rightMargin: 0
-                        font.family: MoneroComponents.Style.fontRegular.name
+                        font.family: ArqmaComponents.Style.fontRegular.name
                         font.bold: true
                         font.pixelSize: fontItemSize
-                        color: itemArea.containsMouse || index === column.currentIndex || itemArea.containsMouse ? "#FA6800" : "#FFFFFF"
+                        color: itemArea.containsMouse || index === column.currentIndex || itemArea.containsMouse ? ArqmaComponents.Style.heroBlue : "#FFFFFF"
                         text: qsTr(column1) + translationManager.emptyString
                     }
 
@@ -199,7 +205,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 45 * scaleRatio
-                        font.family: MoneroComponents.Style.fontRegular.name
+                        font.family: ArqmaComponents.Style.fontRegular.name
                         font.pixelSize: 14 * scaleRatio
                         color: "#FFFFFF"
                         text: ""

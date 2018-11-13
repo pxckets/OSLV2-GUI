@@ -29,14 +29,14 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import QtQuick.Dialogs 1.2
 import "../../js/Windows.js" as Windows
 import "../../js/Utils.js" as Utils
-import "../../components" as MoneroComponents
+import "../../components" as ArqmaComponents
 import "../../pages"
 import "."
-import moneroComponents.Clipboard 1.0
+import ArqmaComponents.Clipboard 1.0
 
 ColumnLayout {
     id: settingsPage

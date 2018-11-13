@@ -1,4 +1,4 @@
-// Copyright (c) 2018, The ArQmA Project
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -34,9 +34,9 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import Qt.labs.settings 1.0
 
-import moneroComponents.Wallet 1.0
-import moneroComponents.PendingTransaction 1.0
-import moneroComponents.NetworkType 1.0
+import ArqmaComponents.Wallet 1.0
+import ArqmaComponents.PendingTransaction 1.0
+import ArqmaComponents.NetworkType 1.0
 
 
 import "components"
@@ -249,7 +249,7 @@ ApplicationWindow {
         }  else {
             var wallet_path = walletPath();
             if(isIOS)
-                wallet_path = moneroAccountsDir + wallet_path;
+                wallet_path = ArqmaAccountsDir + wallet_path;
             // console.log("opening wallet at: ", wallet_path, "with password: ", appWindow.walletPassword);
             console.log("opening wallet at: ", wallet_path, ", network type: ", persistentSettings.nettype == NetworkType.MAINNET ? "mainnet" : persistentSettings.nettype == NetworkType.TESTNET ? "testnet" : "stagenet");
             walletManager.openWalletAsync(wallet_path, walletPassword,
@@ -390,7 +390,7 @@ ApplicationWindow {
             currentWallet.history.refresh(currentWallet.currentSubaddressAccount)
             walletInitialized = true
         }
-     }
+    }
 
     function onWalletOpened(wallet) {
         walletName = usefulName(wallet.path)
@@ -600,7 +600,7 @@ ApplicationWindow {
     function walletsFound() {
         if (persistentSettings.wallet_path.length > 0) {
             if(isIOS)
-                return walletManager.walletExists(moneroAccountsDir + persistentSettings.wallet_path);
+                return walletManager.walletExists(ArqmaAccountsDir + persistentSettings.wallet_path);
             else
                 return walletManager.walletExists(persistentSettings.wallet_path);
         }
@@ -677,10 +677,10 @@ ApplicationWindow {
 
         // validate amount;
         if (amount !== "(all)") {
-            var amountxmr = walletManager.amountFromString(amount);
-            console.log("integer amount: ", amountxmr);
+            var arqamount = walletManager.amountFromString(amount);
+            console.log("integer amount: ", arqamount);
             console.log("integer unlocked",currentWallet.unlockedBalance)
-            if (amountxmr <= 0) {
+            if (arqamount <= 0) {
                 hideProcessingSplash()
                 informationPopup.title = qsTr("Error") + translationManager.emptyString;
                 informationPopup.text  = qsTr("Amount is wrong: expected number from %1 to %2")
@@ -692,7 +692,7 @@ ApplicationWindow {
                 informationPopup.onCloseCallback = null
                 informationPopup.open()
                 return;
-            } else if (amountxmr > currentWallet.unlockedBalance) {
+            } else if (arqamount > currentWallet.unlockedBalance) {
                 hideProcessingSplash()
                 informationPopup.title = qsTr("Error") + translationManager.emptyString;
                 informationPopup.text  = qsTr("Insufficient funds. Unlocked balance: %1")
@@ -709,14 +709,14 @@ ApplicationWindow {
         if (amount === "(all)")
             currentWallet.createTransactionAllAsync(address, paymentId, mixinCount, priority);
         else
-            currentWallet.createTransactionAsync(address, paymentId, amountxmr, mixinCount, priority);
+            currentWallet.createTransactionAsync(address, paymentId, arqamount, mixinCount, priority);
     }
 
     //Choose where to save transaction
     FileDialog {
         id: saveTxDialog
         title: "Please choose a location"
-        folder: "file://" +moneroAccountsDir
+        folder: "file://" +ArqmaAccountsDir
         selectExisting: false;
 
         onAccepted: {
@@ -878,10 +878,10 @@ ApplicationWindow {
             } else if (received > 0) {
                 received = received / 1e12
                 if (in_pool) {
-                    informationPopup.text = qsTr("This address received %1 arqma, but the transaction is not yet mined").arg(received);
+                    informationPopup.text = qsTr("This address received %1 Arqma, but the transaction is not yet mined").arg(received);
                 }
                 else {
-                    informationPopup.text = qsTr("This address received %1 arqma, with %2 confirmation(s).").arg(received).arg(confirmations);
+                    informationPopup.text = qsTr("This address received %1 Arqma, with %2 confirmation(s).").arg(received).arg(confirmations);
                 }
             }
             else {
@@ -956,7 +956,7 @@ ApplicationWindow {
     visible: true
 //    width: screenWidth //rightPanelExpanded ? 1269 : 1269 - 300
 //    height: 900 //300//maxWindowHeight;
-    color: "#FFFFFF"
+    color: Style.backgroundColor
     flags: persistentSettings.customDecorations ? Windows.flagsCustomDecorations : Windows.flags
     onWidthChanged: x -= 0
 
@@ -1111,7 +1111,7 @@ ApplicationWindow {
     FileDialog {
         id: fileDialog
         title: "Please choose a file"
-        folder: "file://" +moneroAccountsDir
+        folder: "file://" +ArqmaAccountsDir
         nameFilters: [ "Wallet files (*.keys)"]
         sidebarVisible: false
 
@@ -1119,9 +1119,9 @@ ApplicationWindow {
         onAccepted: {
             persistentSettings.wallet_path = walletManager.urlToLocalPath(fileDialog.fileUrl)
             if(isIOS)
-                persistentSettings.wallet_path = persistentSettings.wallet_path.replace(moneroAccountsDir,"")
+                persistentSettings.wallet_path = persistentSettings.wallet_path.replace(ArqmaAccountsDir,"")
             console.log("ÖPPPPNA")
-            console.log(moneroAccountsDir)
+            console.log(ArqmaAccountsDir)
             console.log(fileDialog.fileUrl)
             console.log(persistentSettings.wallet_path)
             passwordDialog.onAcceptedCallback = function() {
@@ -1292,8 +1292,7 @@ ApplicationWindow {
                 PropertyChanges { target: resizeArea; visible: true }
                 PropertyChanges { target: titleBar; showMaximizeButton: false }
 //                PropertyChanges { target: frameArea; blocked: true }
-                PropertyChanges { target: titleBar; visible: false }
-                PropertyChanges { target: titleBar; y: 0 }
+                PropertyChanges { target: titleBar; visible: persistentSettings.customDecorations }
                 PropertyChanges { target: titleBar; title: qsTr("Program setup wizard") + translationManager.emptyString }
                 PropertyChanges { target: mobileHeader; visible: false }
             }, State {
@@ -1303,7 +1302,7 @@ ApplicationWindow {
                 PropertyChanges { target: middlePanel; visible: true }
                 PropertyChanges { target: titleBar; basicButtonVisible: true }
                 PropertyChanges { target: wizard; visible: false }
-                PropertyChanges { target: appWindow; width: (screenWidth < 969 || isAndroid || isIOS)? screenWidth : 969 } //rightPanelExpanded ? 1269 : 1269 - 300;
+                PropertyChanges { target: appWindow; width: (screenWidth < 939 || isAndroid || isIOS)? screenWidth : 939 } //rightPanelExpanded ? 1269 : 1269 - 300;
                 PropertyChanges { target: appWindow; height: maxWindowHeight; }
                 PropertyChanges { target: resizeArea; visible: true }
                 PropertyChanges { target: titleBar; showMaximizeButton: true }
@@ -1562,7 +1561,7 @@ ApplicationWindow {
         WizardMain {
             id: wizard
             anchors.fill: parent
-            onUseMoneroClicked: {
+            onUseArqmaClicked: {
                 rootItem.state = "normal" // TODO: listen for this state change in appWindow;
                 appWindow.initialize();
             }
@@ -1626,7 +1625,7 @@ ApplicationWindow {
             showMinimizeButton: true
             showMaximizeButton: true
             showWhatIsButton: false
-            showMoneroLogo: true
+            showArqmaLogo: true
             onCloseClicked: appWindow.close();
             onMaximizeClicked: {
                 appWindow.visibility = appWindow.visibility !== Window.Maximized ? Window.Maximized :
@@ -1669,7 +1668,7 @@ ApplicationWindow {
             property alias text: content.text
             width: content.width + 12
             height: content.height + 17
-            color: "#453CFF"
+            color: Style.heroBlue
             //radius: 3
             visible:false;
 
@@ -1811,7 +1810,7 @@ ApplicationWindow {
     }
 
     function checkUpdates() {
-        walletManager.checkUpdatesAsync("arqma-gui")
+        walletManager.checkUpdatesAsync("arqma-gui", "gui")
     }
 
     Timer {

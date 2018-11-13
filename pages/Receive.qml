@@ -1,4 +1,4 @@
-  // Copyright (c) 2014-2018, The Monero Project
+// Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
 //
@@ -29,17 +29,17 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import QtQuick.Dialogs 1.2
 
 import "../components"
-import moneroComponents.Clipboard 1.0
-import moneroComponents.Wallet 1.0
-import moneroComponents.WalletManager 1.0
-import moneroComponents.TransactionHistory 1.0
-import moneroComponents.TransactionHistoryModel 1.0
-import moneroComponents.Subaddress 1.0
-import moneroComponents.SubaddressModel 1.0
+import ArqmaComponents.Clipboard 1.0
+import ArqmaComponents.Wallet 1.0
+import ArqmaComponents.WalletManager 1.0
+import ArqmaComponents.TransactionHistory 1.0
+import ArqmaComponents.TransactionHistoryModel 1.0
+import ArqmaComponents.Subaddress 1.0
+import ArqmaComponents.SubaddressModel 1.0
 import "../js/TxUtils.js" as TxUtils
 
 Rectangle {
@@ -443,7 +443,7 @@ Rectangle {
 
                     Layout.fillWidth: true
                     Layout.minimumWidth: 200
-                    Layout.maximumWidth: mainLayout.qrCodeSize
+                    spacing: parent.spacing
 
                     LineEdit {
                         id: amountToReceiveLine
@@ -456,44 +456,54 @@ Rectangle {
                             regExp: /(\d{1,8})([.]\d{1,9})?$/
                         }
                     }
-                }
 
-                Rectangle {
-                    color: "white"
-                    Layout.topMargin: parent.spacing - 4
-                    Layout.fillWidth: true
-                    Layout.maximumWidth: mainLayout.qrCodeSize
-                    Layout.preferredHeight: width
-                    radius: 4
+                    Rectangle {
+                        color: "white"
 
-                    Image {
-                        id: qrCode
-                        anchors.fill: parent
-                        anchors.margins: 1
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: mainLayout.qrCodeSize
+                        Layout.preferredHeight: width
+                        radius: 4
 
-                        smooth: false
-                        fillMode: Image.PreserveAspectFit
-                        source: "image://qrcode/" + makeQRCodeString()
-                        MouseArea {
+                        Image {
+                            id: qrCode
                             anchors.fill: parent
-                            acceptedButtons: Qt.RightButton
-                            onClicked: {
-                                if (mouse.button == Qt.RightButton)
-                                    qrMenu.open()
+                            anchors.margins: 1
+
+                            smooth: false
+                            fillMode: Image.PreserveAspectFit
+                            source: "image://qrcode/" + makeQRCodeString()
+                            MouseArea {
+                                anchors.fill: parent
+                                acceptedButtons: Qt.RightButton
+                                onClicked: {
+                                    if (mouse.button == Qt.RightButton)
+                                        qrMenu.open()
+                                }
+                                onPressAndHold: qrFileDialog.open()
                             }
-                            onPressAndHold: qrFileDialog.open()
+                        }
+
+                        Menu {
+                            id: qrMenu
+                            title: "QrCode"
+                            y: parent.height / 2
+
+                            MenuItem {
+                                text: qsTr("Save As") + translationManager.emptyString;
+                                onTriggered: qrFileDialog.open()
+                            }
                         }
                     }
 
-                    Menu {
-                        id: qrMenu
-                        title: "QrCode"
-                        y: parent.height / 2
-
-                        MenuItem {
-                           text: qsTr("Save As") + translationManager.emptyString;
-                           onTriggered: qrFileDialog.open()
-                        }
+                    LineEdit {
+                        id: paymentUrl
+                        Layout.fillWidth: true
+                        labelText: qsTr("Payment URL") + translationManager.emptyString
+                        text: makeQRCodeString()
+                        onTextUpdated: function() { paymentUrl.cursorPosition = 0; }
+                        readOnly: true
+                        copyButton: true
                     }
                 }
             }

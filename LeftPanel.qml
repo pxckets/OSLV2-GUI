@@ -27,10 +27,10 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.2
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
-import moneroComponents.Wallet 1.0
-import moneroComponents.NetworkType 1.0
+import ArqmaComponents.Wallet 1.0
+import ArqmaComponents.NetworkType 1.0
 import "components"
 
 Rectangle {
@@ -143,6 +143,34 @@ Rectangle {
                     font.bold: true
                     color: "#FF0000"
                 }
+
+                Rectangle {
+                    height: (logoutImage.height + 8) * scaleRatio
+                    width: (logoutImage.width + 8) * scaleRatio
+                    color: "transparent"
+                    anchors.right: parent.right
+                    anchors.rightMargin: 8
+                    anchors.top: parent.top
+                    anchors.topMargin: 25
+
+                    Image {
+                        id: logoutImage
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        height: 16 * scaleRatio
+                        width: 13 * scaleRatio
+                        source: "../images/logout.png"
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            appWindow.showWizard();
+                        }
+                    }
+                }
             }
 
             Item {
@@ -200,6 +228,7 @@ Rectangle {
                     id: unlockedBalanceLabel
                     visible: true
                     text: qsTr("Unlocked balance") + translationManager.emptyString
+                    fontSize: 14
                     anchors.left: parent.left
                     anchors.leftMargin: 20
                     anchors.top: parent.top

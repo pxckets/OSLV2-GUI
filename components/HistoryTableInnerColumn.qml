@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2015, The Monero Project
 //
 // All rights reserved.
@@ -27,13 +28,13 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import QtQuick.Dialogs 1.2
-import moneroComponents.Clipboard 1.0
-import moneroComponents.PendingTransaction 1.0
-import moneroComponents.Wallet 1.0
+import ArqmaComponents.Clipboard 1.0
+import ArqmaComponents.PendingTransaction 1.0
+import ArqmaComponents.Wallet 1.0
 
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 
 
 Rectangle{
@@ -50,20 +51,20 @@ Rectangle{
     Text {
         id: label1
         anchors.left: parent.left
-        font.family: MoneroComponents.Style.fontRegular.name
+        font.family: ArqmaComponents.Style.fontRegular.name
         font.pixelSize: 14 * scaleRatio
         text: labelHeader
-        color: MoneroComponents.Style.dimmedFontColor
+        color: ArqmaComponents.Style.dimmedFontColor
     }
 
     Text {
         id: label2
         anchors.left: parent.left
         anchors.top: label1.bottom
-        font.family: MoneroComponents.Style.fontRegular.name
+        font.family: ArqmaComponents.Style.fontRegular.name
         font.pixelSize: 14 * scaleRatio
         text: labelValue
-        color: MoneroComponents.Style.dimmedFontColor
+        color: ArqmaComponents.Style.dimmedFontColor
     }
 
     // hover effect / copy value
@@ -73,12 +74,12 @@ Rectangle{
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onEntered: {
-            label1.color = MoneroComponents.Style.defaultFontColor;
-            label2.color = MoneroComponents.Style.defaultFontColor;
+            label1.color = ArqmaComponents.Style.defaultFontColor;
+            label2.color = ArqmaComponents.Style.defaultFontColor;
         }
         onExited: {
-            label1.color = MoneroComponents.Style.dimmedFontColor
-            label2.color = MoneroComponents.Style.dimmedFontColor;
+            label1.color = ArqmaComponents.Style.dimmedFontColor;
+            label2.color = ArqmaComponents.Style.dimmedFontColor;
         }
         onClicked: {
             if(copyValue){

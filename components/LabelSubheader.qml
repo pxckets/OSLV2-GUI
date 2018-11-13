@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2015, The Monero Project
 //
 // All rights reserved.
@@ -28,7 +29,7 @@
 
 import QtQuick 2.0
 
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 
 Label {
     id: item
@@ -40,8 +41,8 @@ Label {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 2
-        color: MoneroComponents.Style.dividerColor
-        opacity: MoneroComponents.Style.dividerOpacity
+        color: ArqmaComponents.Style.dividerColor
+        opacity: ArqmaComponents.Style.dividerOpacity
     }
 
     MouseArea {

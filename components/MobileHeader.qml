@@ -1,9 +1,9 @@
 import QtQuick 2.2
 import QtGraphicalEffects 1.0
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 
-import moneroComponents.Wallet 1.0
-import "../components" as MoneroComponents
+import ArqmaComponents.Wallet 1.0
+import "../components" as ArqmaComponents
 
 // BasicPanel header
 Rectangle {
@@ -51,7 +51,7 @@ Rectangle {
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignBottom
-            color: "#FFFFFF"
+            color: "#535353"
             text: leftPanel.balanceLabelText + ":"
         }
 
@@ -65,7 +65,7 @@ Rectangle {
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignBottom
-            color: "#FFFFFF"
+            color: "#000000"
             text: leftPanel.balanceText
         }
 
@@ -89,7 +89,7 @@ Rectangle {
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignBottom
-            color: "#FFFFFF"
+            color: "#535353"
             text: qsTr("Unlocked Balance:")
         }
 
@@ -103,7 +103,7 @@ Rectangle {
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignBottom
-            color: "#FFFFFF"
+            color: "#000000"
             text: leftPanel.unlockedBalanceText
         }
     }

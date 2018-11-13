@@ -1,5 +1,7 @@
 import QtQuick 2.0
-import moneroComponents.Clipboard 1.0
+import ArqmaComponents.Clipboard 1.0
+
+import "../components"
 
 Column {
 
@@ -8,7 +10,6 @@ Column {
     property alias tipTextVisible: tipRect.visible
     property alias memoTextReadOnly : memoTextInput.readOnly
     property alias clipboardButtonVisible: clipboardButton.visible
-
 
     Rectangle {
         id: memoTextRect
@@ -20,13 +21,15 @@ Column {
                     + (tipRect.visible ? tipRect.height : 0)
         }
         border.width: 1
-        border.color: "#DBDBDB"
+        border.color: Qt.rgba(255, 255, 255, 0.25)
+        color: Qt.rgba(0, 0, 0, 0)
 
         TextEdit {
             id: memoTextInput
             property alias placeholderText: memoTextPlaceholder.text
             textMargin: 8 * scaleRatio
             text: ""
+            color: Style.defaultFontColor
             font.family: "Arial"
             font.pixelSize: 16 * scaleRatio
             wrapMode: TextInput.Wrap
@@ -40,22 +43,27 @@ Column {
                 anchors.fill:parent
                 font.pixelSize: 16 * scaleRatio
                 anchors.margins: 8 * scaleRatio
-                font.bold:true
                 font.family: "Arial"
                 text: qsTr("Enter your 25 (or 24) word mnemonic seed") + translationManager.emptyString
-                color: "#BABABA"
+                color: Style.legacy_placeholderFontColor
                 visible: !memoTextInput.text/* && !parent.focus*/
             }
+
         }
-        Image {
+
+        Rectangle {
             id : clipboardButton
+            width: 31
+            height: 31
+            color: Qt.rgba(0, 0, 0, 0)
+
             anchors.right: parent.right
             anchors.bottom: tipRect.top
-            source: "qrc:///images/greyTriangle.png"
             Image {
                 anchors.centerIn: parent
                 source: "qrc:///images/copyToClipboard.png"
             }
+
             Clipboard { id: clipboard }
             MouseArea {
                 anchors.fill: parent
@@ -67,14 +75,17 @@ Column {
 
             }
         }
+
         Rectangle {
             id: tipRect
             visible: true
             anchors.left: parent.left
             anchors.right: parent.right
+            color: Qt.rgba(0, 0, 0, 0)
+
             anchors.bottom: memoTextRect.bottom
+            border.color: Style.heroBlue
             height: wordsTipText.contentHeight + wordsTipText.anchors.topMargin
-            color: "#DBDBDB"
             property alias text: wordsTipText.text
 
             Text {
@@ -86,9 +97,11 @@ Column {
                 anchors.rightMargin: 16 * scaleRatio
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
+
                 font.family: "Arial"
                 font.pixelSize: 15 * scaleRatio
-                color: "#4A4646"
+
+                color: Style.infoRed
                 wrapMode: Text.Wrap
                 text: qsTr("This seed is <b>very</b> important to write down and keep secret. It is all you need to backup and restore your wallet.")
                     + translationManager.emptyString

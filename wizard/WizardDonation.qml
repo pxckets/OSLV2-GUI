@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -27,9 +28,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.2
+import QtQuick.Layouts 1.2
 import "../components"
 
-Item {
+ColumnLayout {
+    Layout.leftMargin: wizardLeftMargin
+    Layout.rightMargin: wizardRightMargin
+
+    id: donations
     opacity: 0
     visible: false
     Behavior on opacity {
@@ -52,7 +58,8 @@ Item {
         return true;
     }
 
-    Row {
+
+    RowLayout {
         id: dotsRow
         anchors.top: parent.top
         anchors.right: parent.right
@@ -77,23 +84,27 @@ Item {
         }
     }
 
-    Text {
-        id: headerText
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.topMargin: 74
-        anchors.leftMargin: 16
-        width: parent.width - dotsRow.width - 16
+    ColumnLayout {
+        id: headerColumn
+        Layout.leftMargin: wizardLeftMargin
+        Layout.rightMargin: wizardRightMargin
+        Layout.bottomMargin: (!isMobile) ? 40 * scaleRatio : 20
+        spacing: 30 * scaleRatio
 
-        font.family: "Arial"
-        font.pixelSize: 28
-        wrapMode: Text.Wrap
-        //renderType: Text.NativeRendering
-        color: "#000AD8"
-        text: qsTr("Arqma development is solely supported by donations") + translationManager.emptyString
+        Text {
+            Layout.fillWidth: true
+            font.family: "Arial"
+            font.pixelSize: 18 * scaleRatio
+            //renderType: Text.NativeRendering
+            color: Style.defaultFontColor
+            wrapMode: Text.Wrap
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("Arqma Network Development is solely supported by donations") + translationManager.emptyString
+        }
     }
 
-    Column {
+    ColumnLayout {
+        id: checkboxes
         anchors.top: headerText.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -102,7 +113,7 @@ Item {
         anchors.topMargin: 34
         spacing: 12
 
-        Row {
+        RowLayout {
             anchors.left: parent.left
             anchors.right: parent.right
             spacing: 2
@@ -110,9 +121,9 @@ Item {
             CheckBox {
                 id: enableAutoDonationCheckBox
                 anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("Enable auto-donations of?") + translationManager.emptyString
+                text: qsTr("Enable auto-donations ON?") + translationManager.emptyString
                 background: "#F0EEEE"
-                fontColor: "#4A4646"
+                fontColor: Style.defaultFontColor
                 fontSize: 18
                 checked: true
             }
@@ -130,7 +141,7 @@ Item {
                     font.family: "Arial"
                     font.pixelSize: 18
                     color: "#6B0072"
-                    text: "50"
+                    text: "1"
                     validator: IntValidator { bottom: 0; top: 100 }
                 }
 
@@ -159,12 +170,14 @@ Item {
             font.pixelSize: 15
             color: "#4A4646"
             wrapMode: Text.Wrap
-            text: qsTr("For every transaction, a small transaction fee is charged. This option lets you add an additional amount, " +
-                       "as a percentage of that fee, to your transaction to support Arqma development. For instance, a 50% " +
-                       "autodonation take a transaction fee of 0.0005 ARQ and add a 0.000025 ARQ to support Arqma development.")
+            text: qsTr("For every transaction, a small transaction fee is charged. This option lets you add an additional amount<br/>
+                        as a percentage of that fee, to your transaction to support Arqma Network Development.<br/>
+                        For instance, a 50% autodonation take a transaction fee of 0.0008 ARQ and add a 0.0004 ARQ to support Arqma Network Development.")
                     + translationManager.emptyString
         }
-        Column {
+      }
+
+    ColumnLayout {
             anchors.left: parent.left
             anchors.right: parent.right
             spacing: 12
@@ -175,7 +188,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 background: "#F0EEEE"
-                fontColor: "#4A4646"
+                fontColor: Style.defaultFontColor
                 fontSize: 18
                 checked: true
             }
@@ -185,12 +198,11 @@ Item {
                 anchors.right: parent.right
                 font.family: "Arial"
                 font.pixelSize: 15
-                color: "#4A4646"
+                color: Style.defaultFontColor
                 wrapMode: Text.Wrap
-                text: qsTr("Mining secures the Arqma network, and also pays a small reward for the work done. This option " +
+                text: qsTr("Mining secures the Arq-Net, and also pays a small reward for the work done. This option " +
                            "will let Arqma mine when your computer is on mains power and is idle. It will stop mining when you continue working.")
                       + translationManager.emptyString
             }
-        }
     }
 }

@@ -13,7 +13,7 @@ CONFIG += c++11 link_pkgconfig
 packagesExist(hidapi-libusb) {
     PKGCONFIG += hidapi-libusb
 }
-win32 {
+!win32 {
     QMAKE_CXXFLAGS += -fPIC -fstack-protector -fstack-protector-strong
     QMAKE_LFLAGS += -fstack-protector -fstack-protector-strong
 }
@@ -117,8 +117,9 @@ LIBS += -L$$WALLET_ROOT/lib \
         -llmdb \
         -lepee \
         -lunbound \
-        -leasylogging \
-	-lsodium
+        -lsodium \
+        -leasylogging
+
 }
 
 android {
@@ -128,6 +129,7 @@ android {
         -llmdb \
         -lepee \
         -lunbound \
+        -lsodium \
         -leasylogging
 }
 
@@ -147,6 +149,7 @@ ios {
         -llmdb \
         -lepee \
         -lunbound \
+        -lsodium \
         -leasylogging
 
     LIBS+= \
@@ -161,7 +164,6 @@ ios {
         -lboost_chrono \
         -lboost_program_options \
         -lssl \
-        -lsodium \
         -lcrypto \
         -ldl
 }
@@ -182,7 +184,6 @@ CONFIG(WITH_SCANNER) {
             INCLUDEPATH += $$PWD/../ZBar/include
             LIBS += -lzbarjni -liconv
         } else {
-			INCLUDEPATH += $$PWD/src/ZBarSDK
             LIBS += -lzbar
         }
     } else {
@@ -248,26 +249,26 @@ win32 {
         -licutu \
         -liconv \
         -lssl \
+        -lsodium \
         -lcrypto \
         -Wl,-Bdynamic \
         -lwinscard \
-	      -lcrypt32 \
-        -luser32 \
         -lws2_32 \
         -lwsock32 \
-        -lhidapi \
         -lIphlpapi \
+        -lcrypt32 \
+        -lhidapi \
         -lgdi32
 
-#    !contains(QMAKE_TARGET.arch, x86_64) {
-#        message("Target is 32bit")
-#        ## Windows x86 (32bit) specific build here
-#        ## there's 2Mb stack in libwallet allocated internally, so we set stack=4Mb
-#        ## this fixes app crash for x86 Windows build
-#        QMAKE_LFLAGS += -Wl,--stack,4194304
-#    } else {
-#        message("Target is 64bit")
-#    }
+    !contains(QMAKE_TARGET.arch, x86_64) {
+        message("Target is 32bit")
+        ## Windows x86 (32bit) specific build here
+        ## there's 2Mb stack in libwallet allocated internally, so we set stack=4Mb
+        ## this fixes app crash for x86 Windows build
+        QMAKE_LFLAGS += -Wl,--stack,4194304
+    } else {
+        message("Target is 64bit")
+    }
 
     QMAKE_LFLAGS += -Wl,--dynamicbase -Wl,--nxcompat
 }
@@ -277,9 +278,9 @@ linux {
         message("using static libraries")
         LIBS+= -Wl,-Bstatic
         QMAKE_LFLAGS += -static-libgcc -static-libstdc++
-        contains(QT_ARCH, x86_64) {
-            LIBS+= -lunbound
-        }
+#        contains(QT_ARCH, x86_64) {
+            LIBS+= -lunbound \
+#        }
     } else {
       # On some distro's we need to add dynload
       LIBS+= -ldl
@@ -431,7 +432,7 @@ macx {
 }
 
 win32 {
-    deploy.commands += windeployqt $$sprintf("%1/%2/%3.exe", $$OUT_PWD, $$DESTDIR, $$TARGET) -release -qmldir=$$PWD
+    deploy.commands += windeployqt $$sprintf("%1/%2/%3.exe", $$OUT_PWD, $$DESTDIR, $$TARGET) -release -no-translations -qmldir=$$PWD
     # Win64 msys2 deploy settings
     contains(QMAKE_HOST.arch, x86_64) {
         deploy.commands += $$escape_expand(\n\t) $$PWD/windeploy_helper.sh $$DESTDIR

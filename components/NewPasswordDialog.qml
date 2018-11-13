@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2017, The Monero Project
 //
 // All rights reserved.
@@ -29,11 +30,11 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.2
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.0
 
-import "../components" as MoneroComponents
+import "../components" as ArqmaComponents
 
 Item {
     id: root
@@ -100,9 +101,9 @@ Item {
                 Layout.fillWidth: true
 
                 font.pixelSize: 16 * scaleRatio
-                font.family: MoneroComponents.Style.fontLight.name
+                font.family: ArqmaComponents.Style.fontLight.name
 
-                color: MoneroComponents.Style.defaultFontColor
+                color: ArqmaComponents.Style.defaultFontColor
             }
 
             TextField {
@@ -112,13 +113,13 @@ Item {
                 anchors.left: parent.left
                 horizontalAlignment: TextInput.AlignLeft
                 verticalAlignment: TextInput.AlignVCenter
-                font.family: MoneroComponents.Style.fontLight.name
+                font.family: ArqmaComponents.Style.fontLight.name
                 font.pixelSize: 24 * scaleRatio
                 echoMode: TextInput.Password
                 bottomPadding: 10
                 leftPadding: 10
                 topPadding: 10
-                color: MoneroComponents.Style.defaultFontColor
+                color: ArqmaComponents.Style.defaultFontColor
                 KeyNavigation.tab: passwordInput2
 
                 background: Rectangle {
@@ -158,9 +159,9 @@ Item {
                 Layout.fillWidth: true
 
                 font.pixelSize: 16 * scaleRatio
-                font.family: MoneroComponents.Style.fontLight.name
+                font.family: ArqmaComponents.Style.fontLight.name
 
-                color: MoneroComponents.Style.defaultFontColor
+                color: ArqmaComponents.Style.defaultFontColor
             }
 
             TextField {
@@ -170,14 +171,14 @@ Item {
                 anchors.left: parent.left
                 horizontalAlignment: TextInput.AlignLeft
                 verticalAlignment: TextInput.AlignVCenter
-                font.family: MoneroComponents.Style.fontLight.name
+                font.family: ArqmaComponents.Style.fontLight.name
                 font.pixelSize: 24 * scaleRatio
                 echoMode: TextInput.Password
                 KeyNavigation.tab: okButton
                 bottomPadding: 10
                 leftPadding: 10
                 topPadding: 10
-                color: MoneroComponents.Style.defaultFontColor
+                color: ArqmaComponents.Style.defaultFontColor
 
                 background: Rectangle {
                     radius: 2
@@ -223,7 +224,7 @@ Item {
                 Layout.topMargin: 16
                 Layout.alignment: Qt.AlignRight
 
-                MoneroComponents.StandardButton {
+                ArqmaComponents.StandardButton {
                     id: cancelButton
                     text: qsTr("Cancel") + translationManager.emptyString
                     KeyNavigation.tab: passwordInput1
@@ -232,7 +233,7 @@ Item {
                         root.rejected()
                     }
                 }
-                MoneroComponents.StandardButton {
+                ArqmaComponents.StandardButton {
                     id: okButton
                     text: qsTr("Continue")
                     KeyNavigation.tab: cancelButton

@@ -1,3 +1,4 @@
+// Copyright (c) 2018, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -28,8 +29,8 @@
 
 import QtQuick 2.2
 import QtQml 2.2
-import QtQuick.Layouts 1.1
-import moneroComponents.NetworkType 1.0
+import QtQuick.Layouts 1.2
+import ArqmaComponents.NetworkType 1.0
 import "../components"
 
 ColumnLayout {
@@ -70,10 +71,10 @@ ColumnLayout {
             font.family: "Arial"
             font.pixelSize: 28 * scaleRatio
             //renderType: Text.NativeRendering
-            color: "#0004FF"
+            color: Style.defaultFontColor
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("Welcome to Arqma!") + translationManager.emptyString
+            text: qsTr("Welcome to Arqma! The House of All Things Better Than The Best!") + translationManager.emptyString
         }
 
         Text {
@@ -81,7 +82,7 @@ ColumnLayout {
             font.family: "Arial"
             font.pixelSize: 18 * scaleRatio
             //renderType: Text.NativeRendering
-            color: "#0004FF"
+            color: Style.defaultFontColor
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("Please select one of the following options:") + translationManager.emptyString
@@ -137,7 +138,7 @@ ColumnLayout {
                 Layout.preferredWidth: page.buttonSize
                 font.family: "Arial"
                 font.pixelSize: 16 * scaleRatio
-                color: "#4A4949"
+                color: Style.defaultFontColor
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
                 text: qsTr("Create a new wallet") + translationManager.emptyString
@@ -179,7 +180,7 @@ ColumnLayout {
                 Layout.preferredWidth: page.buttonSize
                 font.family: "Arial"
                 font.pixelSize: 16 * scaleRatio
-                color: "#4A4949"
+                color: Style.defaultFontColor
                 horizontalAlignment: Text.AlignHCenter
                 text: qsTr("Restore wallet from keys or Mnemonic seed") + translationManager.emptyString
                 width:page.buttonSize
@@ -222,7 +223,7 @@ ColumnLayout {
                 Layout.preferredWidth: page.buttonSize
                 font.family: "Arial"
                 font.pixelSize: 16 * scaleRatio
-                color: "#4A4949"
+                color: Style.defaultFontColor
                 horizontalAlignment: Text.AlignHCenter
                 text: qsTr("Open a wallet from file") + translationManager.emptyString
                 wrapMode: Text.WordWrap
@@ -267,7 +268,7 @@ ColumnLayout {
                 Layout.preferredWidth: page.buttonSize
                 font.family: "Arial"
                 font.pixelSize: 16 * scaleRatio
-                color: "#4A4949"
+                color: Style.defaultFontColor
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
                 text: qsTr("Create a new wallet from hardware device") + translationManager.emptyString
@@ -288,7 +289,7 @@ ColumnLayout {
                 id: showAdvancedCheckbox
                 darkDropIndicator: true
                 text: qsTr("Advanced options") + translationManager.emptyString
-                fontColor: "#4A4646"
+                fontColor: Style.defaultFontColor
             }
         }
 
@@ -301,7 +302,7 @@ ColumnLayout {
                 text: qsTr("Mainnet") + translationManager.emptyString
                 checkedColor: Qt.rgba(0, 0, 0, 0.75)
                 borderColor: Qt.rgba(0, 0, 0, 0.45)
-                fontColor: "#4A4646"
+                fontColor: Style.defaultFontColor
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.MAINNET;
                 onClicked: {
@@ -322,7 +323,7 @@ ColumnLayout {
                 text: qsTr("Testnet") + translationManager.emptyString
                 checkedColor: Qt.rgba(0, 0, 0, 0.75)
                 borderColor: Qt.rgba(0, 0, 0, 0.45)
-                fontColor: "#4A4646"
+                fontColor: Style.defaultFontColor
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.TESTNET;
                 onClicked: {
@@ -343,7 +344,7 @@ ColumnLayout {
                 text: qsTr("Stagenet") + translationManager.emptyString
                 checkedColor: Qt.rgba(0, 0, 0, 0.75)
                 borderColor: Qt.rgba(0, 0, 0, 0.45)
-                fontColor: "#4A4646"
+                fontColor: Style.defaultFontColor
                 fontSize: 16 * scaleRatio
                 checked: appWindow.persistentSettings.nettype == NetworkType.STAGENET;
                 onClicked: {
