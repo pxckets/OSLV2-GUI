@@ -189,7 +189,7 @@ ColumnLayout {
         if(isIOS)
             path = ArqmaAccountsDir + path;
         if (walletManager.walletExists(path)) {
-            walletErrorDialog.text = qsTr("A wallet with same name already exists. Please change wallet name") + translationManager.emptyString;
+            walletErrorDialog.text = qsTr("Wallet with same name already exists. Please change wallet name") + translationManager.emptyString;
             walletErrorDialog.open();
             return false;
         }

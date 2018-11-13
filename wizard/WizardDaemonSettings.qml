@@ -64,6 +64,7 @@ ColumnLayout {
 
     RowLayout {
         id: dotsRow
+        anchors.fill: parent
         Layout.alignment: Qt.AlignRight
 
         ListModel {
@@ -89,6 +90,7 @@ ColumnLayout {
 
     ColumnLayout {
         id: headerColumn
+        anchors.fill: parent
         //Layout.fillWidth: true
         //Layout.bottomMargin: 14 * scaleRatio;
 
