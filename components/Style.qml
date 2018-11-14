@@ -1,6 +1,6 @@
 pragma Singleton
 
-import QtQuick 2.5
+import QtQuick 2.7
 
 QtObject {
     property QtObject fontMedium: FontLoader { id: _fontMedium; source: "qrc:/fonts/Roboto-Medium.ttf"; }

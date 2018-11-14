@@ -28,7 +28,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import ArqmaComponents.WalletManager 1.0
-import QtQuick 2.2
+import QtQuick 2.7
 import QtQuick.Layouts 1.2
 import "../components"
 import "utils.js" as Utils
