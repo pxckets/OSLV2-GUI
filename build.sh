@@ -98,7 +98,7 @@ fi
 
 # force version update
 #get_tag
-source ./arqma/src/version.cpp
+source ./arqma/src/version.cpp.in
 echo "var GUI_VERSION = \"$ARQMA_VERSION_FULL\"" > version.js
 #pushd "$ARQMA_DIR"
 #get_tag

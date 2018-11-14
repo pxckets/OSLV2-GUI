@@ -260,15 +260,15 @@ win32 {
         -lhidapi \
         -lgdi32
 
-    !contains(QMAKE_TARGET.arch, x86_64) {
-        message("Target is 32bit")
-        ## Windows x86 (32bit) specific build here
-        ## there's 2Mb stack in libwallet allocated internally, so we set stack=4Mb
-        ## this fixes app crash for x86 Windows build
-        QMAKE_LFLAGS += -Wl,--stack,4194304
-    } else {
-        message("Target is 64bit")
-    }
+#      !contains(QMAKE_TARGET.arch, x86_64) {
+#        message("Target is 32bit")
+#        ## Windows x86 (32bit) specific build here
+#        ## there's 2Mb stack in libwallet allocated internally, so we set stack=4Mb
+#        ## this fixes app crash for x86 Windows build
+#        QMAKE_LFLAGS += -Wl,--stack,4194304
+#    } else {
+#        message("Target is 64bit")
+#    }
 
     QMAKE_LFLAGS += -Wl,--dynamicbase -Wl,--nxcompat
 }
