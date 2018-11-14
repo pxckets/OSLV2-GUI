@@ -27,8 +27,8 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.7
-import QtQuick.Layouts 1.2
+import QtQuick 2.0
+import QtQuick.Layouts 1.1
 
 import "../components" as ArqmaComponents
 
@@ -37,7 +37,7 @@ RowLayout {
     property alias text: label.text
     property string checkedIcon: "../images/CheckedBlueIcon.png"
     property string uncheckedIcon
-    property bool checked: false
+    property bool checked: true
     property alias background: backgroundRect.color
     property int fontSize: 14 * scaleRatio
     property alias fontColor: label.color
@@ -57,7 +57,12 @@ RowLayout {
             height: checkBox.height - 1
             y: 0
             color: "transparent"
-            border.color: checkBox.checked ? ArqmaComponents.Style.heroBlue : Qt.rgba(1, 1, 1, 0.25)
+            border.color:
+                if(checkBox.checked){
+                    return ArqmaComponents.Style.inputBorderColorActive;
+                } else {
+                    return ArqmaComponents.Style.inputBorderColorInActive;
+                }
         }
 
         Rectangle {
