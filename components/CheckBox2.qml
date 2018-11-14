@@ -35,7 +35,7 @@ import "." 1.0
 RowLayout {
     id: checkBox
     property alias text: label.text
-    property string checkedIcon: "../images/CheckedBlueIcon.png"
+    property string checkedIcon: "../images/checkedBlueIcon.png"
     property string uncheckedIcon
     property bool checked: false
     property string background: "backgroundRect.color"
