@@ -35,7 +35,7 @@ import "../components" as ArqmaComponents
 RowLayout {
     id: checkBox
     property alias text: label.text
-    property string checkedIcon: "../images/CheckedBlueIcon.png"
+    property string checkedIcon: "../images/checkedBlueIcon.png"
     property string uncheckedIcon
     property bool checked: true
     property alias background: backgroundRect.color
