@@ -144,7 +144,7 @@ ios {
     QMAKE_LFLAGS += -v
     QMAKE_IOS_DEVICE_ARCHS = arm64
     CONFIG += arm64
-  LIBS += -L$$WALLET_ROOT/lib-ios \
+    LIBS += -L$$WALLET_ROOT/lib-ios \
         -lwallet_merged \
         -llmdb \
         -lepee \
