@@ -34,7 +34,7 @@ cd $SOURCE_DIR
 echo "============================ Arqma-gui ============================"
 
 echo "Cloning arqma-gui from - $ARQMA_GUI_URL"
-git clone -b build $ARQMA_GUI_URL $ARQMA_GUI_DIR_PATH
+git clone $ARQMA_GUI_URL $ARQMA_GUI_DIR_PATH
 cd $ARQMA_GUI_DIR_PATH
 #echo "Cloning Arqma from - $ARQMA_URL to - $ARQMA_DIR_PATH"
 #git clone -b build $ARQMA_URL $ARQMA_DIR_PATH
