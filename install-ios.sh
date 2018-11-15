@@ -7,7 +7,7 @@ BOOST_DIR_PATH="$EXTERNAL_DIR_PATH/ofxiOSBoost"
 OPEN_SSL_URL="https://github.com/x2on/OpenSSL-for-iPhone.git"
 OPEN_SSL_DIR_PATH="$EXTERNAL_DIR_PATH/OpenSSL"
 ARQMA_GUI_URL="https://github.com/malbit/arqma-gui.git"
-ARQMA_GUI_DIR_PATH="$EXTERNAL_DIR_PATH/arqma-gui"
+ARQMA_GUI_DIR_PATH="$SOURCE_DIR"
 #ARQMA_URL="https://github.com/arqma/arqma.git"
 ARQMA_DIR_PATH="$ARQMA_GUI_DIR_PATH/arqma"
 
@@ -33,9 +33,9 @@ cd $SOURCE_DIR
 
 echo "============================ Arqma-gui ============================"
 
-echo "Cloning arqma-gui from - $ARQMA_GUI_URL"
-git clone $ARQMA_GUI_URL $ARQMA_GUI_DIR_PATH
-cd $ARQMA_GUI_DIR_PATH
+#echo "Cloning arqma-gui from - $ARQMA_GUI_URL"
+#git clone $ARQMA_GUI_URL $ARQMA_GUI_DIR_PATH
+#cd $ARQMA_GUI_DIR_PATH
 #echo "Cloning Arqma from - $ARQMA_URL to - $ARQMA_DIR_PATH"
 #git clone -b build $ARQMA_URL $ARQMA_DIR_PATH
 echo "Export Boost vars"
