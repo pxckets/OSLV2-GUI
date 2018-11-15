@@ -342,9 +342,6 @@ macx {
         -lsodium \
         -lcrypto \
         -ldl
-
-    LIBS+= -framework PCSC
-
 }
 
 
