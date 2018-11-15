@@ -147,8 +147,14 @@ application.
 2. Install dependencies
 
     ```
-    pacman -S git mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-openssl mingw-w64-x86_64-zeromq mingw-w64-x86_64-libsodium mingw-w64-x86_64-qt-creator mingw-w64-x86_64-hidapi
+    pacman -S git mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-openssl mingw-w64-x86_64-zeromq mingw-w64-x86_64-libsodium mingw-w64-x86_64-qt5 mingw-w64-x86_64-hidapi
     ```
+
+**** Note: There is a known issue that GUI won't compile properly with Qt 5.11.2.
+
+If your encounter issue with that, please remove current Qt by: pacman -R mingw-w64-x86_64-qt5
+
+And install 5.11.1 instead by: pacman -U http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-qt5-5.11.1-3-any.pkg.tar.xz
 
 3. Clone repository
 
