@@ -12,19 +12,19 @@
   <string>appicon.icns</string>
 
   <key>CFBundlePackageType</key>
-  <string>APPL</string>
+  <string>Graphical User Interface</string>
 
   <key>CFBundleSignature</key>
-  <string>????</string>
+  <string>Arqma-Network</string>
 
   <key>CFBundleExecutable</key>
   <string>arqma-wallet-gui</string>
   
   <key>CFBundleName</key>
-  <string>Arqma GUI</string>
+  <string>Arqma iGUI</string>
 
   <key>CFBundleIdentifier</key>
-  <string>com.arqma.arqma-wallet-gui</string>
+  <string>com.arqma-wallet-gui</string>
 
   <key>NSSupportsAutomaticGraphicsSwitching</key>
   <true/>
