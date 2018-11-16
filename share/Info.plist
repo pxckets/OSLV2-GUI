@@ -21,10 +21,10 @@
   <string>arqma-wallet-gui</string>
   
   <key>CFBundleName</key>
-  <string>Arqma iGUI</string>
+  <string>Arqma GUI iWallet</string>
 
   <key>CFBundleIdentifier</key>
-  <string>com.arqma-wallet-gui</string>
+  <string>com.arqma-iWallet-gui</string>
 
   <key>NSSupportsAutomaticGraphicsSwitching</key>
   <true/>
