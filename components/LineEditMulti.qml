@@ -55,7 +55,7 @@ ColumnLayout {
         if(input.error && input.text !== ""){
             return ArqmaComponents.Style.inputBorderColorInvalid;
         } else if(input.activeFocus) {
-            return ArqmaComponents.Style.heroGreen;
+            return ArqmaComponents.Style.heroBlue;
         } else {
             return ArqmaComponents.Style.inputBorderColorInActive;
         }
