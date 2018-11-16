@@ -144,7 +144,7 @@ ios {
     QMAKE_LFLAGS += -v
     QMAKE_IOS_DEVICE_ARCHS = arm64
     CONFIG += arm64
-  LIBS += -L$$WALLET_ROOT/lib-ios \
+    LIBS += -L$$WALLET_ROOT/lib-ios \
         -lwallet_merged \
         -llmdb \
         -lepee \
@@ -330,8 +330,8 @@ macx {
         -L/usr/local/opt/openssl/lib \
         -L/usr/local/opt/boost/lib \
         -lboost_serialization \
-        -lhidapi \
         -lboost_thread-mt \
+        -lboost_system-mt \
         -lboost_system \
         -lboost_date_time \
         -lboost_filesystem \
@@ -341,10 +341,8 @@ macx {
         -lssl \
         -lsodium \
         -lcrypto \
+        -lhidapi \
         -ldl
-
-    LIBS+= -framework PCSC
-
 }
 
 
@@ -428,7 +426,7 @@ QML_IMPORT_PATH =
 # Default rules for deployment.
 include(deployment.pri)
 macx {
-    deploy.commands += macdeployqt $$sprintf("%1/%2/%3.app", $$OUT_PWD, $$DESTDIR, $$TARGET) -qmldir=$$PWD
+    deploy.commands += macdeployqt $$sprintf("%1/%2/%3.app", $$OUT_PWD, $$DESTDIR, $$TARGET) -release -qmldir=$$PWD
 }
 
 win32 {
