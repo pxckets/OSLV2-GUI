@@ -27,7 +27,7 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.2
+import QtQuick 2.7
 import QtQuick.Window 2.0
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
@@ -253,7 +253,7 @@ ApplicationWindow {
             // console.log("opening wallet at: ", wallet_path, "with password: ", appWindow.walletPassword);
             console.log("opening wallet at: ", wallet_path, ", network type: ", persistentSettings.nettype == NetworkType.MAINNET ? "mainnet" : persistentSettings.nettype == NetworkType.TESTNET ? "testnet" : "stagenet");
             walletManager.openWalletAsync(wallet_path, walletPassword,
-                                              persistentSettings.nettype);
+                                              persistentSettings.nettype, persistentSettings.kdfRounds);
         }
 
         // Hide titlebar based on persistentSettings.customDecorations
@@ -1045,6 +1045,7 @@ ApplicationWindow {
         property bool segregatePreForkOutputs: true
         property bool keyReuseMitigation2: true
         property int segregationHeight: 0
+        property int kdfRounds: 1
     }
 
     // Information dialog

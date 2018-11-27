@@ -1,4 +1,4 @@
 [submodule "arqma"]
 	path = arqma
-	url = https://github.com/arqma/arqma.git
+	url = https://gitlab.arqma.com/malbit/arqma.git
 	ignore = all

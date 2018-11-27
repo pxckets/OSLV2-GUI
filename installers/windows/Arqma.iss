@@ -9,7 +9,7 @@ AppName=Arqma GUI Wallet
 ; Thus it's important to keep this stable over releases
 ; With a different "AppName" InnoSetup would treat a mere update as a completely new application and thus mess up
 
-AppVersion=0.1.3.1
+AppVersion=0.2.0.0
 DefaultDirName={pf}\Arqma GUI Wallet
 DefaultGroupName=Arqma GUI Wallet
 UninstallDisplayIcon={app}\arqma-wallet-gui.exe
@@ -93,6 +93,11 @@ Source: "arqma-daemon.bat"; DestDir: "{app}"; Flags: ignoreversion;
 ; Arqma blockchain utilities
 Source: "bin\arqma-blockchain-export.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\arqma-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\arqma-blockchain-mark-spent-outputs.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\arqma-blockchain-usage.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\arqma-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\arqma-blockchain-ancestry.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\arqma-blockchain-depth.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Various .qm files for translating the wallet UI "on the fly" into all supported languages
 Source: "bin\translations\*"; DestDir: "{app}\translations"; Flags: recursesubdirs ignoreversion

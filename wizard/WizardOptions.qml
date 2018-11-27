@@ -27,8 +27,9 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.2
+import QtQuick 2.7
 import QtQml 2.2
+import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.2
 import ArqmaComponents.NetworkType 1.0
 import "../components"
@@ -353,6 +354,36 @@ ColumnLayout {
                     testNet.checked = false;
                     console.log("Network type set to ", persistentSettings.nettype == NetworkType.STAGENET ? "Stagenet" : "Mainnet")
                 }
+            }
+        }
+    }
+
+    RowLayout {
+        Layout.leftMargin: wizardLeftMargin
+        Layout.rightMargin: wizardRightMargin
+        Layout.topMargin: 50 * scaleRatio
+        Layout.alignment: Qt.AlignHCenter
+        Layout.fillWidth: true
+        visible: showAdvancedCheckbox.checked
+
+        Text {
+            font.family: "Arial"
+            font.pixelSize: 16 * scaleRatio
+            color: Style.infoRed
+            text: qsTr("Number of KDF Crypto-rounds:") + translationManager.emptyString
+        }
+        TextField {
+            id: kdfRoundsText
+            font.family: "Arial"
+            font.pixelSize: 16 * scaleRatio
+            Layout.preferredWidth: 60
+            horizontalAlignment: TextInput.AlignRight
+            selectByMouse: true
+            color: Style.darkNavy
+            text: persistentSettings.kdfRounds
+            validator: IntValidator { bottom: 1 }
+            onTextEdited: {
+                kdfRoundsText.text = persistentSettings.kdfRounds = parseInt(kdfRoundsText.text) >= 1 ? parseInt(kdfRoundsText.text) : 1;
             }
         }
     }
