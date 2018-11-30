@@ -64,9 +64,9 @@
  ARG BOOST_VERSION_DOT=1.68.0
  ARG BOOST_HASH=da3411ea45622579d419bfda66f45cd0f8c32a181d84adfa936f5688388995cf
  RUN set -ex \
-     && curl -L -o  boost_${BOOST_VERSION}.tar.bz2 https://dl.bintray.com/boostorg/release/${BOOST_VERSION_DOT}/source/boost_${BOOST_VERSION}.tar.bz2 \
+     && curl -L -o  boost_${BOOST_VERSION}.tar.gz https://dl.bintray.com/boostorg/release/${BOOST_VERSION_DOT}/source/boost_${BOOST_VERSION}.tar.gz \
      && echo "${BOOST_HASH}  boost_${BOOST_VERSION}.tar.bz2" | sha256sum -c \
-     && tar -xvf boost_${BOOST_VERSION}.tar.bz2 \
+     && tar -xvf boost_${BOOST_VERSION}.tar.gz \
      && cd boost_${BOOST_VERSION} \
      && ./bootstrap.sh --prefix=/usr/ \
      && ./b2 -j${NUM_COMPILE_JOBS} --build-type=minimal link=static runtime-link=static --with-chrono --with-date_time --with-filesystem --with-program_options --with-regex --with-serialization --with-system --with-thread --with-locale threading=multi threadapi=pthread cflags="-fPIC" cxxflags="-fPIC" stage install
