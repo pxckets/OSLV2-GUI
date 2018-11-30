@@ -49,7 +49,10 @@
          libtool-bin \
          autoconf \
          automake \
-         libhidapi-dev
+         libhidapi-dev \
+         libudev-dev \
+         libhidapi-libusb0 \
+         libhidapi-hidraw0
 
  ARG NUM_COMPILE_JOBS=1
  WORKDIR /usr/local
@@ -57,9 +60,9 @@
  # NOTE: We install boost and openssl to their default locations because the GUI
  # script is less flexible and it sets us up for success in the general case if
  # it's in a common location.
- ARG BOOST_VERSION=1_66_0
- ARG BOOST_VERSION_DOT=1.66.0
- ARG BOOST_HASH=5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9
+ ARG BOOST_VERSION=1_68_0
+ ARG BOOST_VERSION_DOT=1.68.0
+ ARG BOOST_HASH=da3411ea45622579d419bfda66f45cd0f8c32a181d84adfa936f5688388995cf
  RUN set -ex \
      && curl -L -o  boost_${BOOST_VERSION}.tar.bz2 https://dl.bintray.com/boostorg/release/${BOOST_VERSION_DOT}/source/boost_${BOOST_VERSION}.tar.bz2 \
      && echo "${BOOST_HASH}  boost_${BOOST_VERSION}.tar.bz2" | sha256sum -c \
@@ -69,8 +72,8 @@
      && ./b2 -j${NUM_COMPILE_JOBS} --build-type=minimal link=static runtime-link=static --with-chrono --with-date_time --with-filesystem --with-program_options --with-regex --with-serialization --with-system --with-thread --with-locale threading=multi threadapi=pthread cflags="-fPIC" cxxflags="-fPIC" stage install
  ENV BOOST_ROOT /usr/
 
- ARG OPENSSL_VERSION=1.0.2n
- ARG OPENSSL_HASH=370babb75f278c39e0c50e8c4e7493bc0f18db6867478341a832a982fd15a8fe
+ ARG OPENSSL_VERSION=1.0.2q
+ ARG OPENSSL_HASH=5744cfcbcec2b1b48629f7354203bc1e5e9b5466998bbccc5b5fcde3b18eb684
  RUN set -ex \
      && curl -O https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz \
      && echo "${OPENSSL_HASH}  openssl-${OPENSSL_VERSION}.tar.gz" | sha256sum -c \
