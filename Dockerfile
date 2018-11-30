@@ -65,7 +65,7 @@
  ARG BOOST_HASH=da3411ea45622579d419bfda66f45cd0f8c32a181d84adfa936f5688388995cf
  RUN set -ex \
      && curl -L -o  boost_${BOOST_VERSION}.tar.gz https://dl.bintray.com/boostorg/release/${BOOST_VERSION_DOT}/source/boost_${BOOST_VERSION}.tar.gz \
-     && echo "${BOOST_HASH}  boost_${BOOST_VERSION}.tar.bz2" | sha256sum -c \
+     && echo "${BOOST_HASH}  boost_${BOOST_VERSION}.tar.gz" | sha256sum -c \
      && tar -xvf boost_${BOOST_VERSION}.tar.gz \
      && cd boost_${BOOST_VERSION} \
      && ./bootstrap.sh --prefix=/usr/ \
