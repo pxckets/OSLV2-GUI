@@ -1,7 +1,7 @@
 /**
  * Formats a date.
  * @param {date} date - toggle decorations
- * @param {params} params - 
+ * @param {params} params -
  */
 function formatDate( date, params ) {
     var options = {
@@ -37,7 +37,7 @@ function showSeedPage() {
                 currentWallet.setSeedLanguage("English");
             }
             // Load keys page
-            middlePanel.state = "Keys"
+            appWindow.showPageRequest("Keys");
         } else {
             informationPopup.title  = qsTr("Error") + translationManager.emptyString;
             informationPopup.text = qsTr("Wrong password");
@@ -48,7 +48,7 @@ function showSeedPage() {
         }
     }
     passwordDialog.onRejectedCallback = function() {
-        appWindow.showPageRequest("Settings");
+        leftPanel.selectItem(middlePanel.state);
     }
     passwordDialog.open();
     if(isMobile) hideMenu();
