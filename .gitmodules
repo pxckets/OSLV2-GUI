@@ -1,0 +1,3 @@
+[submodule "arqma"]
+	path = arqma
+	url = https://github.com/arqma/arqma.git
