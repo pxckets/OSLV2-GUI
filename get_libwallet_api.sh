@@ -27,6 +27,11 @@ git -C $ARQMA_DIR checkout -B $VERSIONTAG
 git -C $ARQMA_DIR submodule init
 git -C $ARQMA_DIR submodule update --remote
 
+#update submodules
+git -C $ARQMA_DIR submodule update --init --force external/rapidjson
+git -C $ARQMA_DIR submodule update --init --force external/unbound
+git -C $ARQMA_DIR submodule update --init --force external/miniupnp
+
 # Merge arqma PR dependencies
 
 # Workaround for git username requirements
