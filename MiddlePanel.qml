@@ -29,7 +29,7 @@
 
 
 import QtQml 2.0
-import QtQuick 2.2
+import QtQuick 2.7
 // QtQuick.Controls 2.0 isn't stable enough yet. Needs more testing.
 //import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
@@ -151,7 +151,7 @@ Rectangle {
             }, State {
                 name: "Keys"
                 PropertyChanges { target: root; currentView: keysView }
-                PropertyChanges { target: mainFlickable; contentHeight: minHeight  + 200 * scaleRatio }
+                PropertyChanges { target: mainFlickable; contentHeight: keysView.keysHeight }
             }
         ]
 

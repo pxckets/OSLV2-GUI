@@ -28,7 +28,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import ArqmaComponents.WalletManager 1.0
-import QtQuick 2.2
+import QtQuick 2.7
 import QtQuick.Layouts 1.2
 import "../components"
 import "utils.js" as Utils
@@ -49,8 +49,8 @@ ColumnLayout {
 
 
     function onPageOpened(settingsObject) {
-        localNode.checked  = true;
-        remoteNode.checked = false;
+        localNode.checked  = false;
+        remoteNode.checked = true;
     }
     function onWizardRestarted(){
     }
@@ -125,21 +125,8 @@ ColumnLayout {
         }
 
         RadioButton {
-            id: localNode
-            text: qsTr("Start a node automatically in background or use an already running local node\n(Downloads blockchain, slow but private)") + translationManager.emptyString
-            fontColor: Style.defaultFontColor
-            fontSize: 16 * scaleRatio
-            checked: !appWindow.persistentSettings.useRemoteNode && !isAndroid && !isIOS
-            visible: !isAndroid && !isIOS
-            onClicked: {
-                checked = true;
-                remoteNode.checked = false;
-            }
-        }
-
-        RadioButton {
             id: remoteNode
-            text: qsTr("Connect to a remote node\n(Recommended, fast but less private)") + translationManager.emptyString
+            text: qsTr("Connect to a remote Arq-Net Node\n(It is Recommended and Fast but less private)") + translationManager.emptyString
             Layout.topMargin: 20 * scaleRatio
             fontColor: Style.defaultFontColor
             fontSize: 16 * scaleRatio
@@ -147,6 +134,20 @@ ColumnLayout {
             onClicked: {
                 checked = true
                 localNode.checked = false
+            }
+        }
+
+        RadioButton {
+            id: localNode
+            text: qsTr("Start Arq-Net Arqma Node automatically in background or use already running node\n(Downloads Blockchain file. It is slower but Private)") + translationManager.emptyString
+            Layout.topMargin: 20 * scaleRatio
+            fontColor: Style.defaultFontColor
+            fontSize: 16 * scaleRatio
+            checked: !appWindow.persistentSettings.useRemoteNode && !isAndroid && !isIOS
+            visible: !isAndroid && !isIOS
+            onClicked: {
+                checked = true;
+                remoteNode.checked = false;
             }
         }
     }

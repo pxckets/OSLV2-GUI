@@ -27,7 +27,7 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.2
+import QtQuick 2.7
 import ArqmaComponents.WalletManager 1.0
 import ArqmaComponents.Wallet 1.0
 import QtQuick.Layouts 1.2
@@ -84,8 +84,9 @@ ColumnLayout {
         var tmp_wallet_filename = oshelper.temporaryFilename();
         console.log("Creating temporary wallet", tmp_wallet_filename)
         var nettype = appWindow.persistentSettings.nettype;
+        var kdfRounds = appWindow.persistentSettings.kdfRounds;
         var wallet = walletManager.createWallet(tmp_wallet_filename, "", settingsObject.wallet_language,
-                                                nettype)
+                                                nettype, kdfRounds)
         uiItem.wordsTextItem.memoText = wallet.seed
         // saving wallet in "global" settings object
         // TODO: wallet should have a property pointing to the file where it stored or loaded from

@@ -28,7 +28,7 @@
 
 import QtQuick 2.5
 import QtQuick.Window 2.0
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 
 Rectangle {
     id: titleBar
@@ -84,6 +84,7 @@ Rectangle {
         z: parent.z + 1
 
         Image {
+            visible: !isMobile
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.topMargin: 11

@@ -29,7 +29,7 @@
 
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
-import QtQuick 2.2
+import QtQuick 2.7
 import QtQuick.Layouts 1.2
 
 import "../components" as ArqmaComponents
@@ -63,7 +63,7 @@ GridLayout {
         return daemonAddr.text.trim() + ":" + daemonPort.text.trim()
     }
 
-    LineEditMulti {
+    LineEdit {
         id: daemonAddr
         Layout.fillWidth: true
         placeholderText: qsTr("Remote Arqma-Node Hostname / IP") + translationManager.emptyString
@@ -80,7 +80,7 @@ GridLayout {
         onEditingFinished: root.editingFinished()
     }
 
-    LineEditMulti {
+    LineEdit {
         id: daemonPort
         Layout.fillWidth: true
         placeholderText: qsTr("Port") + translationManager.emptyString

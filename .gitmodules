@@ -1,4 +1,4 @@
 [submodule "arqma"]
 	path = arqma
 	url = https://github.com/arqma/arqma.git
-	ignore = all
+	branch = release-v0.2

@@ -6,7 +6,7 @@ QImage QRCodeImageProvider::genQrImage(const QString &id, QSize *size)
 {
   using namespace qrcodegen;
 
-  QrCode qrcode = QrCode::encodeText(id.toStdString().c_str(), QrCode::Ecc::MEDIUM);
+  QrCode qrcode = QrCode::encodeText(id.toStdString().c_str(), QrCode::Ecc::HIGH);
   unsigned int black = 0;
   unsigned int white = 1;
   unsigned int borderSize = 1;

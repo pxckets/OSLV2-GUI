@@ -17,7 +17,7 @@ if [ ! -d $ARQMA_DIR/src ]; then
 fi
 git submodule update --remote
 git -C $ARQMA_DIR fetch
-git -C $ARQMA_DIR checkout release-v0.1.3.0
+git -C $ARQMA_DIR checkout release-v0.2
 
 # get arqma core tag
 get_tag
@@ -236,12 +236,13 @@ eval make -C $ARQMA_DIR/build/$BUILD_TYPE/external/easylogging++ all install
 eval make -C $ARQMA_DIR/build/$BUILD_TYPE/external/db_drivers/liblmdb all install
 
 # Install libunbound
-echo "Installing libunbound..."
-pushd $ARQMA_DIR/build/$BUILD_TYPE/external/unbound
-# no need to make, it was already built as dependency for libwallet
-# make -j$CPU_CORE_COUNT
-$make_exec install -j$CPU_CORE_COUNT
-popd
-
+if [ -d $ARQMA_DIR/build/$BUILD_TYPE/external/unbound ]; then
+    echo "Installing libunbound..."
+    pushd $ARQMA_DIR/build/$BUILD_TYPE/external/unbound
+    # no need to make, it was already built as dependency for libwallet
+    # make -j$CPU_CORE_COUNT
+    $make_exec install -j$CPU_CORE_COUNT
+    popd
+fi
 
 popd

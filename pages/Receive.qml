@@ -26,7 +26,7 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.2
@@ -53,15 +53,15 @@ Rectangle {
     property alias addressText : pageReceive.current_address
 
     function makeQRCodeString() {
-        var s = "arqma:"
-        var nfields = 0
-        s += current_address;
-        var amount = amountToReceiveLine.text.trim()
-        if (amount !== "" && amount.slice(-1) !== ".") {
-          s += (nfields++ ? "&" : "?")
-          s += "tx_amount=" + amount
+        var ARQ_URI_SCHEME = "arqma:"
+        var ARQ_AMOUNT = "tx_amount"
+        var qrCodeString =""
+        var amount = amountToReceiveLine.text
+        qrCodeString += (ARQ_URI_SCHEME + current_address)
+        if (amount !== ""){
+          qrCodeString += ("?" + ARQ_AMOUNT + "=" + amount)
         }
-        return s
+        return qrCodeString
     }
 
     function update() {
@@ -452,8 +452,13 @@ Rectangle {
                         placeholderText: qsTr("Amount to receive") + translationManager.emptyString
                         fontBold: true
                         inlineIcon: true
+                        onTextChanged: {
+                            if (amountToReceiveLine.text.startsWith('.')) {
+                                amountToReceiveLine.text = '0' + amountToReceiveLine.text;
+                            }
+                        }
                         validator: RegExpValidator {
-                            regExp: /(\d{1,8})([.]\d{1,9})?$/
+                            regExp: /^(\d{1,8})?([\.]\d{1,9})?$/
                         }
                     }
 
@@ -496,14 +501,14 @@ Rectangle {
                         }
                     }
 
-                    LineEdit {
+                    LineEditMulti {
                         id: paymentUrl
                         Layout.fillWidth: true
                         labelText: qsTr("Payment URL") + translationManager.emptyString
                         text: makeQRCodeString()
-                        onTextUpdated: function() { paymentUrl.cursorPosition = 0; }
                         readOnly: true
                         copyButton: true
+                        wrapMode: Text.WrapAnywhere
                     }
                 }
             }

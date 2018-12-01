@@ -14,7 +14,7 @@ Copyright (c) 2014-2018, The Monero Project
 
   - For Debian/Ubuntu Distributions
 
-	`sudo apt install build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libzmq3-dev libhidapi-dev`
+	`sudo apt install build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libsodium-dev libzmq3-dev libudev-dev libhidapi-libusb0 libhidapi-dev libhidapi-hidraw0`
 
   - For Gentoo
 
@@ -24,7 +24,7 @@ Copyright (c) 2014-2018, The Monero Project
 
    - For Ubuntu 17.10+
 
-   `sudo apt install qtbase5-dev qt5-default qtdeclarative5-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-dialogs qml-module-qtquick-xmllistmodel qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel qttools5-dev-tools`
+   `sudo apt install qtbase5-dev qt5-default qtdeclarative5-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-dialogs qml-module-qtquick-xmllistmodel qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel qttools5-dev-tools qml-module-qtquick-templates2`
 
    - For Gentoo
 
@@ -71,6 +71,12 @@ The executable can be found in the build/release/bin folder.
   `brew install zeromq`
 
   `brew install zbar`
+
+  `brew install hidapi`
+
+  `brew install libsodium`
+
+  `brew install git`
 
 
   *Note*: If cmake can not find zmq.hpp file on OS X, installing `zmq.hpp` from https://github.com/zeromq/cppzmq to `/usr/local/include` should fix that error.
@@ -141,8 +147,14 @@ application.
 2. Install dependencies
 
     ```
-    pacman -S git mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-openssl mingw-w64-x86_64-zeromq mingw-w64-x86_64-libsodium mingw-w64-x86_64-qt-creator mingw-w64-x86_64-hidapi
+    pacman -S git mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-openssl mingw-w64-x86_64-zeromq mingw-w64-x86_64-libsodium mingw-w64-x86_64-qt5 mingw-w64-x86_64-hidapi
     ```
+
+**** Note: There is a known issue that GUI won't compile properly with Qt 5.11.2.
+
+If your encounter issue with that, please remove current Qt by: pacman -R mingw-w64-x86_64-qt5
+
+And install 5.11.1 instead by: pacman -U http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-qt5-5.11.1-3-any.pkg.tar.xz
 
 3. Clone repository
 
