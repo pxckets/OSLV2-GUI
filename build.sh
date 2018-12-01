@@ -97,13 +97,12 @@ elif [ "$platform" == "mingw64" ] || [ "$platform" == "mingw32" ]; then
 fi
 
 # force version update
-#get_tag
-source ./arqma/src/version.cpp.in
-echo "var GUI_VERSION = \"$ARQMA_VERSION_FULL\"" > version.js
-#pushd "$ARQMA_DIR"
-#get_tag
-#popd
-echo "var GUI_ARQMA_VERSION = \"$ARQMA_VERSION\"" >> version.js
+get_tag
+echo "var GUI_VERSION = \"$TAGNAME\"" > version.js
+pushd "$ARQMA_DIR"
+get_tag
+popd
+echo "var GUI_ARQMA_VERSION = \"$TAGNAME\"" >> version.js
 
 cd build
 if ! QMAKE=$(find_command qmake qmake-qt5); then
