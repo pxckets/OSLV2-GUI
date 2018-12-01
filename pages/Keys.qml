@@ -40,6 +40,7 @@ import "." 1.0
 Rectangle {
     property bool viewOnly: false
     id: page
+    property int keysHeight: mainLayout.height + 100 * scaleRatio
 
     color: "transparent"
 
