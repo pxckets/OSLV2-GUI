@@ -52,7 +52,8 @@
          libhidapi-dev \
          libudev-dev \
          libhidapi-libusb0 \
-         libhidapi-hidraw0
+         libhidapi-hidraw0 \ 
+         libusb-1.0
 
  ARG NUM_COMPILE_JOBS=1
  WORKDIR /usr/local
