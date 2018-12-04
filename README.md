@@ -60,7 +60,7 @@ The executable can be found in the build/release/bin folder.
 
 3. Install [arqma](https://github.com/arqma/arqma) dependencies:
 
-  `brew install boost --c++11`
+  `brew install boost`
 
   `brew install openssl` - to install openssl headers
 

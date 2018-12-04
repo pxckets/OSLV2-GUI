@@ -3,11 +3,14 @@
 <plist version="1.0">
 <dict>
   <key>LSMinimumSystemVersion</key>
-  <string>10.10.0</string>
+  <string>10.13.0</string>
 
   <key>NSPrincipalClass</key>
-  <string>UIApplication</string>
+  <string>NSApplication</string>
 
+  <key>NSHighResolutionCapable</key>
+  <true/>
+  
   <key>CFBundleIconFile</key>
   <string>appicon.icns</string>
 
