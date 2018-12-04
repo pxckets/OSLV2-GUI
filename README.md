@@ -164,8 +164,6 @@ And install 5.11.1 instead by: pacman -U http://repo.msys2.org/mingw/x86_64/ming
     ```
     cd arqma-gui
     ./build.sh
-    cd build
-    make deploy
     ```
 
-The executable can be found in the ```.\release\bin``` directory.
+The executable can be found in the ```.\build\release\bin``` directory.

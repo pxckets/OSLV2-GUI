@@ -2,3 +2,6 @@
 	path = arqma
 	url = https://github.com/arqma/arqma.git
 	branch = release-v0.2.1
+	fetchrecursesubmodules = true
+	ignore = none
+	update = merge
