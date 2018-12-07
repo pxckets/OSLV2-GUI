@@ -31,7 +31,7 @@ import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 import ArqmaComponents.Wallet 1.0
 import ArqmaComponents.NetworkType 1.0
-import "components"
+import "./components"
 
 Rectangle {
     id: panel
