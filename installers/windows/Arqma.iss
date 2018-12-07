@@ -9,7 +9,7 @@ AppName=Arqma GUI Wallet
 ; Thus it's important to keep this stable over releases
 ; With a different "AppName" InnoSetup would treat a mere update as a completely new application and thus mess up
 
-AppVersion=0.2.0.0
+AppVersion=0.2.1
 DefaultDirName={pf}\Arqma GUI Wallet
 DefaultGroupName=Arqma GUI Wallet
 UninstallDisplayIcon={app}\arqma-wallet-gui.exe
@@ -24,7 +24,7 @@ AppPublisher=ArQmA Network
 AppPublisherURL=https://arqma.com
 OutputBaseFilename=Arqma-WinGUI
 
-UsedUserAreasWarning=no
+UsedUserAreasWarning=yes
 ; The above directive silences the following compiler warning:
 ;    Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (HKCU,userdocs)
 ;    are used by the script. Regardless of the version of Windows, if the installation is administrative then you should
