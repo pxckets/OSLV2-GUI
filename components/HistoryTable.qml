@@ -176,7 +176,7 @@ ListView {
 
                     return _amount + " ARQ";
                 }
-                color: isOut ? "white" : "#2eb358"
+                color: isOut ? "red" : "#00F78"
             }
 
             Rectangle {

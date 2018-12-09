@@ -44,7 +44,7 @@ RowLayout {
     property int textMargin: 8 * scaleRatio
     property bool darkDropIndicator: false
     signal clicked()
-    height: 25 * scaleRatio
+    height: 10 * scaleRatio
 
     function toggle(){
         checkBox.checked = !checkBox.checked
