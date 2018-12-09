@@ -35,8 +35,8 @@ Item {
     property alias dataModel: repeater.model
     signal collapsed()
     signal optionClicked(int option)
-    width: 72
-    height: 37
+    width: 18
+    height: 9
 
     onExpandedChanged: if(expanded) appWindow.currentItem = dropdown
     function hide() { dropdown.expanded = false }
