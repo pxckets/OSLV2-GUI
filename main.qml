@@ -41,8 +41,8 @@ import ArqmaComponents.NetworkType 1.0
 
 import "components"
 import "wizard"
-import "./js/Utils.js" as Utils
-import "./js/Windows.js" as Windows
+import "js/Utils.js" as Utils
+import "js/Windows.js" as Windows
 
 ApplicationWindow {
     id: appWindow
