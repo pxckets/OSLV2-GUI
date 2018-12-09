@@ -39,8 +39,8 @@ import ArqmaComponents.PendingTransaction 1.0
 import ArqmaComponents.NetworkType 1.0
 
 
-import "./components"
-import "./wizard"
+import "components"
+import "wizard"
 import "./js/Utils.js" as Utils
 import "./js/Windows.js" as Windows
 
