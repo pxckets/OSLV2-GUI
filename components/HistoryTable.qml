@@ -153,7 +153,7 @@ ListView {
                 font.family: ArqmaComponents.Style.fontLight.name
                 font.pixelSize: 14 * scaleRatio
                 text: isOut ? "Sent" : "Received"
-                color: "#808080"
+                color: isOut ? "red" : "green"
             }
 
             Text {
@@ -176,7 +176,7 @@ ListView {
 
                     return _amount + " ARQ";
                 }
-                color: isOut ? "red" : "#00F78"
+                color: isOut ? "red" : "green"
             }
 
             Rectangle {
