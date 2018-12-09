@@ -35,7 +35,7 @@ import "../components" as ArqmaComponents
 
 Rectangle {
     id: item
-    color: "#1a1a1a"
+    color: "transparent"
     property var connected: Wallet.ConnectionStatus_Disconnected
 
     function getConnectionStatusString(status) {
