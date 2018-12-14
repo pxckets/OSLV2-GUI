@@ -45,7 +45,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
-        Layout.fullWidth: true
+        Layout.fillWidth: true
         spacing: 26 * scaleRatio
 
         RowLayout {
