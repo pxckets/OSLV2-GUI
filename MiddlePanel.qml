@@ -30,13 +30,12 @@
 
 import QtQml 2.0
 import QtQuick 2.7
-// QtQuick.Controls 2.0 isn't stable enough yet. Needs more testing.
-//import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 import ArqmaComponents.Wallet 1.0
 
+import "components" as ArqmaComponents
 import "./pages"
 import "./pages/settings"
 import "./components"
@@ -182,11 +181,19 @@ Rectangle {
 
             onFlickingChanged: {
                 releaseFocus();
+                flickableScroll.flickableContentYChanged();
             }
 
-            // Disabled scrollbars, gives crash on startup on windows
-//            ScrollIndicator.vertical: ScrollIndicator { }
-//            ScrollBar.vertical: ScrollBar { }       // uncomment to test
+            ArqmaComponents.Scroll {
+                id: flickableScroll
+                parent: mainFlickable.parent
+                anchors.left: parent.right
+                anchors.leftMargin: 3
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                flickable: mainFlickable
+                scrollWidth: 6
+            }
 
             // Views container
             StackView {
