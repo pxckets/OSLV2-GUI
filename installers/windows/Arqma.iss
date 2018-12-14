@@ -233,6 +233,9 @@ Source: "bin\libssp-0.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; HIDAPI, library for communicating with USB and Bluetooth devices, for hardware wallets
 Source: "bin\libhidapi-0.dll"; DestDir: "{app}"; Flags: ignoreversion
 
+; Camera support
+Source: "bin\libzbar-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+
 ; Arqma GUI Wallet Remote-Nodes settings ini file
 Source: "bin\arqma-nodes.ini"; DestDir: "{app}"; Flags: ignoreversion
 

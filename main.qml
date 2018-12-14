@@ -75,6 +75,7 @@ ApplicationWindow {
     property var cameraUi
     property bool remoteNodeConnected: false
     property bool androidCloseTapped: false;
+    property int userLastActive;  // epoch
     // Default daemon addresses
     readonly property string localDaemonAddress : persistentSettings.nettype == NetworkType.MAINNET ? "localhost:19994" : persistentSettings.nettype == NetworkType.TESTNET ? "localhost:29994" : "localhost:39994"
     property string currentDaemonAddress;
@@ -228,6 +229,8 @@ ApplicationWindow {
         // Local daemon settings
         walletManager.setDaemonAddress(localDaemonAddress)
 
+        // enable user inactivity timer
+        userInActivityTimer.running = true;
 
         // wallet already opened with wizard, we just need to initialize it
         if (typeof wizard.m_wallet !== 'undefined') {
@@ -939,6 +942,8 @@ ApplicationWindow {
         rootItem.state = "wizard"
         // reset balance
         leftPanel.balanceText = leftPanel.unlockedBalanceText = walletManager.displayAmount(0);
+        // disable inactivity timer
+        userInActivityTimer.running = false;
     }
 
     function hideMenu() {
@@ -1046,6 +1051,8 @@ ApplicationWindow {
         property bool keyReuseMitigation2: true
         property int segregationHeight: 0
         property int kdfRounds: 1
+        property bool lockOnUserInActivity: true
+        property int lockOnUserInActivityInterval: 10  // minutes
     }
 
     // Information dialog
@@ -1708,6 +1715,12 @@ ApplicationWindow {
         triggeredOnStart: false
     }
 
+    Timer {
+        id: userInActivityTimer
+        interval: 2000; running: false; repeat: true
+        onTriggered: checkInUserActivity()
+    }
+
     Rectangle {
         id: statusMessage
         z: 99
@@ -1827,6 +1840,32 @@ ApplicationWindow {
             middlePanel.focus = true
             middlePanel.focus = false
         }
+    }
+
+    function userActivity() {
+        // register user activity
+        var epoch = Math.floor((new Date).getTime()/1000);
+        appWindow.userLastActive = epoch;
+    }
+
+    function checkInUserActivity() {
+        if(!persistentSettings.lockOnUserInActivity) return;
+
+        // prompt password after X seconds of inactivity
+        var epoch = Math.floor((new Date).getTime() / 1000);
+        var inactivity = epoch - appWindow.userLastActive;
+        if(inactivity < (persistentSettings.lockOnUserInActivityInterval * 60)) return;
+
+        passwordDialog.onAcceptedCallback = function() {
+            if(walletPassword === passwordDialog.password){
+                passwordDialog.close();
+            } else {
+                passwordDialog.showError(qsTr("Wrong password"));
+            }
+        }
+
+        passwordDialog.onRejectedCallback = function() { appWindow.showWizard(); }
+        passwordDialog.open();
     }
 
     // Daemon console

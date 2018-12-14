@@ -24,21 +24,13 @@ Copyright (c) 2014-2018, The Monero Project
 
    - For Ubuntu 17.10+
 
-   `sudo apt install qtbase5-dev qt5-default qtdeclarative5-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-dialogs qml-module-qtquick-xmllistmodel qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel qttools5-dev-tools qml-module-qtquick-templates2`
+   `sudo apt install qtbase5-dev qt5-default qtdeclarative5-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-dialogs qml-module-qtquick-xmllistmodel qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel qttools5-dev-tools qml-module-qtquick-templates2 qtmultimedia5-dev qml-module-qtmultimedia libzbar-dev`
 
    - For Gentoo
 
-   `sudo emerge dev-qt/qtcore:5 dev-qt/qtdeclarative:5 dev-qt/qtquickcontrols:5 dev-qt/qtquickcontrols2:5 dev-qt/qtgraphicaleffects:5`
+   The *qml* USE flag must be enabled.
 
-   - Optional : To build the flag `WITH_SCANNER`
-
-      - For Debian/Ubuntu
-
-        `sudo apt install qtmultimedia5-dev qml-module-qtmultimedia libzbar-dev`
-
-      - For Gentoo - The qml USE flag must be enabled.
-
-        `emerge dev-qt/qtmultimedia:5 media-gfx/zbar`
+   `sudo emerge dev-qt/qtcore:5 dev-qt/qtdeclarative:5 dev-qt/qtquickcontrols:5 dev-qt/qtquickcontrols2:5 dev-qt/qtgraphicaleffects:5 dev-qt/qtmultimedia:5 media-gfx/zbar`
 
 
 3. Clone Arqma GUI Repository
@@ -147,20 +139,28 @@ application.
 2. Install dependencies
 
     ```
-    pacman -S git mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-openssl mingw-w64-x86_64-zeromq mingw-w64-x86_64-libsodium mingw-w64-x86_64-qt5 mingw-w64-x86_64-hidapi
+    pacman -S git mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-boost mingw-w64-x86_64-openssl mingw-w64-x86_64-zeromq mingw-w64-x86_64-libsodium mingw-w64-x86_64-hidapi mingw-w64-x86_64-zbar
     ```
 
-**** Note: There is a known issue that GUI won't compile properly with Qt 5.11.2.
+3. Install Qt5
 
-If your encounter issue with that, please remove current Qt by: pacman -R mingw-w64-x86_64-qt5
+   ```
+   pacman -S mingw-w64-x86_64-qt5
+   ```
 
-And install 5.11.1 instead by: pacman -U http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-qt5-5.11.1-3-any.pkg.tar.xz
+  * There is no more need to download some special installer from the Qt website, the standard MSYS2 package for Qt will do in almost all circumstances.
 
-3. Clone repository
+  **Note: There is a known issue that GUI won't compile properly with Qt 5.11.2.
+
+    If your encounter issue with that, please remove current Qt by: pacman -R mingw-w64-x86_64-qt5
+
+    And install 5.11.1 instead by: pacman -U http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-qt5-5.11.1-3-any.pkg.tar.xz**
+
+4. Clone repository
 
     `git clone https://github.com/arqma/arqma-gui.git`
 
-4. Build the GUI
+5. Build the GUI
     ```
     cd arqma-gui
     ./build.sh

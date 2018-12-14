@@ -147,7 +147,8 @@ RUN set -ex \
         libxkbcommon-dev \
         libxrender-dev \
         p7zip-full \
-        python
+        python \
+        libzbar-dev
 
 # Setup QT in separate steps because its absurdly slow, so we can cache as much work as possible
 ARG QT_VERSION=5.7.1
