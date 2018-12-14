@@ -35,8 +35,8 @@ Item {
     property alias dataModel: repeater.model
     signal collapsed()
     signal optionClicked(int option)
-    width: 60
-    height: 30
+    width: 40
+    height: 20
 
     onExpandedChanged: if(expanded) appWindow.currentItem = dropdown
     function hide() { dropdown.expanded = false }
@@ -96,7 +96,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 10
-            source: "../images/tableOptions.png"
+            source: "../images/tableOptions_new.png"
         }
 
         Rectangle {
@@ -111,7 +111,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: 10
-            source: "../images/dropIndicator.png"
+            source: "../images/dropIndicator_new.png"
         }
     }
 

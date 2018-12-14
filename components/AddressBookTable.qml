@@ -136,10 +136,10 @@ ListView {
 
         ListModel {
             id: dropModel
-            ListElement { name: "<b>Copy address to clipboard</b>"; icon: "../images/dropdownCopy.png" }
-            ListElement { name: "<b>Send to this address</b>"; icon: "../images/dropdownSend.png" }
+            ListElement { name: "<b>Copy address to clipboard</b>"; icon: "../images/dropdownCopy_new.png" }
+            ListElement { name: "<b>Send to this address</b>"; icon: "../images/dropdownSend_new.png" }
 //            ListElement { name: "<b>Find similar transactions</b>"; icon: "../images/dropdownSearch.png" }
-            ListElement { name: "<b>Remove from address book</b>"; icon: "../images/dropdownDel.png" }
+            ListElement { name: "<b>Remove from address book</b>"; icon: "../images/dropdownDel_new.png" }
         }
 
         Clipboard { id: clipboard }
