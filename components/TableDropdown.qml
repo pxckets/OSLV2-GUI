@@ -35,8 +35,8 @@ Item {
     property alias dataModel: repeater.model
     signal collapsed()
     signal optionClicked(int option)
-    width: 40
-    height: 20
+    width: 30
+    height: 16
 
     onExpandedChanged: if(expanded) appWindow.currentItem = dropdown
     function hide() { dropdown.expanded = false }
@@ -95,14 +95,14 @@ Item {
         Image {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 10
+            anchors.leftMargin: 4
             source: "../images/tableOptions_new.png"
         }
 
         Rectangle {
             anchors.centerIn: parent
             anchors.horizontalCenterOffset: 1
-            height: 23
+            height: 16
             width: 1
             color: dropdown.expanded || dropArea.height > 0 ? "#FFFFFF" : "#DBDBDB"
         }
@@ -110,7 +110,7 @@ Item {
         Image {
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
-            anchors.rightMargin: 10
+            anchors.rightMargin: 4
             source: "../images/dropIndicator_new.png"
         }
     }
@@ -212,7 +212,7 @@ Item {
                         Image {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.left: parent.left
-                            anchors.leftMargin: 10
+                            anchors.leftMargin: 3
                             source: icon
                         }
 

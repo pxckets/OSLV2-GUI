@@ -31,11 +31,13 @@ import QtQuick.Layouts 1.2
 import "../components"
 import ArqmaComponents.AddressBook 1.0
 import ArqmaComponents.AddressBookModel 1.0
+import ArqmaComponents.Clipboard 1.0
 
 Rectangle {
     id: root
     color: "transparent"
     property var model
+    Clipboard { id: clipboard }
 
     ColumnLayout {
         id: columnLayout
@@ -43,27 +45,46 @@ Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
+        Layout.fullWidth: true
         spacing: 26 * scaleRatio
 
         RowLayout {
+            id: addressLineRow
+            Layout.fillWidth: true
+
+            LineEditMulti {
+                id: addressLine
+                spacing: 0
+                fontBold: true
+                labelText: qsTr("Address") + translationManager.emptyString
+                placeholderText: "ar..."
+                wrapMode: Text.WrapAnywhere
+                addressValidation: true
+                pasteButton: true
+                onPaste: function(clipboardText) {
+                    const parsed = walletManager.parse_uri_to_object(clipboardText);
+                    if (!parsed.error) {
+                      addressLine.text = parsed.address;
+                      paymentIdLine.text = parsed.payment_id;
+                      descriptionLine.text = parsed.tx_description;
+                    } else {
+                       addressLine.text = clipboardText;
+                    }
+                }
+            }
+
             StandardButton {
                 id: qrfinderButton
-                text: qsTr("Qr Code") + translationManager.emptyString
+                rightIcon: "../images/qr.png"
+                anchors.bottom: addressLineRow.bottom
+                anchors.bottomMargin: 2
                 visible : appWindow.qrScannerEnabled
                 enabled : visible
-                width: visible ? 60 * scaleRatio : 0
+                width: visible ? 44 * scaleRatio : 0
                 onClicked: {
                     cameraUi.state = "Capture"
                     cameraUi.qrcode_decoded.connect(updateFromQrCode)
                 }
-            }
-
-            LineEdit {
-                Layout.fillWidth: true;
-                id: addressLine
-                labelText: qsTr("Address") + translationManager.emptyString
-                error: true;
-                placeholderText: qsTr("ar..") + translationManager.emptyString
             }
         }
 
@@ -174,7 +195,6 @@ Rectangle {
         console.log("updateFromQrCode")
         addressLine.text = address
         paymentIdLine.text = payment_id
-        //amountLine.text = amount
         descriptionLine.text = recipient_name + " " + tx_description
         cameraUi.qrcode_decoded.disconnect(updateFromQrCode)
     }

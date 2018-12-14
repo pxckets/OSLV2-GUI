@@ -231,10 +231,12 @@ Rectangle {
 
           StandardButton {
               id: qrfinderButton
-              text: qsTr("QR Code") + translationManager.emptyString
+              rightIcon: "../images/qr.png"
+              anchors.bottom: parent.bottom
+              anchors.bottomMargin: 2
               visible : appWindow.qrScannerEnabled
               enabled : visible
-              width: visible ? 60 * scaleRatio : 0
+              width: visible ? 44 * scaleRatio : 0
               onClicked: {
                   cameraUi.state = "Capture"
                   cameraUi.qrcode_decoded.connect(updateFromQrCode)
