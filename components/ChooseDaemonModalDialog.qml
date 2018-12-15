@@ -99,11 +99,10 @@ Item {
                     text: qsTr("Use Remote Node\n(Recommended, fast but less private)") + translationManager.emptyString
                     fontSize: 15 * scaleRatio
                     onClicked: {
-                        //var remoteNodeList = appWindow.getRemoteNodeList();
-                        //var random_index = Math.floor(Math.random() * Math.floor(remoteNodeList.length));
-                        //persistentSettings.remoteNodeAddress = remoteNodeList[random_index];
-                        //appWindow.connectRemoteNode()
-                        appWindow.getRemoteNodeList()
+                        var remoteNodeList = appWindow.getRemoteNodeList();
+                        var random_index = Math.floor(Math.random() * Math.floor(remoteNodeList.length));
+                        persistentSettings.remoteNodeAddress = remoteNodeList[random_index];
+                        appWindow.connectRemoteNode()
                         root.close()
                     }
                 }
