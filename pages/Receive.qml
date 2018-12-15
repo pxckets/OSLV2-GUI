@@ -50,19 +50,18 @@ Rectangle {
     property int current_subaddress_table_index: 0
     property bool advancedRowVisible: false
     property alias receiveHeight: mainLayout.height
-    property alias addressText : pageReceive.current_address
+    property alias addressText: pageReceive.current_address
 
     function makeQRCodeString() {
-        var arqi = "arqma:"
-        var nfields = 0
-        arqi += current_address;
-        var amount = amountToReceiveLine.text.trim()
+        var ARQMA_URI = "arqma:"
+        var ARQMA_AMOUNT = "?tx_amount="
+        var qrCodeString = ""
+        var amount = amountToReceiveLine.text
         if (amount !== "") {
-          arqi += (nfields++ ? "&" : "?")
-          arqi += "tx_amount=" + amount
+          qrCodeStrings += (ARQMA_URI + current_address)
+        } else {
+        qrCodeStrings += (ARQMA_URI + current_address + ARQMA_AMOUNT + amount)
         }
-        return arqi
-    }
 
     function update() {
         const max_tracking = 3;
@@ -458,7 +457,7 @@ Rectangle {
                             }
                         }
                         validator: RegExpValidator {
-                            regExp: /^(\d{1,8})?([\.]\d{1,9})?$/
+                            regExp: /^(\d{1,8})?([\.]\d{1,12})?$/
                         }
                     }
 
