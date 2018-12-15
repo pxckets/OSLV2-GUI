@@ -48,7 +48,8 @@
          unzip \
          libtool-bin \
          autoconf \
-         automake
+         automake \
+         libprotobuf-dev
 
  ARG NUM_COMPILE_JOBS=1
  WORKDIR /usr/local
