@@ -35,7 +35,13 @@
 #include <QEvent>
 #include <QVideoFrame>
 #include <QCamera>
+
+#if defined __APPLE__
+#include "/usr/local/Cellar/zbar/0.10_9/include/zbar.h"
+#else
 #include <zbar.h>
+#endif
+
 
 class QrScanThread : public QThread, public zbar::Image::Handler
 {

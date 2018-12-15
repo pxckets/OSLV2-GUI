@@ -119,8 +119,8 @@ LIBS += -L$$WALLET_ROOT/lib \
         -lepee \
         -lunbound \
         -lsodium \
-        -leasylogging
-
+        -leasylogging \
+        -lprotobuf
 }
 
 android {
@@ -347,6 +347,8 @@ macx {
         -lcrypto \
         -lhidapi \
         -ldl
+
+    QMAKE_LFLAGS += -pie
 }
 
 

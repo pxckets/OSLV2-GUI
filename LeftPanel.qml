@@ -26,12 +26,13 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.7
-import QtQuick.Layouts 1.2
+import QtQuick 2.2
+import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
 import ArqmaComponents.Wallet 1.0
 import ArqmaComponents.NetworkType 1.0
-import "./components"
+import ArqmaComponents.Clipboard 1.0
+import "components" as ArqmaComponents
 
 Rectangle {
     id: panel
@@ -46,6 +47,8 @@ Rectangle {
     property alias daemonProgressBar : daemonProgressBar
     property alias minutesToUnlockTxt: unlockedBalanceLabel.text
     property int titleBarHeight: 50
+    property string copyValue: ""
+    Clipboard { id: clipboard }
 
     signal dashboardClicked()
     signal historyClicked()
@@ -201,6 +204,23 @@ Rectangle {
                         }
                         return defaultSize;
                     }
+
+		    MouseArea {
+			hoverEnabled: true
+			anchors.fill: parent
+			cursorShape: Qt.PointingHandCursor
+			onEntered: {
+				parent.color = ArqmaComponents.Style.heroBlue
+			}
+			onExited: {
+				parent.color = "white"
+			}
+			onClicked: {
+				console.log("Copied to clipboard");
+				clipboard.setText(parent.text);
+				appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+			}
+		    }
                 }
 
                 Text {
@@ -222,9 +242,26 @@ Rectangle {
                         }
                         return defaultSize;
                     }
+
+		    MouseArea {
+			hoverEnabled: true
+			anchors.fill: parent
+			cursorShape: Qt.PointingHandCursor
+			onEntered: {
+				parent.color = ArqmaComponents.Style.lightBlue
+			}
+			onExited: {
+				parent.color = "white"
+			}
+			onClicked: {
+				console.log("Copied to clipboard");
+				clipboard.setText(parent.text);
+				appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+			}
+		    }
                 }
 
-                Label {
+                ArqmaComponents.Label {
                     id: unlockedBalanceLabel
                     visible: true
                     text: qsTr("Unlocked balance") + translationManager.emptyString
@@ -235,7 +272,7 @@ Rectangle {
                     anchors.topMargin: 110
                 }
 
-                Label {
+                ArqmaComponents.Label {
                     visible: !isMobile
                     id: balanceLabel
                     text: qsTr("Balance") + translationManager.emptyString
@@ -298,7 +335,7 @@ Rectangle {
             // ------------- Dashboard tab ---------------
 
             /*
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: dashboardButton
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -333,7 +370,7 @@ Rectangle {
             }
 
             // ------------- Transfer tab ---------------
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: transferButton
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -358,7 +395,7 @@ Rectangle {
 
             // ------------- AddressBook tab ---------------
 
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: addressBookButton
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -383,7 +420,7 @@ Rectangle {
             }
 
             // ------------- Receive tab ---------------
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: receiveButton
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -407,7 +444,7 @@ Rectangle {
 
             // ------------- History tab ---------------
 
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: historyButton
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -430,7 +467,7 @@ Rectangle {
             }
 
             // ------------- Advanced tab ---------------
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: advancedButton
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -452,7 +489,7 @@ Rectangle {
             }
 
             // ------------- Mining tab ---------------
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: miningButton
                 visible: !isAndroid && !isIOS
                 anchors.left: parent.left
@@ -477,7 +514,7 @@ Rectangle {
                 height: 1
             }
             // ------------- TxKey tab ---------------
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: txkeyButton
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -500,7 +537,7 @@ Rectangle {
                 height: 1
             }
             // ------------- Shared RingDB tab ---------------
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: sharedringdbButton
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -525,7 +562,7 @@ Rectangle {
 
 
             // ------------- Sign/verify tab ---------------
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: signButton
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -548,7 +585,7 @@ Rectangle {
                 height: 1
             }
             // ------------- Settings tab ---------------
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: settingsButton
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -570,7 +607,7 @@ Rectangle {
                 height: 1
             }
             // ------------- Sign/verify tab ---------------
-            MenuButton {
+            ArqmaComponents.MenuButton {
                 id: keysButton
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -608,7 +645,7 @@ Rectangle {
             color: "transparent"
         }
 
-        NetworkStatusItem {
+        ArqmaComponents.NetworkStatusItem {
             id: networkStatus
             anchors.left: parent.left
             anchors.right: parent.right
@@ -629,7 +666,7 @@ Rectangle {
             color: "transparent"
         }
 
-        ProgressBar {
+        ArqmaComponents.ProgressBar {
             id: progressBar
             anchors.left: parent.left
             anchors.right: parent.right
@@ -639,7 +676,7 @@ Rectangle {
             visible: networkStatus.connected
         }
 
-        ProgressBar {
+        ArqmaComponents.ProgressBar {
             id: daemonProgressBar
             anchors.left: parent.left
             anchors.right: parent.right

@@ -27,7 +27,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.7
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2
 
@@ -77,7 +77,7 @@ Rectangle {
             }
             text: qsTr("Hide balance") + translationManager.emptyString
         }
-        
+
         ArqmaComponents.CheckBox {
             visible: !isMobile
             id: userInActivityCheckbox
