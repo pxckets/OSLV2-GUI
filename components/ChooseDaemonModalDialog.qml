@@ -102,7 +102,8 @@ Item {
                         //var remoteNodeList = appWindow.getRemoteNodeList();
                         //var random_index = Math.floor(Math.random() * Math.floor(remoteNodeList.length));
                         //persistentSettings.remoteNodeAddress = remoteNodeList[random_index];
-                        appWindow.connectRemoteNode()
+                        //appWindow.connectRemoteNode()
+                        appWindow.getRemoteNodeList()
                         root.close()
                     }
                 }
