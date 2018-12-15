@@ -92,16 +92,16 @@ Item {
                 Layout.topMargin: 16
 
                 ArqmaComponents.StandardButton {
-                    id: defaultRemoteNodeButton
+                    id: remoteNodeButton
                     height: 48 * scaleRatio
-                    enabled: appWindow.getRemoteNodeList().length > 0
-                    text: appWindow.getRemoteNodeList().length > 0 ? qsTr("Use Remote Node\n(Recommended, fast but less private)") + translationManager.emptyString : qsTr("Use Remote Node\n    (No default nodes available)     ") + translationManager.emptyString
-
+                    //enabled: appWindow.getRemoteNodeList().length > 0
+                    //text: appWindow.getRemoteNodeList().length > 0 ? qsTr("Use Remote Node\n(Recommended, fast but less private)") + translationManager.emptyString : qsTr("Use Remote Node\n    (No default nodes available)     ") + translationManager.emptyString
+                    text: qsTr("Use Remote Node\n(Recommended, fast but less private)") + translationManager.emptyString
                     fontSize: 15 * scaleRatio
                     onClicked: {
-                        var remoteNodeList = appWindow.getRemoteNodeList();
-                        var random_index = Math.floor(Math.random() * Math.floor(remoteNodeList.length));
-                        persistentSettings.remoteNodeAddress = remoteNodeList[random_index];
+                        //var remoteNodeList = appWindow.getRemoteNodeList();
+                        //var random_index = Math.floor(Math.random() * Math.floor(remoteNodeList.length));
+                        //persistentSettings.remoteNodeAddress = remoteNodeList[random_index];
                         appWindow.connectRemoteNode()
                         root.close()
                     }
