@@ -53,15 +53,15 @@ Rectangle {
     property alias addressText : pageReceive.current_address
 
     function makeQRCodeString() {
-        var XMR_URI_SCHEME = "arqma:"
-        var XMR_AMOUNT = "tx_amount"
-        var qrCodeString =""
-        var amount = amountToReceiveLine.text
-        qrCodeString += (XMR_URI_SCHEME + current_address)
-        if (amount !== ""){
-          qrCodeString += ("?" + XMR_AMOUNT + "=" + amount)
+        var arqi = "arqma:"
+        var nfields = 0
+        arqi += current_address;
+        var amount = amountToReceiveLine.text.trim()
+        if (amount !== "") {
+          arqi += (nfields++ ? "&" : "?")
+          arqi += "tx_amount=" + amount
         }
-        return qrCodeString
+        return arqi
     }
 
     function update() {
