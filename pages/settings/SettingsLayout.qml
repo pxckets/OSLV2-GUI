@@ -57,7 +57,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.margins: (isMobile) ? 17 : 20
         anchors.topMargin: 0
-        spacing: 0
+        spacing: 6 * scaleRatio
 
         ArqmaComponents.CheckBox {
             visible: !isMobile
@@ -67,6 +67,17 @@ Rectangle {
             text: qsTr("Custom decorations") + translationManager.emptyString
         }
 
+        ArqmaComponents.CheckBox {
+            visible: !isMobile
+            id: hideBalanceCheckBox
+            checked: persistentSettings.hideBalance
+            onClicked: {
+                persistentSettings.hideBalance = !persistentSettings.hideBalance
+                appWindow.updateBalance();
+            }
+            text: qsTr("Hide balance") + translationManager.emptyString
+        }
+        
         ArqmaComponents.CheckBox {
             visible: !isMobile
             id: userInActivityCheckbox
