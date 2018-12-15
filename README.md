@@ -39,8 +39,10 @@ Copyright (c) 2014-2018, The Monero Project
 
 4. Build the GUI
 
-    ``cd arqma-gui
-    QT_SELECT=5 ./build.sh``
+    ```
+    cd arqma-gui
+    QT_SELECT=5 ./build.sh
+    ```
 
 The executable can be found in the build/release/bin folder.
 
