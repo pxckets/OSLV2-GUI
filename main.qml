@@ -690,7 +690,7 @@ ApplicationWindow {
             var arqma_amount = walletManager.amountFromString(amount);
             console.log("integer amount: ", arqma_amount);
             console.log("integer unlocked",currentWallet.unlockedBalance)
-            if (arqma_ amount <= 0) {
+            if (arqma_amount <= 0) {
                 hideProcessingSplash()
                 informationPopup.title = qsTr("Error") + translationManager.emptyString;
                 informationPopup.text  = qsTr("Amount is wrong: expected number from %1 to %2")
