@@ -57,11 +57,12 @@ Rectangle {
         var ARQMA_AMOUNT = "?tx_amount="
         var qrCodeString = ""
         var amount = amountToReceiveLine.text
-        if (amount !== "") {
-          qrCodeStrings += (ARQMA_URI + current_address)
-        } else {
-        qrCodeStrings += (ARQMA_URI + current_address + ARQMA_AMOUNT + amount)
+        qrCodeStrings = (ARQMA_URI + current_address)
+        if (amount !== ""){
+        qrCodeStrings = (ARQMA_URI + current_address + ARQMA_AMOUNT + amount)
         }
+        return qrCodeString
+    }
 
     function update() {
         const max_tracking = 3;
