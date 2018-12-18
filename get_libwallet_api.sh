@@ -1,5 +1,5 @@
 #!/bin/bash
-ARQMA_URL=https://github.com/malbit/arqma.git
+ARQMA_URL=https://github.com/arqma/arqma.git
 ARQMA_BRANCH=master
 
 pushd $(pwd)
@@ -17,7 +17,7 @@ if [ ! -d $ARQMA_DIR/src ]; then
 fi
 git submodule update --remote
 git -C $ARQMA_DIR fetch
-git -C $ARQMA_DIR checkout master
+git -C $ARQMA_DIR checkout release-v0.2.2
 
 # get arqma core tag
 get_tag

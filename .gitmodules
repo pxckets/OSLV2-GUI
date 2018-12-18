@@ -1,7 +1,7 @@
 [submodule "arqma"]
 	path = arqma
 	url = https://github.com/arqma/arqma.git
-	branch = release-v0.2.1
+	branch = release-v0.2.2
 	fetchrecursesubmodules = true
 	ignore = none
 	update = merge
