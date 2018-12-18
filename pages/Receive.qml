@@ -55,7 +55,7 @@ Rectangle {
     function makeQRCodeString() {
         var s = "arqma:"
         var n_fields = 0
-        arqi += current_address;
+        s += current_address;
         var amount = amountToReceiveLine.text.trim()
         if (amount !== "") {
           s += (n_fields++ ? "&" : "?")
