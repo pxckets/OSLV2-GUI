@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
 
     // loglevel is configured in main.qml. Anything lower than
     // qWarning is not shown here.
-    qWarning().noquote() << "app startd" << "(log: " + logPath + ")";
+    qWarning().noquote() << "app started" << "(log: " + logPath + ")";
 
     // screen settings
     // Mobile is designed on 128dpi

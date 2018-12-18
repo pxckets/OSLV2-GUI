@@ -159,6 +159,8 @@
         <file>images/eyeHide.png</file>
         <file>images/eyeShow.png</file>
         <file>images/qr.png</file>
+        <file>images/download-white.png</file>
+        <file>images/external-link-white.png</file>
 
         <file>js/TxUtils.js</file>
         <file>js/Windows.js</file>
