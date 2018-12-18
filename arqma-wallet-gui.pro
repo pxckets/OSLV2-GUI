@@ -320,7 +320,7 @@ linux {
         LIBS += -Wl,-Bdynamic -lunwind
     }
 
-    QMAKE_LFLAGS += -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack,--start-group
+    QMAKE_LFLAGS += -pie -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack
 }
 
 macx {
@@ -447,7 +447,7 @@ linux:!android {
     deploy.commands += $$escape_expand(\n\t) $$PWD/linuxdeploy_helper.sh $$DESTDIR $$TARGET
 }
 
-android{
+android {
     deploy.commands += make install INSTALL_ROOT=$$DESTDIR && androiddeployqt --input android-libarqma-wallet-gui.so-deployment-settings.json --output $$DESTDIR --deployment bundled --android-platform android-21 --jdk /usr/lib/jvm/java-8-openjdk-amd64 -qmldir=$$PWD
 }
 
