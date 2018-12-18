@@ -48,8 +48,7 @@
          unzip \
          libtool-bin \
          autoconf \
-         automake \
-         libprotobuf-dev
+         automake 
 
  ARG NUM_COMPILE_JOBS=1
  WORKDIR /usr/local
@@ -57,6 +56,20 @@
  # NOTE: We install boost and openssl to their default locations because the GUI
  # script is less flexible and it sets us up for success in the general case if
  # it's in a common location.
+ 
+#Cmake
+ ARG CMAKE_VERSION=3.12.1
+ ARG CMAKE_VERSION_DOT=v3.12
+ ARG CMAKE_HASH=c53d5c2ce81d7a957ee83e3e635c8cda5dfe20c9d501a4828ee28e1615e57ab2
+ RUN set -ex \
+    && curl -s -O https://cmake.org/files/${CMAKE_VERSION_DOT}/cmake-${CMAKE_VERSION}.tar.gz \
+    && echo "${CMAKE_HASH}  cmake-${CMAKE_VERSION}.tar.gz" | sha256sum -c \
+    && tar -xzf cmake-${CMAKE_VERSION}.tar.gz \
+    && cd cmake-${CMAKE_VERSION} \
+    && ./configure \
+    && make \
+    && make install
+ 
  ARG BOOST_VERSION=1_68_0
  ARG BOOST_VERSION_DOT=1.68.0
  ARG BOOST_HASH=da3411ea45622579d419bfda66f45cd0f8c32a181d84adfa936f5688388995cf
@@ -226,6 +239,21 @@ RUN set -ex \
     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static --disable-shared \
     && make \
     && make install
+
+# Protobuf
+ ARG PROTOBUF_VERSION=v3.6.1
+ ARG PROTOBUF_HASH=48cb18e5c419ddd23d9badcfe4e9df7bde1979b2
+ RUN set -ex \
+     && git clone https://github.com/protocolbuffers/protobuf -b ${PROTOBUF_VERSION} \
+     && cd protobuf \
+     && test `git rev-parse HEAD` = ${PROTOBUF_HASH} || exit 1 \
+     && git submodule update --init --recursive \
+     && ./autogen.sh \
+     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static --disable-shared \
+     && make \
+     && make install \
+     && ldconfig
+     
 
 ADD . /src
 WORKDIR /src
