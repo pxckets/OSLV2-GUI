@@ -50,7 +50,7 @@ Rectangle {
     property int current_subaddress_table_index: 0
     property bool advancedRowVisible: false
     property alias receiveHeight: mainLayout.height
-    property alias addressText : pageReceive.current_address
+    property alias addressText: pageReceive.current_address
 
     function makeQRCodeString() {
         var s = "arqma:"

@@ -687,10 +687,10 @@ ApplicationWindow {
 
         // validate amount;
         if (amount !== "(all)") {
-            var arqamount = walletManager.amountFromString(amount);
-            console.log("integer amount: ", arqamount);
-            console.log("integer unlocked",currentWallet.unlockedBalance)
-            if (arqamount <= 0) {
+            var arqma_amount = walletManager.amountFromString(amount);
+            console.log("integer amount: ", arqma_amount);
+            console.log("integer unlocked", currentWallet.unlockedBalance)
+            if (arqma_amount <= 0) {
                 hideProcessingSplash()
                 informationPopup.title = qsTr("Error") + translationManager.emptyString;
                 informationPopup.text  = qsTr("Amount is wrong: expected number from %1 to %2")
@@ -719,7 +719,7 @@ ApplicationWindow {
         if (amount === "(all)")
             currentWallet.createTransactionAllAsync(address, paymentId, mixinCount, priority);
         else
-            currentWallet.createTransactionAsync(address, paymentId, arqamount, mixinCount, priority);
+            currentWallet.createTransactionAsync(address, paymentId, arqma_amount, mixinCount, priority);
     }
 
     //Choose where to save transaction
