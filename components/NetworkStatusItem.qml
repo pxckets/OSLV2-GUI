@@ -28,14 +28,14 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 
 import ArqmaComponents.Wallet 1.0
 import "../components" as ArqmaComponents
 
 Rectangle {
     id: item
-    color: "#1a1a1a"
+    color: "transparent"
     property var connected: Wallet.ConnectionStatus_Disconnected
 
     function getConnectionStatusString(status) {
@@ -58,7 +58,6 @@ Rectangle {
 
         Item {
             id: iconItem
-            anchors.top: parent.top
             width: 40 * scaleRatio
             height: 40 * scaleRatio
             opacity: {
@@ -85,8 +84,6 @@ Rectangle {
         }
 
         Item {
-            anchors.top: parent.top
-            anchors.left: iconItem.right
             height: 40 * scaleRatio
             width: 260 * scaleRatio
 

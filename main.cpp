@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
 
     // loglevel is configured in main.qml. Anything lower than
     // qWarning is not shown here.
-    qWarning().noquote() << "app startd" << "(log: " + logPath + ")";
+    qWarning().noquote() << "app started" << "(log: " + logPath + ")";
 
     // screen settings
     // Mobile is designed on 128dpi
@@ -339,6 +339,7 @@ int main(int argc, char *argv[])
     QObject::connect(eventFilter, SIGNAL(sequenceReleased(QVariant,QVariant)), rootObject, SLOT(sequenceReleased(QVariant,QVariant)));
     QObject::connect(eventFilter, SIGNAL(mousePressed(QVariant,QVariant,QVariant)), rootObject, SLOT(mousePressed(QVariant,QVariant,QVariant)));
     QObject::connect(eventFilter, SIGNAL(mouseReleased(QVariant,QVariant,QVariant)), rootObject, SLOT(mouseReleased(QVariant,QVariant,QVariant)));
+    QObject::connect(eventFilter, SIGNAL(userActivity()), rootObject, SLOT(userActivity()));
 
     {
          QString const fullSettingsPath = app.applicationDirPath() + "/arqma-nodes.ini";

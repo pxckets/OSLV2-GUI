@@ -27,7 +27,7 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.7
+import QtQuick 2.2
 import QtQuick.Window 2.0
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
@@ -39,10 +39,10 @@ import ArqmaComponents.PendingTransaction 1.0
 import ArqmaComponents.NetworkType 1.0
 
 
-import "./components"
-import "./wizard"
-import "./js/Utils.js" as Utils
-import "./js/Windows.js" as Windows
+import "components"
+import "wizard"
+import "js/Utils.js" as Utils
+import "js/Windows.js" as Windows
 
 ApplicationWindow {
     id: appWindow
@@ -75,6 +75,7 @@ ApplicationWindow {
     property var cameraUi
     property bool remoteNodeConnected: false
     property bool androidCloseTapped: false;
+    property int userLastActive;  // epoch
     // Default daemon addresses
     readonly property string localDaemonAddress : persistentSettings.nettype == NetworkType.MAINNET ? "localhost:19994" : persistentSettings.nettype == NetworkType.TESTNET ? "localhost:29994" : "localhost:39994"
     property string currentDaemonAddress;
@@ -228,6 +229,8 @@ ApplicationWindow {
         // Local daemon settings
         walletManager.setDaemonAddress(localDaemonAddress)
 
+        // enable user inactivity timer
+        userInActivityTimer.running = true;
 
         // wallet already opened with wizard, we just need to initialize it
         if (typeof wizard.m_wallet !== 'undefined') {
@@ -363,10 +366,17 @@ ApplicationWindow {
     }
 
     function updateBalance() {
-        if (!currentWallet)
-            return;
-        middlePanel.unlockedBalanceText = leftPanel.unlockedBalanceText =  middlePanel.state === "Receive" ? qsTr("HIDDEN") : walletManager.displayAmount(currentWallet.unlockedBalance(currentWallet.currentSubaddressAccount));
-        middlePanel.balanceText = leftPanel.balanceText = middlePanel.state === "Receive" ? qsTr("HIDDEN") : walletManager.displayAmount(currentWallet.balance(currentWallet.currentSubaddressAccount));
+        var balance_unlocked = qsTr("HIDDEN");
+        var balance = qsTr("HIDDEN");
+        if(!persistentSettings.hideBalance && currentWallet){
+            balance_unlocked = walletManager.displayAmount(currentWallet.unlockedBalance(currentWallet.currentSubaddressAccount));
+            balance = walletManager.displayAmount(currentWallet.balance(currentWallet.currentSubaddressAccount));
+        }
+
+        middlePanel.unlockedBalanceText = balance_unlocked;
+        leftPanel.unlockedBalanceText = balance_unlocked;
+        middlePanel.balanceText = balance;
+        leftPanel.balanceText = balance;
     }
 
     function onWalletConnectionStatusChanged(status){
@@ -677,10 +687,10 @@ ApplicationWindow {
 
         // validate amount;
         if (amount !== "(all)") {
-            var arqamount = walletManager.amountFromString(amount);
-            console.log("integer amount: ", arqamount);
-            console.log("integer unlocked",currentWallet.unlockedBalance)
-            if (arqamount <= 0) {
+            var arqma_amount = walletManager.amountFromString(amount);
+            console.log("integer amount: ", arqma_amount);
+            console.log("integer unlocked", currentWallet.unlockedBalance)
+            if (arqma_amount <= 0) {
                 hideProcessingSplash()
                 informationPopup.title = qsTr("Error") + translationManager.emptyString;
                 informationPopup.text  = qsTr("Amount is wrong: expected number from %1 to %2")
@@ -709,7 +719,7 @@ ApplicationWindow {
         if (amount === "(all)")
             currentWallet.createTransactionAllAsync(address, paymentId, mixinCount, priority);
         else
-            currentWallet.createTransactionAsync(address, paymentId, arqamount, mixinCount, priority);
+            currentWallet.createTransactionAsync(address, paymentId, arqma_amount, mixinCount, priority);
     }
 
     //Choose where to save transaction
@@ -876,7 +886,7 @@ ApplicationWindow {
                 informationPopup.text = qsTr("Bad signature");
                 informationPopup.icon = StandardIcon.Critical;
             } else if (received > 0) {
-                received = received / 1e12
+                received = received / 1e9
                 if (in_pool) {
                     informationPopup.text = qsTr("This address received %1 Arqma, but the transaction is not yet mined").arg(received);
                 }
@@ -939,6 +949,8 @@ ApplicationWindow {
         rootItem.state = "wizard"
         // reset balance
         leftPanel.balanceText = leftPanel.unlockedBalanceText = walletManager.displayAmount(0);
+        // disable inactivity timer
+        userInActivityTimer.running = false;
     }
 
     function hideMenu() {
@@ -1046,6 +1058,9 @@ ApplicationWindow {
         property bool keyReuseMitigation2: true
         property int segregationHeight: 0
         property int kdfRounds: 1
+        property bool hideBalance: false
+        property bool lockOnUserInActivity: true
+        property int lockOnUserInActivityInterval: 10  // minutes
     }
 
     // Information dialog
@@ -1708,6 +1723,12 @@ ApplicationWindow {
         triggeredOnStart: false
     }
 
+    Timer {
+        id: userInActivityTimer
+        interval: 2000; running: false; repeat: true
+        onTriggered: checkInUserActivity()
+    }
+
     Rectangle {
         id: statusMessage
         z: 99
@@ -1827,6 +1848,32 @@ ApplicationWindow {
             middlePanel.focus = true
             middlePanel.focus = false
         }
+    }
+
+    function userActivity() {
+        // register user activity
+        var epoch = Math.floor((new Date).getTime()/1000);
+        appWindow.userLastActive = epoch;
+    }
+
+    function checkInUserActivity() {
+        if(!persistentSettings.lockOnUserInActivity) return;
+
+        // prompt password after X seconds of inactivity
+        var epoch = Math.floor((new Date).getTime() / 1000);
+        var inactivity = epoch - appWindow.userLastActive;
+        if(inactivity < (persistentSettings.lockOnUserInActivityInterval * 60)) return;
+
+        passwordDialog.onAcceptedCallback = function() {
+            if(walletPassword === passwordDialog.password){
+                passwordDialog.close();
+            } else {
+                passwordDialog.showError(qsTr("Wrong password"));
+            }
+        }
+
+        passwordDialog.onRejectedCallback = function() { appWindow.showWizard(); }
+        passwordDialog.open();
     }
 
     // Daemon console

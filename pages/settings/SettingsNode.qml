@@ -27,7 +27,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.7
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
 import "../../components" as ArqmaComponents
 
@@ -455,11 +455,8 @@ Rectangle{
 
         ColumnLayout {
             id: localNodeLayout
-            anchors.margins: 0
             spacing: 20 * scaleRatio
             Layout.topMargin: 40
-            anchors.left: parent.left
-            anchors.right: parent.right
             visible: !isMobile && !persistentSettings.useRemoteNode
 
             RowLayout {

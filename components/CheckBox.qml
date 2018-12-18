@@ -52,7 +52,6 @@ RowLayout {
     RowLayout {
         Layout.fillWidth: true
         Rectangle {
-            anchors.left: parent.left
             width: 25 * scaleRatio
             height: checkBox.height - 1
             y: 0
@@ -67,7 +66,6 @@ RowLayout {
 
         Rectangle {
             id: backgroundRect
-            anchors.left: parent.left
             width: 25 * scaleRatio
             height: checkBox.height - 1
             y: 1

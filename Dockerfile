@@ -49,11 +49,7 @@
          libtool-bin \
          autoconf \
          automake \
-         libhidapi-dev \
-         libudev-dev \
-         libhidapi-libusb0 \
-         libhidapi-hidraw0 \ 
-         libusb-1.0
+         libprotobuf-dev
 
  ARG NUM_COMPILE_JOBS=1
  WORKDIR /usr/local
@@ -138,8 +134,9 @@
 
 # Setup gui dependencies
 # QT External Dependencies
-RUN set -ex && \
-    apt-get --no-install-recommends --yes install \
+RUN set -ex \
+        && apt-get update \
+        && apt-get --no-install-recommends --yes install \
         ^libxcb.* \
         libfontconfig1-dev \
         libfreetype6-dev \
@@ -151,7 +148,8 @@ RUN set -ex && \
         libxkbcommon-dev \
         libxrender-dev \
         p7zip-full \
-        python
+        python \
+        libzbar-dev
 
 # Setup QT in separate steps because its absurdly slow, so we can cache as much work as possible
 ARG QT_VERSION=5.7.1
@@ -189,9 +187,50 @@ RUN set -ex \
     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-shared=no \
     && make install
 
+RUN set -ex \
+    && apt-get update \
+    && apt-get --no-install-recommends --yes install bzip2 xsltproc gperf
+
+# Udev
+ARG UDEV_VERSION=v3.2.6
+ARG UDEV_HASH=0c35b136c08d64064efa55087c54364608e65ed6
+RUN set -ex \
+    && git clone https://github.com/gentoo/eudev -b ${UDEV_VERSION} --depth=1 \
+    && cd eudev \
+    && test `git rev-parse HEAD` = ${UDEV_HASH} || exit 1 \
+    && ./autogen.sh \
+    && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --disable-gudev --disable-introspection --disable-hwdb --disable-manpages --disable-shared \
+    && make \
+    && make install
+
+# Libusb
+ARG USB_VERSION=v1.0.22
+ARG USB_HASH=0034b2afdcdb1614e78edaa2a9e22d5936aeae5d
+RUN set -ex \
+    && git clone https://github.com/libusb/libusb.git -b ${USB_VERSION} --depth=1 \
+    && cd libusb \
+    && test `git rev-parse HEAD` = ${USB_HASH} || exit 1 \
+    && ./autogen.sh \
+    && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --prefix=/usr/ --enable-static=yes --enable-shared=no \
+    && make \
+    && make install
+
+# Hidapi
+ARG HIDAPI_VERSION=hidapi-0.8.0-rc1
+ARG HIDAPI_HASH=40cf516139b5b61e30d9403a48db23d8f915f52c
+RUN set -ex \
+    && git clone https://github.com/signal11/hidapi -b ${HIDAPI_VERSION} --depth=1 \
+    && cd hidapi \
+    && test `git rev-parse HEAD` = ${HIDAPI_HASH} || exit 1 \
+    && ./bootstrap \
+    && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static --disable-shared \
+    && make \
+    && make install
+
 ADD . /src
 WORKDIR /src
 
+ENV USE_SINGLE_BUILDDIR=1
 RUN set -ex \
     && rm -rf build \
     && ./build.sh release-static \

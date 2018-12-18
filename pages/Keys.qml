@@ -26,10 +26,10 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.7
+import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import ArqmaComponents.Clipboard 1.0
 import "../version.js" as Version
@@ -269,8 +269,8 @@ Rectangle {
         seedText.text = currentWallet.seed
 
         if(typeof currentWallet != "undefined") {
-            viewOnlyQRCode.source = "image://qrcode/arq:" + currentWallet.address+"?secret_view_key="+currentWallet.secretViewKey+"&restore_height="+currentWallet.restoreHeight
-            fullWalletQRCode.source = viewOnlyQRCode.source +"&secret_spend_key="+currentWallet.secretSpendKey
+            viewOnlyQRCode.source = "image://qrcode/arqma_wallet:" + currentWallet.address(0, 0) + "?view_key="+currentWallet.secretViewKey+"&height="+currentWallet.walletCreationHeight
+            fullWalletQRCode.source = viewOnlyQRCode.source +"&spend_key="+currentWallet.secretSpendKey
 
             if(currentWallet.viewOnly) {
                 viewOnlyQRCode.visible = true

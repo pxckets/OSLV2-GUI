@@ -27,7 +27,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.7
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
 
 import "../../js/Utils.js" as Utils
@@ -68,57 +68,52 @@ Rectangle {
             text: qsTr("Log level") + translationManager.emptyString
         }
 
-        GridLayout {
-            id: logGrid
-            columns: appWindow.persistentSettings.logLevel === 5 ? 2 : 1
+        ColumnLayout {
+            spacing: 10 * scaleRatio
             Layout.fillWidth: true
-            columnSpacing: 32 * scaleRatio
+            id: logColumn
             z: parent.z + 1
 
-            ColumnLayout {
-                spacing: 0
-                Layout.fillWidth: true
-
-                ListModel {
-                     id: logLevel
-                     ListElement { column1: "0"; name: "none"; }
-                     ListElement { column1: "1"; }
-                     ListElement { column1: "2"; }
-                     ListElement { column1: "3"; }
-                     ListElement { column1: "4"; }
-                     ListElement { column1: "custom"; }
-                }
-
-                ArqmaComponents.StandardDropdown {
-                    id: logLevelDropdown
-                    dataModel: logLevel
-                    itemTopMargin: 2 * scaleRatio
-                    currentIndex: appWindow.persistentSettings.logLevel;
-                    onChanged: {
-                        if (currentIndex == 5) {
-                            console.log("log categories changed: ", logCategories.text);
-                            walletManager.setLogCategories(logCategories.text);
-                        }
-                        else {
-                            console.log("log level changed: ",currentIndex);
-                            walletManager.setLogLevel(currentIndex);
-                        }
-                        appWindow.persistentSettings.logLevel = currentIndex;
-                    }
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: logGrid.width / 2
-                    shadowReleasedColor: "#FF0000"
-                    shadowPressedColor: "#9E0C0C"
-                    releasedColor: "#FF7C7C"
-                    pressedColor: "#9F5A5A"
-                }
+            ListModel {
+               id: logLevel
+               ListElement { column1: "0"; name: "none"; }
+               ListElement { column1: "1"; }
+               ListElement { column1: "2"; }
+               ListElement { column1: "3"; }
+               ListElement { column1: "4"; }
+               ListElement { column1: "custom"; }
             }
+
+            ArqmaComponents.StandardDropdown {
+               id: logLevelDropdown
+               dataModel: logLevel
+               itemTopMargin: 2 * scaleRatio
+               currentIndex: appWindow.persistentSettings.logLevel;
+               onChanged: {
+                  if (currentIndex == 5) {
+                      console.log("log categories changed: ", logCategories.text);
+                      walletManager.setLogCategories(logCategories.text);
+                  }
+                  else {
+                      console.log("log level changed: ",currentIndex);
+                      walletManager.setLogLevel(currentIndex);
+                    }
+                    appWindow.persistentSettings.logLevel = currentIndex;
+               }
+               Layout.fillWidth: true
+               Layout.preferredWidth: logGrid.width / 2
+               shadowReleasedColor: "#FF0000"
+               shadowPressedColor: "#9E0C0C"
+               releasedColor: "#FF7C7C"
+               pressedColor: "#9F5A5A"
+               z: parent.z + 1
+               }
 
             ArqmaComponents.LineEdit {
                 id: logCategories
-                visible: persistentSettings.logLevel === 5
+                visible: logLevelDropdown.currentIndex === 5
                 Layout.fillWidth: true
-                Layout.preferredWidth: logGrid.width / 2
+                Layout.preferredWidth: logColumn.width
                 text: appWindow.persistentSettings.logCategories
                 placeholderText: "(e.g. *:WARNING,net.p2p:DEBUG)"
                 placeholderFontSize: 14 * scaleRatio
@@ -236,7 +231,7 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        logLevelDropdown.currentIndex = persistentSettings.logLevel;
+        logLevelDropdown.currentIndex = appWindow.persistentSettings.logLevel;
         logLevelDropdown.update();
 
         if(typeof daemonManager != "undefined")

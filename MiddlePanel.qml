@@ -10,7 +10,7 @@
 //    conditions and the following disclaimer.
 //
 // 2. Redistributions in binary form must reproduce the above copyright notice, this list
-//    of conditions and the following disclaimer in the documentation and/or other
+//    of conditions and the following in the documentation and/or other
 //    materials provided with the distribution.
 //
 // 3. Neither the name of the copyright holder nor the names of its contributors may be
@@ -30,13 +30,13 @@
 
 import QtQml 2.0
 import QtQuick 2.7
-// QtQuick.Controls 2.0 isn't stable enough yet. Needs more testing.
-//import QtQuick.Controls 2.0
+import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
 import ArqmaComponents.Wallet 1.0
 
+import "components" as ArqmaComponents
 import "./pages"
 import "./pages/settings"
 import "./components"
@@ -110,17 +110,17 @@ Rectangle {
 
         states: [
             State {
-                name: "Dashboard"
-                PropertyChanges {  }
+               name: "Dashboard"
+               PropertyChanges {  }
             }, State {
-                name: "History"
-                PropertyChanges { target: root; currentView: historyView }
-                PropertyChanges { target: historyView; model: appWindow.currentWallet ? appWindow.currentWallet.historyModel : null }
-                PropertyChanges { target: mainFlickable; contentHeight: historyView.tableHeight + 220 * scaleRatio }
+               name: "History"
+               PropertyChanges { target: root; currentView: historyView }
+               PropertyChanges { target: historyView; model: appWindow.currentWallet ? appWindow.currentWallet.historyModel : null }
+               PropertyChanges { target: mainFlickable; contentHeight: historyView.tableHeight + 220 * scaleRatio }
             }, State {
-                name: "Transfer"
-                PropertyChanges { target: root; currentView: transferView }
-                PropertyChanges { target: mainFlickable; contentHeight: 1000 * scaleRatio }
+               name: "Transfer"
+               PropertyChanges { target: root; currentView: transferView }
+               PropertyChanges { target: mainFlickable; contentHeight: 1000 * scaleRatio }
             }, State {
                name: "Receive"
                PropertyChanges { target: root; currentView: receiveView }
@@ -134,25 +134,25 @@ Rectangle {
                PropertyChanges { target: root; currentView: sharedringdbView }
                PropertyChanges { target: mainFlickable; contentHeight: sharedringdbView.panelHeight + 100  }
             }, State {
-                name: "AddressBook"
-                PropertyChanges {  target: root; currentView: addressBookView  }
-                PropertyChanges { target: mainFlickable; contentHeight: minHeight }
+               name: "AddressBook"
+               PropertyChanges {  target: root; currentView: addressBookView  }
+               PropertyChanges { target: mainFlickable; contentHeight: minHeight }
             }, State {
-                name: "Sign"
+               name: "Sign"
                PropertyChanges { target: root; currentView: signView }
                PropertyChanges { target: mainFlickable; contentHeight: 1200 * scaleRatio  }
             }, State {
-                name: "Settings"
+               name: "Settings"
                PropertyChanges { target: root; currentView: settingsView }
                PropertyChanges { target: mainFlickable; contentHeight: settingsView.settingsHeight }
             }, State {
-                name: "Mining"
-                PropertyChanges { target: root; currentView: miningView }
-                PropertyChanges { target: mainFlickable; contentHeight: minHeight  }
+               name: "Mining"
+               PropertyChanges { target: root; currentView: miningView }
+               PropertyChanges { target: mainFlickable; contentHeight: minHeight  }
             }, State {
-                name: "Keys"
-                PropertyChanges { target: root; currentView: keysView }
-                PropertyChanges { target: mainFlickable; contentHeight: keysView.keysHeight }
+               name: "Keys"
+               PropertyChanges { target: root; currentView: keysView }
+               PropertyChanges { target: mainFlickable; contentHeight: keysView.keysHeight }
             }
         ]
 
@@ -163,7 +163,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-
+        z: parent.z + 1
 
         Rectangle { height: 4; width: parent.width / 5; color: Style.heroBlue }
     }
@@ -180,13 +180,17 @@ Rectangle {
             Layout.fillHeight: true
             clip: true
 
+            ScrollBar.vertical: ScrollBar {
+                parent: mainFlickable.parent
+                anchors.left: parent.right
+                anchors.leftMargin: 3
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+            }
+
             onFlickingChanged: {
                 releaseFocus();
             }
-
-            // Disabled scrollbars, gives crash on startup on windows
-//            ScrollIndicator.vertical: ScrollIndicator { }
-//            ScrollBar.vertical: ScrollBar { }       // uncomment to test
 
             // Views container
             StackView {

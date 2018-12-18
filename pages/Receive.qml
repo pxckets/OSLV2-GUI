@@ -26,10 +26,10 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.7
+import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 
 import "../components"
@@ -50,18 +50,18 @@ Rectangle {
     property int current_subaddress_table_index: 0
     property bool advancedRowVisible: false
     property alias receiveHeight: mainLayout.height
-    property alias addressText : pageReceive.current_address
+    property alias addressText: pageReceive.current_address
 
     function makeQRCodeString() {
-        var ARQ_URI_SCHEME = "arqma:"
-        var ARQ_AMOUNT = "tx_amount"
-        var qrCodeString =""
-        var amount = amountToReceiveLine.text
-        qrCodeString += (ARQ_URI_SCHEME + current_address)
-        if (amount !== ""){
-          qrCodeString += ("?" + ARQ_AMOUNT + "=" + amount)
+        var s = "arqma:"
+        var n_fields = 0
+        s += current_address;
+        var amount = amountToReceiveLine.text.trim()
+        if (amount !== "") {
+          s += (n_fields++ ? "&" : "?")
+          s += "tx_amount=" + amount
         }
-        return qrCodeString
+        return s
     }
 
     function update() {
@@ -431,7 +431,9 @@ Rectangle {
                         receivePageDialog.text = qsTr(
                             "<p>This QR code includes the address you selected above and " +
                             "the amount you entered below. Share it with others (right-click->Save) " +
-                            "so they can more easily send you exact amounts.</p>"
+                            "so they can more easily send you exact amounts.</p>" +
+                            "<p>Alternatively you can share your payment URL " +
+                            "(right-click->Copy payment URL) with others.</p>"
                         )
                         receivePageDialog.icon = StandardIcon.Information
                         receivePageDialog.open()
@@ -453,62 +455,58 @@ Rectangle {
                         fontBold: true
                         inlineIcon: true
                         onTextChanged: {
-                            if (amountToReceiveLine.text.startsWith('.')) {
+                            if(amountToReceiveLine.text.indexOf('.') === 0) {
                                 amountToReceiveLine.text = '0' + amountToReceiveLine.text;
                             }
                         }
                         validator: RegExpValidator {
-                            regExp: /^(\d{1,8})?([\.]\d{1,9})?$/
+                            regExp: /(\d{1,8})([.]\d{1,9})?$/
                         }
                     }
 
-                    Rectangle {
-                        color: "white"
+                    ColumnLayout {
+                        spacing: 11 * scaleRatio
 
-                        Layout.fillWidth: true
-                        Layout.maximumWidth: mainLayout.qrCodeSize
-                        Layout.preferredHeight: width
-                        radius: 4
+                        Rectangle {
+                            color: "white"
 
-                        Image {
-                            id: qrCode
-                            anchors.fill: parent
-                            anchors.margins: 1
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: mainLayout.qrCodeSize
+                            Layout.preferredHeight: width
+                            radius: 4
 
-                            smooth: false
-                            fillMode: Image.PreserveAspectFit
-                            source: "image://qrcode/" + makeQRCodeString()
-                            MouseArea {
+                            Image {
+                                id: qrCode
                                 anchors.fill: parent
-                                acceptedButtons: Qt.RightButton
-                                onClicked: {
-                                    if (mouse.button == Qt.RightButton)
-                                        qrMenu.open()
+                                anchors.margins: 1
+
+                                smooth: false
+                                fillMode: Image.PreserveAspectFit
+                                source: "image://qrcode/" + makeQRCodeString()
+                                MouseArea {
+                                    anchors.fill: parent
+                                    acceptedButtons: Qt.RightButton
+                                    onPressAndHold: qrFileDialog.open()
                                 }
-                                onPressAndHold: qrFileDialog.open()
                             }
                         }
 
-                        Menu {
-                            id: qrMenu
-                            title: "QrCode"
-                            y: parent.height / 2
+                        RowLayout {
+                            spacing: parent.spacing
 
-                            MenuItem {
-                                text: qsTr("Save As") + translationManager.emptyString;
-                                onTriggered: qrFileDialog.open()
+                            StandardButton {
+                                rightIcon: "../images/download-white.png"
+                                onClicked: qrFileDialog.open()
+                            }
+
+                            StandardButton {
+                                rightIcon: "../images/external-link-white.png"
+                                onClicked: {
+                                    clipboard.setText(makeQRCodeString());
+                                    appWindow.showStatusMessage(qsTr("Copied to clipboard"), 3);
+                                }
                             }
                         }
-                    }
-
-                    LineEditMulti {
-                        id: paymentUrl
-                        Layout.fillWidth: true
-                        labelText: qsTr("Payment URL") + translationManager.emptyString
-                        text: makeQRCodeString()
-                        readOnly: true
-                        copyButton: true
-                        wrapMode: Text.WrapAnywhere
                     }
                 }
             }

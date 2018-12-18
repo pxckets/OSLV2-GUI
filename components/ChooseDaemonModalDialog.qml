@@ -27,10 +27,10 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.7
+import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.0
 
@@ -92,11 +92,11 @@ Item {
                 Layout.topMargin: 16
 
                 ArqmaComponents.StandardButton {
-                    id: defaultRemoteNodeButton
+                    id: remoteNodeButton
                     height: 48 * scaleRatio
-                    enabled: appWindow.getRemoteNodeList().length > 0
-                    text: appWindow.getRemoteNodeList().length > 0 ? qsTr("Use Remote Node\n(Recommended, fast but less private)") + translationManager.emptyString : qsTr("Use Remote Node\n    (No default nodes available)     ") + translationManager.emptyString
-
+                    //enabled: appWindow.getRemoteNodeList().length > 0
+                    //text: appWindow.getRemoteNodeList().length > 0 ? qsTr("Use Remote Node\n(Recommended, fast but less private)") + translationManager.emptyString : qsTr("Use Remote Node\n    (No default nodes available)     ") + translationManager.emptyString
+                    text: qsTr("Use Remote Node\n(Recommended, fast but less private)") + translationManager.emptyString
                     fontSize: 15 * scaleRatio
                     onClicked: {
                         var remoteNodeList = appWindow.getRemoteNodeList();

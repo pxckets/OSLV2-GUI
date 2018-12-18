@@ -74,6 +74,7 @@
         <file>images/statusDisconnected.png</file>
         <file>images/magnifier.png</file>
         <file>images/dropIndicator.png</file>
+        <file>images/dropIndicator_new.png</file>
         <file>images/hseparator.png</file>
         <file>images/ascSortIndicator.png</file>
         <file>images/ascSortIndicatorActived.png</file>
@@ -83,9 +84,11 @@
         <file>images/descSortIndicatorPressed.png</file>
         <file>images/backToWindowIcon.png</file>
         <file>images/tableOptions.png</file>
+        <file>images/tableOptions_new.png</file>
         <file>images/dropdownAdd.png</file>
         <file>images/dropdownSearch.png</file>
         <file>images/dropdownSend.png</file>
+        <file>images/dropdownSend_new.png</file>
         <file>images/tip.png</file>
         <file>images/deleteIcon.png</file>
         <file>images/arqmaIcon.png</file>
@@ -100,6 +103,8 @@
         <file>images/expandRightPanel.png</file>
         <file>images/dropdownCopy.png</file>
         <file>images/dropdownDel.png</file>
+        <file>images/dropdownCopy_new.png</file>
+        <file>images/dropdownDel_new.png</file>
         <file>images/gotoBasicVersion.png</file>
         <file>images/goToBasicVersionHovered.png</file>
         <file>images/arqmaLogo2.png</file>
@@ -151,6 +156,11 @@
         <file>images/settings_navbar_side.png</file>
         <file>images/settings_navbar_side_active.png</file>
         <file>images/settings_local.png</file>
+        <file>images/eyeHide.png</file>
+        <file>images/eyeShow.png</file>
+        <file>images/qr.png</file>
+        <file>images/download-white.png</file>
+        <file>images/external-link-white.png</file>
 
         <file>js/TxUtils.js</file>
         <file>js/Windows.js</file>

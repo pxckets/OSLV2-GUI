@@ -27,8 +27,9 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.7
+import QtQuick 2.0
 import ArqmaComponents.Clipboard 1.0
+import "../js/TxUtils.js" as TxUtils
 
 ListView {
     id: listView
@@ -89,7 +90,13 @@ ListView {
             font.family: "Arial"
             font.pixelSize: 16
             color: "#ffffff"
-            text: address
+            text: {
+                if(isMobile){
+                    TxUtils.addressTruncate(address, 6);
+                } else {
+                    return TxUtils.addressTruncate(address, 10);
+                }
+            }
             readOnly: true
         }
 
@@ -118,15 +125,21 @@ ListView {
             font.family: "Arial"
             font.pixelSize: 13
             color: "#545454"
-            text: paymentId
+            text: {
+                if(isMobile){
+                    TxUtils.addressTruncate(paymentId, 6);
+                } else {
+                    return TxUtils.addressTruncate(paymentId, 10);
+                }
+            }
         }
 
         ListModel {
             id: dropModel
-            ListElement { name: "<b>Copy address to clipboard</b>"; icon: "../images/dropdownCopy.png" }
-            ListElement { name: "<b>Send to this address</b>"; icon: "../images/dropdownSend.png" }
+            ListElement { name: "<b>Copy address to clipboard</b>"; icon: "../images/dropdownCopy_new.png" }
+            ListElement { name: "<b>Send to this address</b>"; icon: "../images/dropdownSend_new.png" }
 //            ListElement { name: "<b>Find similar transactions</b>"; icon: "../images/dropdownSearch.png" }
-            ListElement { name: "<b>Remove from address book</b>"; icon: "../images/dropdownDel.png" }
+            ListElement { name: "<b>Remove from address book</b>"; icon: "../images/dropdownDel_new.png" }
         }
 
         Clipboard { id: clipboard }

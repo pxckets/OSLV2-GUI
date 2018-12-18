@@ -28,7 +28,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-import QtQuick 2.7
+import QtQuick 2.0
 
 Item {
     property alias image : buttonImage

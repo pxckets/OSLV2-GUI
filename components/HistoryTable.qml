@@ -27,7 +27,7 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.7
+import QtQuick 2.0
 import ArqmaComponents.Clipboard 1.0
 import ArqmaComponents.AddressBookModel 1.0
 
@@ -153,7 +153,7 @@ ListView {
                 font.family: ArqmaComponents.Style.fontLight.name
                 font.pixelSize: 14 * scaleRatio
                 text: isOut ? "Sent" : "Received"
-                color: "#808080"
+                color: isOut ? "red" : "green"
             }
 
             Text {
@@ -176,7 +176,23 @@ ListView {
 
                     return _amount + " ARQ";
                 }
-                color: isOut ? "white" : "#2eb358"
+                color: isOut ? "white" : "green"
+
+                MouseArea {
+                        hoverEnabled: true
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onEntered: {
+                            parent.color = ArqmaComponents.Style.heroBlue
+                        }
+                        onExited: {
+                            parent.color = isOut ? "white" : "green"                        }
+                        onClicked: {
+                                console.log("Copied to clipboard");
+                                clipboard.setText(parent.text.split(" ")[0]);
+                                appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+                        }
+                }
             }
 
             Rectangle {

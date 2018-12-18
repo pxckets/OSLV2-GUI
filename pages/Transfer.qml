@@ -27,8 +27,8 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.7
-import QtQuick.Layouts 1.2
+import QtQuick 2.0
+import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import ArqmaComponents.Clipboard 1.0
 import ArqmaComponents.PendingTransaction 1.0
@@ -227,14 +227,28 @@ Rectangle {
               wrapMode: Text.WrapAnywhere
               addressValidation: true
               onInputLabelLinkActivated: { appWindow.showPageRequest("AddressBook") }
+              pasteButton: true
+              onPaste: function(clipboardText) {
+                  const parsed = walletManager.parse_uri_to_object(clipboardText);
+                  if (!parsed.error) {
+                    addressLine.text = parsed.address;
+                    paymentIdLine.text = parsed.payment_id;
+                    amountLine.text = parsed.amount;
+                    descriptionLine.text = parsed.tx_description;
+                  } else {
+                     addressLine.text = clipboardText;
+                  }
+              }
           }
 
           StandardButton {
               id: qrfinderButton
-              text: qsTr("QR Code") + translationManager.emptyString
+              rightIcon: "../images/qr.png"
+              anchors.bottom: parent.bottom
+              anchors.bottomMargin: 2
               visible : appWindow.qrScannerEnabled
               enabled : visible
-              width: visible ? 60 * scaleRatio : 0
+              width: visible ? 44 * scaleRatio : 0
               onClicked: {
                   cameraUi.state = "Capture"
                   cameraUi.qrcode_decoded.connect(updateFromQrCode)
@@ -244,7 +258,6 @@ Rectangle {
 
       StandardButton {
           id: resolveButton
-          anchors.left: parent.left
           width: 80
           text: qsTr("Resolve") + translationManager.emptyString
           visible: isValidOpenAliasAddress(addressLine.text)
@@ -340,7 +353,7 @@ Rectangle {
                   }
 
                   // The amount does not start with a period (example: `.4`)
-                  if(amountLine.text.startsWith('.')){
+                  if(amountLine.text.indexOf('.') === 0){
                       return false;
                   }
 

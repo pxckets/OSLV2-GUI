@@ -28,7 +28,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 
 import "../components" as ArqmaComponents
 
@@ -75,6 +75,10 @@ ColumnLayout {
     property bool mouseSelection: true
     property alias readOnly: input.readOnly
     property bool copyButton: false
+    property bool pasteButton: false
+    property var onPaste: function(clipboardText) {
+        item.text = clipboardText;
+    }
     property bool showingHeader: true
     property var wrapMode: Text.NoWrap
     property alias addressValidation: input.addressValidation
@@ -110,24 +114,34 @@ ColumnLayout {
             }
         }
 
-        ArqmaComponents.LabelButton {
-            id: labelButton
-            onClicked: labelButtonClicked()
-            visible: labelButtonVisible
-        }
+        RowLayout {
+            anchors.right: parent.right
+            spacing: 16 * scaleRatio
 
-        ArqmaComponents.LabelButton {
-            id: copyButtonId
-            visible: copyButton && input.text !== ""
-            text: qsTr("Copy")
-            anchors.right: labelButton.visible ? inputLabel.right : parent.right
-            anchors.rightMargin: labelButton.visible? 4 : 0
-            onClicked: {
-                if (input.text.length > 0) {
-                    console.log("Copied to clipboard");
-                    clipboard.setText(input.text);
-                    appWindow.showStatusMessage(qsTr("Copied to clipboard"), 3);
+            ArqmaComponents.LabelButton {
+                id: labelButton
+                onClicked: labelButtonClicked()
+                visible: labelButtonVisible
+            }
+
+            ArqmaComponents.LabelButton {
+                id: copyButtonId
+                visible: copyButton && input.text !== ""
+                text: qsTr("Copy")
+                onClicked: {
+                    if (input.text.length > 0) {
+                        console.log("Copied to clipboard");
+                        clipboard.setText(input.text);
+                        appWindow.showStatusMessage(qsTr("Copied to clipboard"), 3);
+                    }
                 }
+            }
+
+            ArqmaComponents.LabelButton {
+                id: pasteButtonId
+                onClicked: item.onPaste(clipboard.text())
+                text: qsTr("Paste")
+                visible: pasteButton
             }
         }
     }
@@ -136,7 +150,6 @@ ColumnLayout {
         id: input
         readOnly: false
         addressValidation: false
-        anchors.top: item.showingHeader ? inputLabelRect.bottom : item.top
         Layout.fillWidth: true
         topPadding: item.showingHeader ? 10 * scaleRatio : 0
         bottomPadding: 10 * scaleRatio

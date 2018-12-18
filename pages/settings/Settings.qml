@@ -26,10 +26,10 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.7
+import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import "../../js/Windows.js" as Windows
 import "../../js/Utils.js" as Utils
@@ -65,17 +65,16 @@ ColumnLayout {
 
         onCurrentViewChanged: {
             if (previousView) {
-//                if (typeof previousView.onPageClosed === "function") {
-//                    previousView.onPageClosed();
-//                }
+                if (typeof previousView.onPageClosed === "function") {
+                    previousView.onPageClosed();
+                }
             }
             previousView = currentView
             if (currentView) {
                 stackView.replace(currentView)
-                // Component.onCompleted is called before wallet is initilized
-//                if (typeof currentView.onPageCompleted === "function") {
-//                    currentView.onPageCompleted();
-//                }
+                if (typeof currentView.onPageCompleted === "function") {
+                    currentView.onPageCompleted();
+                }
             }
         }
 

@@ -27,7 +27,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.7
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2
 
@@ -66,7 +66,7 @@ Rectangle {
 
             ColumnLayout {
                 Layout.fillWidth: true
-                anchors.verticalCenter: parent.verticalCenter
+                Layout.alignment: Qt.AlignVCenter
                 spacing: 0
 
                 Text {
@@ -110,18 +110,16 @@ Rectangle {
                 Layout.preferredHeight: parent.height
                 color: "transparent"
 
-                Rectangle{
+                Rectangle {
                     width: parent.width
                     height: 24 * scaleRatio
                     radius: 2 * scaleRatio
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     color: ArqmaComponents.Style.buttonBackgroundColorDisabled
 
                     Text {
                         id: closeWalletText
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                         color: ArqmaComponents.Style.defaultFontColor
                         font.family: ArqmaComponents.Style.fontRegular.name
                         font.pixelSize: 14 * scaleRatio
@@ -157,7 +155,7 @@ Rectangle {
 
             ColumnLayout {
                 Layout.fillWidth: true
-                anchors.verticalCenter: parent.verticalCenter
+                Layout.alignment: Qt.AlignVCenter
                 spacing: 0
 
                 Text {
@@ -205,8 +203,7 @@ Rectangle {
                     width: parent.width
                     height: 24 * scaleRatio
                     radius: 2 * scaleRatio
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     color: ArqmaComponents.Style.buttonBackgroundColorDisabled
 
                     Text {
@@ -248,7 +245,7 @@ Rectangle {
 
             ColumnLayout {
                 Layout.fillWidth: true
-                anchors.verticalCenter: parent.verticalCenter
+                Layout.alignment: Qt.AlignVCenter
                 spacing: 0
 
                 Text {
@@ -296,14 +293,12 @@ Rectangle {
                     width: parent.width
                     height: 24 * scaleRatio
                     radius: 2 * scaleRatio
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     color: ArqmaComponents.Style.buttonBackgroundColorDisabled
 
                     Text {
                         id: showSeedText
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                         color: ArqmaComponents.Style.defaultFontColor
                         font.family: ArqmaComponents.Style.fontRegular.name
                         font.pixelSize: 14 * scaleRatio
@@ -337,7 +332,7 @@ Rectangle {
 
             ColumnLayout {
                 Layout.fillWidth: true
-                anchors.verticalCenter: parent.verticalCenter
+                Layout.alignment: Qt.AlignVCenter
                 spacing: 0
 
                 Text {
@@ -386,14 +381,12 @@ Rectangle {
 
                     height: 24 * scaleRatio
                     radius: 2 * scaleRatio
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     color: ArqmaComponents.Style.buttonBackgroundColorDisabled
 
                     Text {
                         id: rescanButtonText
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                         color: ArqmaComponents.Style.defaultFontColor
                         font.family: ArqmaComponents.Style.fontRegular.name
                         font.pixelSize: 14 * scaleRatio
