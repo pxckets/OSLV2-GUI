@@ -39,7 +39,7 @@ import ArqmaComponents.Wallet 1.0
 import "components" as ArqmaComponents
 import "./pages"
 import "./pages/settings"
-//import "./components"
+import "./components"
 
 Rectangle {
     id: root
