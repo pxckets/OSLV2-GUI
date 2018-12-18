@@ -70,6 +70,8 @@ The executable can be found in the build/release/bin folder.
 
   `brew install libsodium`
 
+  `brew install protobuf`
+
   `brew install git`
 
 
@@ -141,7 +143,7 @@ application.
 2. Install dependencies
 
     ```
-    pacman -S git mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-boost mingw-w64-x86_64-openssl mingw-w64-x86_64-zeromq mingw-w64-x86_64-libsodium mingw-w64-x86_64-hidapi mingw-w64-x86_64-zbar
+    pacman -S git mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-boost mingw-w64-x86_64-openssl mingw-w64-x86_64-zeromq mingw-w64-x86_64-libsodium mingw-w64-x86_64-hidapi mingw-w64-x86_64-zbar mingw-w64-x86_64-protobuf-c mingw-w64-x86_64-protobuf
     ```
 
 3. Install Qt5
@@ -152,11 +154,11 @@ application.
 
   * There is no more need to download some special installer from the Qt website, the standard MSYS2 package for Qt will do in almost all circumstances.
 
-  **Note: There is a known issue that GUI won't compile properly with Qt 5.11.2.
+    Note: There is a known issue that GUI won't compile properly with Qt 5.11.2.
 
     If your encounter issue with that, please remove current Qt by: pacman -R mingw-w64-x86_64-qt5
 
-    And install 5.11.1 instead by: pacman -U http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-qt5-5.11.1-3-any.pkg.tar.xz**
+    And install 5.11.1 instead by: pacman -U http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-qt5-5.11.1-3-any.pkg.tar.xz
 
 4. Clone repository
 
