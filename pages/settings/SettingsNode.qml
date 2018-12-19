@@ -39,7 +39,7 @@ Rectangle{
     /* main layout */
     ColumnLayout {
         id: root
-        anchors.margins: (isMobile)? 17 : 20
+        anchors.margins: isMobile ? 17 : 20
         anchors.topMargin: 0
 
         anchors.left: parent.left
@@ -395,7 +395,7 @@ Rectangle{
             }
 
             GridLayout {
-                columns: (isMobile) ? 1 : 2
+                columns: isMobile ? 1 : 2
                 columnSpacing: 32
 
                 ArqmaComponents.LineEdit {
@@ -455,8 +455,11 @@ Rectangle{
 
         ColumnLayout {
             id: localNodeLayout
+            anchors.margins: 0
             spacing: 20 * scaleRatio
             Layout.topMargin: 40
+            anchors.left: parent.left
+            anchors.right: parent.right
             visible: !isMobile && !persistentSettings.useRemoteNode
 
             RowLayout {

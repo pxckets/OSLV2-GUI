@@ -58,6 +58,7 @@ Rectangle {
 
         Item {
             id: iconItem
+            anchors.top: parent.top
             width: 40 * scaleRatio
             height: 40 * scaleRatio
             opacity: {
@@ -84,6 +85,8 @@ Rectangle {
         }
 
         Item {
+            anchors.top: parent.top
+            anchors.left: iconItem.right
             height: 40 * scaleRatio
             width: 260 * scaleRatio
 

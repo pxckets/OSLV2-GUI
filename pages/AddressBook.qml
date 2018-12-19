@@ -41,7 +41,7 @@ Rectangle {
 
     ColumnLayout {
         id: columnLayout
-        anchors.margins: (isMobile)? 17 : 40
+        anchors.margins: isMobile ? 17 : 40
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
@@ -57,7 +57,7 @@ Rectangle {
                 spacing: 0
                 fontBold: true
                 labelText: qsTr("Address") + translationManager.emptyString
-                placeholderText: "ar..."
+                placeholderText: "ar.. / aRi.."
                 wrapMode: Text.WrapAnywhere
                 addressValidation: true
                 pasteButton: true
@@ -138,8 +138,8 @@ Rectangle {
     Rectangle {
         id: tableRect
         anchors.top: columnLayout.bottom
-        anchors.leftMargin: (isMobile)? 17 : 40
-        anchors.rightMargin: (isMobile)? 17 : 40
+        anchors.leftMargin: isMobile ? 17 : 40
+        anchors.rightMargin: isMobile ? 17 : 40
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom

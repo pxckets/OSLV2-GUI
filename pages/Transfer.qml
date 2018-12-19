@@ -78,7 +78,7 @@ Rectangle {
     }
 
     function updateMixin() {
-        var fillLevel = (isMobile) ? privacyLevelItemSmall.fillLevel : privacyLevelItem.fillLevel
+        var fillLevel = isMobile ? privacyLevelItemSmall.fillLevel : privacyLevelItem.fillLevel
         var mixin = scaleValueToMixinCount(fillLevel)
         console.log("PrivacyLevel changed:"  + fillLevel)
         console.log("mixin count: "  + mixin)
@@ -116,7 +116,7 @@ Rectangle {
 
     ColumnLayout {
       id: pageRoot
-      anchors.margins: (isMobile)? 17 : 20
+      anchors.margins: isMobile ? 17 : 20
       anchors.topMargin: 40 * scaleRatio
 
       anchors.left: parent.left
@@ -137,7 +137,7 @@ Rectangle {
       }
 
       GridLayout {
-          columns: (isMobile)? 1 : 2
+          columns: isMobile ? 1 : 2
           Layout.fillWidth: true
           columnSpacing: 32
 
@@ -258,6 +258,7 @@ Rectangle {
 
       StandardButton {
           id: resolveButton
+          anchors.left: parent.left
           width: 80
           text: qsTr("Resolve") + translationManager.emptyString
           visible: isValidOpenAliasAddress(addressLine.text)
@@ -405,7 +406,7 @@ Rectangle {
         anchors.top: pageRoot.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.margins: (isMobile)? 17 : 20
+        anchors.margins: isMobile ? 17 : 20
         anchors.topMargin: 32 * scaleRatio
         spacing: 26 * scaleRatio
         enabled: !viewOnly || pageRoot.enabled
@@ -472,7 +473,7 @@ Rectangle {
             Layout.topMargin: 50 * scaleRatio
 
 
-            columns: (isMobile) ? 2 : 6
+            columns: isMobile ? 2 : 6
 
             StandardButton {
                 id: sweepUnmixableButton

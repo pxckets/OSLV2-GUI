@@ -44,7 +44,7 @@ ColumnLayout {
         id: password
         focus: true
         font.family: "Arial"
-        font.pixelSize: (isMobile) ? 24 * scaleRatio : 25 * scaleRatio
+        font.pixelSize: isMobile ? 24 * scaleRatio : 25 * scaleRatio
         echoMode: TextInput.Password
 
         style: TextFieldStyle {

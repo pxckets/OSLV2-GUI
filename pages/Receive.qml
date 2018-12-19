@@ -172,7 +172,7 @@ Rectangle {
     /* main layout */
     ColumnLayout {
         id: mainLayout
-        anchors.margins: (isMobile)? 17 : 40
+        anchors.margins: isMobile ? 17 : 40
         anchors.topMargin: 40 * scaleRatio
 
         anchors.left: parent.left
@@ -408,7 +408,7 @@ Rectangle {
 
         GridLayout {
             id: advancedRow
-            columns: (isMobile)? 1 : 2
+            columns: isMobile ? 1 : 2
             Layout.fillWidth: true
             columnSpacing: 32 * scaleRatio
             visible: advancedRowVisible

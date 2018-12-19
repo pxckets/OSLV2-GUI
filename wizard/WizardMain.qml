@@ -45,10 +45,10 @@ ColumnLayout {
     property alias nextButton : nextButton
     property var settings : ({})
     property int currentPage: 0
-    property int wizardLeftMargin: (!isMobile) ?  150 : 25 * scaleRatio
-    property int wizardRightMargin: (!isMobile) ? 150 : 25 * scaleRatio
-    property int wizardBottomMargin: (isMobile) ? 150 : 25 * scaleRatio
-    property int wizardTopMargin: (isMobile) ? 75 * scaleRatio : 75
+    property int wizardLeftMargin: !isMobile ?  150 : 25 * scaleRatio
+    property int wizardRightMargin: !isMobile ? 150 : 25 * scaleRatio
+    property int wizardBottomMargin: isMobile ? 150 : 25 * scaleRatio
+    property int wizardTopMargin: isMobile ? 75 * scaleRatio : 75
     // Storing wallet in Settings object doesn't work in qt 5.8 on android
     property var m_wallet;
 
@@ -101,10 +101,10 @@ ColumnLayout {
         console.log("switchpage: currentPage: ", currentPage);
 
         // Update prev/next button positions for mobile/desktop
-        prevButton.anchors.verticalCenter = (!isMobile) ? wizard.verticalCenter : undefined
-        prevButton.anchors.bottom = (isMobile) ? wizard.bottom : undefined
-        nextButton.anchors.verticalCenter = (!isMobile) ? wizard.verticalCenter : undefined
-        nextButton.anchors.bottom = (isMobile) ? wizard.bottom : undefined
+        prevButton.anchors.verticalCenter = !isMobile ? wizard.verticalCenter : undefined
+        prevButton.anchors.bottom = isMobile ? wizard.bottom : undefined
+        nextButton.anchors.verticalCenter = !isMobile ? wizard.verticalCenter : undefined
+        nextButton.anchors.bottom = isMobile ? wizard.bottom : undefined
 
         if (currentPage > 0 || currentPage < pages.length - 1) {
             pages[currentPage].opacity = 0
@@ -330,9 +330,10 @@ ColumnLayout {
 
     Rectangle {
         id: prevButton
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-        Layout.leftMargin: isMobile ?  20 :  50
-        Layout.bottomMargin: isMobile ?  20 * scaleRatio :  50
+        anchors.verticalCenter: wizard.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: isMobile ?  20 :  50
+        anchors.bottomMargin: isMobile ?  20 * scaleRatio :  50
         visible: parent.currentPage > 0
 
         width: 50 * scaleRatio; height: 50 * scaleRatio
@@ -355,9 +356,10 @@ ColumnLayout {
 
     Rectangle {
         id: nextButton
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-        Layout.rightMargin: isMobile ?  20 :  50
-        Layout.bottomMargin: isMobile ?  20 * scaleRatio :  50
+        anchors.verticalCenter: wizard.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: isMobile ?  20 * scaleRatio :  50
+        anchors.bottomMargin: isMobile ?  20 * scaleRatio :  50
         visible: currentPage > 1 && currentPage < pages.length - 1
         width: 50 * scaleRatio; height: 50 * scaleRatio
         radius: 25
@@ -380,8 +382,9 @@ ColumnLayout {
 
     StandardButton {
         id: sendButton
-        Layout.alignment: Qt.AlignBottom | Qt.AlignRight
-        Layout.margins:  (isMobile) ? 20 * scaleRatio : 50 * scaleRatio
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins:  isMobile ? 20 * scaleRatio : 50 * scaleRatio
         text: qsTr("USE ARQMA!!") + translationManager.emptyString
         visible: parent.paths[currentPath][currentPage] === finishPage
         onClicked: {
@@ -392,8 +395,9 @@ ColumnLayout {
 
     StandardButton {
        id: createViewOnlyWalletButton
-       Layout.alignment: Qt.AlignBottom | Qt.AlignRight
-       Layout.margins: (isMobile) ? 20 * scaleRatio : 50
+       anchors.right: parent.right
+       anchors.bottom: parent.bottom
+       anchors.margins: isMobile ? 20 * scaleRatio : 50
        text: qsTr("Create wallet") + translationManager.emptyString
        visible: currentPath === "create_view_only_wallet" &&  parent.paths[currentPath][currentPage] === passwordPage
        enabled: passwordPage.passwordsMatch
@@ -419,8 +423,9 @@ ColumnLayout {
 
    StandardButton {
        id: abortViewOnlyButton
-       Layout.alignment: Qt.AlignBottom | Qt.AlignRight
-       Layout.margins:  (isMobile) ? 20 * scaleRatio : 50
+       anchors.right: createViewOnlyWalletButton.left
+       anchors.bottom: parent.bottom
+       anchors.margins:  isMobile ? 20 * scaleRatio : 50
        text: qsTr("Abort") + translationManager.emptyString
        visible: currentPath === "create_view_only_wallet" &&  parent.paths[currentPath][currentPage] === passwordPage
        onClicked: {
