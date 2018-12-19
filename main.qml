@@ -1313,8 +1313,8 @@ ApplicationWindow {
                 PropertyChanges { target: mobileHeader; visible: false }
             }, State {
                 name: "normal"
-                PropertyChanges { target: leftPanel; visible: (isMobile)? false : true }
-                PropertyChanges { target: rightPanel; visible: true }
+                PropertyChanges { target: leftPanel; visible: isMobile ? false : true }
+                PropertyChanges { target: rightPanel; visible: false }
                 PropertyChanges { target: middlePanel; visible: true }
                 PropertyChanges { target: titleBar; basicButtonVisible: true }
                 PropertyChanges { target: wizard; visible: false }

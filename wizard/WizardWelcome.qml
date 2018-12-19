@@ -110,7 +110,7 @@ ColumnLayout {
     ColumnLayout{
         // Flags view
         GridView {
-            property int margin: (isMobile) ? 0 : Math.floor(appWindow.width/12);
+            property int margin: isMobile ? 0 : Math.floor(appWindow.width/12);
 
             id: gridView
             cellWidth: 140 * scaleRatio

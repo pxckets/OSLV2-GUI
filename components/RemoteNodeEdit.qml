@@ -35,7 +35,7 @@ import QtQuick.Layouts 1.1
 import "../components" as ArqmaComponents
 
 GridLayout {
-    columns: (isMobile) ? 1 : 2
+    columns: isMobile ? 1 : 2
     columnSpacing: 32
     id: root
     property alias daemonAddrText: daemonAddr.text
