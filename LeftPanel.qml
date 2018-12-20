@@ -637,7 +637,7 @@ Rectangle {
         Rectangle {
             id: separator
             anchors.left: middlePanel.left
-            anchors.right: leftPannel.right
+            anchors.right: leftPanel.right
             anchors.leftMargin: 0
             anchors.rightMargin: 0
             anchors.bottom: networkStatus.top;
