@@ -79,7 +79,7 @@ Rectangle {
         menuColumn.previousButton.checked = true
     }
 
-    width: (isMobile)? appWindow.width : 300
+    width: isMobile ? appWindow.width : 300
     color: "transparent"
     anchors.bottom: parent.bottom
     anchors.top: parent.top
@@ -95,7 +95,7 @@ Rectangle {
 
     // card with Arqma Card
     Column {
-        visible: true
+        visible: !isMobile
         z: 2
         id: column1
         height: 210
@@ -105,7 +105,7 @@ Rectangle {
         anchors.topMargin: (persistentSettings.customDecorations)? 50 : 0
 
         RowLayout {
-            visible: true
+            visible: !isMobile
             Item {
                 anchors.left: parent.left
                 anchors.top: parent.top
@@ -148,6 +148,7 @@ Rectangle {
                 }
 
                 Rectangle {
+                    visible: !isMobile
                     height: (logoutImage.height + 8) * scaleRatio
                     width: (logoutImage.width + 8) * scaleRatio
                     color: "transparent"
@@ -309,9 +310,9 @@ Rectangle {
         id: menuRect
         z: 2
         anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.right: middlePanel.left
         anchors.bottom: parent.bottom
-        anchors.top: (isMobile)? parent.top : column1.bottom
+        anchors.top: isMobile ? parent.top : column1.bottom
         color: "transparent"
 
 
@@ -324,7 +325,6 @@ Rectangle {
             clip: true
 
         Column {
-
             id: menuColumn
             anchors.left: parent.left
             anchors.right: parent.right
@@ -636,8 +636,8 @@ Rectangle {
 
         Rectangle {
             id: separator
-            anchors.left: parent.left
-            anchors.right: parent.right
+            anchors.left: middlePanel.left
+            anchors.right: leftPanel.right
             anchors.leftMargin: 0
             anchors.rightMargin: 0
             anchors.bottom: networkStatus.top;
@@ -651,7 +651,7 @@ Rectangle {
             anchors.right: parent.right
             anchors.leftMargin: 0
             anchors.rightMargin: 0
-            anchors.bottom: (progressBar.visible)? progressBar.top : networkStatusSpacer.top;
+            anchors.bottom: progressBar.visible ? progressBar.top : networkStatusSpacer.top;
             connected: Wallet.ConnectionStatus_Disconnected
             height: 54 * scaleRatio
         }

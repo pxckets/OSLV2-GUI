@@ -88,7 +88,7 @@ ColumnLayout {
         id: headerColumn
         Layout.leftMargin: wizardLeftMargin
         Layout.rightMargin: wizardRightMargin
-        Layout.bottomMargin: (!isMobile) ? 40 * scaleRatio : 20
+        Layout.bottomMargin: !isMobile ? 40 * scaleRatio : 20
         spacing: 30 * scaleRatio
 
         Text {

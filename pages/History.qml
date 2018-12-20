@@ -169,7 +169,7 @@ Rectangle {
 
         GridLayout {
             z: 6
-            columns: (isMobile)? 1 : 3
+            columns: isMobile ? 1 : 3
             Layout.fillWidth: true
             columnSpacing: 22 * scaleRatio
             visible: !isMobile

@@ -79,7 +79,7 @@ Rectangle {
     /* main layout */
     ColumnLayout {
         id: mainLayout
-        anchors.margins: (isMobile)? 17 : 20
+        anchors.margins: isMobile ? 17 : 20
         anchors.topMargin: 40 * scaleRatio
 
         anchors.left: parent.left
@@ -304,7 +304,7 @@ Rectangle {
 
         GridLayout{
             Layout.topMargin: 12 * scaleRatio
-            columns: (isMobile) ?  1 : 2
+            columns: isMobile ?  1 : 2
             columnSpacing: 32 * scaleRatio
 
             ColumnLayout {
@@ -374,7 +374,7 @@ Rectangle {
         }
 
         GridLayout {
-            columns: (isMobile) ?  1 : 2
+            columns: isMobile ? 1 : 2
 
             CheckBox {
                 id: segregatePreForkOutputs

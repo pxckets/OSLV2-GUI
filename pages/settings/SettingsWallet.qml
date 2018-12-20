@@ -46,7 +46,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.margins: (isMobile)? 17 : 20
+        anchors.margins: isMobile ? 17 : 20
         anchors.topMargin: 0
         spacing: 0
 
@@ -114,12 +114,14 @@ Rectangle {
                     width: parent.width
                     height: 24 * scaleRatio
                     radius: 2 * scaleRatio
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     color: ArqmaComponents.Style.buttonBackgroundColorDisabled
 
                     Text {
                         id: closeWalletText
-                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
                         color: ArqmaComponents.Style.defaultFontColor
                         font.family: ArqmaComponents.Style.fontRegular.name
                         font.pixelSize: 14 * scaleRatio
@@ -203,7 +205,8 @@ Rectangle {
                     width: parent.width
                     height: 24 * scaleRatio
                     radius: 2 * scaleRatio
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     color: ArqmaComponents.Style.buttonBackgroundColorDisabled
 
                     Text {
@@ -293,12 +296,14 @@ Rectangle {
                     width: parent.width
                     height: 24 * scaleRatio
                     radius: 2 * scaleRatio
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     color: ArqmaComponents.Style.buttonBackgroundColorDisabled
 
                     Text {
                         id: showSeedText
-                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
                         color: ArqmaComponents.Style.defaultFontColor
                         font.family: ArqmaComponents.Style.fontRegular.name
                         font.pixelSize: 14 * scaleRatio
@@ -381,12 +386,14 @@ Rectangle {
 
                     height: 24 * scaleRatio
                     radius: 2 * scaleRatio
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     color: ArqmaComponents.Style.buttonBackgroundColorDisabled
 
                     Text {
                         id: rescanButtonText
-                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
                         color: ArqmaComponents.Style.defaultFontColor
                         font.family: ArqmaComponents.Style.fontRegular.name
                         font.pixelSize: 14 * scaleRatio

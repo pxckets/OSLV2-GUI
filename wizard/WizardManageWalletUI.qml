@@ -179,7 +179,7 @@ ColumnLayout {
     }
 
     GridLayout{
-        columns: (isMobile)? 2 : 4
+        columns: isMobile ? 2 : 4
         visible: recoverMode
 
         StandardButton {

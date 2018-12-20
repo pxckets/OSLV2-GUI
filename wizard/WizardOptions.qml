@@ -42,8 +42,8 @@ ColumnLayout {
     signal createWalletFromDeviceClicked()
     opacity: 0
     visible: false
-    property int buttonSize: (isMobile) ? 80 * scaleRatio : 140 * scaleRatio
-    property int buttonImageSize: (isMobile) ? buttonSize - 10 * scaleRatio : buttonSize - 30 * scaleRatio
+    property int buttonSize: isMobile ? 80 * scaleRatio : 140 * scaleRatio
+    property int buttonImageSize: isMobile ? buttonSize - 10 * scaleRatio : buttonSize - 30 * scaleRatio
 
     function onPageClosed() {
         // Save settings used in open from file.
@@ -64,7 +64,7 @@ ColumnLayout {
         id: headerColumn
         Layout.leftMargin: wizardLeftMargin
         Layout.rightMargin: wizardRightMargin
-        Layout.bottomMargin: (!isMobile) ? 40 * scaleRatio : 20
+        Layout.bottomMargin: !isMobile ? 40 * scaleRatio : 20
         spacing: 30 * scaleRatio
 
         Text {
