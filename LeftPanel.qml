@@ -310,7 +310,7 @@ Rectangle {
         id: menuRect
         z: 2
         anchors.left: parent.left
-        anchors.right: middlePanel.left
+        anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.top: isMobile ? parent.top : column1.bottom
         color: "transparent"
@@ -636,8 +636,8 @@ Rectangle {
 
         Rectangle {
             id: separator
-            anchors.left: middlePanel.left
-            anchors.right: leftPanel.right
+            anchors.left: parent.left
+            anchors.right: parent.right
             anchors.leftMargin: 0
             anchors.rightMargin: 0
             anchors.bottom: networkStatus.top;
