@@ -29,10 +29,10 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
-import "../components" as ArqmaComponents
 import ArqmaComponents.AddressBook 1.0
 import ArqmaComponents.AddressBookModel 1.0
 import ArqmaComponents.Clipboard 1.0
+import "../components" as ArqmaComponents
 import "../js/TxUtils.js" as TxUtils
 
 Rectangle {
@@ -88,7 +88,9 @@ Rectangle {
                     cameraUi.qrcode_decoded.connect(updateFromQrCode)
                 }
             }
+        }
 
+        ArqmaComponents.LineEdit {
             ArqmaComponents.StandardButton {
                 id: resolveButton
                 text: qsTr("Resolve") + translationManager.emptyString
@@ -144,7 +146,7 @@ Rectangle {
 //                    + translationManager.emptyString
         }
 
-        ArqmaComponents.LineEditMulti {
+        ArqmaComponents.LineEdit {
             id: descriptionLine
             Layout.fillWidth: true;
             labelText: qsTr("Description <font size='2'>(Optional)</font>") + translationManager.emptyString
