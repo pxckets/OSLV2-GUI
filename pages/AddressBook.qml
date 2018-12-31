@@ -28,10 +28,12 @@
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
-import "../components"
+import QtQuick.Dialogs 1.2
+import "../components" as ArqmaComponents
 import ArqmaComponents.AddressBook 1.0
 import ArqmaComponents.AddressBookModel 1.0
 import ArqmaComponents.Clipboard 1.0
+import "../js/TxUtils.js" as TxUtils
 
 Rectangle {
     id: root
@@ -50,14 +52,13 @@ Rectangle {
 
         RowLayout {
             id: addressLineRow
-            Layout.fillWidth: true
 
-            LineEditMulti {
+            ArqmaComponents.LineEditMulti {
                 id: addressLine
                 spacing: 0
                 fontBold: true
                 labelText: qsTr("Address") + translationManager.emptyString
-                placeholderText: "ar.. / aRi.."
+                placeholderText: "ar.. / aRi.. / OpenAlias"
                 wrapMode: Text.WrapAnywhere
                 addressValidation: true
                 pasteButton: true
@@ -73,7 +74,7 @@ Rectangle {
                 }
             }
 
-            StandardButton {
+            ArqmaComponents.StandardButton {
                 id: qrfinderButton
                 rightIcon: "../images/qr.png"
                 anchors.bottom: addressLineRow.bottom
@@ -86,9 +87,54 @@ Rectangle {
                     cameraUi.qrcode_decoded.connect(updateFromQrCode)
                 }
             }
-        }
 
-        LineEdit {
+            ArqmaComponents.StandardButton {
+                id: resolveButton
+                text: qsTr("Resolve") + translationManager.emptyString
+                visible: TxUtils.isValidOpenAliasAddress(addressLine.text)
+                enabled : visible
+                onClicked: {
+                    var result = walletManager.resolveOpenAlias(addressLine.text)
+                    if (result) {
+                        var parts = result.split("|")
+                        if (parts.length == 2) {
+                            var address_ok = walletManager.addressValid(parts[1], appWindow.persistentSettings.nettype)
+                            if (parts[0] === "true") {
+                                if (address_ok) {
+                                    // prepend openalias to description
+                                    descriptionLine.text = descriptionLine.text ? addressLine.text + " " + descriptionLine.text : addressLine.text
+                                    addressLine.text = parts[1]
+                                    addressLine.cursorPosition = 0
+                                }
+                                else
+                                    oa_message(qsTr("No valid address found at this OpenAlias address"))
+                                }
+                                else if (parts[0] === "false") {
+                                    if (address_ok) {
+                                        addressLine.text = parts[1]
+                                        addressLine.cursorPosition = 0
+                                        oa_message(qsTr("Address found, but the DNSSEC signatures could not be verified, so this address may be spoofed"))
+                                    }
+                                    else
+                                    {
+                                        oa_message(qsTr("No valid address found at this OpenAlias address, but the DNSSEC signatures could not be verified, so this may be spoofed"))
+                                    }
+                                }
+                                else {
+                                    oa_message(qsTr("Internal error"))
+                                }
+                            }
+                            else {
+                                oa_message(qsTr("Internal error"))
+                            }
+                        }
+                        else {
+                            oa_message(qsTr("No address found"))
+                        }
+                    }
+                }
+
+        ArqmaComponents.LineEditMulti {
             id: paymentIdLine
             Layout.fillWidth: true;
             labelText: qsTr("Payment ID <font size='2'>(Optional)</font>") + translationManager.emptyString
@@ -97,18 +143,17 @@ Rectangle {
 //                    + translationManager.emptyString
         }
 
-        LineEdit {
+        ArqmaComponents.LineEditMulti {
             id: descriptionLine
             Layout.fillWidth: true;
             labelText: qsTr("Description <font size='2'>(Optional)</font>") + translationManager.emptyString
             placeholderText: qsTr("Give this entry a name or description") + translationManager.emptyString
         }
 
-
         RowLayout {
             id: addButton
             Layout.bottomMargin: 17 * scaleRatio
-            StandardButton {
+            ArqmaComponents.StandardButton {
                 text: qsTr("Add") + translationManager.emptyString
                 enabled: checkInformation(addressLine.text, paymentIdLine.text, appWindow.persistentSettings.nettype)
 
@@ -150,7 +195,7 @@ Rectangle {
             NumberAnimation { duration: 200; easing.type: Easing.InQuad }
         }
 
-        Scroll {
+        ArqmaComponents.Scroll {
             id: flickableScroll
             anchors.right: table.right
             anchors.rightMargin: -14
@@ -159,7 +204,7 @@ Rectangle {
             flickable: table
         }
 
-        AddressBookTable {
+        ArqmaComponents.AddressBookTable {
             id: table
             anchors.left: parent.left
             anchors.right: parent.right
@@ -199,4 +244,37 @@ Rectangle {
         cameraUi.qrcode_decoded.disconnect(updateFromQrCode)
     }
 
+    function setDescription(value) {
+        descriptionLine.text = value;
+    }
+
+    function setPaymentId(value) {
+        paymentIdLine.text = value;
+    }
+
+    function clearFields() {
+        addressLine.text = "";
+        paymentIdLine.text = "";
+        descriptionLine.text = "";
+    }
+
+    function oa_message(text) {
+        oaPopup.title = qsTr("OpenAlias error") + translationManager.emptyString
+        oaPopup.text = text
+        oaPopup.icon = StandardIcon.Information
+        oaPopup.onCloseCallback = null
+        oaPopup.open()
+    }
+
+    ArqmaComponents.StandardDialog {
+        // dynamically change onclose handler
+        property var onCloseCallback
+        id: oaPopup
+        cancelVisible: false
+        onAccepted:  {
+            if (onCloseCallback) {
+                onCloseCallback()
+            }
+        }
+    }
 }

@@ -36,6 +36,7 @@ import ArqmaComponents.Wallet 1.0
 import "../components"
 import "../components" as ArqmaComponents
 import "." 1.0
+import "../js/TxUtils.js" as TxUtils
 
 
 Rectangle {
@@ -60,15 +61,6 @@ Rectangle {
         }
     }
 
-    function isValidOpenAliasAddress(address) {
-      address = address.trim()
-      var dot = address.indexOf('.')
-      if (dot < 0)
-        return false
-      // we can get an awful lot of valid domains, including non ASCII chars... accept anything
-      return true
-    }
-
     function oa_message(text) {
       oaPopup.title = qsTr("OpenAlias error") + translationManager.emptyString
       oaPopup.text = text
@@ -88,17 +80,27 @@ Rectangle {
     function updateFromQrCode(address, payment_id, amount, tx_description, recipient_name) {
         console.log("updateFromQrCode")
         addressLine.text = address
-        paymentIdLine.text = payment_id
+        setPaymentId(payment_id);
         amountLine.text = amount
-        descriptionLine.text = recipient_name + " " + tx_description
+        setDescription(recipient_name + " " + tx_description);
         cameraUi.qrcode_decoded.disconnect(updateFromQrCode)
+    }
+
+    function setDescription(value) {
+        descriptionLine.text = value;
+        descriptionCheckbox.checked = descriptionLine.text != "";
+    }
+
+    function setPaymentId(value) {
+        paymentIdLine.text = value;
+        paymentIdCheckbox.checked = paymentIdLine.text != "";
     }
 
     function clearFields() {
         addressLine.text = ""
-        paymentIdLine.text = ""
+        setPaymentId("");
         amountLine.text = ""
-        descriptionLine.text = ""
+        setDescription("");
     }
 
     // Information dialog
@@ -223,7 +225,7 @@ Rectangle {
                 Address <font size='2'>  ( </font> <a href='#'>Address book</a><font size='2'> )</font>")
                 + translationManager.emptyString
               labelButtonText: qsTr("Resolve") + translationManager.emptyString
-              placeholderText: "ar.."
+              placeholderText: "ar.. / aRi.. / OpenAlias"
               wrapMode: Text.WrapAnywhere
               addressValidation: true
               onInputLabelLinkActivated: { appWindow.showPageRequest("AddressBook") }
@@ -232,9 +234,9 @@ Rectangle {
                   const parsed = walletManager.parse_uri_to_object(clipboardText);
                   if (!parsed.error) {
                     addressLine.text = parsed.address;
-                    paymentIdLine.text = parsed.payment_id;
+                    setPaymentId(parsed.payment_id);
                     amountLine.text = parsed.amount;
-                    descriptionLine.text = parsed.tx_description;
+                    setDescription(parsed.tx_description);
                   } else {
                      addressLine.text = clipboardText;
                   }
@@ -261,8 +263,8 @@ Rectangle {
           anchors.left: parent.left
           width: 80
           text: qsTr("Resolve") + translationManager.emptyString
-          visible: isValidOpenAliasAddress(addressLine.text)
-          enabled : isValidOpenAliasAddress(addressLine.text)
+          visible: TxUtils.isValidOpenAliasAddress(addressLine.text)
+          enabled : visible
           onClicked: {
               var result = walletManager.resolveOpenAlias(addressLine.text)
               if (result) {
@@ -271,6 +273,9 @@ Rectangle {
                       var address_ok = walletManager.addressValid(parts[1], appWindow.persistentSettings.nettype)
                       if (parts[0] === "true") {
                           if (address_ok) {
+                              // prepend openalias to description
+                              descriptionLine.text = descriptionLine.text ? addressLine.text + " " + descriptionLine.text : addressLine.text
+                              descriptionCheckbox.checked = true
                               addressLine.text = parts[1]
                               addressLine.cursorPosition = 0
                           }
@@ -302,25 +307,57 @@ Rectangle {
           }
       }
 
-      RowLayout {
+      ColumnLayout {
+          CheckBox {
+              id: paymentIdCheckbox
+              border: false
+              checkedIcon: "qrc:///images/minus-white.png"
+              uncheckedIcon: "qrc:///images/plus-white.png"
+              fontSize: paymentIdLine.labelFontSize
+              iconOnTheLeft: false
+              Layout.fillWidth: true
+              text: qsTr("Payment ID <font size='2'>( Optional )</font>") + translationManager.emptyString
+              onClicked: {
+                  if (!paymentIdCheckbox.checked) {
+                    paymentIdLine.text = "";
+                  }
+              }
+          }
+
           // payment id input
           LineEditMulti {
               id: paymentIdLine
               fontBold: true
-              labelText: qsTr("Payment ID <font size='2'>( Optional )</font>") + translationManager.emptyString
               placeholderText: qsTr("16 or 64 hexadecimal characters") + translationManager.emptyString
               Layout.fillWidth: true
               wrapMode: Text.WrapAnywhere
               addressValidation: false
+              visible: paymentIdCheckbox.checked
           }
       }
 
-      RowLayout {
+      ColumnLayout {
+          CheckBox {
+              id: descriptionCheckbox
+              border: false
+              checkedIcon: "qrc:///images/minus-white.png"
+              uncheckedIcon: "qrc:///images/plus-white.png"
+              fontSize: descriptionLine.labelFontSize
+              iconOnTheLeft: false
+              Layout.fillWidth: true
+              text: qsTr("Description <font size='2'>( Optional )</font>") + translationManager.emptyString
+              onClicked: {
+                  if (!descriptionCheckbox.checked) {
+                    descriptionLine.text = "";
+                  }
+              }
+          }
+
           LineEditMulti {
               id: descriptionLine
-              labelText: qsTr("Description <font size='2'>( Optional )</font>") + translationManager.emptyString
               placeholderText: qsTr("Saved to local wallet history") + translationManager.emptyString
               Layout.fillWidth: true
+              visible: descriptionCheckbox.checked
           }
       }
 
@@ -366,7 +403,7 @@ Rectangle {
                   console.log("priority: " + priority)
                   console.log("amount: " + amountLine.text)
                   addressLine.text = addressLine.text.trim()
-                  paymentIdLine.text = paymentIdLine.text.trim()
+                  setPaymentId(paymentIdLine.text.trim());
                   root.paymentClicked(addressLine.text, paymentIdLine.text, amountLine.text, scaleValueToMixinCount(privacyLevelItem.fillLevel),
                                  priority, descriptionLine.text)
 
@@ -498,7 +535,7 @@ Rectangle {
                     console.log("priority: " + priority)
                     console.log("amount: " + amountLine.text)
                     addressLine.text = addressLine.text.trim()
-                    paymentIdLine.text = paymentIdLine.text.trim()
+                    setPaymentId(paymentIdLine.text.trim());
                     root.paymentClicked(addressLine.text, paymentIdLine.text, amountLine.text, scaleValueToMixinCount(privacyLevelItem.fillLevel),
                                    priority, descriptionLine.text)
 
@@ -732,7 +769,7 @@ Rectangle {
     // Popuplate fields from addressbook.
     function sendTo(address, paymentId, description){
         addressLine.text = address
-        paymentIdLine.text = paymentId
-        descriptionLine.text = description
+        setPaymentId(paymentId);
+        setDescription(description);
     }
 }

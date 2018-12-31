@@ -1269,6 +1269,7 @@ ApplicationWindow {
     DaemonManagerDialog {
         id: daemonManagerDialog
         onRejected: {
+            middlePanel.settingsView.settingsStateViewState = "Node";
             loadPage("Settings");
             startLocalNodeCancelled = true
         }
