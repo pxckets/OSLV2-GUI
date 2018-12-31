@@ -79,7 +79,7 @@ ColumnLayout {
     property var onPaste: function(clipboardText) {
         item.text = clipboardText;
     }
-    property bool showingHeader: true
+    property bool showingHeader: labelText != "" || copyButton || pasteButton
     property var wrapMode: Text.NoWrap
     property alias addressValidation: input.addressValidation
     property string backgroundColor: "" // mock
@@ -152,7 +152,7 @@ ColumnLayout {
         addressValidation: false
         anchors.top: item.showingHeader ? inputLabelRect.bottom : item.top
         Layout.fillWidth: true
-        topPadding: item.showingHeader ? 10 * scaleRatio : 0
+        topPadding: 10 * scaleRatio
         bottomPadding: 10 * scaleRatio
         wrapMode: item.wrapMode
         fontSize: item.fontSize

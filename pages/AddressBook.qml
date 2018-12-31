@@ -29,10 +29,10 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
+import "../components" as ArqmaComponents
 import ArqmaComponents.AddressBook 1.0
 import ArqmaComponents.AddressBookModel 1.0
 import ArqmaComponents.Clipboard 1.0
-import "../components" as ArqmaComponents
 import "../js/TxUtils.js" as TxUtils
 
 Rectangle {
@@ -59,6 +59,7 @@ Rectangle {
                 spacing: 0
                 fontBold: true
                 labelText: qsTr("Address") + translationManager.emptyString
+		        labelButtonText: qsTr("Resolve") + translationManager.emptyString
                 placeholderText: "ar.. / aRi.. / OpenAlias"
                 wrapMode: Text.WrapAnywhere
                 addressValidation: true
@@ -90,60 +91,61 @@ Rectangle {
             }
         }
 
-        ArqmaComponents.LineEdit {
-            ArqmaComponents.StandardButton {
-                id: resolveButton
-                text: qsTr("Resolve") + translationManager.emptyString
-                visible: TxUtils.isValidOpenAliasAddress(addressLine.text)
-                enabled : visible
-                onClicked: {
-                    var result = walletManager.resolveOpenAlias(addressLine.text)
-                    if (result) {
-                        var parts = result.split("|")
-                        if (parts.length == 2) {
-                            var address_ok = walletManager.addressValid(parts[1], appWindow.persistentSettings.nettype)
-                            if (parts[0] === "true") {
-                                if (address_ok) {
-                                    // prepend openalias to description
-                                    descriptionLine.text = descriptionLine.text ? addressLine.text + " " + descriptionLine.text : addressLine.text
-                                    addressLine.text = parts[1]
-                                    addressLine.cursorPosition = 0
-                                }
-                                else
-                                    oa_message(qsTr("No valid address found at this OpenAlias address"))
-                                }
-                                else if (parts[0] === "false") {
-                                    if (address_ok) {
-                                        addressLine.text = parts[1]
-                                        addressLine.cursorPosition = 0
-                                        oa_message(qsTr("Address found, but the DNSSEC signatures could not be verified, so this address may be spoofed"))
-                                    }
-                                    else
-                                    {
-                                        oa_message(qsTr("No valid address found at this OpenAlias address, but the DNSSEC signatures could not be verified, so this may be spoofed"))
-                                    }
-                                }
-                                else {
-                                    oa_message(qsTr("Internal error"))
-                                }
+        ArqmaComponents.StandardButton {
+            id: resolveButton
+	        anchors.left: parent.left
+  	        width: 80
+            text: qsTr("Resolve") + translationManager.emptyString
+            visible: TxUtils.isValidOpenAliasAddress(addressLine.text)
+            enabled : visible
+            onClicked: {
+                var result = walletManager.resolveOpenAlias(addressLine.text)
+                if (result) {
+                    var parts = result.split("|")
+                    if (parts.length == 2) {
+                        var address_ok = walletManager.addressValid(parts[1], appWindow.persistentSettings.nettype)
+                        if (parts[0] === "true") {
+                            if (address_ok) {
+                                // prepend openalias to description
+                                descriptionLine.text = descriptionLine.text ? addressLine.text + " " + descriptionLine.text : addressLine.text
+                                addressLine.text = parts[1]
+                                addressLine.cursorPosition = 0
+                            } 
+                            else
+                                oa_message(qsTr("No valid address found at this OpenAlias address"))
+                        }
+                        else if (parts[0] === "false") {
+                            if (address_ok) {
+                                addressLine.text = parts[1]
+                                addressLine.cursorPosition = 0
+                                oa_message(qsTr("Address found, but the DNSSEC signatures could not be verified, so this address may be spoofed"))
                             }
-                            else {
-                                oa_message(qsTr("Internal error"))
+                            else
+                            {
+                                oa_message(qsTr("No valid address found at this OpenAlias address, but the DNSSEC signatures could not be verified, so this may be spoofed"))
                             }
                         }
                         else {
-                            oa_message(qsTr("No address found"))
+                            oa_message(qsTr("Internal error"))
                         }
                     }
+                    else {
+                        oa_message(qsTr("Internal error"))
+                    }
                 }
+                else {
+                    oa_message(qsTr("No address found"))
+                }
+            }
+	    }
 
-        ArqmaComponents.LineEditMulti {
+        ArqmaComponents.LineEdit {
             id: paymentIdLine
             Layout.fillWidth: true;
             labelText: qsTr("Payment ID <font size='2'>(Optional)</font>") + translationManager.emptyString
             placeholderText: qsTr("Paste 64 hexadecimal characters") + translationManager.emptyString
-//            tipText: qsTr("<b>Payment ID</b><br/><br/>A unique user name used in<br/>the address book. It is not a<br/>transfer of information sent<br/>during the transfer")
-//                    + translationManager.emptyString
+            //tipText: qsTr("<b>Payment ID</b><br/><br/>A unique user name used in<br/>the address book. It is not a<br/>transfer of information sent<br/>during the transfer")
+            //        + translationManager.emptyString
         }
 
         ArqmaComponents.LineEdit {
@@ -280,5 +282,5 @@ Rectangle {
             }
         }
     }
-  }
 }
+
