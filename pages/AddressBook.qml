@@ -52,6 +52,7 @@ Rectangle {
 
         RowLayout {
             id: addressLineRow
+            Layout.fillWidth: true
 
             ArqmaComponents.LineEditMulti {
                 id: addressLine
@@ -134,7 +135,7 @@ Rectangle {
                     }
                 }
 
-        ArqmaComponents.LineEdit {
+        ArqmaComponents.LineEditMulti {
             id: paymentIdLine
             Layout.fillWidth: true;
             labelText: qsTr("Payment ID <font size='2'>(Optional)</font>") + translationManager.emptyString
@@ -143,7 +144,7 @@ Rectangle {
 //                    + translationManager.emptyString
         }
 
-        ArqmaComponents.LineEdit {
+        ArqmaComponents.LineEditMulti {
             id: descriptionLine
             Layout.fillWidth: true;
             labelText: qsTr("Description <font size='2'>(Optional)</font>") + translationManager.emptyString
