@@ -134,7 +134,7 @@ Rectangle {
                     }
                 }
 
-        ArqmaComponents.LineEditMulti {
+        ArqmaComponents.LineEdit {
             id: paymentIdLine
             Layout.fillWidth: true;
             labelText: qsTr("Payment ID <font size='2'>(Optional)</font>") + translationManager.emptyString
@@ -143,7 +143,7 @@ Rectangle {
 //                    + translationManager.emptyString
         }
 
-        ArqmaComponents.LineEditMulti {
+        ArqmaComponents.LineEdit {
             id: descriptionLine
             Layout.fillWidth: true;
             labelText: qsTr("Description <font size='2'>(Optional)</font>") + translationManager.emptyString
