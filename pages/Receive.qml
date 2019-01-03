@@ -466,11 +466,14 @@ Rectangle {
 
                     ColumnLayout {
                         spacing: 11 * scaleRatio
+						Layout.alignment: amountRow.bottom | Qt.AlignVCenter
+						Layout.topMargin: 5 * scaleRatio
 
                         Rectangle {
                             color: "white"
 
                             Layout.fillWidth: true
+							Layout.alignment: Qt.AlignCenter
                             Layout.maximumWidth: mainLayout.qrCodeSize
                             Layout.preferredHeight: width
                             radius: 4
@@ -496,11 +499,15 @@ Rectangle {
 
                             StandardButton {
                                 rightIcon: "../images/download-white.png"
+								text: qsTr("Save image") + translationManager.emptyString
+								fontSize: 10 * scaleRatio
                                 onClicked: qrFileDialog.open()
                             }
 
                             StandardButton {
                                 rightIcon: "../images/external-link-white.png"
+								text: qsTr("Copy") + translationManager.emptyString
+								fontSize: 10 * scaleRatio
                                 onClicked: {
                                     clipboard.setText(makeQRCodeString());
                                     appWindow.showStatusMessage(qsTr("Copied to clipboard"), 3);
