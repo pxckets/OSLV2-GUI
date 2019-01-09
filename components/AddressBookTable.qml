@@ -67,7 +67,7 @@ ListView {
             width: text.length ? (descriptionArea.containsMouse ? 139 : 139) : 0
             font.family: "Arial"
             font.bold: true
-            font.pixelSize: 19
+            font.pixelSize: 15
             color: "#ffffff"
             elide: Text.ElideRight
             text: description
@@ -88,7 +88,7 @@ ListView {
             anchors.leftMargin: description.length > 0 ? 12 : 0
             anchors.rightMargin: 40
             font.family: "Arial"
-            font.pixelSize: 16
+            font.pixelSize: 12
             color: "#ffffff"
             text: {
                 if(isMobile){
@@ -123,7 +123,7 @@ ListView {
             readOnly: true
 
             font.family: "Arial"
-            font.pixelSize: 13
+            font.pixelSize: 10
             color: "#545454"
             text: {
                 if(isMobile){
@@ -143,6 +143,7 @@ ListView {
         }
 
         Clipboard { id: clipboard }
+
         TableDropdown {
             id: dropdown
             anchors.right: parent.right

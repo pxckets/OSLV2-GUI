@@ -110,8 +110,6 @@ ApplicationWindow {
             return
         }
 
-        // Dashboard is not implemented
-        // if(seq === "Ctrl+") middlePanel.state = "Dashboard"
         if(seq === "Ctrl+S") middlePanel.state = "Transfer"
         else if(seq === "Ctrl+R") middlePanel.state = "Receive"
         else if(seq === "Ctrl+K") middlePanel.state = "TxKey"
@@ -124,8 +122,7 @@ ApplicationWindow {
         else if(seq === "Ctrl+D") middlePanel.state = "Advanced"
         else if(seq === "Ctrl+Tab" || seq === "Alt+Tab") {
             /*
-            if(middlePanel.state === "Dashboard") middlePanel.state = "Transfer"
-            else if(middlePanel.state === "Transfer") middlePanel.state = "Receive"
+            if(middlePanel.state === "Transfer") middlePanel.state = "Receive"
             else if(middlePanel.state === "Receive") middlePanel.state = "TxKey"
             else if(middlePanel.state === "TxKey") middlePanel.state = "SharedRingDB"
             else if(middlePanel.state === "SharedRingDB") middlePanel.state = "History"
@@ -133,7 +130,6 @@ ApplicationWindow {
             else if(middlePanel.state === "AddressBook") middlePanel.state = "Mining"
             else if(middlePanel.state === "Mining") middlePanel.state = "Sign"
             else if(middlePanel.state === "Sign") middlePanel.state = "Settings"
-            else if(middlePanel.state === "Settings") middlePanel.state = "Dashboard"
             */
             if(middlePanel.state === "Settings") middlePanel.state = "Transfer"
             else if(middlePanel.state === "Transfer") middlePanel.state = "AddressBook"
@@ -146,7 +142,6 @@ ApplicationWindow {
             else if(middlePanel.state === "Sign") middlePanel.state = "Settings"
         } else if(seq === "Ctrl+Shift+Backtab" || seq === "Alt+Shift+Backtab") {
             /*
-            if(middlePanel.state === "Dashboard") middlePanel.state = "Settings"
             if(middlePanel.state === "Settings") middlePanel.state = "Sign"
             else if(middlePanel.state === "Sign") middlePanel.state = "Mining"
             else if(middlePanel.state === "Mining") middlePanel.state = "AddressBook"
@@ -155,7 +150,6 @@ ApplicationWindow {
             else if(middlePanel.state === "SharedRingDB") middlePanel.state = "TxKey"
             else if(middlePanel.state === "TxKey") middlePanel.state = "Receive"
             else if(middlePanel.state === "Receive") middlePanel.state = "Transfer"
-            else if(middlePanel.state === "Transfer") middlePanel.state = "Dashboard"
             */
             if(middlePanel.state === "Settings") middlePanel.state = "Sign"
             else if(middlePanel.state === "Sign") middlePanel.state = "SharedRingDB"
@@ -655,9 +649,6 @@ ApplicationWindow {
             transactionConfirmationPopup.text +=  qsTr("\n\nAmount: ") + walletManager.displayAmount(transaction.amount);
             transactionConfirmationPopup.text +=  qsTr("\nFee: ") + walletManager.displayAmount(transaction.fee);
             transactionConfirmationPopup.text +=  qsTr("\nRingsize: ") + (mixinCount + 1);
-            if(mixinCount !== 6){
-                transactionConfirmationPopup.text +=  qsTr("\n\nWARNING: non default ring size, which may harm your privacy. Default of 7 is recommended.");
-            }
             transactionConfirmationPopup.text +=  qsTr("\n\nNumber of transactions: ") + transaction.txCount
             transactionConfirmationPopup.text +=  (transactionDescription === "" ? "" : (qsTr("\nDescription: ") + transactionDescription))
             for (var i = 0; i < transaction.subaddrIndices.length; ++i){
@@ -702,7 +693,7 @@ ApplicationWindow {
                 informationPopup.onCloseCallback = null
                 informationPopup.open()
                 return;
-            } else if (arqamount > currentWallet.unlockedBalance) {
+            } else if (arqma_amount > currentWallet.unlockedBalance) {
                 hideProcessingSplash()
                 informationPopup.title = qsTr("Error") + translationManager.emptyString;
                 informationPopup.text  = qsTr("Insufficient funds. Unlocked balance: %1")
@@ -966,8 +957,8 @@ ApplicationWindow {
 
     objectName: "appWindow"
     visible: true
-//    width: screenWidth //rightPanelExpanded ? 1269 : 1269 - 300
-//    height: 900 //300//maxWindowHeight;
+    width: screenWidth //rightPanelExpanded ? 1269 : 1269 - 300
+    height: maxWindowHeight;
     color: Style.backgroundColor
     flags: persistentSettings.customDecorations ? Windows.flagsCustomDecorations : Windows.flags
     onWidthChanged: x -= 0
@@ -1269,6 +1260,7 @@ ApplicationWindow {
     DaemonManagerDialog {
         id: daemonManagerDialog
         onRejected: {
+            middlePanel.settingsView.settingsStateViewState = "Node";
             loadPage("Settings");
             startLocalNodeCancelled = true
         }
@@ -1362,15 +1354,7 @@ ApplicationWindow {
             anchors.top: mobileHeader.bottom
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            onDashboardClicked: {
-                middlePanel.state = "Dashboard";
-                middlePanel.flickable.contentY = 0;
-                if(isMobile) {
-                    hideMenu();
-                }
-                updateBalance();
-            }
-
+            
             onTransferClicked: {
                 middlePanel.state = "Transfer";
                 middlePanel.flickable.contentY = 0;
@@ -1548,7 +1532,7 @@ ApplicationWindow {
                 value: false
             }
             PropertyAction {
-                targets: [leftPanel, middlePanel, rightPanel, resizeArea]
+                targets: [leftPanel, middlePanel, resizeArea]
                 properties: "visible"
                 value: true
             }
@@ -1591,6 +1575,7 @@ ApplicationWindow {
         property int minHeight: 400
         MouseArea {
             id: resizeArea
+            enabled: persistentSettings.customDecorations
             hoverEnabled: true
             anchors.right: parent.right
             anchors.bottom: parent.bottom
@@ -1604,6 +1589,7 @@ ApplicationWindow {
 
             Image {
                 anchors.centerIn: parent
+                visible: persistentSettings.customDecorations
                 source: parent.containsMouse || parent.pressed ? "images/resizeHovered.png" :
                                                                  "images/resize.png"
             }
@@ -1617,7 +1603,7 @@ ApplicationWindow {
             onPositionChanged: {
                 if(!pressed) return
                 var pos = globalCursor.getPosition()
-                //var delta = previousPosition - pos
+                var delta = previousPosition - pos
                 var dx = previousPosition.x - pos.x
                 var dy = previousPosition.y - pos.y
 

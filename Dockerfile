@@ -48,15 +48,16 @@
          unzip \
          libtool-bin \
          autoconf \
-         automake 
+         automake \
+         wget
 
- ARG NUM_COMPILE_JOBS=1
+ ARG NUM_COMPILE_JOBS=6
  WORKDIR /usr/local
 
  # NOTE: We install boost and openssl to their default locations because the GUI
  # script is less flexible and it sets us up for success in the general case if
  # it's in a common location.
- 
+
 #Cmake
  ARG CMAKE_VERSION=3.12.1
  ARG CMAKE_VERSION_DOT=v3.12
@@ -69,7 +70,7 @@
     && ./configure \
     && make \
     && make install
- 
+
  ARG BOOST_VERSION=1_68_0
  ARG BOOST_VERSION_DOT=1.68.0
  ARG BOOST_HASH=da3411ea45622579d419bfda66f45cd0f8c32a181d84adfa936f5688388995cf
@@ -165,24 +166,25 @@ RUN set -ex \
         libzbar-dev
 
 # Setup QT in separate steps because its absurdly slow, so we can cache as much work as possible
-ARG QT_VERSION=5.7.1
+ARG QT_VERSION=5.12
+ARG QT_VER=5.12.0
 RUN set -ex \
-    && curl -O -L https://download.qt.io/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-${QT_VERSION}.7z \
-    && 7z x qt-everywhere-opensource-src-${QT_VERSION}.7z
+    && wget http://download.qt.io/official_releases/qt/${QT_VERSION}/${QT_VER}/single/qt-everywhere-src-${QT_VER}.tar.xz \
+    && tar xvf qt-everywhere-src-${QT_VER}.tar.xz
 
 RUN set -ex \
-    && cd qt-everywhere-opensource-src-${QT_VERSION} \
+    && cd qt-everywhere-src-${QT_VER} \
     && ./configure -prefix /usr/lib/x86_64-linux-gnu/qt5 -static -nomake tests -nomake examples -opensource -confirm-license -opengl desktop -qt-zlib -qt-libjpeg -qt-libpng -qt-xcb -qt-xkbcommon-x11 -qt-freetype -qt-pcre -qt-harfbuzz -fontconfig
 
 RUN set -ex \
-    && cd qt-everywhere-opensource-src-${QT_VERSION} \
+    && cd qt-everywhere-src-${QT_VER} \
     && make -j${NUM_COMPILE_JOBS} \
     && make install
 
 ARG QT_DIR=/usr/lib/x86_64-linux-gnu/qt5
 ENV PATH=/usr/lib/x86_64-linux-gnu/qt5/bin:${PATH}
 RUN set -ex \
-    && cd qt-everywhere-opensource-src-${QT_VERSION}/qtdeclarative \
+    && cd qt-everywhere-src-${QT_VER}/qtdeclarative \
     && qmake && make -j${NUM_COMPILE_JOBS} \
     && make install
 
@@ -253,7 +255,7 @@ RUN set -ex \
      && make \
      && make install \
      && ldconfig
-     
+
 
 ADD . /src
 WORKDIR /src
@@ -261,6 +263,4 @@ WORKDIR /src
 ENV USE_SINGLE_BUILDDIR=1
 RUN set -ex \
     && rm -rf build \
-    && ./build.sh release-static \
-    && cd build \
-    && make deploy
+    && ./build.sh release-static

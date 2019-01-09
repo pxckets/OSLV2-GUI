@@ -26,10 +26,10 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.2
 
 import "../components"
@@ -283,7 +283,7 @@ Rectangle {
                                 }
                             }
 
-                            MouseArea{
+                            MouseArea {
                                 cursorShape: Qt.PointingHandCursor
                                 anchors.fill: parent
                                 hoverEnabled: true
@@ -414,6 +414,7 @@ Rectangle {
             visible: advancedRowVisible
 
             ColumnLayout {
+                id: qrhelpColumn
                 Layout.alignment: Qt.AlignTop
                 Layout.fillWidth: true
                 spacing: 20 * scaleRatio
@@ -466,6 +467,7 @@ Rectangle {
 
                     ColumnLayout {
                         spacing: 11 * scaleRatio
+                        Layout.topMargin: 5 * scaleRatio
 
                         Rectangle {
                             color: "white"
@@ -479,7 +481,6 @@ Rectangle {
                                 id: qrCode
                                 anchors.fill: parent
                                 anchors.margins: 1
-
                                 smooth: false
                                 fillMode: Image.PreserveAspectFit
                                 source: "image://qrcode/" + makeQRCodeString()
@@ -496,11 +497,15 @@ Rectangle {
 
                             StandardButton {
                                 rightIcon: "../images/download-white.png"
+								text: qsTr("Save image") + translationManager.emptyString
+								fontSize: 10 * scaleRatio
                                 onClicked: qrFileDialog.open()
                             }
 
                             StandardButton {
                                 rightIcon: "../images/external-link-white.png"
+								text: qsTr("Copy") + translationManager.emptyString
+								fontSize: 10 * scaleRatio
                                 onClicked: {
                                     clipboard.setText(makeQRCodeString());
                                     appWindow.showStatusMessage(qsTr("Copied to clipboard"), 3);

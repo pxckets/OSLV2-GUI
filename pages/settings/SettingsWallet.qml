@@ -116,7 +116,7 @@ Rectangle {
                     radius: 2 * scaleRatio
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: ArqmaComponents.Style.buttonBackgroundColorDisabled
+                    color: ArqmaComponents.Style.heroBlue
 
                     Text {
                         id: closeWalletText
@@ -207,7 +207,7 @@ Rectangle {
                     radius: 2 * scaleRatio
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: ArqmaComponents.Style.buttonBackgroundColorDisabled
+                    color: ArqmaComponents.Style.heroBlue
 
                     Text {
                         id: createViewOnlyText
@@ -298,7 +298,7 @@ Rectangle {
                     radius: 2 * scaleRatio
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: ArqmaComponents.Style.buttonBackgroundColorDisabled
+                    color: ArqmaComponents.Style.heroBlue
 
                     Text {
                         id: showSeedText
@@ -388,7 +388,7 @@ Rectangle {
                     radius: 2 * scaleRatio
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: ArqmaComponents.Style.buttonBackgroundColorDisabled
+                    color: ArqmaComponents.Style.heroBlue
 
                     Text {
                         id: rescanButtonText

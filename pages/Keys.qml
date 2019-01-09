@@ -26,10 +26,10 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.0
+import QtQuick 2.1
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.2
 import ArqmaComponents.Clipboard 1.0
 import "../version.js" as Version
@@ -57,6 +57,7 @@ Rectangle {
         anchors.topMargin: 40 * scaleRatio
 
         spacing: 30 * scaleRatio
+		property int qrCodeSize: 220 * scaleRatio
         Layout.fillWidth: true
 
         RowLayout{
@@ -108,7 +109,7 @@ Rectangle {
         //! Manage wallet
         ColumnLayout {
             Layout.fillWidth: true
-
+			
             Label {
                 Layout.fillWidth: true
                 fontSize: 22 * scaleRatio
@@ -123,7 +124,8 @@ Rectangle {
                 Layout.bottomMargin: 10 * scaleRatio
             }
 
-            LineEditMulti{
+            LineEditMulti {
+                visible: !viewOnlyQRCode.visible
                 id: seedText
                 spacing: 0
                 copyButton: true
@@ -151,6 +153,7 @@ Rectangle {
                 Layout.bottomMargin: 10 * scaleRatio
             }
             LineEdit {
+		visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 id: secretViewKey
                 readOnly: true
@@ -168,6 +171,7 @@ Rectangle {
                 fontSize: 16 * scaleRatio
             }
             LineEdit {
+                visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 Layout.topMargin: 25 * scaleRatio
                 id: secretSpendKey
@@ -177,6 +181,7 @@ Rectangle {
                 fontSize: 16 * scaleRatio
             }
             LineEdit {
+                visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 Layout.topMargin: 25 * scaleRatio
                 id: publicSpendKey
@@ -205,6 +210,7 @@ Rectangle {
             }
 
             ColumnLayout {
+								
                 RadioButton {
                     id: showFullQr
                     enabled: !this.checked
@@ -227,63 +233,116 @@ Rectangle {
                 }
                 Layout.bottomMargin: 30 * scaleRatio
             }
+			
+			Image {
+				visible: !viewOnlyQRCode.visible
+				id: fullWalletQRCode
+				Layout.alignment: Qt.AlignCenter
+				Layout.fillWidth: true
+				Layout.maximumWidth: mainLayout.qrCodeSize
+				Layout.preferredHeight: width
+				smooth: false
+				fillMode: Image.PreserveAspectFit
+					
+				MouseArea {
+					anchors.fill: parent
+					acceptedButtons: Qt.RightButton
+					onPressAndHold: qrFileDialog.open()
+				}
+			}
 
-            Image {
-                visible: !viewOnlyQRCode.visible
-                id: fullWalletQRCode
-                Layout.fillWidth: true
-                Layout.minimumHeight: 180 * scaleRatio
-                smooth: false
-                fillMode: Image.PreserveAspectFit
+			Image {
+				visible: false
+				id: viewOnlyQRCode
+				Layout.alignment: Qt.AlignCenter
+				Layout.fillWidth: true
+				Layout.maximumWidth: mainLayout.qrCodeSize
+				Layout.preferredHeight: width
+				smooth: false
+				fillMode: Image.PreserveAspectFit
+					
+				MouseArea {
+					anchors.fill: parent
+					acceptedButtons: Qt.RightButton
+					onPressAndHold: qrFileDialog.open()
+				}
+			}
+
+			RowLayout {
+				id: saveImage
+				Layout.alignment: Qt.AlignCenter
+				spacing: 6
+				
+				StandardButton {
+					rightIcon: "../images/download-white.png"
+					text: qsTr("Save image") + translationManager.emptyString
+					fontSize: 10 * scaleRatio
+					onClicked: qrFileDialog.open()
+				}
+				Layout.bottomMargin: 10 * scaleRatio
+			}
+
+			Text {
+				Layout.fillWidth: true
+				font.bold: true	
+				font.pixelSize: 16 * scaleRatio
+				color: Style.defaultFontColor
+				text: (viewOnlyQRCode.visible) ? qsTr("View Only Wallet") + translationManager.emptyString : qsTr("Spendable Wallet") + translationManager.emptyString
+				horizontalAlignment: Text.AlignHCenter
+			}
+			
+		}
+		
+		MessageDialog {
+            id: receivePageDialog
+            standardButtons: StandardButton.Ok
+		}
+
+		FileDialog {
+            id: qrFileDialog
+            title: "Please choose a name"
+            folder: shortcuts.pictures
+            selectExisting: false
+            nameFilters: ["Image (*.png)"]
+            onAccepted: {
+                if(!walletManager.saveQrCode(makeQRCodeString(), walletManager.urlToLocalPath(fileUrl))) {
+                    console.log("Failed to save QrCode to file " + walletManager.urlToLocalPath(fileUrl) )
+                    receivePageDialog.title = qsTr("Save QrCode") + translationManager.emptyString;
+                    receivePageDialog.text = qsTr("Failed to save QrCode to ") + walletManager.urlToLocalPath(fileUrl) + translationManager.emptyString;
+                    receivePageDialog.icon = StandardIcon.Error
+                    receivePageDialog.open()
+                }
             }
+		}
+	}
 
-            Image {
-                visible: false
-                id: viewOnlyQRCode
-                Layout.fillWidth: true
-                Layout.minimumHeight: 180 * scaleRatio
-                smooth: false
-                fillMode: Image.PreserveAspectFit
-            }
+	// fires on every page load
+	function onPageCompleted() {
+		console.log("keys page loaded");
 
-            Text {
-                Layout.fillWidth: true
-                font.bold: true
-                font.pixelSize: 16 * scaleRatio
-                color: Style.defaultFontColor
-                text: (viewOnlyQRCode.visible) ? qsTr("View Only Wallet") + translationManager.emptyString : qsTr("Spendable Wallet") + translationManager.emptyString
-                horizontalAlignment: Text.AlignHCenter
-            }
-        }
-    }
+		secretViewKey.text = currentWallet.secretViewKey
+		publicViewKey.text = currentWallet.publicViewKey
+		secretSpendKey.text = !currentWallet.viewOnly ? currentWallet.secretSpendKey : ""
+		publicSpendKey.text = currentWallet.publicSpendKey
 
-    // fires on every page load
-    function onPageCompleted() {
-        console.log("keys page loaded");
+		seedText.text = currentWallet.seed
 
-        secretViewKey.text = currentWallet.secretViewKey
-        publicViewKey.text = currentWallet.publicViewKey
-        secretSpendKey.text = (!currentWallet.viewOnly) ? currentWallet.secretSpendKey : ""
-        publicSpendKey.text = currentWallet.publicSpendKey
+		if(typeof currentWallet != "undefined") {
+			viewOnlyQRCode.source = "image://qrcode/arqma_wallet:" + currentWallet.address(0, 0) + "?view_key="+currentWallet.secretViewKey+"&height="+currentWallet.walletCreationHeight
+			fullWalletQRCode.source = viewOnlyQRCode.source +"&spend_key="+currentWallet.secretSpendKey
 
-        seedText.text = currentWallet.seed
+			if(currentWallet.viewOnly) {
+				viewOnlyQRCode.visible = true
+				showFullQr.visible = false
+				showViewOnlyQr.visible = false
+				seedText.text = qsTr("(View Only Wallet -  No mnemonic seed available)") + translationManager.emptyString
+			}
+		}
+	}
 
-        if(typeof currentWallet != "undefined") {
-            viewOnlyQRCode.source = "image://qrcode/arqma_wallet:" + currentWallet.address(0, 0) + "?view_key="+currentWallet.secretViewKey+"&height="+currentWallet.walletCreationHeight
-            fullWalletQRCode.source = viewOnlyQRCode.source +"&spend_key="+currentWallet.secretSpendKey
+	// fires only once
+	Component.onCompleted: {
 
-            if(currentWallet.viewOnly) {
-                viewOnlyQRCode.visible = true
-                showFullQr.visible = false
-                showViewOnlyQr.visible = false
-                seedText.text = qsTr("(View Only Wallet -  No mnemonic seed available)") + translationManager.emptyString
-            }
-        }
-    }
-
-    // fires only once
-    Component.onCompleted: {
-
-    }
-
+	}
+	
 }

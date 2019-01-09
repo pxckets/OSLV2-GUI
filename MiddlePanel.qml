@@ -110,9 +110,6 @@ Rectangle {
 
         states: [
             State {
-               name: "Dashboard"
-               PropertyChanges {  }
-            }, State {
                name: "History"
                PropertyChanges { target: root; currentView: historyView }
                PropertyChanges { target: historyView; model: appWindow.currentWallet ? appWindow.currentWallet.historyModel : null }
@@ -120,11 +117,11 @@ Rectangle {
             }, State {
                name: "Transfer"
                PropertyChanges { target: root; currentView: transferView }
-               PropertyChanges { target: mainFlickable; contentHeight: 1000 * scaleRatio }
+               PropertyChanges { target: mainFlickable; contentHeight: 700 * scaleRatio }
             }, State {
                name: "Receive"
                PropertyChanges { target: root; currentView: receiveView }
-               PropertyChanges { target: mainFlickable; contentHeight: receiveView.receiveHeight + 100 }
+               PropertyChanges { target: mainFlickable; contentHeight: receiveView.receiveHeight + 100 * scaleRatio }
             }, State {
                name: "TxKey"
                PropertyChanges { target: root; currentView: txkeyView }
@@ -132,7 +129,7 @@ Rectangle {
             }, State {
                name: "SharedRingDB"
                PropertyChanges { target: root; currentView: sharedringdbView }
-               PropertyChanges { target: mainFlickable; contentHeight: sharedringdbView.panelHeight + 100  }
+               PropertyChanges { target: mainFlickable; contentHeight: sharedringdbView.panelHeight + 100 * scaleRatio }
             }, State {
                name: "AddressBook"
                PropertyChanges {  target: root; currentView: addressBookView  }
@@ -140,11 +137,11 @@ Rectangle {
             }, State {
                name: "Sign"
                PropertyChanges { target: root; currentView: signView }
-               PropertyChanges { target: mainFlickable; contentHeight: 1200 * scaleRatio  }
+               PropertyChanges { target: mainFlickable; contentHeight: 1000 * scaleRatio  }
             }, State {
                name: "Settings"
                PropertyChanges { target: root; currentView: settingsView }
-               PropertyChanges { target: mainFlickable; contentHeight: settingsView.settingsHeight }
+               PropertyChanges { target: mainFlickable; contentHeight: settingsView.settingsHeight + 100 * scaleRatio }
             }, State {
                name: "Mining"
                PropertyChanges { target: root; currentView: miningView }

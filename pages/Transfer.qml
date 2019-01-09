@@ -36,6 +36,7 @@ import ArqmaComponents.Wallet 1.0
 import "../components"
 import "../components" as ArqmaComponents
 import "." 1.0
+import "../js/TxUtils.js" as TxUtils
 
 
 Rectangle {
@@ -45,29 +46,12 @@ Rectangle {
     signal sweepUnmixableClicked()
 
     color: "transparent"
+    property int mixin: 6 // (ring size 7)
     property string warningContent: ""
     property string startLinkText: qsTr("<style type='text/css'>a {text-decoration: none; color: #171DC0; font-size: 14px;}</style><font size='2'> (</font><a href='#'>Start daemon</a><font size='2'>)</font>") + translationManager.emptyString
     property bool showAdvanced: false
 
     Clipboard { id: clipboard }
-
-    function scaleValueToMixinCount(scaleValue) {
-        var scaleToMixinCount = [6,7,8,9,10,11,12,13,14,16,18,20,22,25];
-        if (scaleValue < scaleToMixinCount.length) {
-            return scaleToMixinCount[scaleValue];
-        } else {
-            return 0;
-        }
-    }
-
-    function isValidOpenAliasAddress(address) {
-      address = address.trim()
-      var dot = address.indexOf('.')
-      if (dot < 0)
-        return false
-      // we can get an awful lot of valid domains, including non ASCII chars... accept anything
-      return true
-    }
 
     function oa_message(text) {
       oaPopup.title = qsTr("OpenAlias error") + translationManager.emptyString
@@ -77,28 +61,32 @@ Rectangle {
       oaPopup.open()
     }
 
-    function updateMixin() {
-        var fillLevel = isMobile ? privacyLevelItemSmall.fillLevel : privacyLevelItem.fillLevel
-        var mixin = scaleValueToMixinCount(fillLevel)
-        console.log("PrivacyLevel changed:"  + fillLevel)
-        console.log("mixin count: "  + mixin)
-        privacyLabel.text = qsTr("Ring size: %1").arg(mixin+1) + translationManager.emptyString
-    }
-
     function updateFromQrCode(address, payment_id, amount, tx_description, recipient_name) {
         console.log("updateFromQrCode")
         addressLine.text = address
-        paymentIdLine.text = payment_id
+        setPaymentId(payment_id);
         amountLine.text = amount
-        descriptionLine.text = recipient_name + " " + tx_description
+        setDescription(recipient_name + " " + tx_description);
         cameraUi.qrcode_decoded.disconnect(updateFromQrCode)
+    }
+
+    function setDescription(value) {
+        descriptionLine.text = value;
+        descriptionCheckbox.checked = descriptionLine.text != "";
+    }
+
+    function setPaymentId(value) {
+        paymentIdLine.text = value;
+        paymentIdCheckbox.checked = paymentIdLine.text != "";
     }
 
     function clearFields() {
         addressLine.text = ""
-        paymentIdLine.text = ""
+        setPaymentId("");
         amountLine.text = ""
-        descriptionLine.text = ""
+        setDescription("");
+        priorityDropdown.currentIndex = 0
+        updatePriorityDropdown()
     }
 
     // Information dialog
@@ -143,28 +131,27 @@ Rectangle {
 
           ColumnLayout {
               Layout.fillWidth: true
+              Layout.minimumWidth: 200 * scaleRatio
 
-              RowLayout {
-                  id: amountRow
-
+              // Arqma amount input
+              LineEdit {
+                  id: amountLine
                   Layout.fillWidth: true
                   Layout.minimumWidth: 200
-
-                  // Amount input
-                  LineEdit {
-                      id: amountLine
-                      Layout.fillWidth: true
-                      inlineIcon: true
-                      labelText: qsTr("Amount") + translationManager.emptyString
-                      placeholderText: qsTr("") + translationManager.emptyString
-                      width: 100
-                      fontBold: true
-                      inlineButtonText: qsTr("All") + translationManager.emptyString
-                      inlineButton.onClicked: amountLine.text = "(all)"
-
-                      validator: RegExpValidator {
-                          regExp: /(.|)(\d{1,8})([.]\d{1,9})?$/
+                  inlineIcon: true
+                  labelText: qsTr("Arqma Amount") + translationManger.emptyString
+                  placeholderText: qsTr("") + translationManager.emptyString
+                  width: 100 * scaleRatio
+                  fontBold: true
+                  inlineButtonText: qsTr("All ARQ") + translationManager.emptyString
+                  inlineButton.onClicked: amountLine.text = "(all)"
+                  onTextChanged: {
+                      if(amountLine.text.indexOf('.') === 0){
+                          amountLine.text = '0' + amountLine.text;
                       }
+                  }
+                  validator: RegExpValidator {
+                      regExp: /(.|)(\d{1,8})([.]\d{1,9})?$/
                   }
               }
           }
@@ -173,7 +160,7 @@ Rectangle {
               Layout.fillWidth: true
               Label {
                   id: transactionPriority
-                  Layout.topMargin: 14
+                  Layout.topMargin: 12 * scaleRatio
                   text: qsTr("Transaction priority") + translationManager.emptyString
                   fontBold: false
                   fontSize: 16
@@ -199,11 +186,12 @@ Rectangle {
               StandardDropdown {
                   Layout.fillWidth: true
                   id: priorityDropdown
-                  Layout.topMargin: 6
+                  Layout.topMargin: 5 * scaleRatio
                   shadowReleasedColor: "#FF4304"
                   shadowPressedColor: "#B32D00"
                   releasedColor: "#363636"
                   pressedColor: "#202020"
+                  currentIndex: 0
               }
           }
           // Make sure dropdown is on top
@@ -223,7 +211,7 @@ Rectangle {
                 Address <font size='2'>  ( </font> <a href='#'>Address book</a><font size='2'> )</font>")
                 + translationManager.emptyString
               labelButtonText: qsTr("Resolve") + translationManager.emptyString
-              placeholderText: "ar.."
+              placeholderText: "ar.. / aRi.. / OpenAlias"
               wrapMode: Text.WrapAnywhere
               addressValidation: true
               onInputLabelLinkActivated: { appWindow.showPageRequest("AddressBook") }
@@ -232,9 +220,9 @@ Rectangle {
                   const parsed = walletManager.parse_uri_to_object(clipboardText);
                   if (!parsed.error) {
                     addressLine.text = parsed.address;
-                    paymentIdLine.text = parsed.payment_id;
+                    setPaymentId(parsed.payment_id);
                     amountLine.text = parsed.amount;
-                    descriptionLine.text = parsed.tx_description;
+                    setDescription(parsed.tx_description);
                   } else {
                      addressLine.text = clipboardText;
                   }
@@ -261,8 +249,8 @@ Rectangle {
           anchors.left: parent.left
           width: 80
           text: qsTr("Resolve") + translationManager.emptyString
-          visible: isValidOpenAliasAddress(addressLine.text)
-          enabled : isValidOpenAliasAddress(addressLine.text)
+          visible: TxUtils.isValidOpenAliasAddress(addressLine.text)
+          enabled : visible
           onClicked: {
               var result = walletManager.resolveOpenAlias(addressLine.text)
               if (result) {
@@ -271,6 +259,9 @@ Rectangle {
                       var address_ok = walletManager.addressValid(parts[1], appWindow.persistentSettings.nettype)
                       if (parts[0] === "true") {
                           if (address_ok) {
+                              // prepend openalias to description
+                              descriptionLine.text = descriptionLine.text ? addressLine.text + " " + descriptionLine.text : addressLine.text
+                              descriptionCheckbox.checked = true
                               addressLine.text = parts[1]
                               addressLine.cursorPosition = 0
                           }
@@ -302,25 +293,57 @@ Rectangle {
           }
       }
 
-      RowLayout {
+      ColumnLayout {
+          CheckBox {
+              id: paymentIdCheckbox
+              border: false
+              checkedIcon: "qrc:///images/minus-white.png"
+              uncheckedIcon: "qrc:///images/plus-white.png"
+              fontSize: paymentIdLine.labelFontSize
+              iconOnTheLeft: false
+              Layout.fillWidth: true
+              text: qsTr("Payment ID <font size='2'>( Optional )</font>") + translationManager.emptyString
+              onClicked: {
+                  if (!paymentIdCheckbox.checked) {
+                    paymentIdLine.text = "";
+                  }
+              }
+          }
+
           // payment id input
           LineEditMulti {
               id: paymentIdLine
               fontBold: true
-              labelText: qsTr("Payment ID <font size='2'>( Optional )</font>") + translationManager.emptyString
               placeholderText: qsTr("16 or 64 hexadecimal characters") + translationManager.emptyString
               Layout.fillWidth: true
               wrapMode: Text.WrapAnywhere
               addressValidation: false
+              visible: paymentIdCheckbox.checked
           }
       }
 
-      RowLayout {
+      ColumnLayout {
+          CheckBox {
+              id: descriptionCheckbox
+              border: false
+              checkedIcon: "qrc:///images/minus-white.png"
+              uncheckedIcon: "qrc:///images/plus-white.png"
+              fontSize: descriptionLine.labelFontSize
+              iconOnTheLeft: false
+              Layout.fillWidth: true
+              text: qsTr("Description <font size='2'>( Optional )</font>") + translationManager.emptyString
+              onClicked: {
+                  if (!descriptionCheckbox.checked) {
+                    descriptionLine.text = "";
+                  }
+              }
+          }
+
           LineEditMulti {
               id: descriptionLine
-              labelText: qsTr("Description <font size='2'>( Optional )</font>") + translationManager.emptyString
               placeholderText: qsTr("Saved to local wallet history") + translationManager.emptyString
               Layout.fillWidth: true
+              visible: descriptionCheckbox.checked
           }
       }
 
@@ -366,10 +389,8 @@ Rectangle {
                   console.log("priority: " + priority)
                   console.log("amount: " + amountLine.text)
                   addressLine.text = addressLine.text.trim()
-                  paymentIdLine.text = paymentIdLine.text.trim()
-                  root.paymentClicked(addressLine.text, paymentIdLine.text, amountLine.text, scaleValueToMixinCount(privacyLevelItem.fillLevel),
-                                 priority, descriptionLine.text)
-
+                  setPaymentId(paymentIdLine.text.trim());
+                  root.paymentClicked(addressLine.text, paymentIdLine.text, amountLine.text, root.mixin, priority, descriptionLine.text)
               }
           }
       }
@@ -422,57 +443,8 @@ Rectangle {
             }
         }
 
-        Rectangle {
-            visible: persistentSettings.transferShowAdvanced
-            Layout.fillWidth: true
-            height: 1
-            color: Style.dividerColor
-            opacity: Style.dividerOpacity
-            Layout.bottomMargin: 30 * scaleRatio
-        }
-
-        RowLayout {
-            visible: persistentSettings.transferShowAdvanced
-            anchors.left: parent.left
-            anchors.right: parent.right
-            Layout.fillWidth: true
-            Label {
-                id: privacyLabel
-                fontSize: 15
-                text: ""
-            }
-
-            Label {
-                id: costLabel
-                fontSize: 14
-                text: qsTr("Transaction cost") + translationManager.emptyString
-                anchors.right: parent.right
-            }
-        }
-
-        PrivacyLevel {
-            visible: persistentSettings.transferShowAdvanced && !isMobile
-            id: privacyLevelItem
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.rightMargin: 17 * scaleRatio
-            onFillLevelChanged: updateMixin()
-        }
-
-        PrivacyLevelSmall {
-            visible: persistentSettings.transferShowAdvanced && isMobile
-            id: privacyLevelItemSmall
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.rightMargin: 17 * scaleRatio
-            onFillLevelChanged: updateMixin()
-        }
-
         GridLayout {
             visible: persistentSettings.transferShowAdvanced
-            Layout.topMargin: 50 * scaleRatio
-
-
             columns: isMobile ? 2 : 6
 
             StandardButton {
@@ -498,10 +470,8 @@ Rectangle {
                     console.log("priority: " + priority)
                     console.log("amount: " + amountLine.text)
                     addressLine.text = addressLine.text.trim()
-                    paymentIdLine.text = paymentIdLine.text.trim()
-                    root.paymentClicked(addressLine.text, paymentIdLine.text, amountLine.text, scaleValueToMixinCount(privacyLevelItem.fillLevel),
-                                   priority, descriptionLine.text)
-
+                    setPaymentId(paymentIdLine.text.trim());
+                    root.paymentClicked(addressLine.text, paymentIdLine.text, amountLine.text, root.mixin, priority, descriptionLine.text)
                 }
             }
 
@@ -683,13 +653,11 @@ Rectangle {
     function onPageCompleted() {
         console.log("transfer page loaded")
         updateStatus();
-        updateMixin();
         updatePriorityDropdown()
     }
 
     function updatePriorityDropdown() {
         priorityDropdown.dataModel = priorityModelV5;
-        priorityDropdown.currentIndex = 0
         priorityDropdown.update()
     }
 
@@ -732,7 +700,7 @@ Rectangle {
     // Popuplate fields from addressbook.
     function sendTo(address, paymentId, description){
         addressLine.text = address
-        paymentIdLine.text = paymentId
-        descriptionLine.text = description
+        setPaymentId(paymentId);
+        setDescription(description);
     }
 }
