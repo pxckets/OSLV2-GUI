@@ -131,28 +131,27 @@ Rectangle {
 
           ColumnLayout {
               Layout.fillWidth: true
+              Layout.minimumWidth: 200 * scaleRatio
 
-              RowLayout {
-                  id: amountRow
-
+              // Arqma amount input
+              LineEdit {
+                  id: amountLine
                   Layout.fillWidth: true
                   Layout.minimumWidth: 200
-
-                  // Amount input
-                  LineEdit {
-                      id: amountLine
-                      Layout.fillWidth: true
-                      inlineIcon: true
-                      labelText: qsTr("Amount") + translationManager.emptyString
-                      placeholderText: qsTr("") + translationManager.emptyString
-                      width: 100
-                      fontBold: true
-                      inlineButtonText: qsTr("All") + translationManager.emptyString
-                      inlineButton.onClicked: amountLine.text = "(all)"
-
-                      validator: RegExpValidator {
-                          regExp: /(.|)(\d{1,8})([.]\d{1,9})?$/
+                  inlineIcon: true
+                  labelText: qsTr("Arqma Amount") + translationManger.emptyString
+                  placeholderText: qsTr("") + translationManager.emptyString
+                  width: 100 * scaleRatio
+                  fontBold: true
+                  inlineButtonText: qsTr("All ARQ") + translationManager.emptyString
+                  inlineButton.onClicked: amountLine.text = "(all)"
+                  onTextChanged: {
+                      if(amountLine.text.indexOf('.') === 0){
+                          amountLine.text = '0' + amountLine.text;
                       }
+                  }
+                  validator: RegExpValidator {
+                      regExp: /(.|)(\d{1,8})([.]\d{1,9})?$/
                   }
               }
           }
@@ -161,7 +160,7 @@ Rectangle {
               Layout.fillWidth: true
               Label {
                   id: transactionPriority
-                  Layout.topMargin: 14
+                  Layout.topMargin: 12 * scaleRatio
                   text: qsTr("Transaction priority") + translationManager.emptyString
                   fontBold: false
                   fontSize: 16
@@ -187,7 +186,7 @@ Rectangle {
               StandardDropdown {
                   Layout.fillWidth: true
                   id: priorityDropdown
-                  Layout.topMargin: 6
+                  Layout.topMargin: 5 * scaleRatio
                   shadowReleasedColor: "#FF4304"
                   shadowPressedColor: "#B32D00"
                   releasedColor: "#363636"

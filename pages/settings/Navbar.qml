@@ -57,7 +57,7 @@ Rectangle {
             property int fontSize: 13 * scaleRatio
             property bool fontBold: true
             property var fontFamily: ArqmaComponents.Style.fontRegular.name
-            property string borderColor: "#808080"
+            property string borderColor: "#00006E"
             property int textMargin: {
                 // left-right margins for a given cell
                 if(isMobile){

@@ -149,16 +149,10 @@ application.
 3. Install Qt5
 
    ```
-   pacman -S mingw-w64-x86_64-qt5
+   pacman -S mingw-w64-x86_64-qt5 mingw-w64-x86_64-qtbinpatcher mingw-w64-x86_64-qtwebkit
    ```
 
   * There is no more need to download some special installer from the Qt website, the standard MSYS2 package for Qt will do in almost all circumstances.
-
-    Note: There is a known issue that GUI won't compile properly with Qt 5.11.2.
-
-    If your encounter issue with that, please remove current Qt by: pacman -R mingw-w64-x86_64-qt5
-
-    And install 5.11.1 instead by: pacman -U http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-qt5-5.11.1-3-any.pkg.tar.xz
 
 4. Clone repository
 

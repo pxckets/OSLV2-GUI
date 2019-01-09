@@ -124,7 +124,8 @@ Rectangle {
                 Layout.bottomMargin: 10 * scaleRatio
             }
 
-            LineEditMulti{
+            LineEditMulti {
+                visible: !viewOnlyQRCode.visible
                 id: seedText
                 spacing: 0
                 copyButton: true
@@ -152,6 +153,7 @@ Rectangle {
                 Layout.bottomMargin: 10 * scaleRatio
             }
             LineEdit {
+		visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 id: secretViewKey
                 readOnly: true
@@ -169,6 +171,7 @@ Rectangle {
                 fontSize: 16 * scaleRatio
             }
             LineEdit {
+                visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 Layout.topMargin: 25 * scaleRatio
                 id: secretSpendKey
@@ -178,6 +181,7 @@ Rectangle {
                 fontSize: 16 * scaleRatio
             }
             LineEdit {
+                visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 Layout.topMargin: 25 * scaleRatio
                 id: publicSpendKey

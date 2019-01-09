@@ -12,7 +12,6 @@
         <file>components/ChooseDaemonModalDialog.qml</file>
         <file>components/DaemonConsole.qml</file>
         <file>components/DaemonManagerDialog.qml</file>
-        <file>components/DashboardTable.qml</file>
         <file>components/DatePicker.qml</file>
         <file>components/HistoryTable.qml</file>
         <file>components/HistoryTableInnerColumn.qml</file>
@@ -42,13 +41,11 @@
         <file>components/RadioButton.qml</file>
         <file>components/RemoteNodeEdit.qml</file>
         <file>components/Scroll.qml</file>
-        <file>components/SearchInput.qml</file>
         <file>components/StandardButton.qml</file>
         <file>components/StandardDialog.qml</file>
         <file>components/StandardDropdown.qml</file>
         <file>components/Style.qml</file>
         <file>components/TableDropdown.qml</file>
-        <file>components/TableHeader.qml</file>
         <file>components/TextBlock.qml</file>
         <file>components/TickDelegate.qml</file>
         <file>components/TipItem.qml</file>
@@ -72,16 +69,8 @@
         <file>images/checkedBlueIcon.png</file>
         <file>images/statusConnected.png</file>
         <file>images/statusDisconnected.png</file>
-        <file>images/magnifier.png</file>
         <file>images/dropIndicator.png</file>
         <file>images/dropIndicator_new.png</file>
-        <file>images/hseparator.png</file>
-        <file>images/ascSortIndicator.png</file>
-        <file>images/ascSortIndicatorActived.png</file>
-        <file>images/ascSortIndicatorPressed.png</file>
-        <file>images/descSortIndicator.png</file>
-        <file>images/descSortIndicatorActived.png</file>
-        <file>images/descSortIndicatorPressed.png</file>
         <file>images/backToWindowIcon.png</file>
         <file>images/tableOptions.png</file>
         <file>images/tableOptions_new.png</file>
@@ -206,7 +195,6 @@
         <file>lang/languages.xml</file>
 
         <file>pages/AddressBook.qml</file>
-        <file>pages/Dashboard.qml</file>
         <file>pages/History.qml</file>
         <file>pages/Keys.qml</file>
         <file>pages/Mining.qml</file>
