@@ -349,8 +349,8 @@ int main(int argc, char *argv[])
          QStringList TestnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::TESTNET);
          QStringList StagenetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::STAGENET);
          QStringListloadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::MAINNET);
-         QStringList TestnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::TESTNET);
-         QStringList StagenetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::STAGENET);
+       //  QStringList TestnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::TESTNET);
+      //   QStringList StagenetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::STAGENET);
          engine.rootContext()->setContextProperty("MainnetRemoteNodeList", QVariant::fromValue(MainnetRemoteNodeList));
          engine.rootContext()->setContextProperty("TestnetRemoteNodeList", QVariant::fromValue(TestnetRemoteNodeList));
          engine.rootContext()->setContextProperty("StagenetRemoteNodeList", QVariant::fromValue(StagenetRemoteNodeList));
