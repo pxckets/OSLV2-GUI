@@ -299,6 +299,7 @@ ColumnLayout {
     }
 
     WizardCreateWalletFromDevice {
+        visible: !isMobile
         id: createWalletFromDevicePage
         Layout.bottomMargin: wizardBottomMargin
         Layout.topMargin: wizardTopMargin
@@ -332,8 +333,8 @@ ColumnLayout {
         id: prevButton
         anchors.verticalCenter: wizard.verticalCenter
         anchors.left: parent.left
-        anchors.leftMargin: isMobile ?  20 :  50
-        anchors.bottomMargin: isMobile ?  20 * scaleRatio :  50
+        anchors.leftMargin: (isMobile ?  20 : 50) * scaleRatio
+        anchors.bottomMargin: (isMobile ?  20 : 50) * scaleRatio
         visible: parent.currentPage > 0
 
         width: 50 * scaleRatio; height: 50 * scaleRatio
@@ -358,8 +359,8 @@ ColumnLayout {
         id: nextButton
         anchors.verticalCenter: wizard.verticalCenter
         anchors.right: parent.right
-        anchors.rightMargin: isMobile ?  20 * scaleRatio :  50
-        anchors.bottomMargin: isMobile ?  20 * scaleRatio :  50
+        anchors.rightMargin: (isMobile ?  20 : 50) * scaleRatio
+        anchors.bottomMargin: (isMobile ?  20 : 50) * scaleRatio
         visible: currentPage > 1 && currentPage < pages.length - 1
         width: 50 * scaleRatio; height: 50 * scaleRatio
         radius: 25
@@ -384,7 +385,7 @@ ColumnLayout {
         id: sendButton
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.margins:  isMobile ? 20 * scaleRatio : 50 * scaleRatio
+        anchors.margins:  (isMobile ? 20 : 50) * scaleRatio
         text: qsTr("USE ARQMA!!") + translationManager.emptyString
         visible: parent.paths[currentPath][currentPage] === finishPage
         onClicked: {
@@ -397,7 +398,7 @@ ColumnLayout {
        id: createViewOnlyWalletButton
        anchors.right: parent.right
        anchors.bottom: parent.bottom
-       anchors.margins: isMobile ? 20 * scaleRatio : 50
+       anchors.margins: (isMobile ? 20 : 50) * scaleRatio
        text: qsTr("Create wallet") + translationManager.emptyString
        visible: currentPath === "create_view_only_wallet" &&  parent.paths[currentPath][currentPage] === passwordPage
        enabled: passwordPage.passwordsMatch
@@ -425,7 +426,7 @@ ColumnLayout {
        id: abortViewOnlyButton
        anchors.right: createViewOnlyWalletButton.left
        anchors.bottom: parent.bottom
-       anchors.margins:  isMobile ? 20 * scaleRatio : 50
+       anchors.margins:  (isMobile ? 20 : 50) * scaleRatio
        text: qsTr("Abort") + translationManager.emptyString
        visible: currentPath === "create_view_only_wallet" &&  parent.paths[currentPath][currentPage] === passwordPage
        onClicked: {
