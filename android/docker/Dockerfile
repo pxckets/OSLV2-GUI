@@ -45,10 +45,16 @@ RUN cd qt5 && PATH=${HOST_PATH} ./configure -developer-build -release \
    && PATH=${HOST_PATH} make -j ${NPROC} \
    && PATH=${HOST_PATH} make install
 
-# Get ZBar
-RUN git clone https://github.com/ZBar/ZBar.git
 
-ENV PATH ${ANDROID_SDK_ROOT}/bin:${WORKDIR}/Qt-${QT_VERSION}/bin:${WORKDIR}/tools:$PATH
+# Get iconv and ZBar
+ENV ICONV_VERSION 1.15
+RUN git clone https://github.com/ZBar/ZBar.git \
+    && curl -s -O http://ftp.gnu.org/pub/gnu/libiconv/libiconv-${ICONV_VERSION}.tar.gz \
+    && tar -xzf libiconv-${ICONV_VERSION}.tar.gz \
+    && cd libiconv-${ICONV_VERSION} \
+    && CC=arm-linux-androideabi-clang CXX=arm-linux-androideabi-clang++ ./configure --build=x86_64-linux-gnu --host=arm-eabi --prefix=${WORKDIR}/libiconv --disable-rpath
+
+ENV PATH $ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/platform-tools:${WORKDIR}/Qt-${QT_VERSION}/bin:$PATH
 
 #Build libzbarjni.a
 COPY android/docker/android.mk.patch ZBar/android.mk.patch

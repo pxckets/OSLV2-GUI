@@ -159,9 +159,13 @@ application.
     `git clone https://github.com/arqma/arqma-gui.git`
 
 5. Build the GUI
+
+Latest Msys2 and QT-5.12 has issue with bad_address at qml_cache. Workaround to get it compile without any issues is as follows:
+
     ```
     cd arqma-gui
-    ./build.sh
+    git submodule init && git sumbodule update
+    source ./build.sh
     ```
 
 The executable can be found in the ```.\build\release\bin``` directory.

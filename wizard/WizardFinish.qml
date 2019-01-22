@@ -72,7 +72,7 @@ ColumnLayout {
             + trStart + qsTr("Wallet Path") + trMiddle + wizard.settings["wallet_path"] + trEnd
             // + trStart + qsTr("Auto Donations") + trMiddle + autoDonationText + trEnd
             // + (autoDonationEnabled
-                // ? trStart + qsTr("Donation Mmount") + trMiddle + autoDonationAmount + trEnd
+                // ? trStart + qsTr("Donation Amount") + trMiddle + autoDonationAmount + trEnd
                 // : "")
             // + trStart + qsTr("Background Mining") + trMiddle + backgroundMiningText + trEnd
             + trStart + qsTr("Daemon Address") + trMiddle + daemonAddress + trEnd

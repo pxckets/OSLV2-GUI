@@ -124,11 +124,11 @@ int main(int argc, char *argv[])
     if (isDesktop) putenv((char*)"QT_QPA_PLATFORM=xcb");
 #endif
 
-//    // Enable high DPI scaling on windows & linux
-//#if !defined(Q_OS_ANDROID) && QT_VERSION >= 0x050600
-//    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-//    qDebug() << "High DPI auto scaling - enabled";
-//#endif
+  // Enable high DPI scaling on windows & linux
+#if !defined(Q_OS_ANDROID) && QT_VERSION >= 0x050600
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    qDebug() << "High DPI auto scaling - enabled";
+#endif
 
     MainApp app(argc, argv);
 
@@ -165,7 +165,7 @@ int main(int argc, char *argv[])
 
     // screen settings
     // Mobile is designed on 128dpi
-    qreal ref_dpi = 326;
+    qreal ref_dpi = 300;
     QRect geo = QApplication::desktop()->availableGeometry();
     QRect rect = QGuiApplication::primaryScreen()->geometry();
     qreal dpi = QGuiApplication::primaryScreen()->logicalDotsPerInch();
@@ -326,7 +326,7 @@ int main(int argc, char *argv[])
     QObject *qmlCamera = rootObject->findChild<QObject*>("qrCameraQML");
     if (qmlCamera)
     {
-        qWarning() << "QrCodeScanner : object found";
+        qWarning() << "QrCodeScanner: Supported Device found";
         QCamera *camera_ = qvariant_cast<QCamera*>(qmlCamera->property("mediaObject"));
         QObject *qmlFinder = rootObject->findChild<QObject*>("QrFinder");
         qobject_cast<QrCodeScanner*>(qmlFinder)->setSource(camera_);
@@ -345,12 +345,15 @@ int main(int argc, char *argv[])
          QString const fullSettingsPath = app.applicationDirPath() + "/arqma-nodes.ini";
          QSettings settings(fullSettingsPath, QSettings::IniFormat);
 
-         QStringList mainnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::MAINNET);
-         QStringList testnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::TESTNET);
-         QStringList stagenetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::STAGENET);
-         engine.rootContext()->setContextProperty("mainnetRemoteNodeList", QVariant::fromValue(mainnetRemoteNodeList));
-         engine.rootContext()->setContextProperty("testnetRemoteNodeList", QVariant::fromValue(testnetRemoteNodeList));
-         engine.rootContext()->setContextProperty("stagenetRemoteNodeList", QVariant::fromValue(stagenetRemoteNodeList));
+         QStringList MainnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::MAINNET);
+         QStringList TestnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::TESTNET);
+         QStringList StagenetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::STAGENET);
+         QStringListloadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::MAINNET);
+         QStringList TestnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::TESTNET);
+         QStringList StagenetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::STAGENET);
+         engine.rootContext()->setContextProperty("MainnetRemoteNodeList", QVariant::fromValue(MainnetRemoteNodeList));
+         engine.rootContext()->setContextProperty("TestnetRemoteNodeList", QVariant::fromValue(TestnetRemoteNodeList));
+         engine.rootContext()->setContextProperty("StagenetRemoteNodeList", QVariant::fromValue(StagenetRemoteNodeList));
      }
 
 
