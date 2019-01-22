@@ -164,7 +164,7 @@ Latest Msys2 and QT-5.12 has issue with bad_address at qml_cache. Workaround to 
 
     ```
     cd arqma-gui
-    git submodule init && git sumbodule update
+    git submodule init && git submodule update
     source ./build.sh
     ```
 

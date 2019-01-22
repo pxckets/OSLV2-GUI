@@ -90,11 +90,11 @@ ApplicationWindow {
     function getRemoteNodeList()
     {
         if (persistentSettings.nettype == NetworkType.TESTNET)
-            return testnetRemoteNodeList;
+            return TestnetRemoteNodeList;
         if (persistentSettings.nettype == NetworkType.STAGENET)
-            return stagenetRemoteNodeList;
+            return StagenetRemoteNodeList;
 
-        return mainnetRemoteNodeList;
+        return MainnetRemoteNodeList;
     }
 
     function showPageRequest(page) {
