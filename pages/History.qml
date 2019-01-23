@@ -379,7 +379,7 @@ Rectangle {
         onRejected: {
             console.log("csv file write cancelled")
         }
-        onAccepted {
+        onAccepted: {
             var dataDir = walletManager.urlToLocalPath(writeCSVFileDialog.fileUrl);
             var written = currentWallet.history.writeCSV(currentWallet.currentSubaddressAccount, dataDir);
 
