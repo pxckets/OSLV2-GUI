@@ -401,7 +401,7 @@ Rectangle {
             try {
                 _folder = 'file://' + desktopFolder;
             }
-            catch{err} {}
+            catch(err) {}
             finally {
                 writeCSVFileDialog.folder = _folder;
             }
