@@ -1,6 +1,6 @@
 # Arqma GUI
 
-Copyright (c) 2018, ArQmA Project
+Copyright (c) 2018, The Arqma Network
 
 Copyright (c) 2014-2018, The Monero Project
 
@@ -69,8 +69,6 @@ The executable can be found in the build/release/bin folder.
   `brew install hidapi`
 
   `brew install libsodium`
-
-  `brew install protobuf`
 
   `brew install git`
 
@@ -143,7 +141,7 @@ application.
 2. Install dependencies
 
     ```
-    pacman -S git mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-boost mingw-w64-x86_64-openssl mingw-w64-x86_64-zeromq mingw-w64-x86_64-libsodium mingw-w64-x86_64-hidapi mingw-w64-x86_64-zbar mingw-w64-x86_64-protobuf-c mingw-w64-x86_64-protobuf
+    pacman -S git mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-boost mingw-w64-x86_64-openssl mingw-w64-x86_64-zeromq mingw-w64-x86_64-libsodium mingw-w64-x86_64-hidapi mingw-w64-x86_64-zbar
     ```
 
 3. Install Qt5
