@@ -60,6 +60,7 @@ Item {
     Rectangle {
         id: buttonRect
         anchors.fill: parent
+        radius: 3
         border.width: parent.focus ? 1 : 0
 
         state: button.enabled ? "active" : "disabled"
