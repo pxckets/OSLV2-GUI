@@ -284,6 +284,11 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("scaleRatio", 1);
 #endif
 
+#ifndef Q_OS_IOS
+    const QString desktopFolder = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    if (!desktopFolder.isEmpty())
+        engine.rootContext()->setContextProperty("desktopFolder", desktopFolder);
+#endif
 
     if (!ArqmaAccountsRootDir.empty())
     {
@@ -346,9 +351,6 @@ int main(int argc, char *argv[])
          QSettings settings(fullSettingsPath, QSettings::IniFormat);
 
          QStringList MainnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::MAINNET);
-         QStringList TestnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::TESTNET);
-         QStringList StagenetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::STAGENET);
-         QStringListloadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::MAINNET);
          QStringList TestnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::TESTNET);
          QStringList StagenetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::STAGENET);
          engine.rootContext()->setContextProperty("MainnetRemoteNodeList", QVariant::fromValue(MainnetRemoteNodeList));

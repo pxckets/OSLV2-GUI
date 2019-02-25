@@ -79,7 +79,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: parent.getOffset() + 20 * scaleRatio
         height: parent.height
-        width: button.checked ? 20: 10
+        width: button.checked ? 20 : 10
         color: "#00000000"
 
         // dot if unchecked

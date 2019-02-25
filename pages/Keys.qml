@@ -57,7 +57,7 @@ Rectangle {
         anchors.topMargin: 40 * scaleRatio
 
         spacing: 30 * scaleRatio
-		property int qrCodeSize: 220 * scaleRatio
+		    property int qrCodeSize: 220 * scaleRatio
         Layout.fillWidth: true
 
         RowLayout{
@@ -109,7 +109,7 @@ Rectangle {
         //! Manage wallet
         ColumnLayout {
             Layout.fillWidth: true
-			
+
             Label {
                 Layout.fillWidth: true
                 fontSize: 22 * scaleRatio
@@ -153,7 +153,7 @@ Rectangle {
                 Layout.bottomMargin: 10 * scaleRatio
             }
             LineEdit {
-		visible: !viewOnlyQRCode.visible
+		            visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 id: secretViewKey
                 readOnly: true
@@ -210,7 +210,7 @@ Rectangle {
             }
 
             ColumnLayout {
-								
+
                 RadioButton {
                     id: showFullQr
                     enabled: !this.checked
@@ -233,7 +233,7 @@ Rectangle {
                 }
                 Layout.bottomMargin: 30 * scaleRatio
             }
-			
+
 			Image {
 				visible: !viewOnlyQRCode.visible
 				id: fullWalletQRCode
@@ -243,7 +243,7 @@ Rectangle {
 				Layout.preferredHeight: width
 				smooth: false
 				fillMode: Image.PreserveAspectFit
-					
+
 				MouseArea {
 					anchors.fill: parent
 					acceptedButtons: Qt.RightButton
@@ -260,7 +260,7 @@ Rectangle {
 				Layout.preferredHeight: width
 				smooth: false
 				fillMode: Image.PreserveAspectFit
-					
+
 				MouseArea {
 					anchors.fill: parent
 					acceptedButtons: Qt.RightButton
@@ -268,51 +268,20 @@ Rectangle {
 				}
 			}
 
-			RowLayout {
-				id: saveImage
-				Layout.alignment: Qt.AlignCenter
-				spacing: 6
-				
-				StandardButton {
-					rightIcon: "../images/download-white.png"
-					text: qsTr("Save image") + translationManager.emptyString
-					fontSize: 10 * scaleRatio
-					onClicked: qrFileDialog.open()
-				}
-				Layout.bottomMargin: 10 * scaleRatio
-			}
-
 			Text {
 				Layout.fillWidth: true
-				font.bold: true	
+				font.bold: true
 				font.pixelSize: 16 * scaleRatio
 				color: Style.defaultFontColor
 				text: (viewOnlyQRCode.visible) ? qsTr("View Only Wallet") + translationManager.emptyString : qsTr("Spendable Wallet") + translationManager.emptyString
 				horizontalAlignment: Text.AlignHCenter
 			}
-			
+
 		}
-		
+
 		MessageDialog {
             id: receivePageDialog
             standardButtons: StandardButton.Ok
-		}
-
-		FileDialog {
-            id: qrFileDialog
-            title: "Please choose a name"
-            folder: shortcuts.pictures
-            selectExisting: false
-            nameFilters: ["Image (*.png)"]
-            onAccepted: {
-                if(!walletManager.saveQrCode(makeQRCodeString(), walletManager.urlToLocalPath(fileUrl))) {
-                    console.log("Failed to save QrCode to file " + walletManager.urlToLocalPath(fileUrl) )
-                    receivePageDialog.title = qsTr("Save QrCode") + translationManager.emptyString;
-                    receivePageDialog.text = qsTr("Failed to save QrCode to ") + walletManager.urlToLocalPath(fileUrl) + translationManager.emptyString;
-                    receivePageDialog.icon = StandardIcon.Error
-                    receivePageDialog.open()
-                }
-            }
 		}
 	}
 
@@ -344,5 +313,5 @@ Rectangle {
 	Component.onCompleted: {
 
 	}
-	
+
 }
