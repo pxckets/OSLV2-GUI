@@ -26,26 +26,25 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import QtQuick 2.1
+import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.12
+import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import ArqmaComponents.Clipboard 1.0
 import "../version.js" as Version
-import "../components"
+import "../components" as ArqmaComponents
 import "." 1.0
 
 
 Rectangle {
-    property bool viewOnly: false
     id: page
+    property bool viewOnly: false
     property int keysHeight: mainLayout.height + 100 * scaleRatio
 
     color: "transparent"
 
     Clipboard { id: clipboard }
-
     ColumnLayout {
         id: mainLayout
 
@@ -53,64 +52,22 @@ Rectangle {
         anchors.top: parent.top
         anchors.right: parent.right
 
-        anchors.margins: isMobile ? 17 : 20
+        anchors.margins: (isMobile)? 17 * scaleRatio : 20 * scaleRatio
         anchors.topMargin: 40 * scaleRatio
 
         spacing: 30 * scaleRatio
 		    property int qrCodeSize: 220 * scaleRatio
         Layout.fillWidth: true
 
-        RowLayout{
-            // TODO: Move the warning box to its own component, so it can be used in multiple places
-            visible: warningText.text !== ""
-
-            Rectangle {
-                id: statusRect
-                Layout.preferredHeight: warningText.height + 26
-                Layout.fillWidth: true
-
-                radius: 2
-                border.color: Qt.rgba(255, 255, 255, 0.25)
-                border.width: 1
-                color: "transparent"
-
-                GridLayout{
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: warningText.height + 40
-
-                    Image {
-                        Layout.alignment: Qt.AlignVCenter
-                        Layout.preferredHeight: 33
-                        Layout.preferredWidth: 33
-                        Layout.leftMargin: 10
-                        Layout.topMargin: 10
-                        source: "../images/warning.png"
-                    }
-
-                    Text {
-                        id: warningText
-                        Layout.topMargin: 12 * scaleRatio
-                        Layout.preferredWidth: statusRect.width - 80
-                        Layout.leftMargin: 6
-                        text: qsTr("WARNING: Do not reuse your Arqma keys on Another Fork, UNLESS this fork has key reuse mitigations built in. Doing so will harm your privacy.") + translationManager.emptyString
-                        wrapMode: Text.Wrap
-                        font.family: Style.fontRegular.name
-                        font.pixelSize: 15 * scaleRatio
-                        color: Style.defaultFontColor
-                        textFormat: Text.RichText
-                        onLinkActivated: {
-                            appWindow.startDaemon(appWindow.persistentSettings.daemonFlags);
-                        }
-                    }
-                }
-            }
+        ArqmaComponents.WarningBox {
+            text: qsTr("WARNING: Do not reuse your Arqma keys on another fork, UNLESS this fork has key reuse mitigations built in. Doing so will harm your privacy.") + translationManager.emptyString
         }
 
         //! Manage wallet
         ColumnLayout {
             Layout.fillWidth: true
 
-            Label {
+            ArqmaComponents.Label {
                 Layout.fillWidth: true
                 fontSize: 22 * scaleRatio
                 Layout.topMargin: 10 * scaleRatio
@@ -118,13 +75,17 @@ Rectangle {
             }
             Rectangle {
                 Layout.fillWidth: true
-                height: 2
-                color: Style.dividerColor
-                opacity: Style.dividerOpacity
+                height: 2 * scaleRatio
+                color: ArqmaComponents.Style.dividerColor
+                opacity: ArqmaComponents.Style.dividerOpacity
                 Layout.bottomMargin: 10 * scaleRatio
             }
 
-            LineEditMulti {
+            ArqmaComponents.WarningBox {
+                text: qsTr("WARNING: Copying your seed to clipboard can expose you to malicious software, which may record your seed and steal your Arqma. Please write down your seed manually.") + translationManager.emptyString
+            }
+
+            ArqmaComponents.LineEditMulti {
                 visible: !viewOnlyQRCode.visible
                 id: seedText
                 spacing: 0
@@ -139,7 +100,7 @@ Rectangle {
         ColumnLayout {
             Layout.fillWidth: true
 
-            Label {
+            ArqmaComponents.Label {
                 Layout.fillWidth: true
                 fontSize: 22 * scaleRatio
                 Layout.topMargin: 10 * scaleRatio
@@ -148,11 +109,11 @@ Rectangle {
             Rectangle {
                 Layout.fillWidth: true
                 height: 2
-                color: Style.dividerColor
-                opacity: Style.dividerOpacity
+                color: ArqmaComponents.Style.dividerColor
+                opacity: ArqmaComponents.Style.dividerOpacity
                 Layout.bottomMargin: 10 * scaleRatio
             }
-            LineEdit {
+            ArqmaComponents.LineEdit {
 		            visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 id: secretViewKey
@@ -161,7 +122,7 @@ Rectangle {
                 labelText: qsTr("Secret view key") + translationManager.emptyString
                 fontSize: 16 * scaleRatio
             }
-            LineEdit {
+            ArqmaComponents.LineEdit {
                 Layout.fillWidth: true
                 Layout.topMargin: 25 * scaleRatio
                 id: publicViewKey
@@ -170,7 +131,7 @@ Rectangle {
                 labelText: qsTr("Public view key") + translationManager.emptyString
                 fontSize: 16 * scaleRatio
             }
-            LineEdit {
+            ArqmaComponents.LineEdit {
                 visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 Layout.topMargin: 25 * scaleRatio
@@ -180,7 +141,7 @@ Rectangle {
                 labelText: qsTr("Secret spend key") + translationManager.emptyString
                 fontSize: 16 * scaleRatio
             }
-            LineEdit {
+            ArqmaComponents.LineEdit {
                 visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 Layout.topMargin: 25 * scaleRatio
@@ -195,7 +156,7 @@ Rectangle {
         ColumnLayout {
             Layout.fillWidth: true
 
-            Label {
+            ArqmaComponents.Label {
                 Layout.fillWidth: true
                 fontSize: 22 * scaleRatio
                 Layout.topMargin: 10 * scaleRatio
@@ -204,14 +165,14 @@ Rectangle {
             Rectangle {
                 Layout.fillWidth: true
                 height: 2
-                color: Style.dividerColor
-                opacity: Style.dividerOpacity
+                color: ArqmaComponents.Style.dividerColor
+                opacity: ArqmaComponents.Style.dividerOpacity
                 Layout.bottomMargin: 10 * scaleRatio
             }
 
             ColumnLayout {
 
-                RadioButton {
+                ArqmaComponents.RadioButton {
                     id: showFullQr
                     enabled: !this.checked
                     checked: fullWalletQRCode.visible
@@ -221,7 +182,7 @@ Rectangle {
                         showViewOnlyQr.checked = false
                     }
                 }
-                RadioButton {
+                ArqmaComponents.RadioButton {
                     enabled: !this.checked
                     id: showViewOnlyQr
                     checked: viewOnlyQRCode.visible
@@ -234,84 +195,81 @@ Rectangle {
                 Layout.bottomMargin: 30 * scaleRatio
             }
 
-			Image {
-				visible: !viewOnlyQRCode.visible
-				id: fullWalletQRCode
-				Layout.alignment: Qt.AlignCenter
-				Layout.fillWidth: true
-				Layout.maximumWidth: mainLayout.qrCodeSize
-				Layout.preferredHeight: width
-				smooth: false
-				fillMode: Image.PreserveAspectFit
+            Image {
+                visible: !viewOnlyQRCode.visible
+                id: fullWalletQRCode
+                Layout.alignment: Qt.AlignCenter
+                Layout.fillWidth: true
+                Layout.maximumWidth: mainLayout.qrCodeSize
+                Layout.preferredHeight: width
+                smooth: false
+                fillMode: Image.PreserveAspectFit
 
-				MouseArea {
-					anchors.fill: parent
-					acceptedButtons: Qt.RightButton
-					onPressAndHold: qrFileDialog.open()
-				}
-			}
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.RightButton
+                    onPressAndHold: qrFileDialog.open()
+                }
+            }
 
-			Image {
-				visible: false
-				id: viewOnlyQRCode
-				Layout.alignment: Qt.AlignCenter
-				Layout.fillWidth: true
-				Layout.maximumWidth: mainLayout.qrCodeSize
-				Layout.preferredHeight: width
-				smooth: false
-				fillMode: Image.PreserveAspectFit
+            Image {
+                visible: false
+                id: viewOnlyQRCode
+                Layout.alignment: Qt.AlignCenter
+                Layout.fillWidth: true
+                Layout.maximumWidth: mainLayout.qrCodeSize
+                Layout.preferredHeight: width
+                smooth: false
+                fillMode: Image.PreserveAspectFit
 
-				MouseArea {
-					anchors.fill: parent
-					acceptedButtons: Qt.RightButton
-					onPressAndHold: qrFileDialog.open()
-				}
-			}
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.RightButton
+                    onPressAndHold: qrFileDialog.open()
+                }
+            }
 
-			Text {
-				Layout.fillWidth: true
-				font.bold: true
-				font.pixelSize: 16 * scaleRatio
-				color: Style.defaultFontColor
-				text: (viewOnlyQRCode.visible) ? qsTr("View Only Wallet") + translationManager.emptyString : qsTr("Spendable Wallet") + translationManager.emptyString
-				horizontalAlignment: Text.AlignHCenter
-			}
+            Text {
+                Layout.fillWidth: true
+                font.bold: true
+                font.pixelSize: 16 * scaleRatio
+                color: ArqmaComponents.Style.defaultFontColor
+                text: (viewOnlyQRCode.visible) ? qsTr("View Only Wallet") + translationManager.emptyString : qsTr("Spendable Wallet") + translationManager.emptyString
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
 
-		}
-
-		MessageDialog {
+        MessageDialog {
             id: receivePageDialog
             standardButtons: StandardButton.Ok
-		}
-	}
+        }
+    }
 
-	// fires on every page load
-	function onPageCompleted() {
-		console.log("keys page loaded");
+    // fires on every page load
+    function onPageCompleted() {
+        console.log("keys page loaded");
+        secretViewKey.text = currentWallet.secretViewKey
+        publicViewKey.text = currentWallet.publicViewKey
+        secretSpendKey.text = !currentWallet.viewOnly ? currentWallet.secretSpendKey : ""
+        publicSpendKey.text = currentWallet.publicSpendKey
 
-		secretViewKey.text = currentWallet.secretViewKey
-		publicViewKey.text = currentWallet.publicViewKey
-		secretSpendKey.text = !currentWallet.viewOnly ? currentWallet.secretSpendKey : ""
-		publicSpendKey.text = currentWallet.publicSpendKey
+        seedText.text = currentWallet.seed
 
-		seedText.text = currentWallet.seed
+        if(typeof currentWallet != "undefined") {
+            viewOnlyQRCode.source = "image://qrcode/arqma_wallet:" + currentWallet.address(0, 0) + "?view_key="+currentWallet.secretViewKey+"&height="+currentWallet.walletCreationHeight
+            fullWalletQRCode.source = viewOnlyQRCode.source +"&spend_key="+currentWallet.secretSpendKey
 
-		if(typeof currentWallet != "undefined") {
-			viewOnlyQRCode.source = "image://qrcode/arqma_wallet:" + currentWallet.address(0, 0) + "?view_key="+currentWallet.secretViewKey+"&height="+currentWallet.walletCreationHeight
-			fullWalletQRCode.source = viewOnlyQRCode.source +"&spend_key="+currentWallet.secretSpendKey
+            if(currentWallet.viewOnly) {
+                viewOnlyQRCode.visible = true
+                showFullQr.visible = false
+                showViewOnlyQr.visible = false
+                seedText.text = qsTr("(View Only Wallet -  No mnemonic seed available)") + translationManager.emptyString
+            }
+        }
+    }
 
-			if(currentWallet.viewOnly) {
-				viewOnlyQRCode.visible = true
-				showFullQr.visible = false
-				showViewOnlyQr.visible = false
-				seedText.text = qsTr("(View Only Wallet -  No mnemonic seed available)") + translationManager.emptyString
-			}
-		}
-	}
+    // fires only once
+    Component.onCompleted: {
 
-	// fires only once
-	Component.onCompleted: {
-
-	}
-
+    }
 }

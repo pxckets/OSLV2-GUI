@@ -119,5 +119,3 @@ fi
 
 make deploy
 popd
-
-cp arqma-nodes.ini build/$BIN_PATH/arqma-nodes.ini

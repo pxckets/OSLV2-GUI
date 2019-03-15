@@ -17,20 +17,22 @@ if [ ! -d $ARQMA_DIR/src ]; then
 fi
 git submodule update --remote
 git -C $ARQMA_DIR fetch
-git -C $ARQMA_DIR checkout release-v0.2.2
+git -C $ARQMA_DIR checkout release-v0.3.2.1
 
 # get arqma core tag
+pushd $ARQMA_DIR
 get_tag
+popd
 # create local arqma branch
 git -C $ARQMA_DIR checkout -B $VERSIONTAG
 
-git -C $ARQMA_DIR submodule init
-git -C $ARQMA_DIR submodule update --remote
+#git -C $ARQMA_DIR submodule init
+#git -C $ARQMA_DIR submodule update --remote
 
 #update submodules
-git -C $ARQMA_DIR submodule update --init --force external/rapidjson
-git -C $ARQMA_DIR submodule update --init --force external/unbound
-git -C $ARQMA_DIR submodule update --init --force external/miniupnp
+#git -C $ARQMA_DIR submodule update --init --force external/rapidjson
+#git -C $ARQMA_DIR submodule update --init --force external/unbound
+#git -C $ARQMA_DIR submodule update --init --force external/miniupnp
 
 # Merge arqma PR dependencies
 
@@ -52,6 +54,9 @@ done
 # revert back to old git config
 $(git -C $ARQMA_DIR config user.name "$OLD_GIT_USER")
 $(git -C $ARQMA_DIR config user.email "$OLD_GIT_EMAIL")
+
+git -C $ARQMA_DIR submodule init
+git -C $ARQMA_DIR submodule update
 
 # Build libwallet if it doesnt exist
 if [ ! -f $ARQMA_DIR/lib/libwallet_merged.a ]; then
@@ -191,15 +196,8 @@ elif [ "$platform" == "mingw64" ]; then
     # Do something under Windows NT platform
     echo "Configuring build for MINGW64.."
     BOOST_ROOT=/mingw64/boost
-    cmake -D CMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -D STATIC=ON -D BOOST_ROOT="$BOOST_ROOT" -D ARCH="x86-64" -D BUILD_64=ON -D BUILD_GUI_DEPS=ON -D INSTALL_VENDORED_LIBUNBOUND=ON -D CMAKE_INSTALL_PREFIX="$ARQMA_DIR" -G "MSYS Makefiles" ../..
+    cmake -D CMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -D STATIC=ON -D BOOST_ROOT="$BOOST_ROOT" -D ARCH="x86-64" -D BUILD_64=ON -D BUILD_GUI_DEPS=ON -D INSTALL_VENDORED_LIBUNBOUND=ON -D CMAKE_INSTALL_PREFIX="$ARQMA_DIR" -G "MSYS Makefiles" -D CMAKE_TOOLCHAIN_FILE=../../cmake/64-bit-toolchain.cmake -D MSYS2_FOLDER=c:/msys64 ../..
 
-## Windows 32
-elif [ "$platform" == "mingw32" ]; then
-    # Do something under Windows NT platform
-    echo "Configuring build for MINGW32.."
-    BOOST_ROOT=/mingw32/boost
-    cmake -D CMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -D STATIC=ON -D Boost_DEBUG=ON -D BOOST_ROOT="$BOOST_ROOT" -D ARCH="i686" -D BUILD_64=OFF -D BUILD_GUI_DEPS=ON -D INSTALL_VENDORED_LIBUNBOUND=ON -D CMAKE_INSTALL_PREFIX="$ARQMA_DIR" -G "MSYS Makefiles" ../..
-    make_exec="mingw32-make"
 else
     echo "Unknown platform, configuring general build"
     if [ "$STATIC" == true ]; then

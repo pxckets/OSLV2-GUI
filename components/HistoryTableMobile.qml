@@ -75,7 +75,7 @@ ListView {
 
         Text {
             anchors.centerIn: parent
-            font.family: "Arial"
+            font.family: ArqmaComponents.Style.fontRegular.name
             font.pixelSize: 14 * scaleRatio
             color: "#545454"
             text: qsTr("No more results") + translationManager.emptyString
@@ -194,7 +194,7 @@ ListView {
                 Layout.leftMargin: 10 * scaleRatio
                 spacing: 2
                 Text {
-                    font.family: "Arial"
+                    font.family: ArqmaComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     color: isOut ? ArqmaComponents.Style.defaultFontColor : "#00079E"
                     text: isOut ? "↓" : "↑"
@@ -202,7 +202,7 @@ ListView {
 
                 Text {
                     id: amountText
-                    font.family: "Arial"
+                    font.family: ArqmaComponents.Style.fontRegular.name
                     font.pixelSize: 18 * scaleRatio
                     color: isOut ? ArqmaComponents.Style.defaultFontColor : "#2eb358"
                     text:  displayAmount

@@ -1,4 +1,4 @@
-ARG IMAGE_FROM=arqma:android
+ARG IMAGE_FROM=arqma-android32
 FROM ${IMAGE_FROM}
 
 ARG NPROC=1
@@ -12,20 +12,20 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH $JAVA_HOME/bin:$PATH
 
 #Get Qt
-ENV QT_VERSION 5.11
+ENV QT_VERSION 5.12
 
 RUN git clone git://code.qt.io/qt/qt5.git -b ${QT_VERSION} \
     && cd qt5 \
-    && perl init-repository 
+    && perl init-repository
 
 ENV ANDROID_API android-21
-    
+
 #ANDROID SDK TOOLS
 RUN cd ${ANDROID_SDK_ROOT} && echo y | ./bin/sdkmanager "platform-tools" "platforms;${ANDROID_API}" "tools"
 
 RUN cp -r ${WORKDIR}/platforms ${WORKDIR}/platform-tools ${ANDROID_SDK_ROOT}
 
-ENV HOST_PATH $JAVA_HOME/bin:/usr/cmake-3.6.3-Linux-x86_64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${ANDROID_SDK_ROOT}/bin
+ENV HOST_PATH $JAVA_HOME/bin:/usr/cmake-3.12.1-Linux-x86_64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${ANDROID_SDK_ROOT}/bin
 
 #build Qt
 RUN cd qt5 && PATH=${HOST_PATH} ./configure -developer-build -release \
@@ -45,10 +45,16 @@ RUN cd qt5 && PATH=${HOST_PATH} ./configure -developer-build -release \
    && PATH=${HOST_PATH} make -j ${NPROC} \
    && PATH=${HOST_PATH} make install
 
-# Get ZBar
-RUN git clone https://github.com/ZBar/ZBar.git
 
-ENV PATH ${ANDROID_SDK_ROOT}/bin:${WORKDIR}/Qt-${QT_VERSION}/bin:${WORKDIR}/tools:$PATH
+# Get iconv and ZBar
+ENV ICONV_VERSION 1.15
+RUN git clone https://github.com/ZBar/ZBar.git \
+    && curl -s -O http://ftp.gnu.org/pub/gnu/libiconv/libiconv-${ICONV_VERSION}.tar.gz \
+    && tar -xzf libiconv-${ICONV_VERSION}.tar.gz \
+    && cd libiconv-${ICONV_VERSION} \
+    && CC=arm-linux-androideabi-clang CXX=arm-linux-androideabi-clang++ ./configure --build=x86_64-linux-gnu --host=arm-eabi --prefix=${WORKDIR}/libiconv --disable-rpath
+
+ENV PATH $ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/platform-tools:${WORKDIR}/Qt-${QT_VERSION}/bin:$PATH
 
 #Build libzbarjni.a
 COPY android/docker/android.mk.patch ZBar/android.mk.patch
@@ -67,7 +73,7 @@ APP_CFLAGS +=  -target armv7-none-linux-androideabi -fexceptions -fstack-protect
 RUN cp ZBar/android/obj/local/armeabi-v7a/lib* ${ANDROID_NDK_ROOT}/platforms/${ANDROID_API}/arch-arm/usr/lib
 RUN cp -r ${PREFIX}/lib/* ${ANDROID_NDK_ROOT}/platforms/${ANDROID_API}/arch-arm/usr/lib
 
-ENV HOST_PATH=${WORKDIR}/Qt-${QT_VERSION}/bin:${JAVA_HOME}/bin:/usr/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV HOST_PATH=${WORKDIR}/Qt-${QT_VERSION}/bin:${JAVA_HOME}/bin:/usr/cmake-3.12.1-Linux-x86_64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Since r26.0.0, old binary `android` has been removed but is stil used by androiddeployqt
 # So using older binary `android` as a workaround
@@ -76,13 +82,11 @@ RUN cd tools && curl -O http://dl-ssl.google.com/android/repository/tools_r25.2.
   && rm -f tools_r25.2.5-linux.zip \
   && echo y | $ANDROID_SDK_ROOT/tools/android update sdk --no-ui --all --filter build-tools-25.0.3
 
-ADD . ${WORKDIR}/arqma-gui
-RUN cd ${WORKDIR}/arqma-gui \
-    && CMAKE_INCLUDE_PATH="${PREFIX}/include" \
-       CMAKE_LIBRARY_PATH="${PREFIX}/lib" \
-       ANDROID_STANDALONE_TOOLCHAIN_PATH=${TOOLCHAIN_DIR} \
-       PATH=${HOST_PATH} \
-       GIT_STRATEGY="none" \
-           ./build.sh release-android
+  ADD . ${WORKDIR}/arqma-gui
+  RUN cd ${WORKDIR}/arqma-gui \
+      && CMAKE_INCLUDE_PATH="${PREFIX}/include" \
+         CMAKE_LIBRARY_PATH="${PREFIX}/lib" \
+         ANDROID_STANDALONE_TOOLCHAIN_PATH=${TOOLCHAIN_DIR} \
+         PATH=${HOST_PATH} ./build.sh release-android
 
-RUN cd ${WORKDIR}/arqma-gui/build && PATH=${HOST_PATH} make deploy
+  #RUN cd ${WORKDIR}/arqma-gui/build && PATH=${HOST_PATH} make deploy

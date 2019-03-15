@@ -88,10 +88,17 @@ Window {
         anchors.margins: 35 * scaleRatio
         spacing: 20 * scaleRatio
 
-        RowLayout {
-            id: content
-            Layout.fillWidth: true
+        Item {
             Layout.fillHeight: true
+            Layout.fillWidth: true
+
+            Rectangle {
+                anchors.fill: parent
+                color: "transparent"
+                border.color: ArqmaComponents.Style.inputBorderColorActive
+                border.width: 1
+                radius: 4
+            }
 
             Flickable {
                 id: flickable
@@ -102,20 +109,12 @@ Window {
                     textFormat: TextEdit.RichText
                     selectByMouse: true
                     selectByKeyboard: true
-                    anchors.fill: parent
-                    font.family: "Arial"
+                    font.family: ArqmaComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     color: ArqmaComponents.Style.defaultFontColor
                     selectionColor: ArqmaComponents.Style.dimmedFontColor
                     wrapMode: TextEdit.Wrap
                     readOnly: true
-                    background: Rectangle {
-                        color: "transparent"
-                        anchors.fill: parent
-                        border.color: Qt.rgba(255, 255, 255, 0.25);
-                        border.width: 1
-                        radius: 4
-                    }
                     function logCommand(msg){
                         msg = log_color(msg, "lime");
                         textArea.append(msg);
@@ -157,15 +156,7 @@ Window {
                     }
                 }
 
-                ScrollBar.vertical: ScrollBar {
-                    // TODO: scrollbar always visible is buggy.
-                    // QT 5.9 introduces `policy: ScrollBar.AlwaysOn`
-                    contentItem.opacity: 1
-                    anchors.top: flickable.top
-                    anchors.left: flickable.right
-                    anchors.leftMargin: 10 * scaleRatio
-                    anchors.bottom: flickable.bottom
-                }
+                ScrollBar.vertical: ScrollBar {}
             }
         }
 

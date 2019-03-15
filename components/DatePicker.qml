@@ -304,7 +304,7 @@ Item {
 
                     Text {
                         anchors.centerIn: parent
-                        font.family: "Arial"
+                        font.family: ArqmaComponents.Style.fontRegular.name
                         font.pixelSize: 12
                         font.bold: dayArea.pressed
                         text: styleData.date.getDate()
@@ -342,7 +342,7 @@ Item {
                     Text {
                         anchors.centerIn: parent
                         elide: Text.ElideRight
-                        font.family: "Arial"
+                        font.family: ArqmaComponents.Style.fontRegular.name
                         font.pixelSize: 9
                         color: "#535353"
                         text: {
@@ -358,7 +358,7 @@ Item {
 
                     Text {
                         anchors.centerIn: parent
-                        font.family: "Arial"
+                        font.family: ArqmaComponents.Style.fontRegular.name
                         font.pixelSize: 12
                         color: "#4A4646"
                         text: styleData.title

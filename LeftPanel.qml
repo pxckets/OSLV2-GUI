@@ -60,12 +60,15 @@ Rectangle {
     signal miningClicked()
     signal signClicked()
     signal keysClicked()
+    signal merchantClicked()
+    signal accountClicked()
 
     function selectItem(pos) {
         menuColumn.previousButton.checked = false
         if(pos === "History") menuColumn.previousButton = historyButton
         else if(pos === "Transfer") menuColumn.previousButton = transferButton
         else if(pos === "Receive")  menuColumn.previousButton = receiveButton
+        else if(pos === "Merchant")  menuColumn.previousButton = merchantButton
         else if(pos === "AddressBook") menuColumn.previousButton = addressBookButton
         else if(pos === "Mining") menuColumn.previousButton = miningButton
         else if(pos === "TxKey")  menuColumn.previousButton = txkeyButton
@@ -73,7 +76,8 @@ Rectangle {
         else if(pos === "Sign") menuColumn.previousButton = signButton
         else if(pos === "Settings") menuColumn.previousButton = settingsButton
         else if(pos === "Advanced") menuColumn.previousButton = advancedButton
-
+        else if(pos === "Keys") menuColumn.previousButton = keysButton
+        else if(pos === "Account") menuColumn.previousButton = accountButton
         menuColumn.previousButton.checked = true
     }
 
@@ -169,6 +173,9 @@ Rectangle {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
+                            middlePanel.addressBookView.clearFields();
+                            middlePanel.transferView.clearFields();
+                            middlePanel.receiveView.clearFields();
                             appWindow.showWizard();
                         }
                     }
@@ -191,7 +198,7 @@ Rectangle {
                     anchors.leftMargin: 20
                     anchors.top: parent.top
                     anchors.topMargin: 76
-                    font.family: "Arial"
+                    font.family: ArqmaComponents.Style.fontRegular.name
                     color: "#FFFFFF"
                     text: "N/A"
                     // dynamically adjust text size
@@ -229,7 +236,7 @@ Rectangle {
                     anchors.leftMargin: 20
                     anchors.top: parent.top
                     anchors.topMargin: 126
-                    font.family: "Arial"
+                    font.family: ArqmaComponents.Style.fontRegular.name
                     color: "#FFFFFF"
                     text: "N/A"
                     // dynamically adjust text size
@@ -280,26 +287,14 @@ Rectangle {
                     anchors.leftMargin: 20
                     anchors.top: parent.top
                     anchors.topMargin: 60
+                    elide: Text.ElideRight
+                    textWidth: 238
                 }
                 Item { //separator
                     anchors.left: parent.left
                     anchors.right: parent.right
                     height: 1
                 }
-              /* Disable twitter/news panel
-                Image {
-                    anchors.left: parent.left
-                    anchors.verticalCenter: logo.verticalCenter
-                    anchors.leftMargin: 19
-                    source: appWindow.rightPanelExpanded ? "images/expandRightPanel.png" :
-                                                           "images/collapseRightPanel.png"
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: appWindow.rightPanelExpanded = !appWindow.rightPanelExpanded
-                }
-              */
             }
         }
     }
@@ -332,6 +327,30 @@ Rectangle {
 
             // top border
             Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: 16
+                color: "#313131"
+                height: 1
+            }
+
+            // ------------- Account tab ---------------
+            ArqmaComponents.MenuButton {
+                id: accountButton
+                anchors.left: parent.left
+                anchors.right: parent.right
+                text: qsTr("Account") + translationManager.emptyString
+                symbol: qsTr("T") + translationManager.emptyString
+                dotColor: "#44AAFF"
+                onClicked: {
+                    parent.previousButton.checked = false
+                    parent.previousButton = accountButton
+                    panel.accountClicked()
+                }
+            }
+
+            Rectangle {
+                visible: accountButton.present
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.leftMargin: 16
@@ -412,6 +431,33 @@ Rectangle {
                 height: 1
             }
 
+            // ------------- Merchant tab ---------------
+
+            ArqmaComponents.MenuButton {
+                id: merchantButton
+                visible: appWindow.walletMode >= 2
+                anchors.left: parent.left
+                anchors.right: parent.right
+                text: qsTr("Merchant") + translationManager.emptyString
+                symbol: qsTr("U") + translationManager.emptyString
+                dotColor: "#FF4F41"
+                under: receiveButton
+                onClicked: {
+                    parent.previousButton.checked = false
+                    parent.previousButton = merchantButton
+                    panel.merchantClicked()
+                }
+            }
+
+            Rectangle {
+                visible: merchantButton.present && appWindow.walletMode >= 2
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: 16
+                color: "#313131"
+                height: 1
+            }
+
             // ------------- History tab ---------------
 
             ArqmaComponents.MenuButton {
@@ -439,6 +485,7 @@ Rectangle {
             // ------------- Advanced tab ---------------
             ArqmaComponents.MenuButton {
                 id: advancedButton
+                visible: appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 text: qsTr("Advanced") + translationManager.emptyString
@@ -450,7 +497,7 @@ Rectangle {
                 }
             }
             Rectangle {
-                visible: advancedButton.present
+                visible: advancedButton.present && appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.leftMargin: 16
@@ -461,7 +508,7 @@ Rectangle {
             // ------------- Mining tab ---------------
             ArqmaComponents.MenuButton {
                 id: miningButton
-                visible: !isAndroid && !isIOS
+                visible: !isAndroid && !isIOS && appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 text: qsTr("Mining") + translationManager.emptyString
@@ -476,7 +523,7 @@ Rectangle {
             }
 
             Rectangle {
-                visible: miningButton.present
+                visible: miningButton.present && appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.leftMargin: 16
@@ -486,6 +533,7 @@ Rectangle {
             // ------------- TxKey tab ---------------
             ArqmaComponents.MenuButton {
                 id: txkeyButton
+                visible: appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 text: qsTr("Prove/check") + translationManager.emptyString
@@ -499,7 +547,7 @@ Rectangle {
                 }
             }
             Rectangle {
-                visible: txkeyButton.present
+                visible: txkeyButton.present && appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.leftMargin: 16
@@ -509,6 +557,7 @@ Rectangle {
             // ------------- Shared RingDB tab ---------------
             ArqmaComponents.MenuButton {
                 id: sharedringdbButton
+                visible: appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 text: qsTr("Shared RingDB") + translationManager.emptyString
@@ -522,7 +571,7 @@ Rectangle {
                 }
             }
             Rectangle {
-                visible: sharedringdbButton.present
+                visible: sharedringdbButton.present && appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.leftMargin: 16
@@ -534,6 +583,7 @@ Rectangle {
             // ------------- Sign/verify tab ---------------
             ArqmaComponents.MenuButton {
                 id: signButton
+                visible: appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 text: qsTr("Sign/verify") + translationManager.emptyString
@@ -547,7 +597,7 @@ Rectangle {
                 }
             }
             Rectangle {
-                visible: signButton.present
+                visible: signButton.present && appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.leftMargin: 16
@@ -557,6 +607,7 @@ Rectangle {
             // ------------- Settings tab ---------------
             ArqmaComponents.MenuButton {
                 id: settingsButton
+                visible: appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 text: qsTr("Settings") + translationManager.emptyString
@@ -569,7 +620,7 @@ Rectangle {
                 }
             }
             Rectangle {
-                visible: settingsButton.present
+                visible: settingsButton.present && appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.leftMargin: 16
@@ -579,6 +630,7 @@ Rectangle {
             // ------------- Sign/verify tab ---------------
             ArqmaComponents.MenuButton {
                 id: keysButton
+                visible: appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 text: qsTr("Seed & Keys") + translationManager.emptyString
@@ -592,7 +644,7 @@ Rectangle {
                 }
             }
             Rectangle {
-                visible: settingsButton.present
+                visible: settingsButton.present && appWindow.walletMode >= 2
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.leftMargin: 16

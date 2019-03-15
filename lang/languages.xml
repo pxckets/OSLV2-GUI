@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <languages>
-
-
-List of available languages for your wallet's seed:
-0 : Deutsch         (German)
-1 : English
-2 : Español         (Spanish)
-3 : Français        (French)
-4 : Italiano        (Italian)
-5 : Nederlands      (Dutch)
-6 : Português       (Portuguese)
-7 : русский язык    (Russian)
-8 : 日本語          (Japanese)
-9 : 简体中文 (中国) (Simplified Chinese (Mainland))
-11 : Turkey         (Turkish)
-
         <language display_name="English (US)" locale="en_US" wallet_language="English" flag="/lang/flags/usa.png" qs="none"/>
         <language display_name="English (GB)" locale="en_GB" wallet_language="English" flag="/lang/flags/uk.png" qs="none"/>
         <language display_name="English (ZA)" locale="en_SA" wallet_language="English" flag="/lang/flags/rpa.png" qs="none"/>

@@ -1,5 +1,6 @@
 #include "DaemonManager.h"
 #include <QFile>
+#include <QThread>
 #include <QFileInfo>
 #include <QDir>
 #include <QDebug>
@@ -72,7 +73,9 @@ bool DaemonManager::start(const QString &flags, NetworkType::Type nettype, const
 
     arguments << "--check-updates" << "disabled";
 
+    int32_t concurrency = qBound(1, QThread::idealThreadCount() / 2, 6);
 
+    arguments << "--max-concurrency" << QString::number(concurrency);
 
     qDebug() << "starting Arqma " + m_monerod;
     qDebug() << "With command line arguments " << arguments;
@@ -210,7 +213,7 @@ void DaemonManager::printError()
 }
 
 bool DaemonManager::running(NetworkType::Type nettype) const
-{ 
+{
     QString status;
     sendCommand("status", nettype, status);
     qDebug() << status;
@@ -273,7 +276,7 @@ QVariantMap DaemonManager::validateDataDir(const QString &dataDir) const
 
         // Make sure there is 20GB storage available
         storageAvailable = storage.bytesAvailable()/1000/1000/1000;
-        if (storageAvailable < 20) {
+        if (storageAvailable < 5) {
             valid = false;
         }
     } else {

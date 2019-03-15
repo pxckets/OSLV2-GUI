@@ -31,6 +31,8 @@ import QtQuick 2.0
 import QtQuick.Controls 1.4
 import ArqmaComponents.Wallet 1.0
 
+import "."
+
 Item {
     id: item
     property string message: ""
@@ -52,7 +54,7 @@ Item {
             backgroundVisible: false
             textFormat: TextEdit.AutoText
             anchors.fill: parent
-            font.family: "Arial"
+            font.family: Style.fontRegular.name
             font.pixelSize: 12
             textMargin: 20
             textColor: "white"

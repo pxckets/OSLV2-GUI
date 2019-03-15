@@ -39,7 +39,7 @@ Rectangle{
     /* main layout */
     ColumnLayout {
         id: root
-        anchors.margins: isMobile ? 17 : 20
+        anchors.margins: (isMobile)? 17 * scaleRatio : 20 * scaleRatio
         anchors.topMargin: 0
 
         anchors.left: parent.left
@@ -49,6 +49,7 @@ Rectangle{
         spacing: 0 * scaleRatio
         property int labelWidth: 120
         property int editWidth: 400
+        property int lineEditFontSize: 14 * scaleRatio
         property int buttonWidth: 110
 
         Rectangle {
@@ -110,7 +111,7 @@ Rectangle{
                     font.bold: true
                     font.family: ArqmaComponents.Style.fontRegular.name
                     font.pixelSize: 16 * scaleRatio
-                    text: qsTr("Local Node") + translationManager.emptyString
+                    text: qsTr("Local node") + translationManager.emptyString
                 }
 
                 TextArea {
@@ -130,6 +131,7 @@ Rectangle{
                     topPadding: 0
                     text: qsTr("The blockchain is downloaded to your computer. Provides higher security and requires more local storage.") + translationManager.emptyString
                     width: parent.width - (localNodeIcon.width + localNodeIcon.anchors.leftMargin + anchors.leftMargin)
+                    readOnly: true
 
                     // @TODO: Legacy. Remove after Qt 5.8.
                     // https://stackoverflow.com/questions/41990013
@@ -209,7 +211,7 @@ Rectangle{
                     font.bold: true
                     font.family: ArqmaComponents.Style.fontRegular.name
                     font.pixelSize: 16 * scaleRatio
-                    text: qsTr("Remote Node") + translationManager.emptyString
+                    text: qsTr("Remote node") + translationManager.emptyString
                 }
 
                 TextArea {
@@ -230,6 +232,7 @@ Rectangle{
                     topPadding: 0
                     text: qsTr("Uses a third-party server to connect to the Arq-Net. Less secure, but easier on your computer.") + translationManager.emptyString
                     width: parent.width - (remoteNodeIcon.width + remoteNodeIcon.anchors.leftMargin + anchors.leftMargin)
+                    readOnly: true
 
                     // @TODO: Legacy. Remove after Qt 5.8.
                     // https://stackoverflow.com/questions/41990013
@@ -263,109 +266,6 @@ Rectangle{
         }
 
         ColumnLayout {
-            id: defaultRemoteNodes
-            anchors.margins: 0
-            Layout.fillWidth: true
-            Layout.topMargin: 20
-            spacing: 5 * scaleRatio
-            visible: !isMobile && persistentSettings.useRemoteNode
-
-            ArqmaComponents.WarningBox {
-                Layout.topMargin: 26 * scaleRatio
-                Layout.bottomMargin: 6 * scaleRatio
-                text: qsTr("To find other remote nodes, type 'Arq-Net Remote Node' into your favorite search engine. Please ensure the node is run by a trusted third-party.") + translationManager.emptyString
-            }
-
-            Text {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 20 * scaleRatio
-                Layout.topMargin: 8 * scaleRatio
-                color: ArqmaComponents.Style.defaultFontColor
-                font.family: ArqmaComponents.Style.fontRegular.name
-                font.pixelSize: 16 * scaleRatio
-                text: qsTr("Default Remote Node(s)") + translationManager.emptyString
-            }
-
-            Rectangle {
-                Layout.preferredHeight: 1 * scaleRatio
-                Layout.fillWidth: true
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
-            }
-
-            Text {
-                visible: (getRemoteNodeList().length == 0)
-                Layout.fillWidth: true
-                color: ArqmaComponents.Style.defaultFontColor
-                font.family: ArqmaComponents.Style.fontRegular.name
-                font.pixelSize: 16 * scaleRatio
-                text: qsTr("No default remote nodes available") + translationManager.emptyString
-                Layout.bottomMargin: 6 * scaleRatio
-            }
-
-            ColumnLayout {
-                anchors.margins: 0
-                Layout.topMargin: 20
-                Layout.fillWidth: true
-                spacing: 5 * scaleRatio
-
-                ListView {
-                    visible: getRemoteNodeList().length > 0
-                    height: 200 * scaleRatio
-                    Layout.fillWidth: true
-                    clip: true
-                    boundsBehavior: Flickable.StopAtBounds
-                    model: getRemoteNodeList()
-
-                    delegate: Rectangle {
-                        color: "transparent"
-                        height: 34 * scaleRatio
-                        Layout.fillWidth: true
-
-                        ArqmaComponents.StandardButton {
-                            id: defaultNodeButton
-                            anchors.left: parent.left
-                            small: true
-                            text: qsTr("Load Preset") + translationManager.emptyString
-                            width: 120 * scaleRatio
-                            onClicked: {
-
-                                var node_split = modelData.split(":");
-                                if(node_split.length == 2){
-                                    (node_split[1].trim() == "") ? "" : node_split[1];
-                                } else {
-                                    return;
-                                }
-
-                                remoteNodeEdit.daemonAddrText = node_split[0];
-                                remoteNodeEdit.daemonPortText = node_split[1];
-                            }
-                        }
-
-                        Text {
-                            Layout.preferredHeight: 16 * scaleRatio
-                            anchors.left: defaultNodeButton.right
-                            anchors.leftMargin: 8 * scaleRatio
-                            anchors.verticalCenter: defaultNodeButton.verticalCenter
-                            color: ArqmaComponents.Style.defaultFontColor
-                            font.family: ArqmaComponents.Style.fontRegular.name
-                            font.pixelSize: 14 * scaleRatio
-                            text: "Address: " + modelData
-                        }
-                    }
-                }
-
-                Rectangle {
-                    Layout.preferredHeight: 1 * scaleRatio
-                    Layout.fillWidth: true
-                    color: ArqmaComponents.Style.dividerColor
-                    opacity: ArqmaComponents.Style.dividerOpacity
-                }
-            }
-
-        }
-
-        ColumnLayout {
             id: remoteNodeLayout
             anchors.margins: 0
             spacing: 20 * scaleRatio
@@ -373,102 +273,126 @@ Rectangle{
             Layout.topMargin: 20
             visible: !isMobile && persistentSettings.useRemoteNode
 
+            ArqmaComponents.WarningBox {
+                Layout.topMargin: 26 * scaleRatio
+                Layout.bottomMargin: 6 * scaleRatio
+                text: qsTr("To find a remote node, type 'Arqma remote node' into your favorite search engine. Please ensure the node is run by a trusted and verified third-party.") + translationManager.emptyString
+            }
+
             ArqmaComponents.RemoteNodeEdit {
                 id: remoteNodeEdit
-                Layout.minimumWidth: 200 * scaleRatio
+                Layout.minimumWidth: 100 * scaleRatio
 
                 lineEditBackgroundColor: "transparent"
                 lineEditFontColor: "white"
                 lineEditFontBold: false
+                lineEditBorderColor: Qt.rgba(255, 255, 255, 0.35)
+                labelFontSize: 14 * scaleRatio
                 placeholderFontSize: 15 * scaleRatio
 
                 daemonAddrLabelText: qsTr("Address")
                 daemonPortLabelText: qsTr("Port")
 
                 property var rna: persistentSettings.remoteNodeAddress
-                daemonAddrText: rna.search(":") != -1 ? rna.split(":")[0].trim() : ""
-                daemonPortText: rna.search(":") != -1 ? (rna.split(":")[1].trim() == "") ? "" : rna.split(":")[1] : ""
+                daemonAddrText: rna.search(":") != -1 ? rna.split(":")[0].trim() : "node.supportarqma.com"
+                daemonPortText: rna.search(":") != -1 ? (rna.split(":")[1].trim() == "") ? appWindow.getDefaultDaemonRpcPort(persistentSettings.nettype) : rna.split(":")[1] : ""
                 onEditingFinished: {
                     persistentSettings.remoteNodeAddress = remoteNodeEdit.getAddress();
-                    console.log("setting remote node to " + persistentSettings.remoteNodeAddress)
+                    console.log("setting remote node to " + persistentSettings.remoteNodeAddress);
+                    if (persistentSettings.is_trusted_daemon) {
+                        persistentSettings.is_trusted_daemon = !persistentSettings.is_trusted_daemon
+                        currentWallet.setTrustedDaemon(persistentSettings.is_trusted_daemon)
+                        setTrustedDaemonCheckBox.checked = !setTrustedDaemonCheckBox.checked
+                        appWindow.showStatusMessage(qsTr("Remote node updated. Trusted daemon has been reset. Mark again, if desired."), 8);
+                    }
                 }
             }
 
             GridLayout {
-                columns: isMobile ? 1 : 2
+                columns: (isMobile) ? 1 : 2
                 columnSpacing: 32
 
                 ArqmaComponents.LineEdit {
                     id: daemonUsername
                     Layout.fillWidth: true
-                    labelText: "Daemon Username"
+                    labelText: "Daemon username"
                     text: persistentSettings.daemonUsername
                     placeholderText: qsTr("(optional)") + translationManager.emptyString
                     placeholderFontSize: 15 * scaleRatio
+                    labelFontSize: 14 * scaleRatio
+                    fontSize: 15 * scaleRatio
                 }
 
                 ArqmaComponents.LineEdit {
                     id: daemonPassword
                     Layout.fillWidth: true
-                    labelText: "Daemon Password"
+                    labelText: "Daemon password"
                     text: persistentSettings.daemonPassword
                     placeholderText: qsTr("Password") + translationManager.emptyString
                     echoMode: TextInput.Password
+                    placeholderFontSize: 15 * scaleRatio
+                    labelFontSize: 14 * scaleRatio
+                    fontSize: 15 * scaleRatio
                 }
             }
 
-            Rectangle {
-                id: rectConnectRemote
-                Layout.topMargin: 12 * scaleRatio
-                color: ArqmaComponents.Style.buttonBackgroundColor
-                width: btnConnectRemote.width + 40
-                height: 26
-
-                Text {
-                    id: btnConnectRemote
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color: ArqmaComponents.Style.defaultFontColor
-                    font.family: ArqmaComponents.Style.fontRegular.name
-                    font.pixelSize: 14 * scaleRatio
-                    font.bold: true
-                    text: qsTr("Connect") + translationManager.emptyString
+            ArqmaComponents.CheckBox {
+                id: setTrustedDaemonCheckBox
+                checked: persistentSettings.is_trusted_daemon
+                onClicked: {
+                    persistentSettings.is_trusted_daemon = !persistentSettings.is_trusted_daemon
+                    currentWallet.setTrustedDaemon(persistentSettings.is_trusted_daemon)
                 }
+                text: qsTr("Mark as Trusted Daemon") + translationManager.emptyString
+            }
 
-                MouseArea {
-                    cursorShape: Qt.PointingHandCursor
-                    anchors.fill: parent
-                    onClicked: {
-                        // Update daemon login
-                        persistentSettings.remoteNodeAddress = remoteNodeEdit.getAddress();
-                        persistentSettings.daemonUsername = daemonUsername.text;
-                        persistentSettings.daemonPassword = daemonPassword.text;
-                        persistentSettings.useRemoteNode = true
+            ArqmaComponents.StandardButton {
+                id: btnConnectRemote
+                enabled: remoteNodeEdit.isValid()
+                small: true
+                text: qsTr("Connect") + translationManager.emptyString
+                onClicked: {
+                    // Update daemon login
+                    persistentSettings.remoteNodeAddress = remoteNodeEdit.getAddress();
+                    persistentSettings.daemonUsername = daemonUsername.text;
+                    persistentSettings.daemonPassword = daemonPassword.text;
+                    persistentSettings.useRemoteNode = true
 
-                        currentWallet.setDaemonLogin(persistentSettings.daemonUsername, persistentSettings.daemonPassword);
+                    currentWallet.setDaemonLogin(persistentSettings.daemonUsername, persistentSettings.daemonPassword);
 
-                        appWindow.connectRemoteNode()
-                    }
+                    appWindow.connectRemoteNode()
                 }
             }
         }
 
         ColumnLayout {
             id: localNodeLayout
-            anchors.margins: 0
             spacing: 20 * scaleRatio
             Layout.topMargin: 40
-            anchors.left: parent.left
-            anchors.right: parent.right
             visible: !isMobile && !persistentSettings.useRemoteNode
+
+            ArqmaComponents.StandardButton {
+                small: true
+                text: (appWindow.daemonRunning ? qsTr("Stop local node") : qsTr("Start daemon")) + translationManager.emptyString
+                onClicked: {
+                    if (appWindow.daemonRunning) {
+                        appWindow.stopDaemon();
+                    } else {
+                        persistentSettings.daemonFlags = daemonFlags.text;
+                        appWindow.startDaemon(persistentSettings.daemonFlags);
+                    }
+                }
+            }
 
             RowLayout {
                 ArqmaComponents.LineEditMulti {
                     id: blockchainFolder
                     Layout.preferredWidth: 200
                     Layout.fillWidth: true
+                    fontSize: 15 * scaleRatio
+                    labelFontSize: 14 * scaleRatio
                     property string style: "<style type='text/css'>a {cursor:pointer;text-decoration: none; color: #000465}</style>"
-                    labelText: qsTr("Blockchain Location") + style + qsTr(" <a href='#'> (change)</a>") + translationManager.emptyString
+                    labelText: qsTr("Blockchain file location") + style + qsTr(" <a href='#'> (change)</a>") + translationManager.emptyString
                     placeholderText: qsTr("(default)") + translationManager.emptyString
                     placeholderFontSize: 15 * scaleRatio
                     text: {
@@ -488,19 +412,18 @@ Rectangle{
                 }
             }
 
-            RowLayout {
-                id: daemonFlagsRow
-
-                ArqmaComponents.LineEditMulti {
-                    id: daemonFlags
-                    Layout.preferredWidth:  200
-                    Layout.fillWidth: true
-                    labelText: qsTr("Daemon Startup Flags") + translationManager.emptyString
-                    placeholderText: qsTr("(optional)") + translationManager.emptyString
-                    placeholderFontSize: 15 * scaleRatio
-                    text: appWindow.persistentSettings.daemonFlags
-                    addressValidation: false
-                }
+            ArqmaComponents.LineEditMulti {
+                id: daemonFlags
+                Layout.fillWidth: true
+                labelFontSize: 14 * scaleRatio
+                fontSize: 15 * scaleRatio
+                wrapMode: Text.WrapAnywhere
+                labelText: qsTr("Daemon startup flags") + translationManager.emptyString
+                placeholderText: qsTr("(optional)") + translationManager.emptyString
+                placeholderFontSize: 15 * scaleRatio
+                text: persistentSettings.daemonFlags
+                addressValidation: false
+                onEditingFinished: persistentSettings.daemonFlags = daemonFlags.text;
             }
 
             RowLayout {
@@ -516,8 +439,11 @@ Rectangle{
 
                         lineEditBackgroundColor: "transparent"
                         lineEditFontColor: "white"
+                        lineEditBorderColor: ArqmaComponents.Style.inputBorderColorActive
                         placeholderFontSize: 15 * scaleRatio
+                        labelFontSize: 14 * scaleRatio
                         lineEditFontBold: false
+                        lineEditFontSize: 15 * scaleRatio
 
                         daemonAddrLabelText: qsTr("Bootstrap Address")
                         daemonPortLabelText: qsTr("Bootstrap Port")
@@ -525,7 +451,7 @@ Rectangle{
                         daemonPortText: {
                             var node_split = persistentSettings.bootstrapNodeAddress.split(":");
                             if(node_split.length == 2){
-                                (node_split[1].trim() == "") ? "" : node_split[1];
+                                (node_split[1].trim() == "") ? appWindow.getDefaultDaemonRpcPort(persistentSettings.nettype) : node_split[1];
                             } else {
                                 return ""
                             }
@@ -537,33 +463,6 @@ Rectangle{
                     }
                 }
             }
-
-            ArqmaComponents.StandardButton {
-                id: startDaemonButton
-                small: true
-                visible: !appWindow.daemonRunning
-                text: qsTr("Start Local Node") + translationManager.emptyString
-                onClicked: {
-                    persistentSettings.bootstrapNodeAddress = bootstrapNodeEdit.daemonAddrText ? bootstrapNodeEdit.getAddress() : "";
-                    appWindow.currentDaemonAddress = appWindow.localDaemonAddress;
-                    appWindow.startDaemon(daemonFlags.text);
-                }
-            }
-
-            ArqmaComponents.StandardButton {
-                id: stopDaemonButton
-                small: true
-                visible: appWindow.daemonRunning
-                text: (appWindow.daemonRunning ? qsTr("Stop local node") : qsTr("Start daemon")) + translationManager.emptyString
-                onClicked: {
-                    if (appWindow.daemonRunning) {
-                        appWindow.stopDaemon();
-                    } else {
-                        appWindow.startDaemon(persistentSettings.daemonFlags);
-                    }
-                }
-            }
-
         }
     }
 }

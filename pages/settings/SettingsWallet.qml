@@ -46,7 +46,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.margins: isMobile ? 17 * scaleRatio : 20 * scaleRatio
+        anchors.margins: (isMobile)? 17 * scaleRatio : 20 * scaleRatio
         anchors.topMargin: 0
         spacing: 0
 
@@ -109,12 +109,12 @@ Rectangle {
                 text: qsTr("Close wallet") + translationManager.emptyString
                 onClicked: {
                     middlePanel.addressBookView.clearFields();
-					          middlePanel.transferView.clearFields();
-					          middlePanel.receiveView.clearFields();
-					          appWindow.showWizard();
-				        }
-				        width: 135 * scaleRatio
-			      }
+                    middlePanel.transferView.clearFields();
+                    middlePanel.receiveView.clearFields();
+                    appWindow.showWizard();
+                }
+                width: 135 * scaleRatio
+            }
         }
 
         Rectangle {
@@ -258,6 +258,7 @@ Rectangle {
         }
 
         GridLayout {
+            visible: appWindow.walletMode >= 2
             Layout.fillWidth: true
             Layout.preferredHeight: settingsWallet.itemHeight
             columnSpacing: 0
@@ -304,7 +305,7 @@ Rectangle {
 
             ArqmaComponents.StandardButton {
                 small: true
-				        text: qsTr("Rescan") + translationManager.emptyString
+                text: qsTr("Rescan") + translationManager.emptyString
                 onClicked: {
                     if (!currentWallet.rescanSpent()) {
                         console.error("Error: ", currentWallet.errorString);
@@ -321,12 +322,13 @@ Rectangle {
                         informationPopup.open();
                     }
                 }
-				        width: 135 * scaleRatio
+                width: 135 * scaleRatio
             }
         }
 
         Rectangle {
             // divider
+            visible: appWindow.walletMode >= 2
             Layout.preferredHeight: 1 * scaleRatio
             Layout.fillWidth: true
             Layout.topMargin: 8 * scaleRatio
@@ -353,7 +355,7 @@ Rectangle {
                     font.bold: true
                     font.family: ArqmaComponents.Style.fontRegular.name
                     font.pixelSize: 16 * scaleRatio
-                    text: qsTr("Change Arqma Wallet Password") + translationManager.emptyString
+                    text: qsTr("Change wallet password") + translationManager.emptyString
                 }
 
                 TextArea {
@@ -367,7 +369,8 @@ Rectangle {
                     textMargin: 0
                     leftPadding: 0
                     topPadding: 0
-                    text: qsTr("Change the password of your Arqma Wallet") + translationManager.emptyString
+                    text: qsTr("Change the password of your wallet.") + translationManager.emptyString
+                    width: parent.width
                     readOnly: true
 
                     MouseArea {
@@ -379,20 +382,20 @@ Rectangle {
 
             ArqmaComponents.StandardButton {
                 small: true
-                text: qsTr("Change Password") + translationManager.emptyString
+                text: qsTr("Change password") + translationManager.emptyString
                 onClicked: {
                     passwordDialog.onAcceptedCallback = function() {
-                        if(appWindow.walletPassword === passwordDialog.password){
-                            newPasswordDialog.open()
-                        } else {
-                            informationPopup.title  = qsTr("Error") + translationManager.emptyString;
-                            informationPopup.text = qsTr("Wrong password");
-                            informationPopup.open()
-                            informationPopup.onCloseCallback = function() {
-                                passwordDialog.open()
-                            }
-                        }
-                    }
+	                    if(appWindow.walletPassword === passwordDialog.password){
+	                        newPasswordDialog.open()
+	                    } else {
+	                        informationPopup.title  = qsTr("Error") + translationManager.emptyString;
+	                        informationPopup.text = qsTr("Wrong password");
+	                        informationPopup.open()
+	                        informationPopup.onCloseCallback = function() {
+	                            passwordDialog.open()
+	                        }
+	                    }
+	                }
                     passwordDialog.onRejectedCallback = null;
                     passwordDialog.open()
                 }

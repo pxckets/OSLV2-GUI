@@ -47,7 +47,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.margins: isMobile ? 17 : 20
+        anchors.margins: (isMobile)? 17 * scaleRatio : 20 * scaleRatio
         anchors.topMargin: 0
         spacing: 10
 
@@ -101,7 +101,7 @@ Rectangle {
                     appWindow.persistentSettings.logLevel = currentIndex;
                }
                Layout.fillWidth: true
-               Layout.preferredWidth: logGrid.width / 2
+               Layout.preferredWidth: logColumn.width / 2
                shadowReleasedColor: "#FF0000"
                shadowPressedColor: "#9E0C0C"
                releasedColor: "#FF7C7C"
@@ -138,79 +138,76 @@ Rectangle {
             text: qsTr("Daemon log") + translationManager.emptyString
         }
 
-        Flickable {
-            id: flickable
+        Item {
+            Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.preferredHeight: 240 * scaleRatio
 
-            TextArea.flickable: TextArea {
-                id : consoleArea
+            Rectangle {
                 anchors.fill: parent
-                color: ArqmaComponents.Style.defaultFontColor
-                selectionColor: ArqmaComponents.Style.dimmedFontColor
-                textFormat: TextEdit.RichText
-                selectByMouse: true
-                selectByKeyboard: true
-                font.family: "Arial"
-                font.pixelSize: 14 * scaleRatio
-                wrapMode: TextEdit.Wrap
-                readOnly: true
-                background: Rectangle {
-                    color: "transparent"
-                    anchors.fill: parent
-                    border.color: Qt.rgba(255, 255, 255, 0.25);
-                    border.width: 1
-                    radius: 4
-                }
-                function logCommand(msg){
-                    msg = log_color(msg, "lime");
-                    consoleArea.append(msg);
-                }
-                function logMessage(msg){
-                    msg = msg.trim();
-                    var color = "white";
-                    if(msg.toLowerCase().indexOf('error') >= 0){
-                        color = "red";
-                    } else if (msg.toLowerCase().indexOf('warning') >= 0){
-                        color = "yellow";
-                    }
-
-                    // format multi-lines
-                    if(msg.split("\n").length >= 2){
-                        msg = msg.split("\n").join('<br>');
-                    }
-
-                    log(msg, color);
-                }
-                function log_color(msg, color){
-                    return "<span style='color: " + color +  ";' >" + msg + "</span>";
-                }
-                function log(msg, color){
-                    var timestamp = Utils.formatDate(new Date(), {
-                        weekday: undefined,
-                        month: "numeric",
-                        timeZoneName: undefined
-                    });
-
-                    var _timestamp = log_color("[" + timestamp + "]", "#FFFFFF");
-                    var _msg = log_color(msg, color);
-                    consoleArea.append(_timestamp + " " + _msg);
-
-                    // scroll to bottom
-                    //if(flickable.contentHeight > content.height){
-                    //    flickable.contentY = flickable.contentHeight;
-                    //}
-                }
+                color: "transparent"
+                border.color: ArqmaComponents.Style.inputBorderColorActive
+                border.width: 1
+                radius: 4
             }
 
-            ScrollBar.vertical: ScrollBar {
-                // TODO: scrollbar always visible is buggy.
-                // QT 5.9 introduces `policy: ScrollBar.AlwaysOn`
-                contentItem.opacity: 1
-                anchors.top: flickable.top
-                anchors.left: flickable.right
-                anchors.leftMargin: 10 * scaleRatio
-                anchors.bottom: flickable.bottom
+            Flickable {
+                id: flickable
+                anchors.fill: parent
+
+                TextArea.flickable: TextArea {
+                    id : consoleArea
+                    color: ArqmaComponents.Style.defaultFontColor
+                    selectionColor: ArqmaComponents.Style.dimmedFontColor
+                    textFormat: TextEdit.RichText
+                    selectByMouse: true
+                    selectByKeyboard: true
+                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.pixelSize: 14 * scaleRatio
+                    wrapMode: TextEdit.Wrap
+                    readOnly: true
+                    function logCommand(msg){
+                        msg = log_color(msg, "lime");
+                        consoleArea.append(msg);
+                    }
+                    function logMessage(msg){
+                        msg = msg.trim();
+                        var color = "white";
+                        if(msg.toLowerCase().indexOf('error') >= 0){
+                            color = "red";
+                        } else if (msg.toLowerCase().indexOf('warning') >= 0){
+                            color = "yellow";
+                        }
+
+                        // format multi-lines
+                        if(msg.split("\n").length >= 2){
+                            msg = msg.split("\n").join('<br>');
+                        }
+
+                        log(msg, color);
+                    }
+                    function log_color(msg, color){
+                        return "<span style='color: " + color +  ";' >" + msg + "</span>";
+                    }
+                    function log(msg, color){
+                        var timestamp = Utils.formatDate(new Date(), {
+                            weekday: undefined,
+                            month: "numeric",
+                            timeZoneName: undefined
+                        });
+
+                        var _timestamp = log_color("[" + timestamp + "]", "#FFFFFF");
+                        var _msg = log_color(msg, color);
+                        consoleArea.append(_timestamp + " " + _msg);
+
+                        // scroll to bottom
+                        //if(flickable.contentHeight > content.height){
+                        //    flickable.contentY = flickable.contentHeight;
+                        //}
+                    }
+                }
+
+                ScrollBar.vertical: ScrollBar {}
             }
         }
 

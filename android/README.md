@@ -6,19 +6,20 @@ Copyright (c) 2014-2018, The Monero Project
 
  - Minimum Android 5.0 (api level 21)
  - Modal dialogs can appear in background giving the feeling that the application is frozen (Work around : turn screen off/on or switch to another app and back)
- - Can't access Menu
 
 ## Build using Docker
 
 # Base environnement
 
-        docker build -f utils/build_scripts/android32.Dockerfile -t arqma:android arqma
+        git clone https://github.com/arqma/arqma.git -b release-v0.2.2 --recursive
+        cd arqma
+        docker build -f utils/build_scripts/android32.Dockerfile -t arqma-android .
+        cd ..
 
 # Build GUI
 
-        docker build -t arqma:gui-android -f android/docker/Dockerfile --build-arg IMAGE_FROM=arqma:android .
-	        docker create -it --name arqma-gui-android arqma:gui-android bash
-	
+        docker build -t android/docker/arqma-gui-android .
+        docker create -it --name arqma-gui-android arqma-gui-android bash
 
 # Get the apk
 

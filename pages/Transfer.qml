@@ -33,6 +33,7 @@ import QtQuick.Dialogs 1.2
 import ArqmaComponents.Clipboard 1.0
 import ArqmaComponents.PendingTransaction 1.0
 import ArqmaComponents.Wallet 1.0
+import ArqmaComponents.NetworkType 1.0
 import "../components"
 import "../components" as ArqmaComponents
 import "." 1.0
@@ -48,6 +49,7 @@ Rectangle {
     color: "transparent"
     property int mixin: 6 // (ring size 7)
     property string warningContent: ""
+    property string sendButtonWarning: ""
     property string startLinkText: qsTr("<style type='text/css'>a {text-decoration: none; color: #171DC0; font-size: 14px;}</style><font size='2'> (</font><a href='#'>Start daemon</a><font size='2'>)</font>") + translationManager.emptyString
     property bool showAdvanced: false
 
@@ -84,6 +86,7 @@ Rectangle {
         addressLine.text = ""
         setPaymentId("");
         amountLine.text = ""
+        root.sendButtonWarning = ""
         setDescription("");
         priorityDropdown.currentIndex = 0
         updatePriorityDropdown()
@@ -104,7 +107,7 @@ Rectangle {
 
     ColumnLayout {
       id: pageRoot
-      anchors.margins: isMobile ? 17 : 20
+      anchors.margins: (isMobile)? 17 * scaleRatio : 20 * scaleRatio
       anchors.topMargin: 40 * scaleRatio
 
       anchors.left: parent.left
@@ -125,7 +128,7 @@ Rectangle {
       }
 
       GridLayout {
-          columns: isMobile ? 1 : 2
+          columns: (isMobile || !(appWindow.walletMode >= 2)) ? 1 : 2
           Layout.fillWidth: true
           columnSpacing: 32
 
@@ -139,8 +142,14 @@ Rectangle {
                   Layout.fillWidth: true
                   Layout.minimumWidth: 200
                   inlineIcon: true
-                  labelText: qsTr("Arqma Amount") + translationManger.emptyString
-                  placeholderText: qsTr("") + translationManager.emptyString
+                  labelText: qsTr("<style type='text/css'>a {text-decoration: none; color: #858585; font-size: 14px;}</style>\
+                                   Arqma Amount <font size='2'>  ( </font> <a href='#'>Change account</a><font size='2'> )</font>")
+                             + translationManager.emptyString
+                  onLabelLinkActivated: {
+                      middlePanel.accountView.selectAndSend = true;
+                      appWindow.showPageRequest("Account")
+                  }
+                  placeholderText: "0.00"
                   width: 100 * scaleRatio
                   fontBold: true
                   inlineButtonText: qsTr("All ARQ") + translationManager.emptyString
@@ -157,13 +166,14 @@ Rectangle {
           }
 
           ColumnLayout {
+              visible: appWindow.walletMode >= 2
               Layout.fillWidth: true
               Label {
                   id: transactionPriority
                   Layout.topMargin: 12 * scaleRatio
                   text: qsTr("Transaction priority") + translationManager.emptyString
                   fontBold: false
-                  fontSize: 16
+                  fontSize: 16 * scaleRatio
               }
               // Note: workaround for translations in listElements
               // ListElement: cannot use script for property value, so
@@ -211,10 +221,21 @@ Rectangle {
                 Address <font size='2'>  ( </font> <a href='#'>Address book</a><font size='2'> )</font>")
                 + translationManager.emptyString
               labelButtonText: qsTr("Resolve") + translationManager.emptyString
-              placeholderText: "ar.. / aRi.. / OpenAlias"
+              placeholderText: {
+                  if(persistentSettings.nettype == NetworkType.MAINNET){
+                      return "ar... / aRi... / OpenAlias";
+                  } else if (persistentSettings.nettype == NetworkType.STAGENET){
+                      return "as... / asi...";
+                  } else if (persistentSettings.nettype == NetworkType.TESTNET){
+                      return "at... / ati...";
+                  }
+              }
               wrapMode: Text.WrapAnywhere
               addressValidation: true
-              onInputLabelLinkActivated: { appWindow.showPageRequest("AddressBook") }
+              onInputLabelLinkActivated: {
+                  middlePanel.addressBookView.selectAndSend = true;
+                  appWindow.showPageRequest("AddressBook");
+              }
               pasteButton: true
               onPaste: function(clipboardText) {
                   const parsed = walletManager.parse_uri_to_object(clipboardText);
@@ -227,27 +248,19 @@ Rectangle {
                      addressLine.text = clipboardText;
                   }
               }
-          }
-
-          StandardButton {
-              id: qrfinderButton
-              rightIcon: "../images/qr.png"
-              anchors.bottom: parent.bottom
-              anchors.bottomMargin: 2
-              visible : appWindow.qrScannerEnabled
-              enabled : visible
-              width: visible ? 44 * scaleRatio : 0
-              onClicked: {
+              inlineButton.icon: "../images/qr.png"
+              inlineButton.buttonColor: ArqmaComponents.Style.heroBlue
+              inlineButton.onClicked: {
                   cameraUi.state = "Capture"
                   cameraUi.qrcode_decoded.connect(updateFromQrCode)
               }
+              inlineButtonVisible : appWindow.qrScannerEnabled && !addressLine.text
           }
       }
 
       StandardButton {
           id: resolveButton
-          anchors.left: parent.left
-          width: 80
+          width: 80 * scaleRatio
           text: qsTr("Resolve") + translationManager.emptyString
           visible: TxUtils.isValidOpenAliasAddress(addressLine.text)
           enabled : visible
@@ -263,7 +276,6 @@ Rectangle {
                               descriptionLine.text = descriptionLine.text ? addressLine.text + " " + descriptionLine.text : addressLine.text
                               descriptionCheckbox.checked = true
                               addressLine.text = parts[1]
-                              addressLine.cursorPosition = 0
                           }
                           else
                               oa_message(qsTr("No valid address found at this OpenAlias address"))
@@ -271,7 +283,6 @@ Rectangle {
                       else if (parts[0] === "false") {
                             if (address_ok) {
                                 addressLine.text = parts[1]
-                                addressLine.cursorPosition = 0
                                 oa_message(qsTr("Address found, but the DNSSEC signatures could not be verified, so this address may be spoofed"))
                             }
                             else
@@ -323,6 +334,8 @@ Rectangle {
       }
 
       ColumnLayout {
+          visible: appWindow.walletMode >= 2
+
           CheckBox {
               id: descriptionCheckbox
               border: false
@@ -347,6 +360,12 @@ Rectangle {
           }
       }
 
+      ArqmaComponents.WarningBox {
+          id: sendButtonWarningBox
+          text: root.sendButtonWarning
+          visible: root.sendButtonWarning !== ""
+      }
+
       RowLayout {
           StandardButton {
               id: sendButton
@@ -354,34 +373,8 @@ Rectangle {
               rightIconInactive: "../images/rightArrowInactive.png"
               Layout.topMargin: 4 * scaleRatio
               text: qsTr("Send") + translationManager.emptyString
-              // Send button is enabled when:
-              enabled : {
-                  // Currently opened wallet is not view-only
-                  if(appWindow.viewOnly){
-                      return false;
-                  }
-
-                  // There is no warning box displayed
-                  if(root.warningContent !== ''){
-                      return false;
-                  }
-
-                  // The transactional information is correct
-                  if(!pageRoot.checkInformation(amountLine.text, addressLine.text, paymentIdLine.text, appWindow.persistentSettings.nettype)){
-                      return false;
-                  }
-
-                  // There are sufficient unlocked funds available
-                  if(parseFloat(amountLine.text) > parseFloat(unlockedBalanceText)){
-                      return false;
-                  }
-
-                  // The amount does not start with a period (example: `.4`)
-                  if(amountLine.text.indexOf('.') === 0){
-                      return false;
-                  }
-
-                  return true;
+              enabled: {
+                updateSendButton()
               }
               onClicked: {
                   console.log("Transfer: paymentClicked")
@@ -427,12 +420,13 @@ Rectangle {
         anchors.top: pageRoot.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.margins: isMobile ? 17 : 20
+        anchors.margins: (isMobile)? 17 * scaleRatio : 20 * scaleRatio
         anchors.topMargin: 32 * scaleRatio
         spacing: 26 * scaleRatio
         enabled: !viewOnly || pageRoot.enabled
 
         RowLayout {
+            visible: appWindow.walletMode >= 2
             CheckBox2 {
                 id: showAdvancedCheckbox
                 checked: persistentSettings.transferShowAdvanced
@@ -444,8 +438,8 @@ Rectangle {
         }
 
         GridLayout {
-            visible: persistentSettings.transferShowAdvanced
-            columns: isMobile ? 2 : 6
+            visible: persistentSettings.transferShowAdvanced && appWindow.walletMode >= 2
+            columns: (isMobile) ? 2 : 6
 
             StandardButton {
                 id: sweepUnmixableButton
@@ -665,9 +659,11 @@ Rectangle {
     //TODO: enable send page when we're connected and daemon is synced
 
     function updateStatus() {
+        var messageNotConnected = qsTr("Wallet is not connected to daemon.");
+        if(appWindow.walletMode >= 2) messageNotConnected += root.startLinkText;
         pageRoot.enabled = true;
         if(typeof currentWallet === "undefined") {
-            root.warningContent = qsTr("Wallet is not connected to daemon.") + root.startLinkText
+            root.warningContent = messageNotConnected;
             return;
         }
 
@@ -679,7 +675,7 @@ Rectangle {
 
         switch (currentWallet.connected()) {
         case Wallet.ConnectionStatus_Disconnected:
-            root.warningContent = qsTr("Wallet is not connected to daemon.") + root.startLinkText
+            root.warningContent = messageNotConnected;
             break
         case Wallet.ConnectionStatus_WrongVersion:
             root.warningContent = qsTr("Connected daemon is not compatible with GUI. \n" +
@@ -687,7 +683,7 @@ Rectangle {
             break
         default:
             if(!appWindow.daemonSynced){
-                root.warningContent = qsTr("Waiting on daemon synchronization to finish")
+                root.warningContent = qsTr("Waiting on daemon synchronization to finish.")
             } else {
                 // everything OK, enable transfer page
                 // Light wallet is always ready
@@ -702,5 +698,35 @@ Rectangle {
         addressLine.text = address
         setPaymentId(paymentId);
         setDescription(description);
+    }
+
+    function updateSendButton(){
+        // reset message
+        root.sendButtonWarning = "";
+
+        // Currently opened wallet is not view-only
+        if(appWindow.viewOnly){
+            root.sendButtonWarning = qsTr("Wallet is view-only and sends are not possible.") + translationManager.emptyString;
+            return false;
+        }
+
+        // There are sufficient unlocked funds available
+        if(parseFloat(amountLine.text) > parseFloat(middlePanel.unlockedBalanceText)){
+            root.sendButtonWarning = qsTr("Amount is more than unlocked balance.") + translationManager.emptyString;
+            return false;
+        }
+
+        // There is no warning box displayed
+        if(root.warningContent !== ""){
+            return false;
+        }
+
+        // The transactional information is correct
+        if(!pageRoot.checkInformation(amountLine.text, addressLine.text, paymentIdLine.text, appWindow.persistentSettings.nettype)){
+            if(amountLine.text && addressLine.text)
+                root.sendButtonWarning = qsTr("Transaction information is incorrect.") + translationManager.emptyString;
+            return false;
+        }
+        return true;
     }
 }

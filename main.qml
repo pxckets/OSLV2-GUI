@@ -40,6 +40,7 @@ import ArqmaComponents.NetworkType 1.0
 
 
 import "components"
+import "components" as ArqmaComponents
 import "wizard"
 import "js/Utils.js" as Utils
 import "js/Windows.js" as Windows
@@ -48,7 +49,13 @@ ApplicationWindow {
     id: appWindow
     title: "Arqma"
 
+    Image {
+        anchors.fill: parent
+        source: "images/middlePanelBg.jpg"
+    }
+
     property var currentItem
+    property bool hideBalanceForced: false
     property bool whatIsEnable: false
     property bool ctrlPressed: false
     property bool rightPanelExpanded: false
@@ -59,7 +66,7 @@ ApplicationWindow {
     property var transactionDescription;
     property var walletPassword
     property bool isNewWallet: false
-    property int restoreHeight:0
+    property int restoreHeight: 0
     property bool daemonSynced: false
     property bool walletSynced: false
     property int maxWindowHeight: (isAndroid || isIOS)? screenHeight : (screenHeight < 900)? 720 : 800;
@@ -72,30 +79,42 @@ ApplicationWindow {
     property bool qrScannerEnabled: (typeof builtWithScanner != "undefined") && builtWithScanner
     property int blocksToSync: 1
     property var isMobile: (appWindow.width > 700 && !isAndroid) ? false : true
+    property bool isMining: false
+    property int walletMode: persistentSettings.walletMode
     property var cameraUi
     property bool remoteNodeConnected: false
     property bool androidCloseTapped: false;
     property int userLastActive;  // epoch
     // Default daemon addresses
-    readonly property string localDaemonAddress : persistentSettings.nettype == NetworkType.MAINNET ? "localhost:19994" : persistentSettings.nettype == NetworkType.TESTNET ? "localhost:29994" : "localhost:39994"
+    readonly property string localDaemonAddress : "localhost:" + getDefaultDaemonRpcPort(persistentSettings.nettype)
     property string currentDaemonAddress;
     property bool startLocalNodeCancelled: false
-    property int estimatedBlockchainSize: 50 // GB
+    property int disconnectedEpoch: 0
+    property int estimatedBlockchainSize: 5 // GB
+    property alias viewState: rootItem.state
+
+    property string remoteNodeService: {
+        // support user-defined remote node aggregators
+        if(persistentSettings.remoteNodeService){
+            var service = persistentSettings.remoteNodeService;
+            if(service.charAt(service.length-1) !== "/")
+                service += "/";
+            return service;
+        }
+
+        return "";
+    }
 
     // true if wallet ever synchronized
     property bool walletInitialized : false
 
+    // Current selected address / subaddress (Receive page)
+    property var current_address
+    property var current_address_label: "Primary"
+    property int current_subaddress_table_index: 0
+    property int current_subaddress_account_table_index: 0
+
     function altKeyReleased() { ctrlPressed = false; }
-
-    function getRemoteNodeList()
-    {
-        if (persistentSettings.nettype == NetworkType.TESTNET)
-            return TestnetRemoteNodeList;
-        if (persistentSettings.nettype == NetworkType.STAGENET)
-            return StagenetRemoteNodeList;
-
-        return MainnetRemoteNodeList;
-    }
 
     function showPageRequest(page) {
         middlePanel.state = page
@@ -119,7 +138,9 @@ ApplicationWindow {
         else if(seq === "Ctrl+I") middlePanel.state = "Sign"
         else if(seq === "Ctrl+G") middlePanel.state = "SharedRingDB"
         else if(seq === "Ctrl+E") middlePanel.state = "Settings"
+        else if(seq === "Ctrl+Y") leftPanel.keysClicked()
         else if(seq === "Ctrl+D") middlePanel.state = "Advanced"
+        else if(seq === "Ctrl+T") middlePanel.state = "Account"
         else if(seq === "Ctrl+Tab" || seq === "Alt+Tab") {
             /*
             if(middlePanel.state === "Transfer") middlePanel.state = "Receive"
@@ -131,7 +152,8 @@ ApplicationWindow {
             else if(middlePanel.state === "Mining") middlePanel.state = "Sign"
             else if(middlePanel.state === "Sign") middlePanel.state = "Settings"
             */
-            if(middlePanel.state === "Settings") middlePanel.state = "Transfer"
+            if(middlePanel.state === "Settings") middlePanel.state = "Account"
+            else if(middlePanel.state === "Account") middlePanel.state = "Transfer"
             else if(middlePanel.state === "Transfer") middlePanel.state = "AddressBook"
             else if(middlePanel.state === "AddressBook") middlePanel.state = "Receive"
             else if(middlePanel.state === "Receive") middlePanel.state = "History"
@@ -159,7 +181,8 @@ ApplicationWindow {
             else if(middlePanel.state === "History") middlePanel.state = "Receive"
             else if(middlePanel.state === "Receive") middlePanel.state = "AddressBook"
             else if(middlePanel.state === "AddressBook") middlePanel.state = "Transfer"
-            else if(middlePanel.state === "Transfer") middlePanel.state = "Settings"
+            else if(middlePanel.state === "Transfer") middlePanel.state = "Account"
+            else if(middlePanel.state === "Account") middlePanel.state = "Settings"
         }
 
         if (middlePanel.state !== "Advanced") updateBalance();
@@ -185,10 +208,12 @@ ApplicationWindow {
         restoreHeight = 0;
         persistentSettings.is_recovering = false
         walletPassword = ""
+        fileDialog.folder = "file://" + ArqmaAccountsDir
         fileDialog.open();
     }
 
     function initialize() {
+        appWindow.viewState = "normal";
         console.log("initializing..")
 
         // Use stored log level
@@ -212,27 +237,22 @@ ApplicationWindow {
             closeWallet();
             currentWallet = undefined
         } else if (!walletInitialized) {
-
             // set page to transfer if not changing daemon
             middlePanel.state = "Transfer";
             leftPanel.selectItem(middlePanel.state)
-
         }
-
 
         // Local daemon settings
         walletManager.setDaemonAddress(localDaemonAddress)
 
-        // enable user inactivity timer
+        // enable timers
         userInActivityTimer.running = true;
+        simpleModeConnectionTimer.running = true;
 
         // wallet already opened with wizard, we just need to initialize it
         if (typeof wizard.m_wallet !== 'undefined') {
             console.log("using wizard wallet")
             //Set restoreHeight
-            if (persistentSettings.restore_height == 0 && persistentSettings.is_recovering_from_device && walletManager.localDaemonSynced()) {
-                persistentSettings.restore_height = walletManager.blockchainHeight() - 1;
-            }
             if(persistentSettings.restore_height > 0){
                 // We store restore height in own variable for performance reasons.
                 restoreHeight = persistentSettings.restore_height
@@ -360,9 +380,12 @@ ApplicationWindow {
     }
 
     function updateBalance() {
+        if (!currentWallet)
+            return;
+
         var balance_unlocked = qsTr("HIDDEN");
         var balance = qsTr("HIDDEN");
-        if(!persistentSettings.hideBalance && currentWallet){
+        if(!hideBalanceForced && !persistentSettings.hideBalance){
             balance_unlocked = walletManager.displayAmount(currentWallet.unlockedBalance(currentWallet.currentSubaddressAccount));
             balance = walletManager.displayAmount(currentWallet.balance(currentWallet.currentSubaddressAccount));
         }
@@ -371,6 +394,9 @@ ApplicationWindow {
         leftPanel.unlockedBalanceText = balance_unlocked;
         middlePanel.balanceText = balance;
         leftPanel.balanceText = balance;
+
+        var accountLabel = currentWallet.getSubaddressLabel(currentWallet.currentSubaddressAccount, 0);
+        leftPanel.balanceLabelText = qsTr("Balance (#%1%2)").arg(currentWallet.currentSubaddressAccount).arg(accountLabel === "" ? "" : (" – " + accountLabel));
     }
 
     function onWalletConnectionStatusChanged(status){
@@ -386,13 +412,15 @@ ApplicationWindow {
         middlePanel.transferView.updatePriorityDropdown();
 
         // If wallet isnt connected and no daemon is running - Ask
-        if(!isMobile && walletManager.isDaemonLocal(appWindow.persistentSettings.daemon_address) && !walletInitialized && status === Wallet.ConnectionStatus_Disconnected && !daemonManager.running(persistentSettings.nettype)){
-            chooseDaemonModalDialog.open();
+        if(!isMobile && appWindow.walletMode >= 2 && walletManager.isDaemonLocal(appWindow.persistentSettings.daemon_address) && !walletInitialized && status === Wallet.ConnectionStatus_Disconnected && !daemonManager.running(persistentSettings.nettype)){
+            daemonManagerDialog.open();
         }
         // initialize transaction history once wallet is initialized first time;
         if (!walletInitialized) {
             currentWallet.history.refresh(currentWallet.currentSubaddressAccount)
             walletInitialized = true
+
+            middlePanel.miningView.update();
         }
     }
 
@@ -407,26 +435,41 @@ ApplicationWindow {
             passwordDialog.onRejectedCallback = function() {
                 walletPassword = "";
                 //appWindow.enableUI(false)
+                wizard.wizardState = "wizardHome";
                 rootItem.state = "wizard";
             }
-            // opening with password but password doesn't match
-            console.error("Error opening wallet with password: ", wallet.errorString);
-            informationPopup.title  = qsTr("Error") + translationManager.emptyString;
-            informationPopup.text = qsTr("Couldn't open wallet: ") + wallet.errorString;
-            informationPopup.icon = StandardIcon.Critical
-            console.log("closing wallet async : " + wallet.address)
-            closeWallet();
-            informationPopup.open()
-            informationPopup.onCloseCallback = function() {
-                passwordDialog.open(walletName)
+            // try to resolve common wallet cache errors automatically
+            switch (wallet.errorString) {
+                case "basic_string::_M_replace_aux":
+                    walletManager.clearWalletCache(wallet.path);
+                    walletPassword = passwordDialog.password;
+                    appWindow.initialize();
+                    console.error("Repairing wallet cache with error: ", wallet.errorString);
+                    appWindow.showStatusMessage(qsTr("Repairing incompatible wallet cache. Resyncing wallet."),6);
+                    return;
+                case "std::bad_alloc":
+                    walletManager.clearWalletCache(wallet.path);
+                    walletPassword = passwordDialog.password;
+                    appWindow.initialize();
+                    console.error("Repairing wallet cache with error: ", wallet.errorString);
+                    appWindow.showStatusMessage(qsTr("Repairing incompatible wallet cache. Resyncing wallet."),6);
+                    return;
+                default:
+                    // opening with password but password doesn't match
+                    console.error("Error opening wallet with password: ", wallet.errorString);
+                    passwordDialog.showError(qsTr("Couldn't open wallet: ") + wallet.errorString);
+                    console.log("closing wallet async : " + wallet.address)
+                    closeWallet();
+                    return;
             }
-            return;
         }
 
         // wallet opened successfully, subscribing for wallet updates
         connectWallet(wallet)
-    }
 
+        // Force switch normal view
+        rootItem.state = "normal";
+    }
 
     function onWalletClosed(walletAddress) {
         console.log(">>> wallet closed: " + walletAddress)
@@ -526,6 +569,9 @@ ApplicationWindow {
         // Pause refresh while starting daemon
         currentWallet.pauseRefresh();
 
+        // Pause simplemode connection timer
+        simpleModeConnectionTimer.stop();
+
         appWindow.showProcessingSplash(qsTr("Waiting for daemon to start..."))
         daemonManager.start(flags, persistentSettings.nettype, persistentSettings.blockchainDataDir, persistentSettings.bootstrapNodeAddress);
         persistentSettings.daemonFlags = flags
@@ -543,6 +589,8 @@ ApplicationWindow {
         currentWallet.connected(true);
         // resume refresh
         currentWallet.startRefresh();
+        // resume simplemode connection timer
+        simpleModeConnectionTimer.start();
     }
     function onDaemonStopped(){
         console.log("daemon stopped");
@@ -877,12 +925,11 @@ ApplicationWindow {
                 informationPopup.text = qsTr("Bad signature");
                 informationPopup.icon = StandardIcon.Critical;
             } else if (received > 0) {
-                received = received / 1e9
                 if (in_pool) {
-                    informationPopup.text = qsTr("This address received %1 Arqma, but the transaction is not yet mined").arg(received);
+                    informationPopup.text = qsTr("This address received %1 Arqma, but the transaction is not yet mined").arg(walletManager.displayAmount(received));
                 }
                 else {
-                    informationPopup.text = qsTr("This address received %1 Arqma, with %2 confirmation(s).").arg(received).arg(confirmations);
+                    informationPopup.text = qsTr("This address received %1 Arqma, with %2 confirmation(s).").arg(walletManager.displayAmount(received)).arg(confirmations);
                 }
             }
             else {
@@ -933,15 +980,18 @@ ApplicationWindow {
 
     // close wallet and show wizard
     function showWizard(){
+        clearArqmaCardLabelText();
         walletInitialized = false;
         closeWallet();
         currentWallet = undefined;
         wizard.restart();
+        wizard.wizardState = "wizardHome";
         rootItem.state = "wizard"
         // reset balance
         leftPanel.balanceText = leftPanel.unlockedBalanceText = walletManager.displayAmount(0);
-        // disable inactivity timer
+        // disable timers
         userInActivityTimer.running = false;
+        simpleModeConnectionTimer.running = false;
     }
 
     function hideMenu() {
@@ -1003,6 +1053,7 @@ ApplicationWindow {
                 initialize(persistentSettings);
             }
             passwordDialog.onRejectedCallback = function() {
+                wizard.wizardState = "wizardHome";
                 rootItem.state = "wizard"
             }
             passwordDialog.open(usefulName(walletPath()))
@@ -1029,9 +1080,10 @@ ApplicationWindow {
         property bool   allow_background_mining : false
         property bool   miningIgnoreBattery : true
         property var    nettype: NetworkType.MAINNET
-        property string daemon_address: nettype == NetworkType.TESTNET ? "localhost:29994" : nettype == NetworkType.STAGENET ? "localhost:39994" : "localhost:19994"
+        property string daemon_address: "localhost:" + getDefaultDaemonRpcPort(nettype)
         property string payment_id
         property int    restore_height : 0
+        property bool   is_trusted_daemon : false
         property bool   is_recovering : false
         property bool   is_recovering_from_device : false
         property bool   customDecorations : true
@@ -1041,16 +1093,20 @@ ApplicationWindow {
         property string daemonUsername: ""
         property string daemonPassword: ""
         property bool transferShowAdvanced: false
+        property bool receiveShowAdvanced: false
         property string blockchainDataDir: ""
         property bool useRemoteNode: false
-        property string remoteNodeAddress: ""
+        property string remoteNodeAddress: "node.supportarqma.com:19994"
         property string bootstrapNodeAddress: ""
+        property string remoteNodeRegion: ""
         property bool segregatePreForkOutputs: true
         property bool keyReuseMitigation2: true
         property int segregationHeight: 0
         property int kdfRounds: 1
         property bool hideBalance: false
         property bool lockOnUserInActivity: true
+        property int walletMode: 2
+        property string remoteNodeService: ""
         property int lockOnUserInActivityInterval: 10  // minutes
     }
 
@@ -1084,12 +1140,7 @@ ApplicationWindow {
                         handleTransactionConfirmed()
                     }
                 } else {
-                    informationPopup.title  = qsTr("Error") + translationManager.emptyString;
-                    informationPopup.text = qsTr("Wrong password");
-                    informationPopup.open()
-                    informationPopup.onCloseCallback = function() {
-                        passwordDialog.open()
-                    }
+                    passwordDialog.showError(qsTr("Wrong password"));
                 }
             }
             passwordDialog.onRejectedCallback = null;
@@ -1117,11 +1168,11 @@ ApplicationWindow {
     //Open Wallet from file
     FileDialog {
         id: fileDialog
-        title: "Please choose a file"
-        folder: "file://" +ArqmaAccountsDir
+        title: qsTr("Please choose a file")
+        folder: "file://" + ArqmaAccountsDir
         nameFilters: [ "Wallet files (*.keys)"]
         sidebarVisible: false
-
+        visible: false
 
         onAccepted: {
             persistentSettings.wallet_path = walletManager.urlToLocalPath(fileDialog.fileUrl)
@@ -1136,7 +1187,8 @@ ApplicationWindow {
                 initialize();
             }
             passwordDialog.onRejectedCallback = function() {
-                console.log("Canceled")
+                console.log("Canceled");
+                wizard.wizardState = "wizardHome";
                 rootItem.state = "wizard";
             }
             passwordDialog.open(usefulName(walletPath()));
@@ -1151,26 +1203,30 @@ ApplicationWindow {
     // Choose blockchain folder
     FileDialog {
         id: blockchainFileDialog
+        property string directory: ""
+        signal changed();
+
         title: "Please choose a folder"
         selectFolder: true
         folder: "file://" + persistentSettings.blockchainDataDir
 
+        onRejected: console.log("data dir selection canceled")
         onAccepted: {
             var dataDir = walletManager.urlToLocalPath(blockchainFileDialog.fileUrl)
             var validator = daemonManager.validateDataDir(dataDir);
-            if(!validator.valid) {
-
+            if(validator.valid) {
+                persistentSettings.blockchainDataDir = dataDir;
+            } else {
                 confirmationDialog.title = qsTr("Warning") + translationManager.emptyString;
                 confirmationDialog.text = "";
                 if(validator.readOnly)
                     confirmationDialog.text  += qsTr("Error: Filesystem is read only") + "\n\n"
-                if(validator.storageAvailable < 20)
+                if(validator.storageAvailable < estimatedBlockchainSize)
                     confirmationDialog.text  += qsTr("Warning: There's only %1 GB available on the device. Blockchain requires ~%2 GB of data.").arg(validator.storageAvailable).arg(estimatedBlockchainSize) + "\n\n"
                 else
                     confirmationDialog.text  += qsTr("Note: There's %1 GB available on the device. Blockchain requires ~%2 GB of data.").arg(validator.storageAvailable).arg(estimatedBlockchainSize) + "\n\n"
                 if(!validator.lmdbExists)
                     confirmationDialog.text  += qsTr("Note: lmdb folder not found. A new folder will be created.") + "\n\n"
-
 
                 confirmationDialog.icon = StandardIcon.Question
                 confirmationDialog.cancelText = qsTr("Cancel")
@@ -1181,24 +1237,14 @@ ApplicationWindow {
                 }
 
                 // Cancel
-                confirmationDialog.onRejectedCallback = function() {
-                };
-
+                confirmationDialog.onRejectedCallback = function() { };
                 confirmationDialog.open()
-            } else {
-                persistentSettings.blockchainDataDir = dataDir
             }
 
+            blockchainFileDialog.directory = blockchainFileDialog.fileUrl;
             delete validator;
-
-
         }
-        onRejected: {
-            console.log("data dir selection canceled")
-        }
-
     }
-
 
     PasswordDialog {
         id: passwordDialog
@@ -1267,11 +1313,6 @@ ApplicationWindow {
 
     }
 
-    ChooseDaemonModalDialog {
-        id: chooseDaemonModalDialog
-    }
-
-
     ProcessingSplash {
         id: splash
         width: appWindow.width / 1.5
@@ -1293,16 +1334,16 @@ ApplicationWindow {
                 PropertyChanges { target: leftPanel; visible: false }
                 PropertyChanges { target: rightPanel; visible: false }
                 PropertyChanges { target: middlePanel; visible: false }
-                PropertyChanges { target: titleBar; basicButtonVisible: false }
                 PropertyChanges { target: wizard; visible: true }
-                PropertyChanges { target: appWindow; width: (screenWidth < 930 || isAndroid || isIOS)? screenWidth : 930; }
+                PropertyChanges { target: appWindow; width: (screenWidth < 969 || isAndroid || isIOS)? screenWidth : 969 } //rightPanelExpanded ? 1269 : 1269 - 300;
                 PropertyChanges { target: appWindow; height: maxWindowHeight; }
                 PropertyChanges { target: resizeArea; visible: true }
-                PropertyChanges { target: titleBar; showMaximizeButton: false }
 //                PropertyChanges { target: frameArea; blocked: true }
-                PropertyChanges { target: titleBar; visible: persistentSettings.customDecorations }
-                PropertyChanges { target: titleBar; title: qsTr("Program setup wizard") + translationManager.emptyString }
                 PropertyChanges { target: mobileHeader; visible: false }
+                PropertyChanges { target: titleBar; basicButtonVisible: false }
+                PropertyChanges { target: titleBar; showMaximizeButton: true }
+                PropertyChanges { target: titleBar; visible: true }
+                PropertyChanges { target: titleBar; title: qsTr("Arqma") + translationManager.emptyString }
             }, State {
                 name: "normal"
                 PropertyChanges { target: leftPanel; visible: isMobile ? false : true }
@@ -1354,7 +1395,7 @@ ApplicationWindow {
             anchors.top: mobileHeader.bottom
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            
+
             onTransferClicked: {
                 middlePanel.state = "Transfer";
                 middlePanel.flickable.contentY = 0;
@@ -1366,6 +1407,15 @@ ApplicationWindow {
 
             onReceiveClicked: {
                 middlePanel.state = "Receive";
+                middlePanel.flickable.contentY = 0;
+                if(isMobile) {
+                    hideMenu();
+                }
+                updateBalance();
+            }
+
+            onMerchantClicked: {
+                middlePanel.state = "Merchant";
                 middlePanel.flickable.contentY = 0;
                 if(isMobile) {
                     hideMenu();
@@ -1437,6 +1487,15 @@ ApplicationWindow {
             }
 
             onKeysClicked: Utils.showSeedPage();
+
+            onAccountClicked: {
+                middlePanel.state = "Account";
+                middlePanel.flickable.contentY = 0;
+                if(isMobile) {
+                    hideMenu();
+                }
+                updateBalance();
+            }
         }
 
         RightPanel {
@@ -1558,17 +1617,19 @@ ApplicationWindow {
 //            }
         }
 
-        WizardMain {
+        WizardController {
             id: wizard
             anchors.fill: parent
             onUseArqmaClicked: {
-                rootItem.state = "normal" // TODO: listen for this state change in appWindow;
+                rootItem.state = "normal";
                 appWindow.initialize();
             }
-            onOpenWalletFromFileClicked: {
-                rootItem.state = "normal" // TODO: listen for this state change in appWindow;
-                appWindow.openWalletFromFile();
-            }
+        }
+
+        WizardLang {
+            id: languageView
+            visible: false
+            anchors.fill: parent
         }
 
         property int minWidth: 326
@@ -1687,7 +1748,7 @@ ApplicationWindow {
                 anchors.horizontalCenter: parent.horizontalCenter
                 y: 6
                 lineHeight: 0.7
-                font.family: "Arial"
+                font.family: ArqmaComponents.Style.fontRegular.name
                 font.pixelSize: 12 * scaleRatio
                 color: "#FFFFFF"
             }
@@ -1696,6 +1757,17 @@ ApplicationWindow {
         Notifier {
             visible:false
             id: notifier
+        }
+    }
+
+    function toggleLanguageView(){
+        middlePanel.visible = !middlePanel.visible;
+        languageView.visible = !languageView.visible
+        resetLanguageFields()
+        // update after changing language from settings page
+        if (persistentSettings.language != wizard.language_language) {
+            persistentSettings.language = wizard.language_language
+            persistentSettings.locale   = wizard.language_locale
         }
     }
 
@@ -1713,6 +1785,50 @@ ApplicationWindow {
         id: userInActivityTimer
         interval: 2000; running: false; repeat: true
         onTriggered: checkInUserActivity()
+    }
+
+    function checkSimpleModeConnection(){
+        // auto-connection mechanism for simple mode
+        if(persistentSettings.nettype != NetworkType.MAINNET) return;
+        if(appWindow.walletMode >= 2) return;
+
+        var disconnected = leftPanel.networkStatus.connected === Wallet.ConnectionStatus_Disconnected;
+        var disconnectedEpoch = appWindow.disconnectedEpoch;
+        if(disconnectedEpoch === 0){
+            appWindow.disconnectedEpoch = Utils.epoch();
+        }
+
+        // disconnected longer than 5 seconds?
+        if(disconnected && disconnectedEpoch > 0 && (Utils.epoch() - disconnectedEpoch) >= 5){
+            // for bootstrap mode, first wait until daemon is killed
+            if(appWindow.walletMode === 1 && appWindow.daemonRunning) {
+                appWindow.stopDaemon();
+                return;
+            }
+
+            // fetch new node list
+            wizard.fetchRemoteNodes(function() {
+                // fetched node, connect
+                if(appWindow.walletMode === 0){
+                    appWindow.connectRemoteNode();
+                } else if(appWindow.walletMode === 1){
+                    appWindow.startDaemon(persistentSettings.daemonFlags);
+                }
+
+                // reset state
+                appWindow.disconnectedEpoch = 0;
+                return;
+            }, function(){
+                appWindow.showStatusMessage(qsTr("Failed to fetch remote nodes from third-party server."), simpleModeConnectionTimer.interval / 1000);
+            });
+        }
+    }
+
+    Timer {
+        // Simple mode connection check timer
+        id: simpleModeConnectionTimer
+        interval: 2000; running: false; repeat: true
+        onTriggered: appWindow.checkSimpleModeConnection()
     }
 
     Rectangle {
@@ -1827,6 +1943,14 @@ ApplicationWindow {
         onTriggered: checkUpdates()
     }
 
+    function titlebarToggleBlue(flag){
+        if(flag !== undefined){
+            titleBar.blue = flag;
+        } else {
+            titleBar.blue = !titleBar.blue;
+        }
+    }
+
     function releaseFocus() {
         // Workaround to release focus from textfield when scrolling (https://bugreports.qt.io/browse/QTBUG-34867)
         if(isAndroid) {
@@ -1836,6 +1960,12 @@ ApplicationWindow {
         }
     }
 
+    // some fields need an extra nudge when changing languages
+    function resetLanguageFields(){
+        clearMoneroCardLabelText()
+        onWalletRefresh()
+    }
+
     function userActivity() {
         // register user activity
         var epoch = Math.floor((new Date).getTime()/1000);
@@ -1843,6 +1973,7 @@ ApplicationWindow {
     }
 
     function checkInUserActivity() {
+        if(rootItem.state !== "normal") return;
         if(!persistentSettings.lockOnUserInActivity) return;
 
         // prompt password after X seconds of inactivity
@@ -1860,6 +1991,30 @@ ApplicationWindow {
 
         passwordDialog.onRejectedCallback = function() { appWindow.showWizard(); }
         passwordDialog.open();
+    }
+
+    function clearArqmaCardLabelText(){
+        leftPanel.minutesToUnlockTxt = qsTr("Unlocked balance")
+        leftPanel.balanceLabelText = qsTr("Balance")
+    }
+
+    function getDefaultDaemonRpcPort(networkType) {
+        switch (networkType) {
+            case NetworkType.STAGENET:
+                return 39994;
+            case NetworkType.TESTNET:
+                return 29994;
+            default:
+                return 19994;
+        }
+    }
+
+    function changeWalletMode(mode){
+        appWindow.walletMode = mode;
+        persistentSettings.walletMode = mode;
+        persistentSettings.useRemoteNode = mode === 0 ? true : false;
+
+        console.log("walletMode changed: " + (mode === 0 ? "simple": mode === 1 ? "simple (bootstrap)" : "Advanced"));
     }
 
     // Daemon console
@@ -1881,4 +2036,8 @@ ApplicationWindow {
         color: "black"
         opacity: 0.8
     }
+
+//    ArqmaComponents.LanguageSidebar {
+//        id: languageSidebar
+//    }
 }

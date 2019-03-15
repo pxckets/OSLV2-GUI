@@ -163,7 +163,7 @@ Rectangle {
                 LineEdit {
                     id: searchLine
                     fontSize: 14 * scaleRatio
-                    inputHeight: 28 * scaleRatio
+                    inputHeight: 36 * scaleRatio
                     borderDisabled: true
                     Layout.fillWidth: true
                     backgroundColor: "#404040"
@@ -384,17 +384,18 @@ Rectangle {
             var written = currentWallet.history.writeCSV(currentWallet.currentSubaddressAccount, dataDir);
 
             if(written !== ""){
-                confirmationDialog.title = qsTr("File Save Success") + translationManager.emptyString;
+                informationPopup.title = qsTr("File Save Success") + translationManager.emptyString;
                 var text = qsTr("CSV file written to: %1").arg(written) + "\n\n"
                 text += qsTr("Tip: Use your favorite spreadsheet software to sort on blockheight.") + "\n\n" + translationManager.emptyString;
-                confirmationDialog.text = text;
-                confirmationDialog.icon = StandardIcon.Information;
+                informationPopup.text = text;
+                informationPopup.icon = StandardIcon.Information;
             } else {
-                confirmationDialog.title = qsTr("Error") + translationManager.emptyString;
-                confirmationDialog.text = qsTr("Error exporting wallet data") + "\n\n" + translationManager.emptyString;
-                confirmationDialog.icon = StandardIcon.Critical;
+                informationPopup.title = qsTr("Error") + translationManager.emptyString;
+                informationPopup.text = qsTr("Error exporting wallet data") + "\n\n" + translationManager.emptyString;
+                informationPopup.icon = StandardIcon.Critical;
             }
-            confirmationDialog.open()
+            informationPopup.onCloseCallback = null;
+            informationPopup.open();
         }
         Component.onCompleted: {
             var _folder = 'file://' + ArqmaAccountsDir;
@@ -418,5 +419,9 @@ Rectangle {
         priorityDropdown.dataModel = priorityModelV5;
         priorityDropdown.currentIndex = 0;
         priorityDropdown.update();
+    }
+
+    function update() {
+            currentWallet.history.refresh(currentWallet.currentSubaddressAccount)
     }
 }

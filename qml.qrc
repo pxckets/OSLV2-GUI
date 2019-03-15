@@ -1,15 +1,17 @@
 <RCC>
     <qresource prefix="/">
+        <file>main.qml</file>
         <file>LeftPanel.qml</file>
         <file>MiddlePanel.qml</file>
         <file>RightPanel.qml</file>
-        <file>main.qml</file>
         <file>version.js</file>
+
+        <file>pages/Account.qml</file>
+        <file>images/plus-in-circle-medium-white.png</file>
 
         <file>components/AddressBookTable.qml</file>
         <file>components/CheckBox.qml</file>
         <file>components/CheckBox2.qml</file>
-        <file>components/ChooseDaemonModalDialog.qml</file>
         <file>components/DaemonConsole.qml</file>
         <file>components/DaemonManagerDialog.qml</file>
         <file>components/DatePicker.qml</file>
@@ -33,7 +35,6 @@
         <file>components/NewPasswordDialog.qml</file>
         <file>components/Notifier.qml</file>
         <file>components/PasswordDialog.qml</file>
-        <file>components/PrivacyLevel.qml</file>
         <file>components/PrivacyLevelSmall.qml</file>
         <file>components/ProcessingSplash.qml</file>
         <file>components/ProgressBar.qml</file>
@@ -47,7 +48,6 @@
         <file>components/Style.qml</file>
         <file>components/TableDropdown.qml</file>
         <file>components/TextBlock.qml</file>
-        <file>components/TickDelegate.qml</file>
         <file>components/TipItem.qml</file>
         <file>components/TitleBar.qml</file>
         <file>components/WarningBox.qml</file>
@@ -82,7 +82,6 @@
         <file>images/deleteIcon.png</file>
         <file>images/arqmaIcon.png</file>
         <file>images/whiteDropIndicator.png</file>
-        <file>images/privacyTick.png</file>
         <file>images/checkedOrangeIcon.png</file>
         <file>images/uncheckedIcon.png</file>
         <file>images/datePicker.png</file>
@@ -106,7 +105,6 @@
         <file>images/createWalletFromDevice.png</file>
         <file>images/openAccount.png</file>
         <file>images/recoverWallet.png</file>
-        <file>images/greyTriangle.png</file>
         <file>images/copyToClipboard.png</file>
         <file>images/menu.png</file>
         <file>images/appicon.ico</file>
@@ -211,26 +209,54 @@
         <file>pages/settings/SettingsInfo.qml</file>
         <file>pages/settings/Navbar.qml</file>
 
-        <file>tabs/TweetsModel.qml</file>
-        <file>tabs/Twitter.qml</file>
-        <file>tabs/tweetSearch.js</file>
-
-        <file>wizard/WizardConfigure.qml</file>
-        <file>wizard/WizardCreateViewOnlyWallet.qml</file>
-        <file>wizard/WizardCreateWallet.qml</file>
-        <file>wizard/WizardCreateWalletFromDevice.qml</file>
+        <file>wizard/WizardAskPassword.qml</file>
+        <file>wizard/WizardController.qml</file>
+        <file>wizard/WizardCreateWallet1.qml</file>
+        <file>wizard/WizardCreateWallet2.qml</file>
+        <file>wizard/WizardCreateWallet3.qml</file>
+        <file>wizard/WizardCreateWallet4.qml</file>
+        <file>wizard/WizardCreateDevice1.qml</file>
         <file>wizard/WizardDaemonSettings.qml</file>
-        <file>wizard/WizardDonation.qml</file>
-        <file>wizard/WizardFinish.qml</file>
-        <file>wizard/WizardMain.qml</file>
-        <file>wizard/WizardManageWalletUI.qml</file>
-        <file>wizard/WizardMemoTextInput.qml</file>
-        <file>wizard/WizardOptions.qml</file>
-        <file>wizard/WizardPassword.qml</file>
-        <file>wizard/WizardPasswordInput.qml</file>
-        <file>wizard/WizardPasswordUI.qml</file>
-        <file>wizard/WizardRecoveryWallet.qml</file>
-        <file>wizard/WizardWelcome.qml</file>
-        <file>wizard/utils.js</file>
+        <file>wizard/WizardHeader.qml</file>
+        <file>wizard/WizardHome.qml</file>
+        <file>wizard/WizardLanguage.qml</file>
+        <file>wizard/WizardLang.qml</file>
+        <file>wizard/WizardNav.qml</file>
+        <file>wizard/WizardWalletInput.qml</file>
+        <file>wizard/WizardRestoreWallet1.qml</file>
+        <file>wizard/WizardRestoreWallet2.qml</file>
+        <file>wizard/WizardRestoreWallet3.qml</file>
+        <file>wizard/WizardRestoreWallet4.qml</file>
+        <file>wizard/WizardSummary.qml</file>
+        <file>wizard/WizardSummaryItem.qml</file>
+        <file>wizard/WizardModeSelection.qml</file>
+        <file>wizard/WizardModeRemoteNodeWarning.qml</file>
+        <file>wizard/WizardModeBootstrap.qml</file>
+        <file>wizard/WizardMenuItem.qml</file>
+        <file>js/Wizard.js</file>
+        <file>components/LanguageSidebar.qml</file>
+        <file>images/world-flags-globe.png</file>
+        <file>images/langFlagGrey.png</file>
+        <file>images/restore-wallet-from-hardware.png</file>
+        <file>images/open-wallet-from-file.png</file>
+        <file>images/restore-wallet.png</file>
+        <file>images/create-wallet.png</file>
+        <file>images/remote-node.png</file>
+        <file>images/local-node.png</file>
+        <file>images/local-node-full.png</file>
+        <file>wizard/WizardNavProgressDot.qml</file>
+        <file>wizard/WizardOpenWallet1.qml</file>
+
+        <file>pages/merchant/Merchant.qml</file>
+        <file>pages/merchant/MerchantCheckbox.qml</file>
+        <file>pages/merchant/MerchantTrackingList.qml</file>
+        <file>images/merchant/arrow_right.png</file>
+        <file>images/merchant/bg.png</file>
+        <file>images/merchant/input_box.png</file>
+
+        <file>fonts/FontAwesome/fontawesome-webfont.ttf</file>
+        <file>fonts/FontAwesome/FontAwesome.qml</file>
+        <file>fonts/FontAwesome/Object.qml</file>
+        <file>fonts/FontAwesome/qmldir</file>
     </qresource>
 </RCC>

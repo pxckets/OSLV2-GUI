@@ -89,7 +89,7 @@ ListView {
             anchors.top: addressLine.bottom
             anchors.left: parent.left
             anchors.leftMargin: 20
-            font.family: "Arial"
+            font.family: ArqmaComponents.Style.fontRegular.name
             font.bold: true
             font.pixelSize: 12
             color: "#444444"
@@ -102,7 +102,7 @@ ListView {
             anchors.left: indexText.right
             anchors.right: parent.right
             anchors.leftMargin: 10
-            font.family: "Arial"
+            font.family: ArqmaComponents.Style.fontRegular.name
             font.bold: true
             font.pixelSize: 12
             color: ArqmaComponents.Style.greyFontColor

@@ -124,8 +124,8 @@
      && test `git rev-parse HEAD` = ${CPPZMQ_HASH} || exit 1 \
      && cp *.hpp /usr/local/include
 
- ARG READLINE_VERSION=7.0
- ARG READLINE_HASH=750d437185286f40a369e1e4f4764eda932b9459b5ec9a731628393dd3d32334
+ ARG READLINE_VERSION=8.0
+ ARG READLINE_HASH=e339f51971478d369f8a053a330a190781acb9864cf4c541060f12078948e461
  RUN set -ex \
      && curl -O https://ftp.gnu.org/gnu/readline/readline-${READLINE_VERSION}.tar.gz \
      && echo "${READLINE_HASH}  readline-${READLINE_VERSION}.tar.gz" | sha256sum -c \
@@ -165,28 +165,27 @@ RUN set -ex \
         python \
         libzbar-dev
 
-# Setup QT in separate steps because its absurdly slow, so we can cache as much work as possible
-ARG QT_VERSION=5.12
-ARG QT_VER=5.12.0
+ # Setup QT in separate steps because its absurdly slow, so we can cache as much work as possible
+ARG QT_VERSION=5.7.1
 RUN set -ex \
-    && wget http://download.qt.io/official_releases/qt/${QT_VERSION}/${QT_VER}/single/qt-everywhere-src-${QT_VER}.tar.xz \
-    && tar xvf qt-everywhere-src-${QT_VER}.tar.xz
+        && curl -O -L https://download.qt.io/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-${QT_VERSION}.7z \
+        && 7z x qt-everywhere-opensource-src-${QT_VERSION}.7z
 
 RUN set -ex \
-    && cd qt-everywhere-src-${QT_VER} \
-    && ./configure -prefix /usr/lib/x86_64-linux-gnu/qt5 -static -nomake tests -nomake examples -opensource -confirm-license -opengl desktop -qt-zlib -qt-libjpeg -qt-libpng -qt-xcb -qt-xkbcommon-x11 -qt-freetype -qt-pcre -qt-harfbuzz -fontconfig
+        && cd qt-everywhere-opensource-src-${QT_VERSION} \
+        && ./configure -prefix /usr/lib/x86_64-linux-gnu/qt5 -static -nomake tests -nomake examples -opensource -confirm-license -opengl desktop -qt-zlib -qt-libjpeg -qt-libpng -qt-xcb -qt-xkbcommon-x11 -qt-freetype -qt-pcre -qt-harfbuzz -fontconfig
 
 RUN set -ex \
-    && cd qt-everywhere-src-${QT_VER} \
-    && make -j${NUM_COMPILE_JOBS} \
-    && make install
+        && cd qt-everywhere-opensource-src-${QT_VERSION} \
+        && make -j${NUM_COMPILE_JOBS} \
+        && make install
 
 ARG QT_DIR=/usr/lib/x86_64-linux-gnu/qt5
 ENV PATH=/usr/lib/x86_64-linux-gnu/qt5/bin:${PATH}
 RUN set -ex \
-    && cd qt-everywhere-src-${QT_VER}/qtdeclarative \
-    && qmake && make -j${NUM_COMPILE_JOBS} \
-    && make install
+        && cd qt-everywhere-opensource-src-${QT_VERSION}/qtdeclarative \
+        && qmake && make -j${NUM_COMPILE_JOBS} \
+        && make install
 
 # I don't know why this is necessary for the GUI and not the daemon, but it works
 ARG ZMQ_INCLUDE_PATH=/usr/local/include/
@@ -241,6 +240,20 @@ RUN set -ex \
     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static --disable-shared \
     && make \
     && make install
+
+# Protobuf
+ ARG PROTOBUF_VERSION=v3.6.1
+ ARG PROTOBUF_HASH=48cb18e5c419ddd23d9badcfe4e9df7bde1979b2
+ RUN set -ex \
+     && git clone https://github.com/protocolbuffers/protobuf -b ${PROTOBUF_VERSION} \
+     && cd protobuf \
+     && test `git rev-parse HEAD` = ${PROTOBUF_HASH} || exit 1 \
+     && git submodule update --init --recursive \
+     && ./autogen.sh \
+     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static --disable-shared \
+     && make \
+     && make install \
+     && ldconfig
 
 
 ADD . /src
