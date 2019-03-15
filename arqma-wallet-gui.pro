@@ -317,12 +317,12 @@ linux {
     }
     # currently Arqma has an issue with "static" build and linunwind-dev,
     # so we link libunwind-dev only for non-Ubuntu distros
-    CONFIG(libunwind_off) {
-        message(Building without libunwind)
-    } else {
-        message(Building with libunwind)
-        LIBS += -Wl,-Bdynamic -lunwind
-    }
+    #CONFIG(libunwind_off) {
+    #    message(Building without libunwind)
+    #} else {
+    #    message(Building with libunwind)
+    #    LIBS += -Wl,-Bdynamic -lunwind
+    #}
 
     QMAKE_LFLAGS += -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack
 }
