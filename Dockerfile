@@ -161,6 +161,7 @@ RUN set -ex \
         libxfixes-dev \
         libxkbcommon-dev \
         libxrender-dev \
+        libjasper-dev \
         p7zip-full \
         python \
         libzbar-dev
