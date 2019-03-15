@@ -108,9 +108,9 @@
      && ldconfig
 
  ARG NCURSES_VERSION=6.1
- ARG READLINE_HASH=750d437185286f40a369e1e4f4764eda932b9459b5ec9a731628393dd3d32334
+ ARG READLINE_HASH=aa057eeeb4a14d470101eff4597d5833dcef5965331be3528c08d99cebaa0d17
  RUN set -ex \
-     && curl -O ftp://ftp.invisible-island.net/ncurses/ncurses-6.1.tar.gz \
+     && curl -O https://ftp.gnu.org/gnu/ncurses/ncurses-${NCURSES_VERSION}.tar.gz \
      && tar -xzf ncurses-${NCURSES_VERSION}.tar.gz \
      && cd ncurses-${NCURSES_VERSION} \
      && CFLAGS="-fPIC" CXXFLAGS="-P -fPIC" ./configure --prefix=/usr/ --enable-termcap --with-termlib \
