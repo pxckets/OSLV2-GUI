@@ -208,6 +208,7 @@
         <file>pages/settings/SettingsLayout.qml</file>
         <file>pages/settings/SettingsInfo.qml</file>
         <file>pages/settings/Navbar.qml</file>
+        <file>pages/ReserveProof.qml</file>
 
         <file>wizard/WizardAskPassword.qml</file>
         <file>wizard/WizardController.qml</file>

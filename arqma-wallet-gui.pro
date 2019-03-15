@@ -106,7 +106,6 @@ SOURCES = *.qml \
           wizard/*js
 }
 
-
 ios:armv7 {
     message("target is armv7")
     LIBS += \
@@ -137,8 +136,6 @@ android {
         -lsodium \
         -leasylogging
 }
-
-
 
 QMAKE_CXXFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security
 QMAKE_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security
@@ -195,7 +192,6 @@ CONFIG(WITH_SCANNER) {
         message("Skipping camera scanner because of Incompatible Qt Version !")
     }
 }
-
 
 # currently we only support x86 build as qt.io only provides prebuilt qt for x86 mingw
 
@@ -305,10 +301,7 @@ linux {
         -llmdb \
         -lsodium \
         -lhidapi-libusb \
-        -lusb-1.0 \
-        -ludev \
         -lcrypto
-
 
     if(!android) {
         LIBS+= \
@@ -317,12 +310,12 @@ linux {
     }
     # currently Arqma has an issue with "static" build and linunwind-dev,
     # so we link libunwind-dev only for non-Ubuntu distros
-    #CONFIG(libunwind_off) {
-    #    message(Building without libunwind)
-    #} else {
-    #    message(Building with libunwind)
-    #    LIBS += -Wl,-Bdynamic -lunwind
-    #}
+    CONFIG(libunwind_off) {
+        message(Building without libunwind)
+    } else {
+        message(Building with libunwind)
+        LIBS += -Wl,-Bdynamic -lunwind
+    }
 
     QMAKE_LFLAGS += -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack
 }
@@ -349,7 +342,6 @@ macx {
         -lssl \
         -lsodium \
         -lcrypto \
-        -lhidapi \
         -ldl
 
     QMAKE_LFLAGS += -pie
