@@ -161,10 +161,8 @@ RUN set -ex \
         libxfixes-dev \
         libxkbcommon-dev \
         libxrender-dev \
-        libjasper-dev \
         p7zip-full \
-        python \
-        libzbar-dev
+        python
 
  # Setup QT in separate steps because its absurdly slow, so we can cache as much work as possible
 ARG QT_VERSION=5.7.1
@@ -256,6 +254,25 @@ RUN set -ex \
      && make install \
      && ldconfig
 
+# ImageMagic
+ ARG IMAGEMAGIC_VERSION=6.9.10-27
+ RUN set -ex \
+     && curl -O -L https://github.com/ImageMagick/ImageMagick6/archive/${IMAGEMAGIC_VERSION}.tar.gz \
+     && tar -xvf ${IMAGEMAGIC_VERSION}.tar.gz \
+     && cd ImageMagick6-${IMAGEMAGIC_VERSION} \
+     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static=yes --with-gnu-ld=yes \
+     && make && make install
+
+# Zbar
+ ARG ZBAR_VERSION=0.10
+ ENV PATH=/usr/lib/x86_64-linux-gnu/qt5/bin:${PATH}
+ RUN set -ex \
+     && curl -O -L https://arqma.com/zbar-${ZBAR_VERSION}.tar.gz \
+     && tar -xvf zbar-${ZBAR_VERSION}.tar.gz \
+     && cd zbar-${ZBAR_VERSION} \
+     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --prefix=/usr --enable-static --disable-video --disable-dependency-tracking --without-qt --without-java --without-gtk --without-python CFLAGS=-DNDEBUG \
+     && make \
+     && make install
 
 ADD . /src
 WORKDIR /src
