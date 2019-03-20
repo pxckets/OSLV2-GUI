@@ -260,7 +260,7 @@ RUN set -ex \
      && curl -O -L https://github.com/ImageMagick/ImageMagick6/archive/${IMAGEMAGIC_VERSION}.tar.gz \
      && tar -xvf ${IMAGEMAGIC_VERSION}.tar.gz \
      && cd ImageMagick6-${IMAGEMAGIC_VERSION} \
-     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static=yes --with-gnu-ld=yes \
+     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static=yes \
      && make && make install
 
 # Zbar
@@ -270,7 +270,7 @@ RUN set -ex \
      && curl -O -L https://arqma.com/zbar-${ZBAR_VERSION}.tar.gz \
      && tar -xvf zbar-${ZBAR_VERSION}.tar.gz \
      && cd zbar-${ZBAR_VERSION} \
-     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --prefix=/usr --enable-static --disable-video --disable-dependency-tracking --without-qt --without-java --without-gtk --without-python CFLAGS=-DNDEBUG \
+     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static --disable-video --without-qt --without-java --without-gtk --without-python CFLAGS=-DNDEBUG \
      && make \
      && make install
 
