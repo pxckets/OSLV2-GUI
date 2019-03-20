@@ -34,7 +34,7 @@ import ArqmaComponents.Clipboard 1.0
 import ArqmaComponents.PendingTransaction 1.0
 import ArqmaComponents.Wallet 1.0
 
-import "../components" as ArqmaComponents
+import "." as ArqmaComponents
 
 
 Rectangle{
@@ -45,48 +45,81 @@ Rectangle{
     color: "transparent"
 
     property string copyValue: ""
+    property string hashValue: ""
     property alias labelHeader: label1.text
     property alias labelValue: label2.text
+    property alias labelHeaderIcon: icon
+    property alias labelHeaderIconImageSource: icon.imageSource
 
-    Text {
-        id: label1
-        anchors.left: parent.left
-        font.family: ArqmaComponents.Style.fontRegular.name
-        font.pixelSize: 14 * scaleRatio
-        text: labelHeader
-        color: ArqmaComponents.Style.dimmedFontColor
-    }
+    ColumnLayout {
+        Layout.fillWidth: true
+        spacing: 2 * scaleRatio
 
-    Text {
-        id: label2
-        anchors.left: parent.left
-        anchors.top: label1.bottom
-        font.family: ArqmaComponents.Style.fontRegular.name
-        font.pixelSize: 14 * scaleRatio
-        text: labelValue
-        color: ArqmaComponents.Style.dimmedFontColor
-    }
+        RowLayout {
+            Layout.fillWidth: true
 
-    // hover effect / copy value
-    MouseArea {
-        visible: copyValue !== ""
-        hoverEnabled: true
-        anchors.fill: parent
-        cursorShape: Qt.PointingHandCursor
-        onEntered: {
-            label1.color = ArqmaComponents.Style.defaultFontColor;
-            label2.color = ArqmaComponents.Style.defaultFontColor;
-        }
-        onExited: {
-            label1.color = ArqmaComponents.Style.dimmedFontColor;
-            label2.color = ArqmaComponents.Style.dimmedFontColor;
-        }
-        onClicked: {
-            if(copyValue){
-                console.log("Copied to clipboard");
-                clipboard.setText(copyValue);
-                appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+            Text {
+                id: label1
+                font.family: ArqmaComponents.Style.fontRegular.name
+                font.pixelSize: 14 * scaleRatio
+                text: labelHeader
+                color: ArqmaComponents.Style.dimmedFontColor
+            }
+
+            ArqmaComponents.IconButton {
+                id: icon
+                visible: imageSource !== ""
+                Layout.leftMargin: 8 * scaleRatio
+                width: image.width
+                height: image.height
+
+                onClicked: {
+                        editDescription(hashValue);
+                }
             }
         }
+
+        Text {
+            id: label2
+            font.family: ArqmaComponents.Style.fontRegular.name
+            font.pixelSize: 14 * scaleRatio
+            text: labelValue
+            color: ArqmaComponents.Style.dimmedFontColor
+
+            MouseArea {
+                hoverEnabled: true
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+
+                onEntered: {
+                    label1.color = ArqmaComponents.Style.defaultFontColor;
+                    label2.color = ArqmaComponents.Style.defaultFontColor;
+                }
+
+                onExited: {
+                    label1.color = ArqmaComponents.Style.dimmedFontColor;
+                    label2.color = ArqmaComponents.Style.dimmedFontColor;
+                }
+
+                onClicked: {
+                    if(copyValue){
+                        console.log("Copied to clipboard");
+                        clipboard.setText(copyValue);
+                        appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+                    }
+                }
+            }
+        }
+    }
+
+    function editDescription(_hash){
+        inputDialog.labelText = qsTr("Set description:") + translationManager.emptyString;
+        inputDialog.onAcceptedCallback = function() {
+            appWindow.currentWallet.setUserNote(_hash, inputDialog.inputText);
+            appWindow.showStatusMessage(qsTr("Updated description."),3);
+            middlePanel.historyView.update();
+        }
+        inputDialog.onRejectedCallback = null;
+        inputDialog.open()
     }
 }

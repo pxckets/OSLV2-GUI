@@ -32,10 +32,11 @@ import QtQuick.Controls.Styles 1.2
 import QtQuick 2.7
 import QtQuick.Layouts 1.1
 
+import "../js/Utils.js" as Utils
 import "../components" as ArqmaComponents
 
 GridLayout {
-    columns: isMobile ? 1 : 2
+    columns: (isMobile) ? 1 : 2
     columnSpacing: 32
     id: root
     property alias daemonAddrText: daemonAddr.text
@@ -52,15 +53,28 @@ GridLayout {
     property real placeholderOpacity: 0.25
 
     property string lineEditBackgroundColor: "white"
+    property string lineEditBorderColor: ""
     property string lineEditFontColor: "black"
     property int lineEditFontSize: 18 * scaleRatio
     property int labelFontSize: 16 * scaleRatio
     property bool lineEditFontBold: true
 
     signal editingFinished()
+    signal textChanged()
+
+    function isValid() {
+        return daemonAddr.text.trim().length > 0 && daemonPort.acceptableInput
+    }
 
     function getAddress() {
-        return daemonAddr.text.trim() + ":" + daemonPort.text.trim()
+        var addr = daemonAddr.text.trim();
+        var port = daemonPort.text.trim();
+
+        // validation
+        if(addr === "" || addr.length < 2) return "";
+        if(!Utils.isNumeric(port)) return "";
+
+        return addr + ":" + port;
     }
 
     LineEdit {
@@ -78,6 +92,7 @@ GridLayout {
         fontBold: lineEditFontBold
         fontSize: lineEditFontSize
         onEditingFinished: root.editingFinished()
+        onTextChanged: root.textChanged()
     }
 
     LineEdit {
@@ -94,7 +109,9 @@ GridLayout {
         fontColor: lineEditFontColor
         fontBold: lineEditFontBold
         fontSize: lineEditFontSize
+        validator: IntValidator{bottom: 1; top: 65535;}
 
         onEditingFinished: root.editingFinished()
+        onTextChanged: root.textChanged()
     }
 }

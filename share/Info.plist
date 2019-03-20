@@ -10,7 +10,7 @@
 
   <key>NSHighResolutionCapable</key>
   <true/>
-  
+
   <key>CFBundleIconFile</key>
   <string>appicon.icns</string>
 
@@ -22,7 +22,7 @@
 
   <key>CFBundleExecutable</key>
   <string>arqma-wallet-gui</string>
-  
+
   <key>CFBundleName</key>
   <string>Arqma GUI iWallet</string>
 
@@ -31,5 +31,8 @@
 
   <key>NSSupportsAutomaticGraphicsSwitching</key>
   <true/>
+
+  <key>NSRequiresAquaSystemAppearance</key>
+  <string>True</string>
 </dict>
 </plist>

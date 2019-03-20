@@ -36,12 +36,18 @@ ColumnLayout {
     id: item
 
     Layout.fillWidth: true
-    Layout.preferredHeight: childrenRect.height
 
     property alias text: input.text
+    property alias textHorizontalAlignment: input.horizontalAlignment
     property alias labelText: inputLabel.text
     property alias labelButtonText: labelButton.text
     property alias placeholderText: placeholderLabel.text
+
+    property int inputPaddingLeft: 10 * scaleRatio
+    property int inputPaddingRight: 10 * scaleRatio
+    property int inputPaddingTop: 10 * scaleRatio
+    property int inputPaddingBottom: 10 * scaleRatio
+    property int inputRadius: 4
 
     property bool placeholderCenter: false
     property string placeholderFontFamily: ArqmaComponents.Style.fontRegular.name
@@ -83,6 +89,9 @@ ColumnLayout {
     property var wrapMode: Text.NoWrap
     property alias addressValidation: input.addressValidation
     property string backgroundColor: "" // mock
+
+    property alias inlineButton: inlineButtonId
+    property bool inlineButtonVisible: false
 
     signal labelButtonClicked();
     signal inputLabelLinkActivated();
@@ -150,10 +159,13 @@ ColumnLayout {
         id: input
         readOnly: false
         addressValidation: false
-        anchors.top: item.showingHeader ? inputLabelRect.bottom : item.top
         Layout.fillWidth: true
-        topPadding: 10 * scaleRatio
-        bottomPadding: 10 * scaleRatio
+
+        leftPadding: item.inputPaddingLeft
+        rightPadding: item.inputPaddingRight
+        topPadding: item.inputPaddingTop
+        bottomPadding: item.inputPaddingBottom
+
         wrapMode: item.wrapMode
         fontSize: item.fontSize
         fontBold: item.fontBold
@@ -181,8 +193,18 @@ ColumnLayout {
             color: "transparent"
             border.width: 1
             border.color: item.borderColor
+            radius: item.inputRadius
             anchors.fill: parent
             visible: !item.borderDisabled
+        }
+
+        ArqmaComponents.InlineButton {
+            id: inlineButtonId
+            visible: (inlineButtonId.text || inlineButtonId.icon) && inlineButtonVisible ? true : false
+            anchors.right: parent.right
+            anchors.rightMargin: 8 * scaleRatio
+            anchors.top: parent.top
+            anchors.topMargin: 4 * scaleRatio
         }
     }
 }

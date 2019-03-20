@@ -43,6 +43,7 @@ Item {
     property string placeholderColor: ArqmaComponents.Style.defaultFontColor
     property real placeholderOpacity: 0.25
 
+    property alias acceptableInput: input.acceptableInput
     property alias validator: input.validator
     property alias readOnly : input.readOnly
     property alias cursorPosition: input.cursorPosition
@@ -54,7 +55,9 @@ Item {
 
     property bool borderDisabled: false
     property string borderColor: {
-        if(input.activeFocus){
+        if(error && input.text !== ""){
+            return ArqmaComponents.Style.inputBorderColorInvalid;
+        } else if(input.activeFocus){
             return ArqmaComponents.Style.heroBlue;
         } else {
             return ArqmaComponents.Style.inputBorderColorInActive;
@@ -210,8 +213,6 @@ Item {
             visible: item.inlineButtonText ? true : false
             anchors.right: parent.right
             anchors.rightMargin: 8 * scaleRatio
-            anchors.top: parent.top
-            anchors.topMargin: 6 * scaleRatio
         }
     }
 }

@@ -36,7 +36,8 @@
 #include <QObject>
 #include <QDesktopWidget>
 #include <QScreen>
-#include <QFileInfo>
+#include <QRegExp>
+#include <QThread>
 #include "clipboardAdapter.h"
 #include "filter.h"
 #include "oscursor.h"
@@ -55,6 +56,8 @@
 #include "model/AddressBookModel.h"
 #include "Subaddress.h"
 #include "model/SubaddressModel.h"
+#include "SubaddressAccount.h"
+#include "model/SubaddressAccountModel.h"
 #include "wallet/api/wallet2_api.h"
 #include "Logger.h"
 #include "MainApp.h"
@@ -72,36 +75,6 @@ bool isIOS = false;
 bool isAndroid = false;
 bool isWindows = false;
 bool isDesktop = false;
-
-static QStringList loadOrCreateDefaultRemoteNodesFromSettings(QSettings *settings, NetworkType::Type nettype)
-{
-    char const mainnet_group_id[]  = "MainnetDefaultRemoteNodes";
-    char const stagenet_group_id[] = "StagenetDefaultRemoteNodes";
-    char const testnet_group_id[]  = "TestnetDefaultRemoteNodes";
-
-    char const *group_id = mainnet_group_id;
-    if (nettype == NetworkType::Type::TESTNET)
-        group_id = testnet_group_id;
-    else if (nettype == NetworkType::Type::STAGENET)
-        group_id = stagenet_group_id;
-
-    char const remoteNodeArrayId[] = "RemoteNodes";
-
-    settings->beginGroup(group_id);
-    int remoteNodeArrayLen = settings->beginReadArray(remoteNodeArrayId);
-    QStringList result;
-    result.reserve(remoteNodeArrayLen);
-    for (int i = 0; i < remoteNodeArrayLen; ++i)
-    {
-        settings->setArrayIndex(i);
-        QString const fullAddress = settings->value("url").toString() + ":" + settings->value("port").toString();
-        result.push_back(fullAddress);
-    }
-    settings->endArray();
-    settings->endGroup();
-
-    return result;
-}
 
 int main(int argc, char *argv[])
 {
@@ -125,10 +98,10 @@ int main(int argc, char *argv[])
 #endif
 
   // Enable high DPI scaling on windows & linux
-#if !defined(Q_OS_ANDROID) && QT_VERSION >= 0x050600
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    qDebug() << "High DPI auto scaling - enabled";
-#endif
+//#if !defined(Q_OS_ANDROID) && QT_VERSION >= 0x050600
+//    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+//    qDebug() << "High DPI auto scaling - enabled";
+//#endif
 
     MainApp app(argc, argv);
 
@@ -165,16 +138,31 @@ int main(int argc, char *argv[])
 
     // screen settings
     // Mobile is designed on 128dpi
-    qreal ref_dpi = 300;
+    qreal ref_dpi = 128;
     QRect geo = QApplication::desktop()->availableGeometry();
     QRect rect = QGuiApplication::primaryScreen()->geometry();
     qreal dpi = QGuiApplication::primaryScreen()->logicalDotsPerInch();
     qreal physicalDpi = QGuiApplication::primaryScreen()->physicalDotsPerInch();
     qreal calculated_ratio = physicalDpi/ref_dpi;
 
-    qWarning().nospace() << "Qt:" << QT_VERSION_STR << " | screen: " << rect.width()
-                         << "x" << rect.height() << " - dpi: " << dpi << " - ratio:"
-                         << calculated_ratio;
+    QString GUI_VERSION = "-";
+    QFile f(":/version.js");
+    if(!f.open(QFile::ReadOnly)) {
+        qWarning() << "Could not read qrc:///version.js";
+    } else {
+        QByteArray contents = f.readAll();
+        f.close();
+
+        QRegularExpression re("var GUI_VERSION = \"(.*)\"");
+        QRegularExpressionMatch version_match = re.match(contents);
+        if (version_match.hasMatch()) {
+            GUI_VERSION = version_match.captured(1);  // "v0.13.0.3"
+        }
+    }
+
+    qWarning().nospace().noquote() << "Qt:" << QT_VERSION_STR << " GUI:" << GUI_VERSION
+                                   << " | screen: " << rect.width() << "x" << rect.height()
+                                   << " - dpi: " << dpi << " - ratio:" << calculated_ratio;
 
 
     // registering types for QML
@@ -224,6 +212,12 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<Subaddress>("ArqmaComponents.Subaddress", 1, 0, "Subaddress",
                                                         "Subaddress can't be instantiated directly");
 
+    qmlRegisterUncreatableType<SubaddressAccountModel>("ArqmaComponents.SubaddressAccountModel", 1, 0, "SubaddressAccountModel",
+                                                            "SubaddressAccountModel can't be instantiated directly");
+
+    qmlRegisterUncreatableType<SubaddressAccount>("ArqmaComponents.SubaddressAccount", 1, 0, "SubaddressAccount",
+                                                        "SubaddressAccount can't be instantiated directly");
+
     qRegisterMetaType<PendingTransaction::Priority>();
     qRegisterMetaType<TransactionInfo::Direction>();
     qRegisterMetaType<TransactionHistoryModel::TransactionInfoRole>();
@@ -241,6 +235,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("globalCursor", &cursor);
     OSHelper osHelper;
     engine.rootContext()->setContextProperty("oshelper", &osHelper);
+
+    engine.addImportPath(":/fonts");
 
     engine.rootContext()->setContextProperty("walletManager", WalletManager::instance());
 
@@ -306,6 +302,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("defaultAccountName", accountName);
     engine.rootContext()->setContextProperty("applicationDirectory", QApplication::applicationDirPath());
+    engine.rootContext()->setContextProperty("idealThreadCount", QThread::idealThreadCount());
 
     bool builtWithScanner = false;
 #ifdef WITH_SCANNER
@@ -345,19 +342,6 @@ int main(int argc, char *argv[])
     QObject::connect(eventFilter, SIGNAL(mousePressed(QVariant,QVariant,QVariant)), rootObject, SLOT(mousePressed(QVariant,QVariant,QVariant)));
     QObject::connect(eventFilter, SIGNAL(mouseReleased(QVariant,QVariant,QVariant)), rootObject, SLOT(mouseReleased(QVariant,QVariant,QVariant)));
     QObject::connect(eventFilter, SIGNAL(userActivity()), rootObject, SLOT(userActivity()));
-
-    {
-         QString const fullSettingsPath = app.applicationDirPath() + "/arqma-nodes.ini";
-         QSettings settings(fullSettingsPath, QSettings::IniFormat);
-
-         QStringList MainnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::MAINNET);
-         QStringList TestnetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::TESTNET);
-         QStringList StagenetRemoteNodeList = loadOrCreateDefaultRemoteNodesFromSettings(&settings, NetworkType::Type::STAGENET);
-         engine.rootContext()->setContextProperty("MainnetRemoteNodeList", QVariant::fromValue(MainnetRemoteNodeList));
-         engine.rootContext()->setContextProperty("TestnetRemoteNodeList", QVariant::fromValue(TestnetRemoteNodeList));
-         engine.rootContext()->setContextProperty("StagenetRemoteNodeList", QVariant::fromValue(StagenetRemoteNodeList));
-     }
-
 
     return app.exec();
 }

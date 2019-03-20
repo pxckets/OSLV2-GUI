@@ -12,6 +12,7 @@ function destinationsToAddress(destinations){
 }
 
 function addressTruncate(address, range){
+    if(typeof(address) === "undefined") return;
     if(typeof(range) === "undefined") range = 8;
     return address.substring(0, range) + "..." + address.substring(address.length-range);
 }
@@ -63,4 +64,15 @@ function isValidOpenAliasAddress(address) {
         return false
     // we can get an awful lot of valid domains, including non ASCII chars... accept anything
     return true
+}
+
+function makeQRCodeString(addr, amount) {
+    var ARQ_URI_SCHEME = "arqma:"
+    var ARQ_AMOUNT = "tx_amount"
+    var qrCodeString =""
+    qrCodeString += (ARQ_URI_SCHEME + addr)
+    if (amount !== undefined && amount !== ""){
+      qrCodeString += ("?" + ARQ_AMOUNT + "=" + amount)
+    }
+    return qrCodeString
 }

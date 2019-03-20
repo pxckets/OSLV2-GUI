@@ -29,6 +29,8 @@
 import QtQuick 2.2
 import QtQuick.Window 2.1
 
+import "."
+
 Window {
     property alias text: content.text
     property alias containsMouse: tipArea.containsMouse
@@ -63,7 +65,7 @@ Window {
             anchors.horizontalCenter: parent.horizontalCenter
             y: 6
             lineHeight: 0.7
-            font.family: "Arial"
+            font.family: Style.fontRegular.name
             font.pixelSize: 12
             color: "#FFFFFF"
         }

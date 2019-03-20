@@ -29,7 +29,7 @@
 
 
 import QtQml 2.0
-import QtQuick 2.7
+import QtQuick 2.2
 import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
@@ -39,7 +39,8 @@ import ArqmaComponents.Wallet 1.0
 import "components" as ArqmaComponents
 import "./pages"
 import "./pages/settings"
-import "./components"
+import "./pages/merchant"
+import "components" as ArqmaComponents
 
 Rectangle {
     id: root
@@ -58,7 +59,9 @@ Rectangle {
 
     property Transfer transferView: Transfer { }
     property Receive receiveView: Receive { }
+    property Merchant merchantView: Merchant { }
     property TxKey txkeyView: TxKey { }
+    property ReserveProof reserveView: ReserveProof { }
     property SharedRingDB sharedringdbView: SharedRingDB { }
     property History historyView: History { }
     property Sign signView: Sign { }
@@ -66,7 +69,7 @@ Rectangle {
     property Mining miningView: Mining { }
     property AddressBook addressBookView: AddressBook { }
     property Keys keysView: Keys { }
-
+    property Account accountView: Account { }
 
     signal paymentClicked(string address, string paymentId, string amount, int mixinCount, int priority, string description)
     signal sweepUnmixableClicked()
@@ -74,12 +77,16 @@ Rectangle {
     signal getProofClicked(string txid, string address, string message);
     signal checkProofClicked(string txid, string address, string message, string signature);
 
+    Rectangle {
+        visible: currentView === merchantView
+        color: ArqmaComponents.Style.darkTurquoise
+        anchors.fill: parent
+    }
+
     Image {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        source: "../images/middlePanelBg.jpg"
+        anchors.fill: parent
+        visible: currentView !== merchantView
+        source: "images/middlePanelBg.jpg"
     }
 
     onCurrentViewChanged: {
@@ -123,8 +130,16 @@ Rectangle {
                PropertyChanges { target: root; currentView: receiveView }
                PropertyChanges { target: mainFlickable; contentHeight: receiveView.receiveHeight + 100 * scaleRatio }
             }, State {
+               name: "Merchant"
+               PropertyChanges { target: root; currentView: merchantView }
+               PropertyChanges { target: mainFlickable; contentHeight: merchantView.merchantHeight + 100 }
+            }, State {
                name: "TxKey"
                PropertyChanges { target: root; currentView: txkeyView }
+               PropertyChanges { target: mainFlickable; contentHeight: 1200 * scaleRatio  }
+            }, State {
+               name: "ReserveProof"
+               PropertyChanges { target: root; currentView: reserveView }
                PropertyChanges { target: mainFlickable; contentHeight: 1200 * scaleRatio  }
             }, State {
                name: "SharedRingDB"
@@ -145,30 +160,39 @@ Rectangle {
             }, State {
                name: "Mining"
                PropertyChanges { target: root; currentView: miningView }
-               PropertyChanges { target: mainFlickable; contentHeight: minHeight  }
+               PropertyChanges { target: mainFlickable; contentHeight: 700 * scaleRatio}
             }, State {
                name: "Keys"
                PropertyChanges { target: root; currentView: keysView }
                PropertyChanges { target: mainFlickable; contentHeight: keysView.keysHeight }
+            }, State {
+                  name: "Account"
+                  PropertyChanges { target: root; currentView: accountView }
+                  PropertyChanges { target: mainFlickable; contentHeight: minHeight }
             }
         ]
 
     // color stripe at the top
     Row {
         id: styledRow
+        visible: currentView !== merchantView
         height: 4
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
         z: parent.z + 1
 
-        Rectangle { height: 4; width: parent.width / 5; color: Style.heroBlue }
+        Rectangle { height: 4; width: parent.width / 5; color: ArqmaComponents.Style.heroBlue }
+        Rectangle { height: 4; width: parent.width / 5; color: ArqmaComponents.Style.infoRed }
+        Rectangle { height: 4; width: parent.width / 5; color: ArqmaComponents.Style.heroBlue }
+        Rectangle { height: 4; width: parent.width / 5; color: ArqmaComponents.Style.infoRed }
+        Rectangle { height: 4; width: parent.width / 5; color: ArqmaComponents.Style.heroBlue }
     }
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 18
-        anchors.topMargin: appWindow.persistentSettings.customDecorations ? 50 : 0
+        anchors.margins: currentView !== merchantView ? 20 * scaleRatio : 0
+        anchors.topMargin: appWindow.persistentSettings.customDecorations ? 50 * scaleRatio : 0
         spacing: 0
 
         Flickable {
@@ -182,7 +206,9 @@ Rectangle {
                 anchors.left: parent.right
                 anchors.leftMargin: 3
                 anchors.top: parent.top
+                anchors.topMargin: 4
                 anchors.bottom: parent.bottom
+                anchors.bottomMargin: persistentSettings.customDecorations ? 4 : 0
             }
 
             onFlickingChanged: {

@@ -16,6 +16,9 @@ QtObject {
     property string lightBlue: "#1E6BAC"
     property string lightBlueHovered: "#1e50aa"
 
+    property string blue: lightBlue
+    property string white: "white"
+
     property string darkTurquoise: "#00207C"
     property string darkNavy: "#00143A"
 
@@ -23,12 +26,15 @@ QtObject {
 
     property string backgroundColor: "#1A1A1A"
 
+    property string errorColor: infoRed
+
     property string defaultFontColor: "white"
     property string dimmedFontColor: "#BBBBBB"
     property string inputBoxBackground: "black"
     property string inputBoxBackgroundError: "#FFDDDD"
     property string inputBoxColor: "white"
     property string greyFontColor: grey
+    property string lightGreyFontColor: "#DFDFDF"
 
     property string legacy_placeholderFontColor: "#BABABA"
     property string inputBorderColorActive: Qt.rgba(255, 255, 255, 0.38)

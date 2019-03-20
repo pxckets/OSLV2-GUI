@@ -28,7 +28,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
-import "../components"
+import "."
 
 Item {
     id: item
@@ -89,7 +89,7 @@ Item {
 
         Text {
             anchors.verticalCenter: parent.verticalCenter
-            font.family: "Arial"
+            font.family: Style.fontRegular.name
             font.pixelSize: 15
             color: Style.defaultFontColor
             x: ruler.x + (ruler.positions[0] !== undefined ? ruler.positions[0].currentX - 3 : 0) - width
@@ -98,7 +98,7 @@ Item {
 
         Text {
             anchors.verticalCenter: parent.verticalCenter
-            font.family: "Arial"
+            font.family: Style.fontRegular.name
             font.pixelSize: 15
             color: Style.defaultFontColor
             x: ruler.x + (ruler.positions[4] !== undefined ? ruler.positions[4].currentX - 3 : 0) - width
@@ -107,7 +107,7 @@ Item {
 
         Text {
             anchors.verticalCenter: parent.verticalCenter
-            font.family: "Arial"
+            font.family: Style.fontRegular.name
             font.pixelSize: 15
             color: Style.defaultFontColor
             x: ruler.x + (ruler.positions[13] !== undefined ? ruler.positions[13].currentX - 3 : 0) - width

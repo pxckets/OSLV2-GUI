@@ -7,6 +7,7 @@ import "." as ArqmaComponents
 Rectangle {
     id: root
     property alias text: content.text
+    property alias textColor: content.color
     property int fontSize: 15 * scaleRatio
 
     Layout.fillWidth: true
@@ -27,12 +28,12 @@ Rectangle {
 
         Image {
             Layout.alignment: Qt.AlignVCenter
-            Layout.preferredHeight: 33
-            Layout.preferredWidth: 33
-            Layout.rightMargin: 14
-            Layout.leftMargin: 14
-            Layout.topMargin: 12
-            Layout.bottomMargin: 12
+            Layout.preferredHeight: 33 * scaleRatio
+            Layout.preferredWidth: 33 * scaleRatio
+            Layout.rightMargin: 12 * scaleRatio
+            Layout.leftMargin: 18 * scaleRatio
+            Layout.topMargin: 12 * scaleRatio
+            Layout.bottomMargin: 12 * scaleRatio
             source: "../images/warning.png"
         }
 
@@ -43,21 +44,19 @@ Rectangle {
             font.family: ArqmaComponents.Style.fontRegular.name
             font.pixelSize: root.fontSize
             horizontalAlignment: TextInput.AlignLeft
-            selectByMouse: false
+            selectByMouse: true
             textFormat: Text.RichText
             wrapMode: Text.WordWrap
             textMargin: 0
-            leftPadding: 0
-            topPadding: 6
+            leftPadding: 4 * scaleRatio
+            rightPadding: 18 * scaleRatio
+            topPadding: 10 * scaleRatio
+            bottomPadding: 10 * scaleRatio
             readOnly: true
             onLinkActivated: root.linkActivated();
 
-            // @TODO: Legacy. Remove after Qt 5.8.
-            // https://stackoverflow.com/questions/41990013
-            MouseArea {
-                anchors.fill: parent
-                enabled: false
-            }
+            selectionColor: ArqmaComponents.Style.dimmedFontColor
+            selectedTextColor: ArqmaComponents.Style.defaultFontColor
         }
     }
 }

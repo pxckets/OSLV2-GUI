@@ -9,7 +9,7 @@ AppName=Arqma GUI Wallet
 ; Thus it's important to keep this stable over releases
 ; With a different "AppName" InnoSetup would treat a mere update as a completely new application and thus mess up
 
-AppVersion=0.2.2
+AppVersion=0.3.2
 DefaultDirName={pf}\Arqma GUI Wallet
 DefaultGroupName=Arqma GUI Wallet
 UninstallDisplayIcon={app}\arqma-wallet-gui.exe
@@ -98,6 +98,8 @@ Source: "bin\arqma-blockchain-usage.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\arqma-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\arqma-blockchain-ancestry.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\arqma-blockchain-depth.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\arqma-blockchain-prune.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\arqma-blockchain-prune-known-spent-data.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Various .qm files for translating the wallet UI "on the fly" into all supported languages
 Source: "bin\translations\*"; DestDir: "{app}\translations"; Flags: recursesubdirs ignoreversion
@@ -146,21 +148,21 @@ Source: "bin\QtQuick\*"; DestDir: "{app}\QtQuick"; Flags: recursesubdirs ignorev
 Source: "bin\QtQuick.2\*"; DestDir: "{app}\QtQuick.2"; Flags: recursesubdirs ignoreversion
 
 ; Qt Quick 2D Renderer fallback for systems / environments with "low-level graphics" i.e. without 3D support
-;Source: "bin\scenegraph\*"; DestDir: "{app}\scenegraph"; Flags: recursesubdirs ignoreversion
-;Source: "bin\start-low-graphics-mode.bat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\scenegraph\*"; DestDir: "{app}\scenegraph"; Flags: recursesubdirs ignoreversion
+Source: "bin\start-low-graphics-mode.bat"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Mesa, open-source OpenGL implementation; part of "low-level graphics" support
-;Source: "bin\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Microsoft Direct3D runtime
-; Source: "bin\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; bzip2 support
 Source: "bin\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; ANGLE ("Almost Native Graphics Layer Engine") support, as used by Qt
-; Source: "bin\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-; Source: "bin\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; FreeType font engine, as used by Qt
 Source: "bin\libfreetype-6.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -185,11 +187,11 @@ Source: "bin\libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; ICU, International Components for Unicode
 ; After changes for supporting UTF-8 path and file names by using Boost Locale, all those 5
-Source: "bin\libicudt6?.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicuin6?.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicuio6?.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicutu6?.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\libicuuc6?.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicudt??.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicuin??.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicuio??.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicutu??.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libicuuc??.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Library for native language support, part of GNU gettext
 Source: "bin\libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -235,9 +237,6 @@ Source: "bin\libhidapi-0.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Camera support
 Source: "bin\libzbar-0.dll"; DestDir: "{app}"; Flags: ignoreversion
-
-; Arqma GUI Wallet Remote-Nodes settings ini file
-Source: "bin\arqma-nodes.ini"; DestDir: "{app}"; Flags: ignoreversion
 
 [Tasks]
 Name: desktopicon; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:";

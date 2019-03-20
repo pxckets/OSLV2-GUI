@@ -1,3 +1,4 @@
+// Copyright (c) 2018-2019, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -30,71 +31,66 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import "../components" as ArqmaComponents
+import "../js/TxUtils.js" as TxUtils
 import ArqmaComponents.AddressBook 1.0
 import ArqmaComponents.AddressBookModel 1.0
 import ArqmaComponents.Clipboard 1.0
-import "../js/TxUtils.js" as TxUtils
+import ArqmaComponents.NetworkType 1.0
 
-Rectangle {
+ColumnLayout {
     id: root
-    color: "transparent"
     property var model
+    property bool selectAndSend: false
     Clipboard { id: clipboard }
 
     ColumnLayout {
-        id: columnLayout
-        anchors.margins: isMobile ? 17 : 40
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.right: parent.right
+        Layout.margins: (isMobile ? 17 : 20) * scaleRatio
+        Layout.topMargin: 40 * scaleRatio
         Layout.fillWidth: true
         spacing: 26 * scaleRatio
+        visible: !root.selectAndSend
 
-        RowLayout {
-            id: addressLineRow
+        ArqmaComponents.LineEditMulti {
+            id: addressLine
             Layout.fillWidth: true
-
-            ArqmaComponents.LineEditMulti {
-                id: addressLine
-                spacing: 0
-                fontBold: true
-                labelText: qsTr("Address") + translationManager.emptyString
-		        labelButtonText: qsTr("Resolve") + translationManager.emptyString
-                placeholderText: "ar.. / aRi.. / OpenAlias"
-                wrapMode: Text.WrapAnywhere
-                addressValidation: true
-                pasteButton: true
-                onPaste: function(clipboardText) {
-                    const parsed = walletManager.parse_uri_to_object(clipboardText);
-                    if (!parsed.error) {
-                      addressLine.text = parsed.address;
-                      paymentIdLine.text = parsed.payment_id;
-                      descriptionLine.text = parsed.tx_description;
-                    } else {
-                       addressLine.text = clipboardText;
-                    }
+            fontBold: true
+            labelText: qsTr("Address") + translationManager.emptyString
+            placeholderText: {
+                switch (persistentSettings.nettype) {
+                    case NetworkType.MAINNET:
+                        return "ar... / aRi... / OpenAlias";
+                    case NetworkType.STAGENET:
+                        return "as... / asi...";
+                    case NetworkType.TESTNET:
+                        return "at... / ati...";
+                    default:
+                        break;
                 }
             }
-
-            ArqmaComponents.StandardButton {
-                id: qrfinderButton
-                rightIcon: "../images/qr.png"
-                anchors.bottom: addressLineRow.bottom
-                anchors.bottomMargin: 2
-                visible : appWindow.qrScannerEnabled
-                enabled : visible
-                width: visible ? 44 * scaleRatio : 0
-                onClicked: {
-                    cameraUi.state = "Capture"
-                    cameraUi.qrcode_decoded.connect(updateFromQrCode)
+            wrapMode: Text.WrapAnywhere
+            addressValidation: true
+            pasteButton: true
+            onPaste: function(clipboardText) {
+                const parsed = walletManager.parse_uri_to_object(clipboardText);
+                if (!parsed.error) {
+                    addressLine.text = parsed.address;
+                    setPaymentId(parsed.payment_id);
+                    setDescription(parsed.tx_description);
+                } else {
+                    addressLine.text = clipboardText;
                 }
             }
+            inlineButton.icon: "../images/qr.png"
+            inlineButton.buttonColor: ArqmaComponents.Style.heroBlue
+            inlineButton.onClicked: {
+                cameraUi.state = "Capture"
+                cameraUi.qrcode_decoded.connect(updateFromQrCode)
+            }
+            inlineButtonVisible : appWindow.qrScannerEnabled && !addressLine.text
         }
 
         ArqmaComponents.StandardButton {
             id: resolveButton
-	        anchors.left: parent.left
-  	        width: 80
             text: qsTr("Resolve") + translationManager.emptyString
             visible: TxUtils.isValidOpenAliasAddress(addressLine.text)
             enabled : visible
@@ -102,28 +98,26 @@ Rectangle {
                 var result = walletManager.resolveOpenAlias(addressLine.text)
                 if (result) {
                     var parts = result.split("|")
-                    if (parts.length == 2) {
+                    if (parts.length === 2) {
                         var address_ok = walletManager.addressValid(parts[1], appWindow.persistentSettings.nettype)
                         if (parts[0] === "true") {
                             if (address_ok) {
                                 // prepend openalias to description
                                 descriptionLine.text = descriptionLine.text ? addressLine.text + " " + descriptionLine.text : addressLine.text
                                 addressLine.text = parts[1]
-                                addressLine.cursorPosition = 0
-                            } 
+                            }
                             else
                                 oa_message(qsTr("No valid address found at this OpenAlias address"))
                         }
                         else if (parts[0] === "false") {
-                            if (address_ok) {
-                                addressLine.text = parts[1]
-                                addressLine.cursorPosition = 0
-                                oa_message(qsTr("Address found, but the DNSSEC signatures could not be verified, so this address may be spoofed"))
-                            }
-                            else
-                            {
-                                oa_message(qsTr("No valid address found at this OpenAlias address, but the DNSSEC signatures could not be verified, so this may be spoofed"))
-                            }
+                              if (address_ok) {
+                                  addressLine.text = parts[1]
+                                  oa_message(qsTr("Address found, but the DNSSEC signatures could not be verified, so this address may be spoofed"))
+                              }
+                              else
+                              {
+                                  oa_message(qsTr("No valid address found at this OpenAlias address, but the DNSSEC signatures could not be verified, so this may be spoofed"))
+                              }
                         }
                         else {
                             oa_message(qsTr("Internal error"))
@@ -137,22 +131,24 @@ Rectangle {
                     oa_message(qsTr("No address found"))
                 }
             }
-	    }
-
-        ArqmaComponents.LineEdit {
-            id: paymentIdLine
-            Layout.fillWidth: true;
-            labelText: qsTr("Payment ID <font size='2'>(Optional)</font>") + translationManager.emptyString
-            placeholderText: qsTr("Paste 64 hexadecimal characters") + translationManager.emptyString
-            //tipText: qsTr("<b>Payment ID</b><br/><br/>A unique user name used in<br/>the address book. It is not a<br/>transfer of information sent<br/>during the transfer")
-            //        + translationManager.emptyString
         }
 
-        ArqmaComponents.LineEdit {
+        ArqmaComponents.LineEditMulti {
+            id: paymentIdLine
+            Layout.fillWidth: true
+            labelText: qsTr("Payment ID <font size='2'>(Optional)</font>") + translationManager.emptyString
+            placeholderText: qsTr("Paste 64 hexadecimal characters") + translationManager.emptyString
+            wrapMode: Text.WrapAnywhere
+//            tipText: qsTr("<b>Payment ID</b><br/><br/>A unique user name used in<br/>the address book. It is not a<br/>transfer of information sent<br/>during the transfer")
+//                    + translationManager.emptyString
+        }
+
+        ArqmaComponents.LineEditMulti {
             id: descriptionLine
-            Layout.fillWidth: true;
+            Layout.fillWidth: true
             labelText: qsTr("Description <font size='2'>(Optional)</font>") + translationManager.emptyString
             placeholderText: qsTr("Give this entry a name or description") + translationManager.emptyString
+            wrapMode: Text.WrapAnywhere
         }
 
         RowLayout {
@@ -176,9 +172,7 @@ Rectangle {
                         informationPopup.onCloseCallback = null
                         informationPopup.open();
                     } else {
-                        addressLine.text = "";
-                        paymentIdLine.text = "";
-                        descriptionLine.text = "";
+                        clearFields();
                     }
                 }
             }
@@ -187,13 +181,11 @@ Rectangle {
 
     Rectangle {
         id: tableRect
-        anchors.top: columnLayout.bottom
-        anchors.leftMargin: isMobile ? 17 : 40
-        anchors.rightMargin: isMobile ? 17 : 40
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        height: parent.height - addButton.y - addButton.height - 36 * scaleRatio
+        Layout.leftMargin: (isMobile ? 17 : 40) * scaleRatio
+        Layout.rightMargin: (isMobile ? 17 : 40) * scaleRatio
+        Layout.topMargin: (root.selectAndSend ? 40 : 0) * scaleRatio
+        Layout.fillHeight: true
+        Layout.fillWidth: true
         color: "transparent"
 
         Behavior on height {
@@ -203,7 +195,7 @@ Rectangle {
         ArqmaComponents.Scroll {
             id: flickableScroll
             anchors.right: table.right
-            anchors.rightMargin: -14
+            anchors.rightMargin: -14 * scaleRatio
             anchors.top: table.top
             anchors.bottom: table.bottom
             flickable: table
@@ -217,6 +209,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             onContentYChanged: flickableScroll.flickableContentYChanged()
             model: root.model
+            selectAndSend: root.selectAndSend
         }
     }
 
@@ -225,7 +218,7 @@ Rectangle {
       payment_id = payment_id.trim()
 
       var address_ok = walletManager.addressValid(address, nettype)
-      var payment_id_ok = payment_id.length == 0 || walletManager.paymentIdValid(payment_id)
+      var payment_id_ok = payment_id.length === 0 || walletManager.paymentIdValid(payment_id)
       var ipid = walletManager.paymentIdFromAddress(address, nettype)
       if (ipid.length > 0 && payment_id.length > 0)
          payment_id_ok = false
@@ -234,6 +227,10 @@ Rectangle {
       paymentIdLine.error = !payment_id_ok
 
       return address_ok && payment_id_ok
+    }
+
+    function onPageClosed() {
+        root.selectAndSend = false;
     }
 
     function onPageCompleted() {
@@ -264,15 +261,14 @@ Rectangle {
     }
 
     function oa_message(text) {
-        oaPopup.title = qsTr("OpenAlias error") + translationManager.emptyString
-        oaPopup.text = text
-        oaPopup.icon = StandardIcon.Information
-        oaPopup.onCloseCallback = null
-        oaPopup.open()
+      oaPopup.title = qsTr("OpenAlias error") + translationManager.emptyString
+      oaPopup.text = text
+      oaPopup.icon = StandardIcon.Information
+      oaPopup.onCloseCallback = null
+      oaPopup.open()
     }
 
     ArqmaComponents.StandardDialog {
-        // dynamically change onclose handler
         property var onCloseCallback
         id: oaPopup
         cancelVisible: false
@@ -283,4 +279,3 @@ Rectangle {
         }
     }
 }
-

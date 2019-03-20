@@ -50,6 +50,8 @@ HEADERS += \
     src/libwalletqt/AddressBook.h \
     src/model/SubaddressModel.h \
     src/libwalletqt/Subaddress.h \
+    src/model/SubaddressAccountModel.h \
+    src/libwalletqt/SubaddressAccount.h \
     src/zxcvbn-c/zxcvbn.h \
     src/libwalletqt/UnsignedTransaction.h \
     Logger.h \
@@ -76,6 +78,8 @@ SOURCES += main.cpp \
     src/libwalletqt/AddressBook.cpp \
     src/model/SubaddressModel.cpp \
     src/libwalletqt/Subaddress.cpp \
+    src/model/SubaddressAccountModel.cpp \
+    src/libwalletqt/SubaddressAccount.cpp \
     src/zxcvbn-c/zxcvbn.c \
     src/libwalletqt/UnsignedTransaction.cpp \
     Logger.cpp \
@@ -97,10 +101,10 @@ SOURCES = *.qml \
           components/*.qml \
           pages/*.qml \
           pages/settings/*.qml \
+          pages/merchant/*.qml \
           wizard/*.qml \
           wizard/*js
 }
-
 
 ios:armv7 {
     message("target is armv7")
@@ -119,8 +123,7 @@ LIBS += -L$$WALLET_ROOT/lib \
         -lepee \
         -lunbound \
         -lsodium \
-        -leasylogging \
-        -lprotobuf
+        -leasylogging
 }
 
 android {
@@ -133,8 +136,6 @@ android {
         -lsodium \
         -leasylogging
 }
-
-
 
 QMAKE_CXXFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security
 QMAKE_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1 -Wformat -Wformat-security
@@ -191,7 +192,6 @@ CONFIG(WITH_SCANNER) {
         message("Skipping camera scanner because of Incompatible Qt Version !")
     }
 }
-
 
 # currently we only support x86 build as qt.io only provides prebuilt qt for x86 mingw
 
@@ -301,10 +301,7 @@ linux {
         -llmdb \
         -lsodium \
         -lhidapi-libusb \
-        -lusb-1.0 \
-        -ludev \
         -lcrypto
-
 
     if(!android) {
         LIBS+= \
@@ -320,7 +317,7 @@ linux {
         LIBS += -Wl,-Bdynamic -lunwind
     }
 
-    QMAKE_LFLAGS += -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack
+    QMAKE_LFLAGS += -pie -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack
 }
 
 macx {
@@ -345,7 +342,6 @@ macx {
         -lssl \
         -lsodium \
         -lcrypto \
-        -lhidapi \
         -ldl
 
     QMAKE_LFLAGS += -pie
@@ -427,7 +423,7 @@ RESOURCES += qml.qrc
 CONFIG += qtquickcompiler
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH = fonts
 
 # Default rules for deployment.
 include(deployment.pri)
@@ -458,8 +454,7 @@ OTHER_FILES += \
 
 DISTFILES += \
     notes.txt \
-    arqma/src/wallet/CMakeLists.txt \
-    components/MobileHeader.qml
+    arqma/src/wallet/CMakeLists.txt
 
 
 # windows application icon

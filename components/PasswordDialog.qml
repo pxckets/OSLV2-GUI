@@ -44,6 +44,7 @@ Item {
     property bool isHidden: true
     property alias password: passwordInput.text
     property string walletName
+    property string errorText
     property bool tempHideBalanceFlag
 
     // same signals as Dialog has
@@ -51,9 +52,10 @@ Item {
     signal rejected()
     signal closeCallback()
 
-    function open(walletName) {
+    function open(walletName, errorText) {
         inactiveOverlay.visible = true // draw appwindow inactive
         root.walletName = walletName ? walletName : ""
+        root.errorText = errorText ? errorText : "";
         leftPanel.enabled = false
         middlePanel.enabled = false
         titleBar.enabled = false
@@ -64,6 +66,10 @@ Item {
         tempHideBalanceFlag = persistentSettings.hideBalance;
         persistentSettings.hideBalance = true;
         appWindow.updateBalance()
+    }
+
+    function showError(errorText) {
+        open(root.walletName, errorText);
     }
 
     function close() {
@@ -92,7 +98,6 @@ Item {
 
             Label {
                 text: root.walletName.length > 0 ? qsTr("Please enter wallet password for: ") + root.walletName : qsTr("Please enter wallet password")
-                anchors.left: parent.left
                 Layout.fillWidth: true
 
                 font.pixelSize: 16 * scaleRatio
@@ -101,11 +106,21 @@ Item {
                 color: ArqmaComponents.Style.defaultFontColor
             }
 
+            Label {
+                text: root.errorText
+                visible: root.errorText
+
+                color: ArqmaComponents.Style.errorColor
+                font.pixelSize: 16 * scaleRatio
+                font.family: ArqmaComponents.Style.fontLight.name
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+            }
+
             TextField {
                 id : passwordInput
                 Layout.topMargin: 6
                 Layout.fillWidth: true
-                anchors.left: parent.left
                 horizontalAlignment: TextInput.AlignLeft
                 verticalAlignment: TextInput.AlignVCenter
                 font.family: ArqmaComponents.Style.fontLight.name
@@ -179,7 +194,7 @@ Item {
                 ArqmaComponents.StandardButton {
                     id: cancelButton
                     small: true
-                    text: qsTr("Cancel") + translationManager.emptyString
+                    text: root.walletName.length > 0 ? qsTr("Change wallet") + translationManager.emptyString : qsTr("Cancel") + translationManager.emptyString
                     KeyNavigation.tab: passwordInput
                     onClicked: {
                         root.close()

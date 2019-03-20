@@ -108,9 +108,9 @@
      && ldconfig
 
  ARG NCURSES_VERSION=6.1
- ARG READLINE_HASH=750d437185286f40a369e1e4f4764eda932b9459b5ec9a731628393dd3d32334
+ ARG READLINE_HASH=aa057eeeb4a14d470101eff4597d5833dcef5965331be3528c08d99cebaa0d17
  RUN set -ex \
-     && curl -O ftp://ftp.invisible-island.net/ncurses/ncurses-6.1.tar.gz \
+     && curl -O https://ftp.gnu.org/gnu/ncurses/ncurses-${NCURSES_VERSION}.tar.gz \
      && tar -xzf ncurses-${NCURSES_VERSION}.tar.gz \
      && cd ncurses-${NCURSES_VERSION} \
      && CFLAGS="-fPIC" CXXFLAGS="-P -fPIC" ./configure --prefix=/usr/ --enable-termcap --with-termlib \
@@ -124,8 +124,8 @@
      && test `git rev-parse HEAD` = ${CPPZMQ_HASH} || exit 1 \
      && cp *.hpp /usr/local/include
 
- ARG READLINE_VERSION=7.0
- ARG READLINE_HASH=750d437185286f40a369e1e4f4764eda932b9459b5ec9a731628393dd3d32334
+ ARG READLINE_VERSION=8.0
+ ARG READLINE_HASH=e339f51971478d369f8a053a330a190781acb9864cf4c541060f12078948e461
  RUN set -ex \
      && curl -O https://ftp.gnu.org/gnu/readline/readline-${READLINE_VERSION}.tar.gz \
      && echo "${READLINE_HASH}  readline-${READLINE_VERSION}.tar.gz" | sha256sum -c \
@@ -162,31 +162,29 @@ RUN set -ex \
         libxkbcommon-dev \
         libxrender-dev \
         p7zip-full \
-        python \
-        libzbar-dev
+        python
 
-# Setup QT in separate steps because its absurdly slow, so we can cache as much work as possible
-ARG QT_VERSION=5.12
-ARG QT_VER=5.12.0
+ # Setup QT in separate steps because its absurdly slow, so we can cache as much work as possible
+ARG QT_VERSION=5.7.1
 RUN set -ex \
-    && wget http://download.qt.io/official_releases/qt/${QT_VERSION}/${QT_VER}/single/qt-everywhere-src-${QT_VER}.tar.xz \
-    && tar xvf qt-everywhere-src-${QT_VER}.tar.xz
+        && curl -O -L https://download.qt.io/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-${QT_VERSION}.7z \
+        && 7z x qt-everywhere-opensource-src-${QT_VERSION}.7z
 
 RUN set -ex \
-    && cd qt-everywhere-src-${QT_VER} \
-    && ./configure -prefix /usr/lib/x86_64-linux-gnu/qt5 -static -nomake tests -nomake examples -opensource -confirm-license -opengl desktop -qt-zlib -qt-libjpeg -qt-libpng -qt-xcb -qt-xkbcommon-x11 -qt-freetype -qt-pcre -qt-harfbuzz -fontconfig
+        && cd qt-everywhere-opensource-src-${QT_VERSION} \
+        && ./configure -prefix /usr/lib/x86_64-linux-gnu/qt5 -static -nomake tests -nomake examples -opensource -confirm-license -opengl desktop -qt-zlib -qt-libjpeg -qt-libpng -qt-xcb -qt-xkbcommon-x11 -qt-freetype -qt-pcre -qt-harfbuzz -fontconfig
 
 RUN set -ex \
-    && cd qt-everywhere-src-${QT_VER} \
-    && make -j${NUM_COMPILE_JOBS} \
-    && make install
+        && cd qt-everywhere-opensource-src-${QT_VERSION} \
+        && make -j${NUM_COMPILE_JOBS} \
+        && make install
 
 ARG QT_DIR=/usr/lib/x86_64-linux-gnu/qt5
 ENV PATH=/usr/lib/x86_64-linux-gnu/qt5/bin:${PATH}
 RUN set -ex \
-    && cd qt-everywhere-src-${QT_VER}/qtdeclarative \
-    && qmake && make -j${NUM_COMPILE_JOBS} \
-    && make install
+        && cd qt-everywhere-opensource-src-${QT_VERSION}/qtdeclarative \
+        && qmake && make -j${NUM_COMPILE_JOBS} \
+        && make install
 
 # I don't know why this is necessary for the GUI and not the daemon, but it works
 ARG ZMQ_INCLUDE_PATH=/usr/local/include/
@@ -256,6 +254,25 @@ RUN set -ex \
      && make install \
      && ldconfig
 
+# ImageMagic
+ ARG IMAGEMAGIC_VERSION=6.9.10-27
+ RUN set -ex \
+     && curl -O -L https://github.com/ImageMagick/ImageMagick6/archive/${IMAGEMAGIC_VERSION}.tar.gz \
+     && tar -xvf ${IMAGEMAGIC_VERSION}.tar.gz \
+     && cd ImageMagick6-${IMAGEMAGIC_VERSION} \
+     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static=yes \
+     && make && make install
+
+# Zbar
+ ARG ZBAR_VERSION=0.10
+ ENV PATH=/usr/lib/x86_64-linux-gnu/qt5/bin:${PATH}
+ RUN set -ex \
+     && curl -O -L https://arqma.com/zbar-${ZBAR_VERSION}.tar.gz \
+     && tar -xvf zbar-${ZBAR_VERSION}.tar.gz \
+     && cd zbar-${ZBAR_VERSION} \
+     && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static --disable-video --without-qt --without-java --without-gtk --without-python CFLAGS=-DNDEBUG \
+     && make \
+     && make install
 
 ADD . /src
 WORKDIR /src
