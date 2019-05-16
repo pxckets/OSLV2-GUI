@@ -58,7 +58,8 @@ HEADERS += \
     MainApp.h \
     src/qt/ipc.h \
     src/qt/mime.h \
-    src/qt/utils.h
+    src/qt/utils.h \
+    src/qt/prices.h
 
 SOURCES += main.cpp \
     filter.cpp \
@@ -89,7 +90,8 @@ SOURCES += main.cpp \
     MainApp.cpp \
     src/qt/ipc.cpp \
     src/qt/mime.cpp \
-    src/qt/utils.cpp
+    src/qt/utils.cpp \
+    src/qt/prices.cpp
 
 CONFIG(DISABLE_PASS_STRENGTH_METER) {
     HEADERS -= src/zxcvbn-c/zxcvbn.h

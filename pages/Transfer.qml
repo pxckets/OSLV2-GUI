@@ -42,8 +42,7 @@ import "../js/TxUtils.js" as TxUtils
 
 Rectangle {
     id: root
-    signal paymentClicked(string address, string paymentId, string amount, int mixinCount,
-                          int priority, string description)
+    signal paymentClicked(string address, string paymentId, string amount, int mixinCount, int priority, string description)
     signal sweepUnmixableClicked()
 
     color: "transparent"
@@ -140,7 +139,6 @@ Rectangle {
               LineEdit {
                   id: amountLine
                   Layout.fillWidth: true
-                  Layout.minimumWidth: 200
                   inlineIcon: true
                   labelText: qsTr("<style type='text/css'>a {text-decoration: none; color: #858585; font-size: 14px;}</style>\
                                    Arqma Amount <font size='2'>  ( </font> <a href='#'>Change account</a><font size='2'> )</font>")
@@ -305,58 +303,63 @@ Rectangle {
       }
 
       ColumnLayout {
-          CheckBox {
-              id: paymentIdCheckbox
-              border: false
-              checkedIcon: "qrc:///images/minus-white.png"
-              uncheckedIcon: "qrc:///images/plus-white.png"
-              fontSize: paymentIdLine.labelFontSize
-              iconOnTheLeft: false
-              Layout.fillWidth: true
-              text: qsTr("Payment ID <font size='2'>( Optional )</font>") + translationManager.emptyString
-              onClicked: {
-                  if (!paymentIdCheckbox.checked) {
-                    paymentIdLine.text = "";
+          spacing: 15
+
+          ColumnLayout {
+              visible: appWindow.persistentSettings.showPid || paymentIdCheckbox.checked
+              CheckBox {
+                  id: paymentIdCheckbox
+                  border: false
+                  checkedIcon: "qrc:///images/minus-white.png"
+                  uncheckedIcon: "qrc:///images/plus-white.png"
+                  fontSize: paymentIdLine.labelFontSize
+                  iconOnTheLeft: true
+                  Layout.fillWidth: true
+                  text: qsTr("Payment ID <font size='2'>( Optional )</font>") + translationManager.emptyString
+                  onClicked: {
+                      if (!paymentIdCheckbox.checked) {
+                          paymentIdLine.text = "";
+                      }
                   }
+              }
+
+              // payment id input
+              LineEditMulti {
+                  id: paymentIdLine
+                  fontBold: true
+                  placeholderText: qsTr("16 or 64 hexadecimal characters") + translationManager.emptyString
+                  Layout.fillWidth: true
+                  wrapMode: Text.WrapAnywhere
+                  addressValidation: false
+                  visible: paymentIdCheckbox.checked
               }
           }
 
-          // payment id input
-          LineEditMulti {
-              id: paymentIdLine
-              fontBold: true
-              placeholderText: qsTr("16 or 64 hexadecimal characters") + translationManager.emptyString
-              Layout.fillWidth: true
-              wrapMode: Text.WrapAnywhere
-              addressValidation: false
-              visible: paymentIdCheckbox.checked
-          }
-      }
+          ColumnLayout {
+              visible: appWindow.walletMode >= 2
 
-      ColumnLayout {
-          visible: appWindow.walletMode >= 2
-
-          CheckBox {
-              id: descriptionCheckbox
-              border: false
-              checkedIcon: "qrc:///images/minus-white.png"
-              uncheckedIcon: "qrc:///images/plus-white.png"
-              fontSize: descriptionLine.labelFontSize
-              iconOnTheLeft: false
-              Layout.fillWidth: true
-              text: qsTr("Description <font size='2'>( Optional )</font>") + translationManager.emptyString
-              onClicked: {
-                  if (!descriptionCheckbox.checked) {
-                    descriptionLine.text = "";
+              CheckBox {
+                  id: descriptionCheckbox
+                  border: false
+                  checkedIcon: "qrc:///images/minus-white.png"
+                  uncheckedIcon: "qrc:///images/plus-white.png"
+                  fontSize: descriptionLine.labelFontSize
+                  iconOnTheLeft: false
+                  Layout.fillWidth: true
+                  text: qsTr("Description <font size='2'>( Optional )</font>") + translationManager.emptyString
+                  onClicked: {
+                      if (!descriptionCheckbox.checked) {
+                          descriptionLine.text = "";
+                      }
                   }
               }
-          }
 
-          LineEditMulti {
-              id: descriptionLine
-              placeholderText: qsTr("Saved to local wallet history") + translationManager.emptyString
-              Layout.fillWidth: true
-              visible: descriptionCheckbox.checked
+              LineEditMulti {
+                  id: descriptionLine
+                  placeholderText: qsTr("Saved to local wallet history") + translationManager.emptyString
+                  Layout.fillWidth: true
+                  visible: descriptionCheckbox.checked
+              }
           }
       }
 
