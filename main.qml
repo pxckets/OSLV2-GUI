@@ -402,6 +402,47 @@ ApplicationWindow {
         leftPanel.balanceLabelText = qsTr("Balance (#%1%2)").arg(currentWallet.currentSubaddressAccount).arg(accountLabel === "" ? "" : (" – " + accountLabel));
     }
 
+    function onUriHandler(uri) {
+        if(uri.startsWith("arqma://")) {
+            var address = uri.substring("arqma://".length);
+
+            var params = {}
+            if(address.length === 0) return;
+            var spl = address.split("?");
+
+            if(spl.length > 2) return;
+            if(spl.length >= 1) {
+                address = spl[0];
+
+                if(spl.length === 2) {
+                    spl.shift();
+                    var item = spl[0];
+
+                    var _spl = item.split("&");
+                    for(var param in _spl) {
+                        var _item = _spl[param];
+                        if(!_item.indexOf("=") > 0) continue;
+
+                        var __spl = _item.split("=");
+                        if(__spl.length !== 2) continue;
+
+                        params[__spl[0]] = __spl[1];
+                    }
+                }
+            }
+
+            // Fill fields
+            middlePanel.transferView.sendTo(address, params["tx_payment_id"], params["tx_description"], params["tx_amount"]);
+
+            // Raise Window
+            appWindow.raise();
+            appWindow.show();
+
+            if(params.hasOwnProperty("tx_payment_id"))
+                persistentSettings.showPid = true;
+        }
+    }
+
     function onWalletConnectionStatusChanged(status){
         console.log("Wallet connection status changed " + status)
         middlePanel.updateStatus();
@@ -472,6 +513,12 @@ ApplicationWindow {
 
         // Force switch normal view
         rootItem.state = "normal";
+
+        // Process queued IPC Command
+        if(typeof IPC !== "undefined" && IPC.queuedCmd().length > 0) {
+            var queuedCmd = IPC.queuedCmd();
+            if(/^\w+:\/\/(.*)$/.test(queuedCmd)) appWindow.onUriHandler(queuedCmd); // Uri Handler
+        }
     }
 
     function onWalletClosed(walletAddress) {
@@ -1010,7 +1057,7 @@ ApplicationWindow {
 
     objectName: "appWindow"
     visible: true
-    width: screenWidth //rightPanelExpanded ? 1269 : 1269 - 300
+    width: screenWidth
     height: maxWindowHeight;
     color: Style.backgroundColor
     flags: persistentSettings.customDecorations ? Windows.flagsCustomDecorations : Windows.flags
@@ -1023,6 +1070,7 @@ ApplicationWindow {
         walletManager.walletOpened.connect(onWalletOpened);
         walletManager.walletClosed.connect(onWalletClosed);
         walletManager.checkUpdatesComplete.connect(onWalletCheckUpdatesComplete);
+        IPC.uriHandler.connect(onUriHandler);
 
         if(typeof daemonManager != "undefined") {
             daemonManager.daemonStarted.connect(onDaemonStarted);
