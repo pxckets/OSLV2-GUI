@@ -547,6 +547,9 @@ ApplicationWindow {
     }
 
     function disconnectRemoteNode() {
+        if (typeof currentWallet === "undefined" || currentWallet === null)
+            return;
+
         console.log("disconnecting remote node");
         persistentSettings.useRemoteNode = false;
         currentDaemonAddress = localDaemonAddress
