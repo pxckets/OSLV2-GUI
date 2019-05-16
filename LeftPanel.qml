@@ -1,3 +1,4 @@
+// Copyright (c) 2018-2019, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -32,6 +33,8 @@ import QtGraphicalEffects 1.0
 import ArqmaComponents.Wallet 1.0
 import ArqmaComponents.NetworkType 1.0
 import ArqmaComponents.Clipboard 1.0
+import FontAwesome 1.0
+
 import "components" as ArqmaComponents
 
 Rectangle {
@@ -42,10 +45,13 @@ Rectangle {
     property alias unlockedBalanceLabelVisible: unlockedBalanceLabel.visible
     property alias balanceLabelText: balanceLabel.text
     property alias balanceText: balanceText.text
+    property alias balanceTextFiat: balanceTextFiat.text
+    property alias unlockedBalanceTextFiat: unlockedBalanceTextFiat.text
     property alias networkStatus : networkStatus
     property alias progressBar : progressBar
     property alias daemonProgressBar : daemonProgressBar
     property alias minutesToUnlockTxt: unlockedBalanceLabel.text
+    property bool fiatBalance: false
     property int titleBarHeight: 50
     property string copyValue: ""
     Clipboard { id: clipboard }
@@ -182,6 +188,26 @@ Rectangle {
                         }
                     }
                 }
+
+                ArqmaComponents.Label {
+                    fontSize: 20
+                    text: "¥"
+                    color: "white"
+                    visible: persistentSettings.fiatPriceEnabled
+                    anchors.right: parent.right
+                    anchors.rightMargin: 45
+                    anchors.top: parent.top
+                    anchors.topMargin: 28
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            fiatBalance = !fiatBalance
+                        }
+                    }
+                }
             }
 
             Item {
@@ -193,8 +219,8 @@ Rectangle {
                 height: 490 * scaleRatio
                 width: 50 * scaleRatio
 
-                Text {
-                    visible: !isMobile
+                ArqmaComponents.Text {
+                    visible: !(fiatBalance && persistentSettings.fiatPriceEnabled)
                     id: balanceText
                     anchors.left: parent.left
                     anchors.leftMargin: 20
@@ -213,27 +239,56 @@ Rectangle {
                         return defaultSize;
                     }
 
-		    MouseArea {
-			hoverEnabled: true
-			anchors.fill: parent
-			cursorShape: Qt.PointingHandCursor
-			onEntered: {
-				parent.color = ArqmaComponents.Style.heroBlue
-			}
-			onExited: {
-				parent.color = "white"
-			}
-			onClicked: {
-				console.log("Copied to clipboard");
-				clipboard.setText(parent.text);
-				appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
-			}
-		    }
+                    MouseArea {
+                        hoverEnabled: true
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onEntered: {
+                            parent.color = ArqmaComponents.Style.heroBlue
+                        }
+                        onExited: {
+                            parent.color = "white"
+                        }
+                        onClicked: {
+                            console.log("Copied to clipboard");
+                            clipboard.setText(parent.text);
+                            appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+                        }
+                    }
                 }
 
-                Text {
+                ArqmaComponents.Text {
+                    visible: !balanceText.visible
+                    id: balanceTextFiat
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
+                    anchors.top: parent.top
+                    anchors.topMargin: 76
+                    font.family: ArqmaComponents.Style.fontRegular.name
+                    color: "#FFFFFF"
+                    text: "N/A"
+                    font.pixelSize: balanceText.font.pixelSize
+                    MouseArea {
+                        hoverEnabled: true
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onEntered: {
+                            parent.color = ArqmaComponents.Style.lightBlue
+                        }
+                        onExited: {
+                            parent.color = "white"
+                        }
+                        onClicked: {
+                                console.log("Copied to clipboard");
+                                clipboard.setText(parent.text);
+                                appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+                        }
+                    }
+                }
+
+                ArqmaComponents.Text {
                     id: unlockedBalanceText
-                    visible: true
+                    visible: !(fiatBalance && persistentSettings.fiatPriceEnabled)
                     anchors.left: parent.left
                     anchors.leftMargin: 20
                     anchors.top: parent.top
@@ -250,23 +305,51 @@ Rectangle {
                         }
                         return defaultSize;
                     }
+                    MouseArea {
+                        hoverEnabled: true
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onEntered: {
+                            parent.color = ArqmaComponents.Style.lightBlue
+                        }
+                        onExited: {
+                            parent.color = "white"
+                        }
+                        onClicked: {
+                            console.log("Copied to clipboard");
+                            clipboard.setText(parent.text);
+                            appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+                        }
+                    }
+                }
 
-		    MouseArea {
-			hoverEnabled: true
-			anchors.fill: parent
-			cursorShape: Qt.PointingHandCursor
-			onEntered: {
-				parent.color = ArqmaComponents.Style.lightBlue
-			}
-			onExited: {
-				parent.color = "white"
-			}
-			onClicked: {
-				console.log("Copied to clipboard");
-				clipboard.setText(parent.text);
-				appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
-			}
-		    }
+                ArqmaComponents.Text {
+                    id: unlockedBalanceTextFiat
+                    visible: !unlockedBalanceText.visible
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
+                    anchors.top: parent.top
+                    anchors.topMargin: 126
+                    font.family: ArqmaComponents.Style.fontRegular.name
+                    color: "#FFFFFF"
+                    text: "N/A"
+                    font.pixelSize: unlockedBalanceText.font.pixelSize
+                    MouseArea {
+                        hoverEnabled: true
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onEntered: {
+                            parent.color = ArqmaComponents.Style.lightBlue
+                        }
+                        onExited: {
+                            parent.color = "white"
+                        }
+                        onClicked: {
+                                console.log("Copied to clipboard");
+                                clipboard.setText(parent.text);
+                                appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+                        }
+                    }
                 }
 
                 ArqmaComponents.Label {

@@ -34,5 +34,25 @@
 
   <key>NSRequiresAquaSystemAppearance</key>
   <string>True</string>
+
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>Arqma Handler</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>arqma</string>
+      </array>
+    </dict>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>Arqmaseed Handler</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>arqmaseed</string>
+      </array>
+    </dict>
+  </array>
 </dict>
 </plist>

@@ -58,7 +58,6 @@ ApplicationWindow {
     property bool hideBalanceForced: false
     property bool whatIsEnable: false
     property bool ctrlPressed: false
-    property bool rightPanelExpanded: false
     property bool osx: false
     property alias persistentSettings : persistentSettings
     property var currentWallet;
@@ -92,6 +91,18 @@ ApplicationWindow {
     property int disconnectedEpoch: 0
     property int estimatedBlockchainSize: 5 // GB
     property alias viewState: rootItem.state
+
+    // fiat price conversion
+    property int fiatPriceARQUSD: 0
+    property int fiatPriceARQEUR: 0
+    property var fiatPriceAPIs: {
+        return {
+            "coingecko": {
+                "arqusd": "https://api.coingecko.com/api/v3/simple/price?ids=arqma&vs_currencies=usd",
+                "arqeur": "https://api.coingecko.com/api/v3/simple/price?ids=arqma&vs_currencies=eur"
+            }
+        }
+    }
 
     property string remoteNodeService: {
         // support user-defined remote node aggregators
@@ -398,8 +409,53 @@ ApplicationWindow {
         middlePanel.balanceText = balance;
         leftPanel.balanceText = balance;
 
+        if (persistentSettings.fiatPriceEnabled) {
+            appWindow.fiatApiUpdateBalance(balance, balance_unlocked);
+        }
+
         var accountLabel = currentWallet.getSubaddressLabel(currentWallet.currentSubaddressAccount, 0);
         leftPanel.balanceLabelText = qsTr("Balance (#%1%2)").arg(currentWallet.currentSubaddressAccount).arg(accountLabel === "" ? "" : (" – " + accountLabel));
+    }
+
+    function onUriHandler(uri) {
+        if(uri.startsWith("arqma://")) {
+            var address = uri.substring("arqma://".length);
+
+            var params = {}
+            if(address.length === 0) return;
+            var spl = address.split("?");
+
+            if(spl.length > 2) return;
+            if(spl.length >= 1) {
+                address = spl[0];
+
+                if(spl.length === 2) {
+                    spl.shift();
+                    var item = spl[0];
+
+                    var _spl = item.split("&");
+                    for(var param in _spl) {
+                        var _item = _spl[param];
+                        if(!_item.indexOf("=") > 0) continue;
+
+                        var __spl = _item.split("=");
+                        if(__spl.length !== 2) continue;
+
+                        params[__spl[0]] = __spl[1];
+                    }
+                }
+            }
+
+            // Fill fields
+            middlePanel.transferView.sendTo(address, params["tx_payment_id"], params["tx_description"], params["tx_amount"]);
+
+            // Raise Window
+            appWindow.raise();
+            appWindow.show();
+
+            if(params.hasOwnProperty("tx_payment_id"))
+                persistentSettings.showPid = true;
+        }
     }
 
     function onWalletConnectionStatusChanged(status){
@@ -472,6 +528,12 @@ ApplicationWindow {
 
         // Force switch normal view
         rootItem.state = "normal";
+
+        // Process queued IPC Command
+        if(typeof IPC !== "undefined" && IPC.queuedCmd().length > 0) {
+            var queuedCmd = IPC.queuedCmd();
+            if(/^\w+:\/\/(.*)$/.test(queuedCmd)) appWindow.onUriHandler(queuedCmd); // Uri Handler
+        }
     }
 
     function onWalletClosed(walletAddress) {
@@ -501,6 +563,9 @@ ApplicationWindow {
     }
 
     function disconnectRemoteNode() {
+        if (typeof currentWallet === "undefined" || currentWallet === null)
+            return;
+
         console.log("disconnecting remote node");
         persistentSettings.useRemoteNode = false;
         currentDaemonAddress = localDaemonAddress
@@ -964,7 +1029,6 @@ ApplicationWindow {
     function enableUI(enable) {
         middlePanel.enabled = enable;
         leftPanel.enabled = enable;
-        rightPanel.enabled = enable;
     }
 
     function showProcessingSplash(message) {
@@ -992,6 +1056,7 @@ ApplicationWindow {
         rootItem.state = "wizard"
         // reset balance
         leftPanel.balanceText = leftPanel.unlockedBalanceText = walletManager.displayAmount(0);
+        fiatApiUpdateBalance(0, 0);
         // disable timers
         userInActivityTimer.running = false;
         simpleModeConnectionTimer.running = false;
@@ -1010,11 +1075,132 @@ ApplicationWindow {
 
     objectName: "appWindow"
     visible: true
-    width: screenWidth //rightPanelExpanded ? 1269 : 1269 - 300
+    width: screenWidth
     height: maxWindowHeight;
     color: Style.backgroundColor
     flags: persistentSettings.customDecorations ? Windows.flagsCustomDecorations : Windows.flags
     onWidthChanged: x -= 0
+
+    Timer {
+        id: fiatPriceTimer
+        interval: 1000 * 60;
+        running: persistentSettings.fiatPriceEnabled;
+        repeat: true
+        onTriggered: {
+            if(persistentSettings.fiatPriceEnabled)
+                appWindow.fiatApiRefresh();
+        }
+        triggeredOnStart: false
+    }
+
+    function fiatApiParseTicker(resp, currency){
+        // parse & validate incoming JSON
+        if(resp._url.startsWith("https://api.coingecko.com/api/v3/")){
+            var key = currency === "arqeur" ? "eur" : "usd";
+            if(!resp.hasOwnProperty("arqma") || !resp["arqma"].hasOwnProperty(key)){
+                appWindow.fiatApiError("Coingecko API has error(s)");
+                return;
+            }
+            return resp["arqma"][key];
+        }
+    }
+
+    function fiatApiGetCurrency(resp){
+        // map response to `appWindow.fiatPriceAPIs` object
+        if (!resp.hasOwnProperty('_url')){
+            appWindow.fiatApiError("invalid JSON");
+            return;
+        }
+
+        var apis = appWindow.fiatPriceAPIs;
+        for (var api in apis){
+            if (!apis.hasOwnProperty(api))
+               continue;
+
+            for (var cur in apis[api]){
+                if(!apis[api].hasOwnProperty(cur))
+                    continue;
+
+                var url = apis[api][cur];
+                if(url === resp._url){
+                    return cur;
+                }
+            }
+        }
+    }
+
+    function fiatApiJsonReceived(resp){
+        // handle incoming JSON, set ticker
+        var currency = appWindow.fiatApiGetCurrency(resp);
+        if(typeof currency == "undefined"){
+            appWindow.fiatApiError("could not get currency");
+            return;
+        }
+
+        var ticker = appWindow.fiatApiParseTicker(resp, currency);
+        if(ticker <= 0){
+            appWindow.fiatApiError("could not get ticker");
+            return;
+        }
+
+        if(persistentSettings.fiatPriceCurrency === "arqusd")
+            appWindow.fiatPriceARQUSD = ticker;
+        else if(persistentSettings.fiatPriceCurrency === "arqeur")
+            appWindow.fiatPriceARQEUR = ticker;
+
+        appWindow.updateBalance();
+    }
+
+    function fiatApiRefresh(){
+        // trigger API call
+        if(!persistentSettings.fiatPriceEnabled)
+            return;
+
+        var userProvider = persistentSettings.fiatPriceProvider;
+        if(!appWindow.fiatPriceAPIs.hasOwnProperty(userProvider)){
+            appWindow.fiatApiError("provider \"" + userProvider + "\" not implemented");
+            return;
+        }
+
+        var provider = appWindow.fiatPriceAPIs[userProvider];
+        var userCurrency = persistentSettings.fiatPriceCurrency;
+        if(!provider.hasOwnProperty(userCurrency)){
+            appWindow.fiatApiError("currency \"" + userCurrency + "\" not implemented");
+        }
+
+        var url = provider[userCurrency];
+        Prices.getJSON(url);
+    }
+
+    function fiatApiUpdateBalance(balance, unlocked_balance){
+        // update balance card
+        var ticker = persistentSettings.fiatPriceCurrency === "arqusd" ? appWindow.fiatPriceARQUSD : appWindow.fiatPriceARQEUR;
+        var symbol = persistentSettings.fiatPriceCurrency === "arqusd" ? "$" : "€"
+        if(ticker <= 0){
+            console.log(fiatApiError("Could not update balance card; invalid ticker value"));
+            leftPanel.unlockedBalanceTextFiat = "N/A";
+            leftPanel.balanceTextFiat = "N/A";
+            return;
+        }
+
+        var uFiat = Utils.formatMoney(unlocked_balance * ticker);
+        var bFiat = Utils.formatMoney(balance * ticker);
+
+        leftPanel.unlockedBalanceTextFiat = symbol + uFiat;
+        leftPanel.balanceTextFiat = symbol + bFiat;
+    }
+
+    function fiatTimerStart(){
+        fiatPriceTimer.start();
+    }
+
+    function fiatTimerStop(){
+        fiatPriceTimer.stop();
+    }
+
+    function fiatApiError(msg){
+        console.log("fiatPriceError: " + msg);
+    }
 
     Component.onCompleted: {
         x = (Screen.width - width) / 2
@@ -1023,14 +1209,14 @@ ApplicationWindow {
         walletManager.walletOpened.connect(onWalletOpened);
         walletManager.walletClosed.connect(onWalletClosed);
         walletManager.checkUpdatesComplete.connect(onWalletCheckUpdatesComplete);
+        IPC.uriHandler.connect(onUriHandler);
+        Prices.priceJsonReceived.connect(appWindow.fiatApiJsonReceived);
 
         if(typeof daemonManager != "undefined") {
             daemonManager.daemonStarted.connect(onDaemonStarted);
             daemonManager.daemonStartFailure.connect(onDaemonStartFailure);
             daemonManager.daemonStopped.connect(onDaemonStopped);
         }
-
-
 
         // Connect app exit to qml window exit handling
         mainApp.closing.connect(appWindow.close);
@@ -1063,14 +1249,12 @@ ApplicationWindow {
         }
 
         checkUpdates();
-    }
 
-    onRightPanelExpandedChanged: {
-        if (rightPanelExpanded) {
-            rightPanel.updateTweets()
+        if(persistentSettings.fiatPriceEnabled){
+            appWindow.fiatApiRefresh();
+            appWindow.fiatTimerStart();
         }
     }
-
 
     Settings {
         id: persistentSettings
@@ -1111,6 +1295,11 @@ ApplicationWindow {
         property int walletMode: 2
         property string remoteNodeService: ""
         property int lockOnUserInActivityInterval: 10  // minutes
+        property bool showPid: false
+
+        property bool fiatPriceEnabled: false
+        property string fiatPriceProvider: "coingecko"
+        property string fiatPriceCurrency: "arqusd"
     }
 
     // Information dialog
@@ -1335,10 +1524,9 @@ ApplicationWindow {
             State {
                 name: "wizard"
                 PropertyChanges { target: leftPanel; visible: false }
-                PropertyChanges { target: rightPanel; visible: false }
                 PropertyChanges { target: middlePanel; visible: false }
                 PropertyChanges { target: wizard; visible: true }
-                PropertyChanges { target: appWindow; width: (screenWidth < 969 || isAndroid || isIOS)? screenWidth : 969 } //rightPanelExpanded ? 1269 : 1269 - 300;
+                PropertyChanges { target: appWindow; width: (screenWidth < 969 || isAndroid || isIOS)? screenWidth : 969 }
                 PropertyChanges { target: appWindow; height: maxWindowHeight; }
                 PropertyChanges { target: resizeArea; visible: true }
 //                PropertyChanges { target: frameArea; blocked: true }
@@ -1350,11 +1538,10 @@ ApplicationWindow {
             }, State {
                 name: "normal"
                 PropertyChanges { target: leftPanel; visible: isMobile ? false : true }
-                PropertyChanges { target: rightPanel; visible: false }
                 PropertyChanges { target: middlePanel; visible: true }
                 PropertyChanges { target: titleBar; basicButtonVisible: true }
                 PropertyChanges { target: wizard; visible: false }
-                PropertyChanges { target: appWindow; width: (screenWidth < 939 || isAndroid || isIOS)? screenWidth : 939 } //rightPanelExpanded ? 1269 : 1269 - 300;
+                PropertyChanges { target: appWindow; width: (screenWidth < 939 || isAndroid || isIOS)? screenWidth : 939 }
                 PropertyChanges { target: appWindow; height: maxWindowHeight; }
                 PropertyChanges { target: resizeArea; visible: true }
                 PropertyChanges { target: titleBar; showMaximizeButton: true }
@@ -1509,15 +1696,6 @@ ApplicationWindow {
             }
         }
 
-        RightPanel {
-            id: rightPanel
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            width: appWindow.rightPanelExpanded ? 300 : 0
-            visible: appWindow.rightPanelExpanded
-        }
-
-
         MiddlePanel {
             id: middlePanel
             anchors.top: mobileHeader.bottom
@@ -1566,7 +1744,7 @@ ApplicationWindow {
 //                value: 326
 //            }
             PropertyAction {
-                targets: [leftPanel, rightPanel]
+                target: leftPanel
                 properties: "visible"
                 value: false
             }
@@ -1584,7 +1762,6 @@ ApplicationWindow {
 
             onStopped: {
                 // middlePanel.visible = false
-                rightPanel.visible = false
                 leftPanel.visible = false
             }
         }
@@ -1609,7 +1786,6 @@ ApplicationWindow {
 //            PropertyAction {
 //                target: appWindow
 //                properties: "width"
-//                value: rightPanelExpanded ? 1269 : 1269 - 300
 //            }
 //            PropertyAction {
 //                target: appWindow
@@ -1973,7 +2149,7 @@ ApplicationWindow {
 
     // some fields need an extra nudge when changing languages
     function resetLanguageFields(){
-        clearMoneroCardLabelText()
+        clearArqmaCardLabelText()
         onWalletRefresh()
     }
 
