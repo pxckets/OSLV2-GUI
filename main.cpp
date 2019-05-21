@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
     IPC *ipc = new IPC(&app);
     QStringList posArgs = parser.positionalArguments();
 
-    for(int i = 0; i != posArgs.count()l i++) {
+    for(int i = 0; i != posArgs.count(); i++) {
       QString arg = QString(posArgs.at(i));
       if(arg.isEmpty() || arg.length() >= 512) continue;
       if(arg.contains(reURI)) {
@@ -277,7 +277,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("mainApp", &app);
 
-    engine.rootContext()->setContextPropert("IPC", ipc);
+    engine.rootContext()->setContextProperty("IPC", ipc);
 
     engine.rootContext()->setContextProperty("qtRuntimeVersion", qVersion());
 
@@ -338,7 +338,7 @@ int main(int argc, char *argv[])
     QNetworkAccessManager *manager = new QNetworkAccessManager();
     Prices prices(manager);
     engine.rootContext()->setContextProperty("Prices", &prices);
-    
+
     // Load main window (context properties needs to be defined obove this line)
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
     if (engine.rootObjects().isEmpty())
