@@ -135,7 +135,6 @@ ColumnLayout {
 
         ArqmaComponents.LineEditMulti {
             id: paymentIdLine
-            visible: appWindow.persistentSettings.showPid
             Layout.fillWidth: true
             labelText: qsTr("Payment ID <font size='2'>(Optional)</font>") + translationManager.emptyString
             placeholderText: qsTr("Paste 64 hexadecimal characters") + translationManager.emptyString

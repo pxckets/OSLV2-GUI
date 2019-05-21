@@ -40,6 +40,14 @@ Rectangle {
     height: 1400
     Layout.fillWidth: true
 
+    function onPageCompleted() {
+        userInactivitySliderTimer.running = true;
+    }
+
+    function onPageClosed() {
+        userInactivitySliderTimer.running = false;
+    }
+
     ColumnLayout {
         id: settingsUI
         property int itemHeight: 60 * scaleRatio
@@ -72,6 +80,7 @@ Rectangle {
 
         ArqmaComponents.CheckBox {
             visible: !isMobile
+<<<<<<< HEAD
             id: showPidCheckBox
             checked: persistentSettings.showPid
             onClicked: {
@@ -82,6 +91,8 @@ Rectangle {
 
         ArqmaComponents.CheckBox {
             visible: !isMobile
+=======
+>>>>>>> parent of dc0606a... fiat API
             id: userInActivityCheckbox
             checked: persistentSettings.lockOnUserInActivity
             onClicked: persistentSettings.lockOnUserInActivity = !persistentSettings.lockOnUserInActivity
@@ -132,7 +143,7 @@ Rectangle {
                         radius: 2
                     }
                 }
-                handle: Rectangle {
+                 handle: Rectangle {
                     x: parent.leftPadding + parent.visualPosition * (parent.availableWidth - width)
                     y: parent.topPadding + parent.availableHeight / 2 - height / 2
                     implicitWidth: 18 * scaleRatio
@@ -141,107 +152,15 @@ Rectangle {
                     color: parent.pressed ? "#f0f0f0" : "#f6f6f6"
                     border.color: ArqmaComponents.Style.grey
                 }
-
-                onMoved: persistentSettings.lockOnUserInActivityInterval = userInactivitySlider.value;
             }
-        }
-
-        //! Manage pricing
-        RowLayout {
-            ArqmaComponents.CheckBox {
-                id: enableConvertCurrency
-                text: qsTr("Enable displaying balance in other currencies") + translationManager.emptyString
-                checked: persistentSettings.fiatPriceEnabled
-                onCheckedChanged: {
-                    if (!checked) {
-                        console.log("Disabled price conversion");
-                        persistentSettings.fiatPriceEnabled = false;
-                        appWindow.fiatTimerStop();
+             Timer {
+                // @TODO: Slider.onMoved{} is available in Qt > 5.9, use a hacky timer for now
+                id: userInactivitySliderTimer
+                interval: 1000; running: false; repeat: true
+                onTriggered: {
+                    if(persistentSettings.lockOnUserInActivityInterval != userInactivitySlider.value) {
+                        persistentSettings.lockOnUserInActivityInterval = userInactivitySlider.value;
                     }
-                }
-            }
-        }
-
-        GridLayout {
-            visible: enableConvertCurrency.checked
-            columns: 2
-            Layout.fillWidth: true
-            Layout.leftMargin: 36
-            columnSpacing: 32
-
-            ColumnLayout {
-                spacing: 10
-                Layout.fillWidth: true
-
-                ArqmaComponents.Label {
-                    Layout.fillWidth: true
-                    fontSize: 14
-                    text: qsTr("Price source") + translationManager.emptyString
-                }
-
-                ArqmaComponents.StandardDropdown {
-                    id: fiatPriceProviderDropDown
-                    Layout.fillWidth: true
-                    dataModel: fiatPriceProvidersModel
-                    onChanged: {
-                        var obj = dataModel.get(currentIndex);
-                        persistentSettings.fiatPriceProvider = obj.data;
-
-                        if(persistentSettings.fiatPriceEnabled)
-                            appWindow.fiatApiRefresh();
-                    }
-                }
-            }
-
-            ColumnLayout {
-                spacing: 10
-                Layout.fillWidth: true
-
-                ArqmaComponents.Label {
-                    Layout.fillWidth: true
-                    fontSize: 14
-                    text: qsTr("Currency") + translationManager.emptyString
-                }
-
-                ArqmaComponents.StandardDropdown {
-                    id: fiatPriceCurrencyDropdown
-                    Layout.fillWidth: true
-                    dataModel: fiatPriceCurrencyModel
-                    onChanged: {
-                        var obj = dataModel.get(currentIndex);
-                        persistentSettings.fiatPriceCurrency = obj.data;
-
-                        if(persistentSettings.fiatPriceEnabled)
-                            appWindow.fiatApiRefresh();
-                    }
-                }
-            }
-
-            z: parent.z + 1
-        }
-
-        ColumnLayout {
-            // Feature needs to be double enabled for security purposes (miss-clicks)
-            visible: enableConvertCurrency.checked && !persistentSettings.fiatPriceEnabled
-            spacing: 0
-            Layout.topMargin: 5
-            Layout.leftMargin: 36
-
-            ArqmaComponents.WarningBox {
-                text: qsTr("Enabling price conversion exposes your IP address to the selected price source.") + translationManager.emptyString;
-            }
-
-            ArqmaComponents.StandardButton {
-                Layout.topMargin: 10
-                Layout.bottomMargin: 10
-                small: true
-                text: qsTr("Confirm and enable") + translationManager.emptyString
-
-                onClicked: {
-                    console.log("Enabled price conversion");
-                    persistentSettings.fiatPriceEnabled = true;
-                    appWindow.fiatApiRefresh();
-                    appWindow.fiatTimerStart();
                 }
             }
         }
@@ -266,42 +185,7 @@ Rectangle {
         }
     }
 
-    ListModel {
-        id: fiatPriceProvidersModel
-    }
-
-    ListModel {
-        id: fiatPriceCurrencyModel
-        ListElement {
-            data: "arqusd"
-            column1: "USD"
-        }
-        ListElement {
-            data: "arqeur"
-            column1: "EUR"
-        }
-    }
-
     Component.onCompleted: {
-        // Dynamically fill fiatPrice dropdown based on `appWindow.fiatPriceAPIs`
-        var apis = appWindow.fiatPriceAPIs;
-        fiatPriceProvidersModel.clear();
-
-        var i = 0;
-        for (var api in apis){
-            if (!apis.hasOwnProperty(api))
-               continue;
-
-            fiatPriceProvidersModel.append({"column1": Utils.capitalize(api), "data": api});
-
-            if(api === persistentSettings.fiatPriceProvider)
-                fiatPriceProviderDropDown.currentIndex = i;
-            i += 1;
-        }
-
-        fiatPriceProviderDropDown.update();
-        fiatPriceCurrencyDropdown.currentIndex = persistentSettings.fiatPriceCurrency === "arqusd" ? 0 : 1;
-        fiatPriceCurrencyDropdown.update();
         console.log('SettingsLayout loaded');
     }
 }

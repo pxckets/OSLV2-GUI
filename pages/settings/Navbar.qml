@@ -155,7 +155,7 @@ Rectangle {
                         font.family: grid.fontFamily
                         font.pixelSize: grid.fontSize
                         font.bold: grid.fontBold
-                        text: qsTr("Interface") + translationManager.emptyString
+                        text: qsTr("Layout") + translationManager.emptyString
                         color: grid.fontColor
                     }
 

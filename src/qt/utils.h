@@ -7,6 +7,5 @@
 bool fileExists(QString path);
 QString getAccountName();
 const static QRegExp reURI = QRegExp("^\\w+:\\/\\/([\\w+\\-?\\-_\\-=\\-&]+)");
-QString randomUserAgent();
 
 #endif // UTILS_H

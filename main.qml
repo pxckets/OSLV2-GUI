@@ -92,18 +92,6 @@ ApplicationWindow {
     property int estimatedBlockchainSize: 5 // GB
     property alias viewState: rootItem.state
 
-    // fiat price conversion
-    property int fiatPriceARQUSD: 0
-    property int fiatPriceARQEUR: 0
-    property var fiatPriceAPIs: {
-        return {
-            "coingecko": {
-                "arqusd": "https://api.coingecko.com/api/v3/simple/price?ids=arqma&vs_currencies=usd",
-                "arqeur": "https://api.coingecko.com/api/v3/simple/price?ids=arqma&vs_currencies=eur"
-            }
-        }
-    }
-
     property string remoteNodeService: {
         // support user-defined remote node aggregators
         if(persistentSettings.remoteNodeService){
@@ -408,10 +396,6 @@ ApplicationWindow {
         leftPanel.unlockedBalanceText = balance_unlocked;
         middlePanel.balanceText = balance;
         leftPanel.balanceText = balance;
-
-        if (persistentSettings.fiatPriceEnabled) {
-            appWindow.fiatApiUpdateBalance(balance, balance_unlocked);
-        }
 
         var accountLabel = currentWallet.getSubaddressLabel(currentWallet.currentSubaddressAccount, 0);
         leftPanel.balanceLabelText = qsTr("Balance (#%1%2)").arg(currentWallet.currentSubaddressAccount).arg(accountLabel === "" ? "" : (" – " + accountLabel));
@@ -1056,7 +1040,6 @@ ApplicationWindow {
         rootItem.state = "wizard"
         // reset balance
         leftPanel.balanceText = leftPanel.unlockedBalanceText = walletManager.displayAmount(0);
-        fiatApiUpdateBalance(0, 0);
         // disable timers
         userInActivityTimer.running = false;
         simpleModeConnectionTimer.running = false;
@@ -1081,127 +1064,6 @@ ApplicationWindow {
     flags: persistentSettings.customDecorations ? Windows.flagsCustomDecorations : Windows.flags
     onWidthChanged: x -= 0
 
-    Timer {
-        id: fiatPriceTimer
-        interval: 1000 * 60;
-        running: persistentSettings.fiatPriceEnabled;
-        repeat: true
-        onTriggered: {
-            if(persistentSettings.fiatPriceEnabled)
-                appWindow.fiatApiRefresh();
-        }
-        triggeredOnStart: false
-    }
-
-    function fiatApiParseTicker(resp, currency){
-        // parse & validate incoming JSON
-        if(resp._url.startsWith("https://api.coingecko.com/api/v3/")){
-            var key = currency === "arqeur" ? "eur" : "usd";
-            if(!resp.hasOwnProperty("arqma") || !resp["arqma"].hasOwnProperty(key)){
-                appWindow.fiatApiError("Coingecko API has error(s)");
-                return;
-            }
-            return resp["arqma"][key];
-        }
-    }
-
-    function fiatApiGetCurrency(resp){
-        // map response to `appWindow.fiatPriceAPIs` object
-        if (!resp.hasOwnProperty('_url')){
-            appWindow.fiatApiError("invalid JSON");
-            return;
-        }
-
-        var apis = appWindow.fiatPriceAPIs;
-        for (var api in apis){
-            if (!apis.hasOwnProperty(api))
-               continue;
-
-            for (var cur in apis[api]){
-                if(!apis[api].hasOwnProperty(cur))
-                    continue;
-
-                var url = apis[api][cur];
-                if(url === resp._url){
-                    return cur;
-                }
-            }
-        }
-    }
-
-    function fiatApiJsonReceived(resp){
-        // handle incoming JSON, set ticker
-        var currency = appWindow.fiatApiGetCurrency(resp);
-        if(typeof currency == "undefined"){
-            appWindow.fiatApiError("could not get currency");
-            return;
-        }
-
-        var ticker = appWindow.fiatApiParseTicker(resp, currency);
-        if(ticker <= 0){
-            appWindow.fiatApiError("could not get ticker");
-            return;
-        }
-
-        if(persistentSettings.fiatPriceCurrency === "arqusd")
-            appWindow.fiatPriceARQUSD = ticker;
-        else if(persistentSettings.fiatPriceCurrency === "arqeur")
-            appWindow.fiatPriceARQEUR = ticker;
-
-        appWindow.updateBalance();
-    }
-
-    function fiatApiRefresh(){
-        // trigger API call
-        if(!persistentSettings.fiatPriceEnabled)
-            return;
-
-        var userProvider = persistentSettings.fiatPriceProvider;
-        if(!appWindow.fiatPriceAPIs.hasOwnProperty(userProvider)){
-            appWindow.fiatApiError("provider \"" + userProvider + "\" not implemented");
-            return;
-        }
-
-        var provider = appWindow.fiatPriceAPIs[userProvider];
-        var userCurrency = persistentSettings.fiatPriceCurrency;
-        if(!provider.hasOwnProperty(userCurrency)){
-            appWindow.fiatApiError("currency \"" + userCurrency + "\" not implemented");
-        }
-
-        var url = provider[userCurrency];
-        Prices.getJSON(url);
-    }
-
-    function fiatApiUpdateBalance(balance, unlocked_balance){
-        // update balance card
-        var ticker = persistentSettings.fiatPriceCurrency === "arqusd" ? appWindow.fiatPriceARQUSD : appWindow.fiatPriceARQEUR;
-        var symbol = persistentSettings.fiatPriceCurrency === "arqusd" ? "$" : "€"
-        if(ticker <= 0){
-            console.log(fiatApiError("Could not update balance card; invalid ticker value"));
-            leftPanel.unlockedBalanceTextFiat = "N/A";
-            leftPanel.balanceTextFiat = "N/A";
-            return;
-        }
-
-        var uFiat = Utils.formatMoney(unlocked_balance * ticker);
-        var bFiat = Utils.formatMoney(balance * ticker);
-
-        leftPanel.unlockedBalanceTextFiat = symbol + uFiat;
-        leftPanel.balanceTextFiat = symbol + bFiat;
-    }
-
-    function fiatTimerStart(){
-        fiatPriceTimer.start();
-    }
-
-    function fiatTimerStop(){
-        fiatPriceTimer.stop();
-    }
-
-    function fiatApiError(msg){
-        console.log("fiatPriceError: " + msg);
-    }
-
     Component.onCompleted: {
         x = (Screen.width - width) / 2
         y = (Screen.height - maxWindowHeight) / 2
@@ -1210,13 +1072,14 @@ ApplicationWindow {
         walletManager.walletClosed.connect(onWalletClosed);
         walletManager.checkUpdatesComplete.connect(onWalletCheckUpdatesComplete);
         IPC.uriHandler.connect(onUriHandler);
-        Prices.priceJsonReceived.connect(appWindow.fiatApiJsonReceived);
 
         if(typeof daemonManager != "undefined") {
             daemonManager.daemonStarted.connect(onDaemonStarted);
             daemonManager.daemonStartFailure.connect(onDaemonStartFailure);
             daemonManager.daemonStopped.connect(onDaemonStopped);
         }
+
+
 
         // Connect app exit to qml window exit handling
         mainApp.closing.connect(appWindow.close);
@@ -1249,11 +1112,6 @@ ApplicationWindow {
         }
 
         checkUpdates();
-
-        if(persistentSettings.fiatPriceEnabled){
-            appWindow.fiatApiRefresh();
-            appWindow.fiatTimerStart();
-        }
     }
 
     Settings {
@@ -1295,11 +1153,6 @@ ApplicationWindow {
         property int walletMode: 2
         property string remoteNodeService: ""
         property int lockOnUserInActivityInterval: 10  // minutes
-        property bool showPid: false
-
-        property bool fiatPriceEnabled: false
-        property string fiatPriceProvider: "coingecko"
-        property string fiatPriceCurrency: "arqusd"
     }
 
     // Information dialog
@@ -2149,7 +2002,7 @@ ApplicationWindow {
 
     // some fields need an extra nudge when changing languages
     function resetLanguageFields(){
-        clearArqmaCardLabelText()
+        clearMoneroCardLabelText()
         onWalletRefresh()
     }
 
