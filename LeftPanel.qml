@@ -219,7 +219,7 @@ Rectangle {
                 height: 490 * scaleRatio
                 width: 50 * scaleRatio
 
-                ArqmaComponents.Text {
+                Text {
                     visible: !(fiatBalance && persistentSettings.fiatPriceEnabled)
                     id: balanceText
                     anchors.left: parent.left
@@ -257,7 +257,7 @@ Rectangle {
                     }
                 }
 
-                ArqmaComponents.Text {
+                Text {
                     visible: !balanceText.visible
                     id: balanceTextFiat
                     anchors.left: parent.left
@@ -286,7 +286,7 @@ Rectangle {
                     }
                 }
 
-                ArqmaComponents.Text {
+                Text {
                     id: unlockedBalanceText
                     visible: !(fiatBalance && persistentSettings.fiatPriceEnabled)
                     anchors.left: parent.left
@@ -323,7 +323,7 @@ Rectangle {
                     }
                 }
 
-                ArqmaComponents.Text {
+                Text {
                     id: unlockedBalanceTextFiat
                     visible: !unlockedBalanceText.visible
                     anchors.left: parent.left
