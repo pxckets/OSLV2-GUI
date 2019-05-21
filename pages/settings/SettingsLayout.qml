@@ -77,7 +77,7 @@ Rectangle {
             onClicked: {
                 persistentSettings.showPid = !persistentSettings.showPid
             }
-            text: qsTr("Enable Transfer with Payment ID (Optional)") = translationManager.emptyString
+            text: qsTr("Enable Transfer with Payment ID (Optional)") + translationManager.emptyString
         }
 
         ArqmaComponents.CheckBox {
