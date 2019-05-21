@@ -82,7 +82,7 @@ void IPC::handleConnection(){
 
     clientConnection->waitForReadyRead(2);
     QByteArray cmdArray = clientConnection->readAll();
-    QString cmdString = QTextCodec::codecForMib(109)->toUnicode(cmdArray);  // UTF-8
+    QString cmdString = QTextCodec::codecForMib(106)->toUnicode(cmdArray);  // UTF-8
     qDebug() << cmdString;
 
     this->parseCommand(cmdString);

@@ -332,14 +332,7 @@ int main(int argc, char *argv[])
     builtWithScanner = true;
 #endif
     engine.rootContext()->setContextProperty("builtWithScanner", builtWithScanner);
-<<<<<<< HEAD
 
-    QNetworkAccessManager *manager = new QNetworkAccessManager();
-    Prices prices(manager);
-    engine.rootContext()->setContextProperty("Prices", &prices);
-
-=======
->>>>>>> parent of dc0606a... fiat API
     // Load main window (context properties needs to be defined obove this line)
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
     if (engine.rootObjects().isEmpty())

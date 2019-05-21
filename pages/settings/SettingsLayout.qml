@@ -80,7 +80,6 @@ Rectangle {
 
         ArqmaComponents.CheckBox {
             visible: !isMobile
-<<<<<<< HEAD
             id: showPidCheckBox
             checked: persistentSettings.showPid
             onClicked: {
@@ -91,8 +90,6 @@ Rectangle {
 
         ArqmaComponents.CheckBox {
             visible: !isMobile
-=======
->>>>>>> parent of dc0606a... fiat API
             id: userInActivityCheckbox
             checked: persistentSettings.lockOnUserInActivity
             onClicked: persistentSettings.lockOnUserInActivity = !persistentSettings.lockOnUserInActivity

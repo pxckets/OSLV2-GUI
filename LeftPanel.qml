@@ -194,11 +194,7 @@ Rectangle {
                 width: 50 * scaleRatio
 
                 Text {
-<<<<<<< HEAD
-                    visible: !(fiatBalance && persistentSettings.fiatPriceEnabled)
-=======
                     visible: !isMobile
->>>>>>> parent of dc0606a... fiat API
                     id: balanceText
                     anchors.left: parent.left
                     anchors.leftMargin: 20
@@ -217,7 +213,6 @@ Rectangle {
                         return defaultSize;
                     }
 
-<<<<<<< HEAD
                     MouseArea {
                         hoverEnabled: true
                         anchors.fill: parent
@@ -263,24 +258,23 @@ Rectangle {
                                 appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
                         }
                     }
-=======
-		    MouseArea {
-			hoverEnabled: true
-			anchors.fill: parent
-			cursorShape: Qt.PointingHandCursor
-			onEntered: {
-				parent.color = ArqmaComponents.Style.heroBlue
-			}
-			onExited: {
-				parent.color = "white"
-			}
-			onClicked: {
-				console.log("Copied to clipboard");
-				clipboard.setText(parent.text);
-				appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
-			}
-		    }
->>>>>>> parent of dc0606a... fiat API
+
+                    MouseArea {
+                        hoverEnabled: true
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onEntered: {
+                            parent.color = ArqmaComponents.Style.heroBlue
+                        }
+                        onExited: {
+                            parent.color = "white"
+                        }
+                        onClicked: {
+                            console.log("Copied to clipboard");
+                            clipboard.setText(parent.text);
+                            appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+                        }
+                    }
                 }
 
                 Text {
@@ -303,7 +297,6 @@ Rectangle {
                         return defaultSize;
                     }
 
-<<<<<<< HEAD
                 Text {
                     id: unlockedBalanceTextFiat
                     visible: !unlockedBalanceText.visible
@@ -331,7 +324,6 @@ Rectangle {
                                 appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
                         }
                     }
-=======
 		    MouseArea {
 			hoverEnabled: true
 			anchors.fill: parent
@@ -348,7 +340,6 @@ Rectangle {
 				appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
 			}
 		    }
->>>>>>> parent of dc0606a... fiat API
                 }
 
                 ArqmaComponents.Label {

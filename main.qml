@@ -2002,7 +2002,7 @@ ApplicationWindow {
 
     // some fields need an extra nudge when changing languages
     function resetLanguageFields(){
-        clearMoneroCardLabelText()
+        clearArqmaCardLabelText()
         onWalletRefresh()
     }
 
