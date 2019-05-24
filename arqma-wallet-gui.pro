@@ -267,7 +267,7 @@ win32 {
         -lIphlpapi \
         -lcrypt32 \
         -lhidapi \
-		-lgdi32 \
+	-lgdi32 \
         -lcrypto 
 
 #      !contains(QMAKE_TARGET.arch, x86_64) {
