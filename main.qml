@@ -58,7 +58,6 @@ ApplicationWindow {
     property bool hideBalanceForced: false
     property bool whatIsEnable: false
     property bool ctrlPressed: false
-    property bool rightPanelExpanded: false
     property bool osx: false
     property alias persistentSettings : persistentSettings
     property var currentWallet;
@@ -402,6 +401,47 @@ ApplicationWindow {
         leftPanel.balanceLabelText = qsTr("Balance (#%1%2)").arg(currentWallet.currentSubaddressAccount).arg(accountLabel === "" ? "" : (" – " + accountLabel));
     }
 
+    function onUriHandler(uri) {
+        if(uri.startsWith("arqma://")) {
+            var address = uri.substring("arqma://".length);
+
+            var params = {}
+            if(address.length === 0) return;
+            var spl = address.split("?");
+
+            if(spl.length > 2) return;
+            if(spl.length >= 1) {
+                address = spl[0];
+
+                if(spl.length === 2) {
+                    spl.shift();
+                    var item = spl[0];
+
+                    var _spl = item.split("&");
+                    for(var param in _spl) {
+                        var _item = _spl[param];
+                        if(!_item.indexOf("=") > 0) continue;
+
+                        var __spl = _item.split("=");
+                        if(__spl.length !== 2) continue;
+
+                        params[__spl[0]] = __spl[1];
+                    }
+                }
+            }
+
+            // Fill fields
+            middlePanel.transferView.sendTo(address, params["tx_payment_id"], params["tx_description"], params["tx_amount"]);
+
+            // Raise Window
+            appWindow.raise();
+            appWindow.show();
+
+            if(params.hasOwnProperty("tx_payment_id"))
+                persistentSettings.showPid = true;
+        }
+    }
+
     function onWalletConnectionStatusChanged(status){
         console.log("Wallet connection status changed " + status)
         middlePanel.updateStatus();
@@ -472,6 +512,12 @@ ApplicationWindow {
 
         // Force switch normal view
         rootItem.state = "normal";
+
+        // Process queued IPC Command
+        if(typeof IPC !== "undefined" && IPC.queuedCmd().length > 0) {
+            var queuedCmd = IPC.queuedCmd();
+            if(/^\w+:\/\/(.*)$/.test(queuedCmd)) appWindow.onUriHandler(queuedCmd); // Uri Handler
+        }
     }
 
     function onWalletClosed(walletAddress) {
@@ -501,6 +547,9 @@ ApplicationWindow {
     }
 
     function disconnectRemoteNode() {
+        if (typeof currentWallet === "undefined" || currentWallet === null)
+            return;
+
         console.log("disconnecting remote node");
         persistentSettings.useRemoteNode = false;
         currentDaemonAddress = localDaemonAddress
@@ -632,7 +681,6 @@ ApplicationWindow {
 
     function onWalletMoneyReceived(txId, amount) {
         // refresh transaction history here
-        currentWallet.refresh()
         console.log("Confirmed money found")
         // history refresh is handled by walletUpdated
         currentWallet.history.refresh(currentWallet.currentSubaddressAccount) // this will refresh model
@@ -648,7 +696,6 @@ ApplicationWindow {
     function onWalletMoneySent(txId, amount) {
         // refresh transaction history here
         console.log("Arqma sent found")
-        currentWallet.refresh()
         currentWallet.history.refresh(currentWallet.currentSubaddressAccount) // this will refresh model
     }
 
@@ -964,7 +1011,6 @@ ApplicationWindow {
     function enableUI(enable) {
         middlePanel.enabled = enable;
         leftPanel.enabled = enable;
-        rightPanel.enabled = enable;
     }
 
     function showProcessingSplash(message) {
@@ -1010,7 +1056,7 @@ ApplicationWindow {
 
     objectName: "appWindow"
     visible: true
-    width: screenWidth //rightPanelExpanded ? 1269 : 1269 - 300
+    width: screenWidth
     height: maxWindowHeight;
     color: Style.backgroundColor
     flags: persistentSettings.customDecorations ? Windows.flagsCustomDecorations : Windows.flags
@@ -1023,6 +1069,7 @@ ApplicationWindow {
         walletManager.walletOpened.connect(onWalletOpened);
         walletManager.walletClosed.connect(onWalletClosed);
         walletManager.checkUpdatesComplete.connect(onWalletCheckUpdatesComplete);
+        IPC.uriHandler.connect(onUriHandler);
 
         if(typeof daemonManager != "undefined") {
             daemonManager.daemonStarted.connect(onDaemonStarted);
@@ -1064,13 +1111,6 @@ ApplicationWindow {
 
         checkUpdates();
     }
-
-    onRightPanelExpandedChanged: {
-        if (rightPanelExpanded) {
-            rightPanel.updateTweets()
-        }
-    }
-
 
     Settings {
         id: persistentSettings
@@ -1335,10 +1375,9 @@ ApplicationWindow {
             State {
                 name: "wizard"
                 PropertyChanges { target: leftPanel; visible: false }
-                PropertyChanges { target: rightPanel; visible: false }
                 PropertyChanges { target: middlePanel; visible: false }
                 PropertyChanges { target: wizard; visible: true }
-                PropertyChanges { target: appWindow; width: (screenWidth < 969 || isAndroid || isIOS)? screenWidth : 969 } //rightPanelExpanded ? 1269 : 1269 - 300;
+                PropertyChanges { target: appWindow; width: (screenWidth < 969 || isAndroid || isIOS)? screenWidth : 969 }
                 PropertyChanges { target: appWindow; height: maxWindowHeight; }
                 PropertyChanges { target: resizeArea; visible: true }
 //                PropertyChanges { target: frameArea; blocked: true }
@@ -1350,11 +1389,10 @@ ApplicationWindow {
             }, State {
                 name: "normal"
                 PropertyChanges { target: leftPanel; visible: isMobile ? false : true }
-                PropertyChanges { target: rightPanel; visible: false }
                 PropertyChanges { target: middlePanel; visible: true }
                 PropertyChanges { target: titleBar; basicButtonVisible: true }
                 PropertyChanges { target: wizard; visible: false }
-                PropertyChanges { target: appWindow; width: (screenWidth < 939 || isAndroid || isIOS)? screenWidth : 939 } //rightPanelExpanded ? 1269 : 1269 - 300;
+                PropertyChanges { target: appWindow; width: (screenWidth < 939 || isAndroid || isIOS)? screenWidth : 939 }
                 PropertyChanges { target: appWindow; height: maxWindowHeight; }
                 PropertyChanges { target: resizeArea; visible: true }
                 PropertyChanges { target: titleBar; showMaximizeButton: true }
@@ -1509,15 +1547,6 @@ ApplicationWindow {
             }
         }
 
-        RightPanel {
-            id: rightPanel
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            width: appWindow.rightPanelExpanded ? 300 : 0
-            visible: appWindow.rightPanelExpanded
-        }
-
-
         MiddlePanel {
             id: middlePanel
             anchors.top: mobileHeader.bottom
@@ -1566,7 +1595,7 @@ ApplicationWindow {
 //                value: 326
 //            }
             PropertyAction {
-                targets: [leftPanel, rightPanel]
+                target: leftPanel
                 properties: "visible"
                 value: false
             }
@@ -1584,7 +1613,6 @@ ApplicationWindow {
 
             onStopped: {
                 // middlePanel.visible = false
-                rightPanel.visible = false
                 leftPanel.visible = false
             }
         }
@@ -1609,7 +1637,6 @@ ApplicationWindow {
 //            PropertyAction {
 //                target: appWindow
 //                properties: "width"
-//                value: rightPanelExpanded ? 1269 : 1269 - 300
 //            }
 //            PropertyAction {
 //                target: appWindow
@@ -1973,7 +2000,7 @@ ApplicationWindow {
 
     // some fields need an extra nudge when changing languages
     function resetLanguageFields(){
-        clearMoneroCardLabelText()
+        clearArqmaCardLabelText()
         onWalletRefresh()
     }
 

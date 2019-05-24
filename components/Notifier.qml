@@ -30,15 +30,14 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import ArqmaComponents.Wallet 1.0
-
-import "."
+import "." as ArqmaComponents
 
 Item {
     id: item
     property string message: ""
     property bool active: false
-    height: 120
-    width: 240
+    height: 180
+    width: 320
     property int margin: 15
     x: parent.width - width - margin
     y: parent.height - height * scale.yScale - margin * scale.yScale
@@ -54,11 +53,12 @@ Item {
             backgroundVisible: false
             textFormat: TextEdit.AutoText
             anchors.fill: parent
-            font.family: Style.fontRegular.name
+            font.family: ArqmaComponents.Style.fontRegular.name
             font.pixelSize: 12
             textMargin: 20
             textColor: "white"
             text: item.message
+            wrapMode: Text.WrapAnywhere
         }
     }
 
@@ -73,7 +73,7 @@ Item {
 
     Timer {
         id: hider
-        interval: 12000; running: false; repeat: false
+        interval: 30000; running: false; repeat: false
         onTriggered: { item.active = false }
     }
 

@@ -34,6 +34,8 @@ import "../components" as ArqmaComponents
 Label {
     id: item
     fontSize: 18 * scaleRatio
+    anchors.left: parent.left
+    anchors.right: parent.right
 
     Rectangle {
         anchors.top: item.bottom

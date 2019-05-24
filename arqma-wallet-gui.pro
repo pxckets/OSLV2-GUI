@@ -5,11 +5,14 @@ lessThan (QT_MAJOR_VERSION, 5) | lessThan (QT_MINOR_VERSION, 7) {
 
 TEMPLATE = app
 
-QT += qml quick widgets
+QT += svg qml gui-private quick widgets
 
 WALLET_ROOT=$$PWD/arqma
 
 CONFIG += c++11 link_pkgconfig
+packagesExist(libusb-1.0) {
+    PKGCONFIG += libusb-1.0
+}
 packagesExist(hidapi-libusb) {
     PKGCONFIG += hidapi-libusb
 }
@@ -55,7 +58,10 @@ HEADERS += \
     src/zxcvbn-c/zxcvbn.h \
     src/libwalletqt/UnsignedTransaction.h \
     Logger.h \
-    MainApp.h
+    MainApp.h \
+    src/qt/ipc.h \
+    src/qt/mime.h \
+    src/qt/utils.h
 
 SOURCES += main.cpp \
     filter.cpp \
@@ -83,7 +89,10 @@ SOURCES += main.cpp \
     src/zxcvbn-c/zxcvbn.c \
     src/libwalletqt/UnsignedTransaction.cpp \
     Logger.cpp \
-    MainApp.cpp
+    MainApp.cpp \
+    src/qt/ipc.cpp \
+    src/qt/mime.cpp \
+    src/qt/utils.cpp
 
 CONFIG(DISABLE_PASS_STRENGTH_METER) {
     HEADERS -= src/zxcvbn-c/zxcvbn.h
@@ -251,15 +260,15 @@ win32 {
         -liconv \
         -lssl \
         -lsodium \
-        -lcrypto \
-        -Wl,-Bdynamic \
+	-Wl,-Bdynamic \
         -lwinscard \
         -lws2_32 \
         -lwsock32 \
         -lIphlpapi \
         -lcrypt32 \
         -lhidapi \
-        -lgdi32
+	-lgdi32 \
+        -lcrypto 
 
 #      !contains(QMAKE_TARGET.arch, x86_64) {
 #        message("Target is 32bit")
@@ -279,6 +288,7 @@ linux {
         message("using static libraries")
         LIBS+= -Wl,-Bstatic
         QMAKE_LFLAGS += -static-libgcc -static-libstdc++
+        QMAKE_LIBDIR += /usr/local/ssl/lib
             LIBS+= -lunbound \
                    -lusb-1.0 \
                    -lhidapi-hidraw \
@@ -331,7 +341,6 @@ macx {
         -L/usr/local/opt/openssl/lib \
         -L/usr/local/opt/boost/lib \
         -lboost_serialization \
-        -lhidapi \
         -lboost_thread-mt \
         -lboost_system-mt \
         -lboost_system \
@@ -340,6 +349,8 @@ macx {
         -lboost_regex \
         -lboost_chrono \
         -lboost_program_options \
+        -framework CoreFoundation \
+        -lhidapi \
         -lssl \
         -lsodium \
         -lcrypto \

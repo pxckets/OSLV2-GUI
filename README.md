@@ -41,6 +41,7 @@ Copyright (c) 2014-2018, The Monero Project
 
     ```
     cd arqma-gui
+    git checkout release-v0.4
     QT_SELECT=5 ./build.sh
     ```
 
@@ -97,7 +98,10 @@ The executable can be found in the build/release/bin folder.
 
 7. Go into the repository
 
-  `cd arqma-gui`
+  ```
+  cd arqma-gui
+  git checkout release-v0.4
+  ```
 
 8. Start the build
 
@@ -132,13 +136,13 @@ application.
   * Open the MSYS shell via the `MSYS2 Shell` shortcut
   * Update packages using pacman:  
 
-        pacman -Syuu  
+        pacman -Syu  
 
   * Exit the MSYS shell using Alt+F4  
   * Edit the properties for the `MSYS2 Shell` shortcut changing "msys2_shell.bat" to "msys2_shell.cmd -mingw64"
   * Restart MSYS shell via modified shortcut and update packages again using pacman:  
 
-        pacman -Syuu  
+        pacman -Syu  
 
 2. Install dependencies
 
@@ -149,10 +153,16 @@ application.
 3. Install Qt5
 
    ```
-   pacman -S mingw-w64-x86_64-qt5 mingw-w64-x86_64-qtbinpatcher mingw-w64-x86_64-qtwebkit
+   pacman -S mingw-w64-x86_64-qt5 mingw-w64-x86_64-qtbinpatcher
    ```
 
   * There is no more need to download some special installer from the Qt website, the standard MSYS2 package for Qt will do in almost all circumstances.
+
+  * Newest QT-5.12.3 has bug that prevent GUI from normal work. Workaround for resolving it is simply to downgrade 3 packages:
+
+  ```
+  pacman -U http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-icu-62.1-1-any.pkg.tar.xz http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-boost-1.68.0-2-any.pkg.tar.xz http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-qt5-5.11.2-3-any.pkg.tar.xz
+  ```
 
 4. Clone repository
 
@@ -164,7 +174,7 @@ Latest Msys2 and QT-5.12 has issue with bad_address at qml_cache. Workaround to 
 
     ```
     cd arqma-gui
-    git submodule init && git submodule update
+    git checkout release-v0.4
     source ./build.sh
     ```
 

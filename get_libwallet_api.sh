@@ -17,7 +17,7 @@ if [ ! -d $ARQMA_DIR/src ]; then
 fi
 git submodule update --remote
 git -C $ARQMA_DIR fetch
-git -C $ARQMA_DIR checkout release-v0.3.2.1
+git -C $ARQMA_DIR checkout release-v0.4.0.0
 
 # get arqma core tag
 pushd $ARQMA_DIR

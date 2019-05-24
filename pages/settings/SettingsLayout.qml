@@ -80,6 +80,16 @@ Rectangle {
 
         ArqmaComponents.CheckBox {
             visible: !isMobile
+            id: showPidCheckBox
+            checked: persistentSettings.showPid
+            onClicked: {
+                persistentSettings.showPid = !persistentSettings.showPid
+            }
+            text: qsTr("Enable Transfer with Payment ID (Optional)") + translationManager.emptyString
+        }
+
+        ArqmaComponents.CheckBox {
+            visible: !isMobile
             id: userInActivityCheckbox
             checked: persistentSettings.lockOnUserInActivity
             onClicked: persistentSettings.lockOnUserInActivity = !persistentSettings.lockOnUserInActivity

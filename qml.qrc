@@ -3,7 +3,6 @@
         <file>main.qml</file>
         <file>LeftPanel.qml</file>
         <file>MiddlePanel.qml</file>
-        <file>RightPanel.qml</file>
         <file>version.js</file>
 
         <file>pages/Account.qml</file>
@@ -87,8 +86,6 @@
         <file>images/datePicker.png</file>
         <file>images/nextMonth.png</file>
         <file>images/prevMonth.png</file>
-        <file>images/collapseRightPanel.png</file>
-        <file>images/expandRightPanel.png</file>
         <file>images/dropdownCopy.png</file>
         <file>images/dropdownDel.png</file>
         <file>images/dropdownCopy_new.png</file>
