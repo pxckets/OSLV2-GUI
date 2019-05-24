@@ -141,12 +141,19 @@ Source: "bin\playlistformats\*"; DestDir: "{app}\playlistformats"; Flags: recurs
 ; Qt graphical effects as part of the core runtime, effects like blurring and blending
 Source: "bin\QtGraphicalEffects\*"; DestDir: "{app}\QtGraphicalEffects"; Flags: recursesubdirs ignoreversion
 
+; Qt "private" directory with "effects"
+Source: "bin\private\*"; DestDir: "{app}\private"; Flags: recursesubdirs ignoreversion
+
 ; Qt QML files
 Source: "bin\QtQml\*"; DestDir: "{app}\QtQml"; Flags: recursesubdirs ignoreversion
 
 ; Qt Quick files
 Source: "bin\QtQuick\*"; DestDir: "{app}\QtQuick"; Flags: recursesubdirs ignoreversion
 Source: "bin\QtQuick.2\*"; DestDir: "{app}\QtQuick.2"; Flags: recursesubdirs ignoreversion
+
+; Qt Quick Controls 2 modules of the Qt Toolkit
+Source: "bin\Material\*"; DestDir: "{app}\Material"; Flags: recursesubdirs ignoreversion
+Source: "bin\Universal\*"; DestDir: "{app}\Universal"; Flags: recursesubdirs ignoreversion
 
 ; Qt Quick 2D Renderer fallback for systems / environments with "low-level graphics" i.e. without 3D support
 Source: "bin\scenegraph\*"; DestDir: "{app}\scenegraph"; Flags: recursesubdirs ignoreversion
@@ -235,6 +242,12 @@ Source: "bin\libssp-0.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; HIDAPI, library for communicating with USB and Bluetooth devices, for hardware wallets
 Source: "bin\libhidapi-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+
+; OpenSSL shared libraries
+Source: "bin\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libcrypto-1_1-x64.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\libssl-1_1-x64.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Camera support
 Source: "bin\libzbar-0.dll"; DestDir: "{app}"; Flags: ignoreversion
