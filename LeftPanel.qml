@@ -1,3 +1,4 @@
+// Copyright (c) 2018-2019, The Arqma Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -232,52 +233,6 @@ Rectangle {
                 }
 
                 Text {
-                    visible: !balanceText.visible
-                    id: balanceTextFiat
-                    anchors.left: parent.left
-                    anchors.leftMargin: 20
-                    anchors.top: parent.top
-                    anchors.topMargin: 76
-                    font.family: ArqmaComponents.Style.fontRegular.name
-                    color: "#FFFFFF"
-                    text: "N/A"
-                    font.pixelSize: balanceText.font.pixelSize
-                    MouseArea {
-                        hoverEnabled: true
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onEntered: {
-                            parent.color = ArqmaComponents.Style.lightBlue
-                        }
-                        onExited: {
-                            parent.color = "white"
-                        }
-                        onClicked: {
-                                console.log("Copied to clipboard");
-                                clipboard.setText(parent.text);
-                                appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
-                        }
-                    }
-
-                    MouseArea {
-                        hoverEnabled: true
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onEntered: {
-                            parent.color = ArqmaComponents.Style.heroBlue
-                        }
-                        onExited: {
-                            parent.color = "white"
-                        }
-                        onClicked: {
-                            console.log("Copied to clipboard");
-                            clipboard.setText(parent.text);
-                            appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
-                        }
-                    }
-                }
-
-                Text {
                     id: unlockedBalanceText
                     visible: true
                     anchors.left: parent.left
@@ -297,17 +252,6 @@ Rectangle {
                         return defaultSize;
                     }
 
-                Text {
-                    id: unlockedBalanceTextFiat
-                    visible: !unlockedBalanceText.visible
-                    anchors.left: parent.left
-                    anchors.leftMargin: 20
-                    anchors.top: parent.top
-                    anchors.topMargin: 126
-                    font.family: ArqmaComponents.Style.fontRegular.name
-                    color: "#FFFFFF"
-                    text: "N/A"
-                    font.pixelSize: unlockedBalanceText.font.pixelSize
                     MouseArea {
                         hoverEnabled: true
                         anchors.fill: parent
@@ -319,27 +263,11 @@ Rectangle {
                             parent.color = "white"
                         }
                         onClicked: {
-                                console.log("Copied to clipboard");
-                                clipboard.setText(parent.text);
-                                appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+                            console.log("Copied to clipboard");
+                            clipboard.setText(parent.text);
+                            appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
                         }
                     }
-		    MouseArea {
-			hoverEnabled: true
-			anchors.fill: parent
-			cursorShape: Qt.PointingHandCursor
-			onEntered: {
-				parent.color = ArqmaComponents.Style.lightBlue
-			}
-			onExited: {
-				parent.color = "white"
-			}
-			onClicked: {
-				console.log("Copied to clipboard");
-				clipboard.setText(parent.text);
-				appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
-			}
-		    }
                 }
 
                 ArqmaComponents.Label {
