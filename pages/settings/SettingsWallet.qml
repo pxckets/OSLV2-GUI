@@ -180,7 +180,7 @@ Rectangle {
                     if (currentWallet.createViewOnly(newPath, appWindow.walletPassword)) {
                         console.log("view only wallet created in " + newPath);
                         informationPopup.title  = qsTr("Success") + translationManager.emptyString;
-                        informationPopup.text = qsTr('The view only wallet has been created with the same password as the current wallet. You can open it by closing this current wallet, clicking the "Open wallet from file" option, and selecting the view wallet in: \n%1\nYou can change the password in the wallet settings.').arg(newPath);
+                        informationPopup.text = qsTr('The view only wallet has been created with the same password as the current wallet.\nYou can open it by closing this current wallet, clicking the "Open wallet from file" option, and selecting the view wallet in: \n%1\nYou can change the password in the wallet settings.').arg(newPath);
                         informationPopup.open()
                         informationPopup.onCloseCallback = null
                     } else {
