@@ -14,7 +14,7 @@ Copyright (c) 2014-2018, The Monero Project
 
   - For Debian/Ubuntu Distributions
 
-	`sudo apt install build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libsodium-dev libzmq3-dev libudev-dev libhidapi-libusb0 libhidapi-dev libhidapi-hidraw0`
+	`sudo apt install build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libsodium-dev libzmq3-dev libudev-dev libhidapi-libusb0 libhidapi-dev libhidapi-hidraw0 libqt5svg5-dev`
 
   - For Gentoo
 
