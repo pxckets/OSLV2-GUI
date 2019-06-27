@@ -130,6 +130,12 @@ POSIX system. The toolchain runs within the environment and *cross-compiles*
 binaries that can run outside of the environment as a regular Windows
 application.
 
+**Before start GUI allow arqmad in firewall**
+
+Run cmd as Administrator:
+	
+	netsh advfirewall firewall add rule name="allow arqmad" dir=in program="C:\Program Files\Arqma GUI Wallet\arqmad.exe" security=authnoencap action=allow
+	
 **Preparing the build environment**
 
 1 Download and install the [MSYS2 installer](http://msys2.github.io).
