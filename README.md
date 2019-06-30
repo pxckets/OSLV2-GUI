@@ -14,7 +14,7 @@ Copyright (c) 2014-2018, The Monero Project
 
   - For Debian/Ubuntu Distributions
 
-	`sudo apt install build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libsodium-dev libzmq3-dev libudev-dev libhidapi-libusb0 libhidapi-dev libhidapi-hidraw0 libqt5svg5-dev`
+	`sudo apt install build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libsodium-dev libzmq3-dev libudev-dev libhidapi-libusb0 libhidapi-dev libhidapi-hidraw0`
 
   - For Gentoo
 
@@ -24,7 +24,7 @@ Copyright (c) 2014-2018, The Monero Project
 
    - For Ubuntu 17.10+
 
-   `sudo apt install qtbase5-dev qt5-default qtdeclarative5-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-dialogs qml-module-qtquick-xmllistmodel qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel qttools5-dev-tools qml-module-qtquick-templates2 qtmultimedia5-dev qml-module-qtmultimedia libzbar-dev`
+   `sudo apt install qtbase5-dev qt5-default qtdeclarative5-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-dialogs qml-module-qtquick-xmllistmodel qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel qttools5-dev-tools qml-module-qtquick-templates2 qtmultimedia5-dev qml-module-qtmultimedia libzbar-dev libqt5svg5-dev`
 
    - For Gentoo
 
@@ -130,6 +130,14 @@ POSIX system. The toolchain runs within the environment and *cross-compiles*
 binaries that can run outside of the environment as a regular Windows
 application.
 
+**Before start GUI on Win 10 allow arqmad in firewall**
+
+Run cmd as Administrator:
+	
+	netsh advfirewall firewall add rule name="allow arqmad" dir=in program="C:\Program Files\Arqma GUI Wallet\arqmad.exe" security=authnoencap action=allow
+	
+This script allow arqmad.exe communication in case You use default installation directory. In case You use other installation dir modify path (program="installation dir\arqmad.exe")
+	
 **Preparing the build environment**
 
 1 Download and install the [MSYS2 installer](http://msys2.github.io).
