@@ -1,5 +1,5 @@
 ; Arqma Devils Touch Installer for Microsoft Windows Operating Systems
-; Copyright (c) 2018 The Arqma Network
+; Copyright (c) 2018-2019, The Arqma Network
 ; Copyright (c) 2014-2018, The Monero Project
 ; See LICENSE
 
@@ -9,7 +9,7 @@ AppName=Arqma GUI Wallet
 ; Thus it's important to keep this stable over releases
 ; With a different "AppName" InnoSetup would treat a mere update as a completely new application and thus mess up
 
-AppVersion=0.4
+AppVersion=0.5
 DefaultDirName={pf}\Arqma GUI Wallet
 DefaultGroupName=Arqma GUI Wallet
 UninstallDisplayIcon={app}\arqma-wallet-gui.exe
@@ -381,8 +381,8 @@ end;
 [Icons]
 ; Icons in the "Arqma GUI Wallet" program group
 ; Windows will almost always display icons in alphabetical order, per level, so specify the text accordingly
-Name: "{group}\GUI Wallet"; Filename: "{app}\arqma-wallet-gui.exe"
-Name: "{group}\Uninstall GUI Wallet"; Filename: "{uninstallexe}"
+Name: "{group}\Arqma GUI Wallet"; Filename: "{app}\arqma-wallet-gui.exe"
+Name: "{group}\Uninstall Arqma GUI Wallet"; Filename: "{uninstallexe}"
 
 ; Sub-folder "Utilities";
 ; Note that Windows 10, unlike Windows 7, ignores such sub-folders completely
@@ -406,7 +406,7 @@ Name: "{group}\Utilities\x (Try GUI Wallet Low Graphics Mode)"; Filename: "{app}
 Name: "{group}\Utilities\x (Try Kill Daemon)"; Filename: "Taskkill.exe"; Parameters: "/IM arqmad.exe /T /F"
 
 ; Desktop icons, optional with the help of the "Task" section
-Name: "{userdesktop}\GUI Wallet"; Filename: "{app}\arqma-wallet-gui.exe"; Tasks: desktopicon
+Name: "{userdesktop}\Arqma GUI Wallet"; Filename: "{app}\arqma-wallet-gui.exe"; Tasks: desktopicon
 
 
 [Registry]
