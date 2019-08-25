@@ -47,7 +47,7 @@ Rectangle {
     signal sweepUnmixableClicked()
 
     color: "transparent"
-    property int mixin: 6 // (ring size 7)
+    property int mixin: 10 // (ring size 11)
     property string warningContent: ""
     property string sendButtonWarning: ""
     property string startLinkText: qsTr("<style type='text/css'>a {text-decoration: none; color: #171DC0; font-size: 14px;}</style><font size='2'> (</font><a href='#'>Start daemon</a><font size='2'>)</font>") + translationManager.emptyString
