@@ -32,7 +32,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2
 
 import "../../version.js" as Version
-import "../../components" as ArqmaComponents
+import "../../components" as OscillateComponents
 
 
 Rectangle {
@@ -63,12 +63,12 @@ Rectangle {
             columns: 2
             columnSpacing: 0
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 font.pixelSize: 14 * scaleRatio
                 text: qsTr("GUI version: ") + translationManager.emptyString
             }
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 font.pixelSize: 14 * scaleRatio
                 text: Version.GUI_VERSION + " (Qt " + qtRuntimeVersion + ")" + translationManager.emptyString
             }
@@ -78,8 +78,8 @@ Rectangle {
                 Layout.topMargin: 2 * scaleRatio
                 Layout.bottomMargin: 2 * scaleRatio
                 Layout.fillWidth: true
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
             Rectangle {
@@ -87,17 +87,17 @@ Rectangle {
                 Layout.topMargin: 2 * scaleRatio
                 Layout.bottomMargin: 2 * scaleRatio
                 Layout.fillWidth: true
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
-            ArqmaComponents.TextBlock {
-                id: guiArqmaVersion
+            OscillateComponents.TextBlock {
+                id: guiOscillateVersion
                 font.pixelSize: 14 * scaleRatio
                 text: qsTr("Embedded Oscillate version: ") + translationManager.emptyString
             }
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 font.pixelSize: 14 * scaleRatio
                 text: Version.GUI_OSCILLATE_VERSION + translationManager.emptyString
             }
@@ -107,8 +107,8 @@ Rectangle {
                 Layout.topMargin: 2 * scaleRatio
                 Layout.bottomMargin: 2 * scaleRatio
                 Layout.fillWidth: true
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
             Rectangle {
@@ -116,24 +116,24 @@ Rectangle {
                 Layout.topMargin: 2 * scaleRatio
                 Layout.bottomMargin: 2 * scaleRatio
                 Layout.fillWidth: true
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 Layout.fillWidth: true
                 font.pixelSize: 14 * scaleRatio
                 text: qsTr("Wallet path: ") + translationManager.emptyString
             }
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 Layout.fillWidth: true
                 Layout.maximumWidth: 360 * scaleRatio
                 font.pixelSize: 14 * scaleRatio
                 text: {
                     var wallet_path = walletPath();
                     if(isIOS)
-                        wallet_path = ArqmaAccountsDir + wallet_path;
+                        wallet_path = OscillateAccountsDir + wallet_path;
                     return wallet_path;
                 }
             }
@@ -143,8 +143,8 @@ Rectangle {
                 Layout.topMargin: 2 * scaleRatio
                 Layout.bottomMargin: 2 * scaleRatio
                 Layout.fillWidth: true
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
             Rectangle {
@@ -152,18 +152,18 @@ Rectangle {
                 Layout.topMargin: 2 * scaleRatio
                 Layout.bottomMargin: 2 * scaleRatio
                 Layout.fillWidth: true
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 id: restoreHeight
                 font.pixelSize: 14 * scaleRatio
                 textFormat: Text.RichText
                 text: (typeof currentWallet == "undefined") ? "" : qsTr("Wallet creation height: ") + translationManager.emptyString
             }
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 id: restoreHeightText
                 Layout.fillWidth: true
                 textFormat: Text.RichText
@@ -224,8 +224,8 @@ Rectangle {
                 Layout.topMargin: 2 * scaleRatio
                 Layout.bottomMargin: 2 * scaleRatio
                 Layout.fillWidth: true
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
             Rectangle {
@@ -233,17 +233,17 @@ Rectangle {
                 Layout.topMargin: 2 * scaleRatio
                 Layout.bottomMargin: 2 * scaleRatio
                 Layout.fillWidth: true
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 Layout.fillWidth: true
                 font.pixelSize: 14 * scaleRatio
                 text: qsTr("Wallet log path: ") + translationManager.emptyString
             }
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 Layout.fillWidth: true
                 font.pixelSize: 14 * scaleRatio
                 text: walletLogPath
@@ -254,8 +254,8 @@ Rectangle {
                 Layout.topMargin: 2 * scaleRatio
                 Layout.bottomMargin: 2 * scaleRatio
                 Layout.fillWidth: true
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
             Rectangle {
@@ -263,17 +263,17 @@ Rectangle {
                 Layout.topMargin: 2 * scaleRatio
                 Layout.bottomMargin: 2 * scaleRatio
                 Layout.fillWidth: true
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 Layout.fillWidth: true
                 font.pixelSize: 14 * scaleRatio
                 text: qsTr("Wallet mode: ") + translationManager.emptyString
             }
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 Layout.fillWidth: true
                 font.pixelSize: 14 * scaleRatio
                 text: walletModeString
@@ -281,7 +281,7 @@ Rectangle {
         }
 
         // Copy info to clipboard
-        ArqmaComponents.StandardButton {
+        OscillateComponents.StandardButton {
             small: true
             text: qsTr("Copy to clipboard") + translationManager.emptyString
             onClicked: {
@@ -292,7 +292,7 @@ Rectangle {
 
                 var wallet_path = walletPath();
                 if(isIOS)
-                    wallet_path = ArqmaAccountsDir + wallet_path;
+                    wallet_path = OscillateAccountsDir + wallet_path;
                 data += wallet_path;
 
                 data += "\nWallet creation height: ";

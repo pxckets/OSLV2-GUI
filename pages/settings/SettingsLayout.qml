@@ -33,7 +33,7 @@ import QtQuick.Dialogs 1.2
 
 import "../../js/Utils.js" as Utils
 import "../../js/Windows.js" as Windows
-import "../../components" as ArqmaComponents
+import "../../components" as OscillateComponents
 
 Rectangle {
     color: "transparent"
@@ -59,7 +59,7 @@ Rectangle {
         anchors.topMargin: 0
         spacing: 6 * scaleRatio
 
-        ArqmaComponents.CheckBox {
+        OscillateComponents.CheckBox {
             visible: !isMobile
             id: customDecorationsCheckBox
             checked: persistentSettings.customDecorations
@@ -67,7 +67,7 @@ Rectangle {
             text: qsTr("Custom decorations") + translationManager.emptyString
         }
 
-        ArqmaComponents.CheckBox {
+        OscillateComponents.CheckBox {
             visible: !isMobile
             id: hideBalanceCheckBox
             checked: persistentSettings.hideBalance
@@ -78,7 +78,7 @@ Rectangle {
             text: qsTr("Hide balance") + translationManager.emptyString
         }
 
-        ArqmaComponents.CheckBox {
+        OscillateComponents.CheckBox {
             visible: !isMobile
             id: showPidCheckBox
             checked: persistentSettings.showPid
@@ -88,7 +88,7 @@ Rectangle {
             text: qsTr("Enable Transfer with Payment ID (Optional)") + translationManager.emptyString
         }
 
-        ArqmaComponents.CheckBox {
+        OscillateComponents.CheckBox {
             visible: !isMobile
             id: userInActivityCheckbox
             checked: persistentSettings.lockOnUserInActivity
@@ -103,7 +103,7 @@ Rectangle {
             Layout.leftMargin: 42 * scaleRatio
             spacing: 0
 
-            ArqmaComponents.TextBlock {
+            OscillateComponents.TextBlock {
                 font.pixelSize: 14 * scaleRatio
                 Layout.fillWidth: true
                 text: {
@@ -131,12 +131,12 @@ Rectangle {
                     width: parent.availableWidth
                     height: implicitHeight
                     radius: 2
-                    color: ArqmaComponents.Style.darkNavy
+                    color: OscillateComponents.Style.darkNavy
 
                     Rectangle {
                         width: parent.visualPosition * parent.width
                         height: parent.height
-                        color: ArqmaComponents.Style.infoRed
+                        color: OscillateComponents.Style.infoRed
                         radius: 2
                     }
                 }
@@ -147,7 +147,7 @@ Rectangle {
                     implicitHeight: 18 * scaleRatio
                     radius: 8
                     color: parent.pressed ? "#f0f0f0" : "#f6f6f6"
-                    border.color: ArqmaComponents.Style.grey
+                    border.color: OscillateComponents.Style.grey
                 }
             }
              Timer {
@@ -162,7 +162,7 @@ Rectangle {
             }
         }
 
-        ArqmaComponents.StandardButton {
+        OscillateComponents.StandardButton {
             visible: !persistentSettings.customDecorations
             Layout.topMargin: 10 * scaleRatio
             small: true
@@ -173,7 +173,7 @@ Rectangle {
             }
         }
 
-        ArqmaComponents.TextBlock {
+        OscillateComponents.TextBlock {
             visible: isMobile
             font.pixelSize: 14
             textFormat: Text.RichText

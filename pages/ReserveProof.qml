@@ -31,9 +31,9 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 
-import "../components" as ArqmaComponents
+import "../components" as OscillateComponents
 import "../js/TxUtils.js" as TxUtils
-import ArqmaComponents.Clipboard 1.0
+import OscillateComponents.Clipboard 1.0
 
 
 Rectangle {
@@ -52,7 +52,7 @@ Rectangle {
 
         spacing: 20 * scaleRatio
 
-        ArqmaComponents.Label {
+        OscillateComponents.Label {
             fontSize: 24 * scaleRatio
             text: qsTr("Get Reserve Proof") + translationManager.emptyString
         }
@@ -62,12 +62,12 @@ Rectangle {
                        "This database is meant for use by Oscillate wallets as well as wallets from Oscillate clones which reuse the Oscillate keys.") + translationManager.emptyString
             wrapMode: Text.Wrap
             Layout.fillWidth: true
-            font.family: ArqmaComponents.Style.fontRegular.name
+            font.family: OscillateComponents.Style.fontRegular.name
             font.pixelSize: 14 * scaleRatio
-            color: ArqmaComponents.Style.defaultFontColor
+            color: OscillateComponents.Style.defaultFontColor
         }
 
-        ArqmaComponents.LineEdit {
+        OscillateComponents.LineEdit {
             id: amountLine
             Layout.fillWidth: true
 
@@ -89,7 +89,7 @@ Rectangle {
             }
         }
 
-        ArqmaComponents.LineEdit {
+        OscillateComponents.LineEdit {
             id: getMessageLine
             Layout.fillWidth: true
 
@@ -101,7 +101,7 @@ Rectangle {
             copyButton: true
         }
 
-        ArqmaComponents.StandardButton {
+        OscillateComponents.StandardButton {
             Layout.alignment: Qt.AlignLeft
             Layout.topMargin: 16 * scaleRatio
 
@@ -127,7 +127,7 @@ Rectangle {
             anchors.bottomMargin: 3 * scaleRatio
         }
 
-        ArqmaComponents.Label {
+        OscillateComponents.Label {
             fontSize: 24 * scaleRatio
             text: qsTr("Check Reserve Proof") + translationManager.emptyString
         }
@@ -136,12 +136,12 @@ Rectangle {
             text: qsTr("Verify the validity of a reserve proof") + translationManager.emptyString
             wrapMode: Text.Wrap
             Layout.fillWidth: true
-            font.family: ArqmaComponents.Style.fontRegular.name
+            font.family: OscillateComponents.Style.fontRegular.name
             font.pixelSize: 14 * scaleRatio
-            color: ArqmaComponents.Style.defaultFontColor
+            color: OscillateComponents.Style.defaultFontColor
         }
 
-        ArqmaComponents.LineEdit {
+        OscillateComponents.LineEdit {
             id: addressLine
             Layout.fillWidth: true
 
@@ -153,7 +153,7 @@ Rectangle {
             copyButton: true
         }
 
-        ArqmaComponents.LineEdit {
+        OscillateComponents.LineEdit {
             id: signatureLine
             Layout.fillWidth: true
 
@@ -165,7 +165,7 @@ Rectangle {
             copyButton: true
         }
 
-        ArqmaComponents.LineEdit {
+        OscillateComponents.LineEdit {
             id: proveMessageLine
             Layout.fillWidth: true
 
@@ -177,7 +177,7 @@ Rectangle {
             copyButton: true
         }
 
-        ArqmaComponents.StandardButton {
+        OscillateComponents.StandardButton {
             Layout.alignment: Qt.AlignLeft
             Layout.topMargin: 16 * scaleRatio
 

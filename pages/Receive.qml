@@ -32,14 +32,14 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 
-import "../components" as ArqmaComponents
-import ArqmaComponents.Clipboard 1.0
-import ArqmaComponents.Wallet 1.0
-import ArqmaComponents.WalletManager 1.0
-import ArqmaComponents.TransactionHistory 1.0
-import ArqmaComponents.TransactionHistoryModel 1.0
-import ArqmaComponents.Subaddress 1.0
-import ArqmaComponents.SubaddressModel 1.0
+import "../components" as OscillateComponents
+import OscillateComponents.Clipboard 1.0
+import OscillateComponents.Wallet 1.0
+import OscillateComponents.WalletManager 1.0
+import OscillateComponents.TransactionHistory 1.0
+import OscillateComponents.TransactionHistoryModel 1.0
+import OscillateComponents.Subaddress 1.0
+import OscillateComponents.SubaddressModel 1.0
 import "../js/TxUtils.js" as TxUtils
 
 Rectangle {
@@ -80,7 +80,7 @@ Rectangle {
             id: addressRow
             spacing: 0
 
-            ArqmaComponents.LabelSubheader {
+            OscillateComponents.LabelSubheader {
                 Layout.fillWidth: true
                 textFormat: Text.RichText
                 text: qsTr("Addresses")
@@ -123,9 +123,9 @@ Rectangle {
                             anchors.rightMargin: 80
                             color: "transparent"
 
-                            ArqmaComponents.Label {
+                            OscillateComponents.Label {
                                 id: idLabel
-                                color: index === appWindow.current_subaddress_table_index ? ArqmaComponents.Style.heroBlue : "#757575"
+                                color: index === appWindow.current_subaddress_table_index ? OscillateComponents.Style.heroBlue : "#757575"
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 6 * scaleRatio
@@ -134,9 +134,9 @@ Rectangle {
                                 text: "#" + index
                             }
 
-                            ArqmaComponents.Label {
+                            OscillateComponents.Label {
                                 id: nameLabel
-                                color: index === appWindow.current_subaddress_table_index ? ArqmaComponents.Style.heroBlue : "#a5a5a5"
+                                color: index === appWindow.current_subaddress_table_index ? OscillateComponents.Style.heroBlue : "#a5a5a5"
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: idLabel.right
                                 anchors.leftMargin: 6 * scaleRatio
@@ -147,7 +147,7 @@ Rectangle {
                                 textWidth: addressLabel.x - nameLabel.x - 1
                             }
 
-                            ArqmaComponents.Label {
+                            OscillateComponents.Label {
                                 id: addressLabel
                                 color: "white"
                                 anchors.verticalCenter: parent.verticalCenter
@@ -174,7 +174,7 @@ Rectangle {
                             }
                         }
 
-                        ArqmaComponents.IconButton {
+                        OscillateComponents.IconButton {
                             id: renameButton
                             imageSource: "../images/editIcon.png"
                             anchors.verticalCenter: parent.verticalCenter
@@ -188,7 +188,7 @@ Rectangle {
                             }
                         }
 
-                        ArqmaComponents.IconButton {
+                        OscillateComponents.IconButton {
                             id: copyButton
                             imageSource: "../images/dropdownCopy.png"
                             anchors.verticalCenter: parent.verticalCenter
@@ -219,7 +219,7 @@ Rectangle {
                 height: 1
             }
 
-            ArqmaComponents.CheckBox {
+            OscillateComponents.CheckBox {
                 id: addNewAddressCheckbox
                 border: false
                 checkedIcon: "qrc:///images/plus-in-circle-medium-white.png"
@@ -273,7 +273,7 @@ Rectangle {
                 }
             }
 
-            ArqmaComponents.LineEditMulti {
+            OscillateComponents.LineEditMulti {
                 id: descriptionLine
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignHCenter
@@ -285,7 +285,7 @@ Rectangle {
                 borderDisabled: true
             }
 
-            ArqmaComponents.LineEditMulti {
+            OscillateComponents.LineEditMulti {
                 id: addressLine
                 fontBold: true
                 text: appWindow.current_address
@@ -298,13 +298,13 @@ Rectangle {
                 spacing: parent.spacing
                 Layout.alignment: Qt.AlignHCenter
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: saveToQRImageButton
                     rightIcon: "../images/download-white.png"
                     onClicked: qrFileDialog.open()
                 }
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: copyToClipboardButton
                     rightIcon: "../images/external-link-white.png"
                     onClicked: {

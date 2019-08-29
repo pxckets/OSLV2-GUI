@@ -29,11 +29,11 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
-import ArqmaComponents.Wallet 1.0
-import ArqmaComponents.WalletManager 1.0
-import ArqmaComponents.TransactionHistory 1.0
-import ArqmaComponents.TransactionInfo 1.0
-import ArqmaComponents.TransactionHistoryModel 1.0
+import OscillateComponents.Wallet 1.0
+import OscillateComponents.WalletManager 1.0
+import OscillateComponents.TransactionHistory 1.0
+import OscillateComponents.TransactionInfo 1.0
+import OscillateComponents.TransactionHistoryModel 1.0
 
 import "../components"
 
@@ -398,7 +398,7 @@ Rectangle {
             informationPopup.open();
         }
         Component.onCompleted: {
-            var _folder = 'file://' + ArqmaAccountsDir;
+            var _folder = 'file://' + OscillateAccountsDir;
             try {
                 _folder = 'file://' + desktopFolder;
             }

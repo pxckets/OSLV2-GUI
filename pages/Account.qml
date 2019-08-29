@@ -33,12 +33,12 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 
-import "../components" as ArqmaComponents
-import ArqmaComponents.Clipboard 1.0
-import ArqmaComponents.Wallet 1.0
-import ArqmaComponents.WalletManager 1.0
-import ArqmaComponents.TransactionHistory 1.0
-import ArqmaComponents.TransactionHistoryModel 1.0
+import "../components" as OscillateComponents
+import OscillateComponents.Clipboard 1.0
+import OscillateComponents.Wallet 1.0
+import OscillateComponents.WalletManager 1.0
+import OscillateComponents.TransactionHistory 1.0
+import OscillateComponents.TransactionHistoryModel 1.0
 import "../js/TxUtils.js" as TxUtils
 
 Rectangle {
@@ -77,7 +77,7 @@ Rectangle {
             visible: !selectAndSend
             spacing: 0
 
-            ArqmaComponents.LabelSubheader {
+            OscillateComponents.LabelSubheader {
                 Layout.fillWidth: true
                 textFormat: Text.RichText
                 text: qsTr("Balance All")
@@ -90,22 +90,22 @@ Rectangle {
                     Layout.fillWidth: true
                     color: "#757575"
                     font.pixelSize: 14
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                 }
                 Text {
                     id: balanceAll
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 14
-                    color: ArqmaComponents.Style.defaultFontColor
+                    color: OscillateComponents.Style.defaultFontColor
                     MouseArea {
                         hoverEnabled: true
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onEntered: {
-                            parent.color = ArqmaComponents.Style.blue
+                            parent.color = OscillateComponents.Style.blue
                         }
                         onExited: {
-                            parent.color = ArqmaComponents.Style.white
+                            parent.color = OscillateComponents.Style.white
                         }
                         onClicked: {
                                 console.log("Copied to clipboard");
@@ -123,22 +123,22 @@ Rectangle {
                     Layout.fillWidth: true
                     color: "#757575"
                     font.pixelSize: 14
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                 }
                 Text {
                     id: unlockedBalanceAll
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 14
-                    color: ArqmaComponents.Style.white
+                    color: OscillateComponents.Style.white
                     MouseArea {
                         hoverEnabled: true
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onEntered: {
-                            parent.color = ArqmaComponents.Style.blue
+                            parent.color = OscillateComponents.Style.blue
                         }
                         onExited: {
-                            parent.color = ArqmaComponents.Style.white
+                            parent.color = OscillateComponents.Style.white
                         }
                         onClicked: {
                                 console.log("Copied to clipboard");
@@ -154,7 +154,7 @@ Rectangle {
             id: addressRow
             spacing: 0
 
-            ArqmaComponents.LabelSubheader {
+            OscillateComponents.LabelSubheader {
                 Layout.fillWidth: true
                 textFormat: Text.RichText
                 text: qsTr("Accounts")
@@ -196,7 +196,7 @@ Rectangle {
                             anchors.rightMargin: 80 * scaleRatio
                             color: "transparent"
 
-                            ArqmaComponents.Label {
+                            OscillateComponents.Label {
                                 id: idLabel
                                 color: index === appWindow.current_subaddress_account_table_index ? "white" : "#757575"
                                 anchors.verticalCenter: parent.verticalCenter
@@ -207,7 +207,7 @@ Rectangle {
                                 text: "#" + index
                             }
 
-                            ArqmaComponents.Label {
+                            OscillateComponents.Label {
                                 id: nameLabel
                                 color: "#a5a5a5"
                                 anchors.verticalCenter: parent.verticalCenter
@@ -220,7 +220,7 @@ Rectangle {
                                 textWidth: addressLabel.x - nameLabel.x - 1
                             }
 
-                            ArqmaComponents.Label {
+                            OscillateComponents.Label {
                                 id: addressLabel
                                 color: "white"
                                 anchors.verticalCenter: parent.verticalCenter
@@ -231,7 +231,7 @@ Rectangle {
                                 text: TxUtils.addressTruncate(address, mainLayout.width < 510 ? 3 : 6)
                             }
 
-                            ArqmaComponents.Label {
+                            OscillateComponents.Label {
                                 id: balanceLabel
                                 color: "white"
                                 anchors.verticalCenter: parent.verticalCenter
@@ -263,7 +263,7 @@ Rectangle {
                             }
                         }
 
-                        ArqmaComponents.IconButton {
+                        OscillateComponents.IconButton {
                             id: renameButton
                             imageSource: "../images/editIcon.png"
                             anchors.right: parent.right
@@ -275,7 +275,7 @@ Rectangle {
                             }
                         }
 
-                        ArqmaComponents.IconButton {
+                        OscillateComponents.IconButton {
                             id: copyButton
                             imageSource: "../images/dropdownCopy_new.png"
                             anchors.right: parent.right
@@ -308,7 +308,7 @@ Rectangle {
                 height: 1
             }
 
-            ArqmaComponents.CheckBox {
+            OscillateComponents.CheckBox {
                 id: addNewAccountCheckbox
                 visible: !selectAndSend
                 border: false

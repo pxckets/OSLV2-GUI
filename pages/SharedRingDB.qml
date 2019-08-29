@@ -32,8 +32,8 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 
-import "../components" as ArqmaComponents
-import ArqmaComponents.Clipboard 1.0
+import "../components" as OscillateComponents
+import OscillateComponents.Clipboard 1.0
 
 Rectangle {
     property alias panelHeight: mainLayout.height
@@ -94,7 +94,7 @@ Rectangle {
             standardButtons: StandardButton.Ok
         }
 
-        ArqmaComponents.Label {
+        OscillateComponents.Label {
             id: signTitleLabel
             fontSize: 24 * scaleRatio
             text: qsTr("Shared RingDB") + translationManager.emptyString
@@ -105,12 +105,12 @@ Rectangle {
                        "This database is meant for use by Oscillate wallets as well as wallets from Oscillate clones which reuse the Oscillate keys.") + translationManager.emptyString
             wrapMode: Text.Wrap
             Layout.fillWidth: true
-            font.family: ArqmaComponents.Style.fontRegular.name
+            font.family: OscillateComponents.Style.fontRegular.name
             font.pixelSize: 14 * scaleRatio
-            color: ArqmaComponents.Style.defaultFontColor
+            color: OscillateComponents.Style.defaultFontColor
         }
 
-        ArqmaComponents.LabelSubheader {
+        OscillateComponents.LabelSubheader {
             Layout.fillWidth: true
             textFormat: Text.RichText
             text: "<style type='text/css'>a {text-decoration: none; color: #171FD0; font-size: 14px;}</style>" +
@@ -136,13 +136,13 @@ Rectangle {
 
         Text {
             textFormat: Text.RichText
-            font.family: ArqmaComponents.Style.fontRegular.name
+            font.family: OscillateComponents.Style.fontRegular.name
             font.pixelSize: 14 * scaleRatio
             text: qsTr("This sets which outputs are known to be spent, and thus not to be used as privacy placeholders in ring signatures. ") +
                   qsTr("You should only have to load a file when you want to refresh the list. Manual adding/removing is possible if needed.") + translationManager.emptyString
             wrapMode: Text.Wrap
             Layout.fillWidth: true;
-            color: ArqmaComponents.Style.defaultFontColor
+            color: OscillateComponents.Style.defaultFontColor
         }
 
         ColumnLayout {
@@ -160,7 +160,7 @@ Rectangle {
                 }
             }
 
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 id: loadBlackballFileLine
                 placeholderFontSize: 16 * scaleRatio
                 placeholderText: qsTr("Path to file") + "..." + translationManager.emptyString
@@ -174,7 +174,7 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.topMargin: 18
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: selectBlackballFileButton
                     text: qsTr("Browse") + translationManager.emptyString
                     enabled: true
@@ -184,7 +184,7 @@ Rectangle {
                     }
                 }
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: loadBlackballFileButton
                     text: qsTr("Load") + translationManager.emptyString
                     small: true
@@ -198,7 +198,7 @@ Rectangle {
             Layout.fillWidth: true
             columnSpacing: 20 * scaleRatio
 
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 id: blackballOutputAmountLine
                 Layout.fillWidth: true
                 fontSize: 16 * scaleRatio
@@ -210,7 +210,7 @@ Rectangle {
                 validator: IntValidator { bottom: 0 }
             }
 
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 id: blackballOutputOffsetLine
                 Layout.fillWidth: true
                 fontSize: 16 * scaleRatio
@@ -227,7 +227,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.topMargin: 18
 
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 id: blackballButton
                 text: qsTr("Mark as spent") + translationManager.emptyString
                 small: true
@@ -235,7 +235,7 @@ Rectangle {
                 onClicked: appWindow.currentWallet.blackballOutput(blackballOutputAmountLine.text, blackballOutputOffsetLine.text)
             }
 
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 id: unblackballButton
                 text: qsTr("Mark as unspent") + translationManager.emptyString
                 small: true
@@ -244,7 +244,7 @@ Rectangle {
             }
         }
 
-        ArqmaComponents.LabelSubheader {
+        OscillateComponents.LabelSubheader {
             Layout.fillWidth: true
             Layout.topMargin: 24 * scaleRatio
             textFormat: Text.RichText
@@ -272,15 +272,15 @@ Rectangle {
 
         Text {
             textFormat: Text.RichText
-            font.family: ArqmaComponents.Style.fontRegular.name
+            font.family: OscillateComponents.Style.fontRegular.name
             font.pixelSize: 14 * scaleRatio
             text: qsTr("This records rings used by outputs spent on Oscillate on a key reusing chain, so that the same ring may be reused to avoid privacy issues.") + translationManager.emptyString
             wrapMode: Text.Wrap
             Layout.fillWidth: true;
-            color: ArqmaComponents.Style.defaultFontColor
+            color: OscillateComponents.Style.defaultFontColor
         }
 
-        ArqmaComponents.LineEdit {
+        OscillateComponents.LineEdit {
             id: keyImageLine
             Layout.fillWidth: true
             fontSize: 16 * scaleRatio
@@ -299,7 +299,7 @@ Rectangle {
 
             ColumnLayout {
                 RowLayout {
-                    ArqmaComponents.LineEdit {
+                    OscillateComponents.LineEdit {
                         id: getRingLine
                         Layout.fillWidth: true
                         fontSize: 16 * scaleRatio
@@ -314,7 +314,7 @@ Rectangle {
                     Layout.fillWidth: true
                     Layout.topMargin: 18
 
-                    ArqmaComponents.StandardButton {
+                    OscillateComponents.StandardButton {
                         id: getRingButton
                         text: qsTr("Get Ring") + translationManager.emptyString
                         small: true
@@ -334,7 +334,7 @@ Rectangle {
 
             ColumnLayout {
                 RowLayout {
-                    ArqmaComponents.LineEdit {
+                    OscillateComponents.LineEdit {
                         id: setRingLine
                         Layout.fillWidth: true
                         fontSize: 16 * scaleRatio
@@ -350,7 +350,7 @@ Rectangle {
                     Layout.fillWidth: true
                     Layout.topMargin: 18
 
-                    ArqmaComponents.StandardButton {
+                    OscillateComponents.StandardButton {
                         id: setRingButton
                         text: qsTr("Set Ring") + translationManager.emptyString
                         small: true
@@ -368,7 +368,7 @@ Rectangle {
             columnSpacing: 20 * scaleRatio
             columns: (isMobile) ? 1 : 2
 
-            ArqmaComponents.CheckBox {
+            OscillateComponents.CheckBox {
                 id: segregatePreForkOutputs
                 checked: persistentSettings.segregatePreForkOutputs
                 text: qsTr("I intend to spend on key-reusing fork(s)") + translationManager.emptyString
@@ -382,7 +382,7 @@ Rectangle {
                 }
             }
 
-            ArqmaComponents.CheckBox {
+            OscillateComponents.CheckBox {
                 id: keyReuseMitigation2
                 checked: persistentSettings.keyReuseMitigation2
                 text: qsTr("I might want to spend on key-reusing fork(s)") + translationManager.emptyString
@@ -396,7 +396,7 @@ Rectangle {
                 }
             }
 
-            ArqmaComponents.CheckBox {
+            OscillateComponents.CheckBox {
                 id: setRingRelative
                 checked: true
                 text: qsTr("Relative") + translationManager.emptyString
@@ -410,7 +410,7 @@ Rectangle {
             Layout.topMargin: 17 * scaleRatio
             Layout.fillWidth: true
 
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 id: segregationHeightLine
                 Layout.fillWidth: true
 

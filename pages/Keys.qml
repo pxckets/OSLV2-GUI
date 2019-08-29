@@ -31,9 +31,9 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
-import ArqmaComponents.Clipboard 1.0
+import OscillateComponents.Clipboard 1.0
 import "../version.js" as Version
-import "../components" as ArqmaComponents
+import "../components" as OscillateComponents
 import "." 1.0
 
 
@@ -59,7 +59,7 @@ Rectangle {
 		    property int qrCodeSize: 220 * scaleRatio
         Layout.fillWidth: true
 
-        ArqmaComponents.WarningBox {
+        OscillateComponents.WarningBox {
             text: qsTr("WARNING: Do not reuse your Oscillate keys on another fork, UNLESS this fork has key reuse mitigations built in. Doing so will harm your privacy.") + translationManager.emptyString
         }
 
@@ -67,7 +67,7 @@ Rectangle {
         ColumnLayout {
             Layout.fillWidth: true
 
-            ArqmaComponents.Label {
+            OscillateComponents.Label {
                 Layout.fillWidth: true
                 fontSize: 22 * scaleRatio
                 Layout.topMargin: 10 * scaleRatio
@@ -76,16 +76,16 @@ Rectangle {
             Rectangle {
                 Layout.fillWidth: true
                 height: 2 * scaleRatio
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
                 Layout.bottomMargin: 10 * scaleRatio
             }
 
-            ArqmaComponents.WarningBox {
+            OscillateComponents.WarningBox {
                 text: qsTr("WARNING: Copying your seed to clipboard can expose you to malicious software, which may record your seed and steal your Oscillate. Please write down your seed manually.") + translationManager.emptyString
             }
 
-            ArqmaComponents.LineEditMulti {
+            OscillateComponents.LineEditMulti {
                 visible: !viewOnlyQRCode.visible
                 id: seedText
                 spacing: 0
@@ -100,7 +100,7 @@ Rectangle {
         ColumnLayout {
             Layout.fillWidth: true
 
-            ArqmaComponents.Label {
+            OscillateComponents.Label {
                 Layout.fillWidth: true
                 fontSize: 22 * scaleRatio
                 Layout.topMargin: 10 * scaleRatio
@@ -109,11 +109,11 @@ Rectangle {
             Rectangle {
                 Layout.fillWidth: true
                 height: 2
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
                 Layout.bottomMargin: 10 * scaleRatio
             }
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
 		            visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 id: secretViewKey
@@ -122,7 +122,7 @@ Rectangle {
                 labelText: qsTr("Secret view key") + translationManager.emptyString
                 fontSize: 16 * scaleRatio
             }
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 Layout.fillWidth: true
                 Layout.topMargin: 25 * scaleRatio
                 id: publicViewKey
@@ -131,7 +131,7 @@ Rectangle {
                 labelText: qsTr("Public view key") + translationManager.emptyString
                 fontSize: 16 * scaleRatio
             }
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 Layout.topMargin: 25 * scaleRatio
@@ -141,7 +141,7 @@ Rectangle {
                 labelText: qsTr("Secret spend key") + translationManager.emptyString
                 fontSize: 16 * scaleRatio
             }
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 visible: !viewOnlyQRCode.visible
                 Layout.fillWidth: true
                 Layout.topMargin: 25 * scaleRatio
@@ -156,7 +156,7 @@ Rectangle {
         ColumnLayout {
             Layout.fillWidth: true
 
-            ArqmaComponents.Label {
+            OscillateComponents.Label {
                 Layout.fillWidth: true
                 fontSize: 22 * scaleRatio
                 Layout.topMargin: 10 * scaleRatio
@@ -165,14 +165,14 @@ Rectangle {
             Rectangle {
                 Layout.fillWidth: true
                 height: 2
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
                 Layout.bottomMargin: 10 * scaleRatio
             }
 
             ColumnLayout {
 
-                ArqmaComponents.RadioButton {
+                OscillateComponents.RadioButton {
                     id: showFullQr
                     enabled: !this.checked
                     checked: fullWalletQRCode.visible
@@ -182,7 +182,7 @@ Rectangle {
                         showViewOnlyQr.checked = false
                     }
                 }
-                ArqmaComponents.RadioButton {
+                OscillateComponents.RadioButton {
                     enabled: !this.checked
                     id: showViewOnlyQr
                     checked: viewOnlyQRCode.visible
@@ -233,7 +233,7 @@ Rectangle {
                 Layout.fillWidth: true
                 font.bold: true
                 font.pixelSize: 16 * scaleRatio
-                color: ArqmaComponents.Style.defaultFontColor
+                color: OscillateComponents.Style.defaultFontColor
                 text: (viewOnlyQRCode.visible) ? qsTr("View Only Wallet") + translationManager.emptyString : qsTr("Spendable Wallet") + translationManager.emptyString
                 horizontalAlignment: Text.AlignHCenter
             }

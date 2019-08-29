@@ -29,8 +29,8 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
-import "../components" as ArqmaComponents
-import ArqmaComponents.Wallet 1.0
+import "../components" as OscillateComponents
+import OscillateComponents.Wallet 1.0
 
 Rectangle {
     id: root
@@ -47,19 +47,19 @@ Rectangle {
         anchors.right: parent.right
         spacing: 20 * scaleRatio
 
-        ArqmaComponents.Label {
+        OscillateComponents.Label {
             id: soloTitleLabel
             fontSize: 24 * scaleRatio
             text: qsTr("Solo mining") + translationManager.emptyString
         }
 
-        ArqmaComponents.WarningBox {
+        OscillateComponents.WarningBox {
             Layout.bottomMargin: 8 * scaleRatio
             text: qsTr("Mining is only available on local daemons.") + translationManager.emptyString
             visible: !walletManager.isDaemonLocal(appWindow.currentDaemonAddress)
         }
 
-        ArqmaComponents.WarningBox {
+        OscillateComponents.WarningBox {
             Layout.bottomMargin: 8 * scaleRatio
             text: qsTr("Your daemon must be synchronized before you can start mining") + translationManager.emptyString
             visible: walletManager.isDaemonLocal(appWindow.currentDaemonAddress) && !appWindow.daemonSynced
@@ -70,12 +70,12 @@ Rectangle {
             text: qsTr("Mining with your computer helps strengthen the Oscillate network. The more that people mine, the harder it is for the network to be attacked, and every little bit helps.<br> <br>Mining also gives you a small chance to earn some Oscillate. Your computer will create hashes looking for block solutions. If you find a block, you will get the associated reward. Good luck!") + translationManager.emptyString
             wrapMode: Text.Wrap
             Layout.fillWidth: true
-            font.family: ArqmaComponents.Style.fontRegular.name
+            font.family: OscillateComponents.Style.fontRegular.name
             font.pixelSize: 14 * scaleRatio
-            color: ArqmaComponents.Style.defaultFontColor
+            color: OscillateComponents.Style.defaultFontColor
         }
 
-        ArqmaComponents.WarningBox {
+        OscillateComponents.WarningBox {
             id: warningLabel
             Layout.topMargin: 8 * scaleRatio
             Layout.bottomMargin: 8 * scaleRatio
@@ -92,9 +92,9 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.alignment : Qt.AlignTop | Qt.AlignLeft
 
-                ArqmaComponents.Label {
+                OscillateComponents.Label {
                     id: soloMinerThreadsLabel
-                    color: ArqmaComponents.Style.defaultFontColor
+                    color: OscillateComponents.Style.defaultFontColor
                     text: qsTr("CPU threads") + translationManager.emptyString
                     fontSize: 16 * scaleRatio
                     wrapMode: Text.WordWrap
@@ -105,7 +105,7 @@ Rectangle {
                 Layout.fillWidth: true
                 spacing: 16 * scaleRatio
 
-                ArqmaComponents.LineEdit {
+                OscillateComponents.LineEdit {
                     id: soloMinerThreadsLine
                     Layout.minimumWidth: 200 * scaleRatio
                     text: "1"
@@ -116,13 +116,13 @@ Rectangle {
                     id: numAvailableThreadsText
                     text: qsTr("Max # of CPU threads available for mining: ") + idealThreadCount + translationManager.emptyString
                     wrapMode: Text.WordWrap
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
-                    color: ArqmaComponents.Style.defaultFontColor
+                    color: OscillateComponents.Style.defaultFontColor
                 }
 
                 RowLayout {
-                    ArqmaComponents.StandardButton {
+                    OscillateComponents.StandardButton {
                         id: autoRecommendedThreadsButton
                         small: true
                         text: qsTr("Use recommended # of threads") + translationManager.emptyString
@@ -133,7 +133,7 @@ Rectangle {
                         }
                     }
 
-                    ArqmaComponents.StandardButton {
+                    OscillateComponents.StandardButton {
                         id: autoSetMaxThreadsButton
                         small: true
                         text: qsTr("Use all threads") + translationManager.emptyString
@@ -146,7 +146,7 @@ Rectangle {
                 }
 
                 RowLayout {
-                    ArqmaComponents.CheckBox {
+                    OscillateComponents.CheckBox {
                         id: backgroundMining
                         enabled: startSoloMinerButton.enabled
                         checked: persistentSettings.allow_background_mining
@@ -158,7 +158,7 @@ Rectangle {
                 RowLayout {
                     // Disable this option until stable
                     visible: false
-                    ArqmaComponents.CheckBox {
+                    OscillateComponents.CheckBox {
                         id: ignoreBattery
                         enabled: startSoloMinerButton.enabled
                         checked: !persistentSettings.miningIgnoreBattery
@@ -171,9 +171,9 @@ Rectangle {
             ColumnLayout {
                 Layout.alignment : Qt.AlignTop | Qt.AlignLeft
 
-                ArqmaComponents.Label {
+                OscillateComponents.Label {
                     id: manageSoloMinerLabel
-                    color: ArqmaComponents.Style.defaultFontColor
+                    color: OscillateComponents.Style.defaultFontColor
                     text: qsTr("Manage miner") + translationManager.emptyString
                     fontSize: 16 * scaleRatio
                     wrapMode: Text.Wrap
@@ -186,7 +186,7 @@ Rectangle {
                 spacing: 16 * scaleRatio
 
                 RowLayout {
-                    ArqmaComponents.StandardButton {
+                    OscillateComponents.StandardButton {
                         visible: true
                         id: startSoloMinerButton
                         small: true
@@ -206,7 +206,7 @@ Rectangle {
                         }
                     }
 
-                    ArqmaComponents.StandardButton {
+                    OscillateComponents.StandardButton {
                         visible: true
                         id: stopSoloMinerButton
                         small: true
@@ -223,9 +223,9 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.alignment : Qt.AlignTop | Qt.AlignLeft
 
-                ArqmaComponents.Label {
+                OscillateComponents.Label {
                     id: statusLabel
-                    color: ArqmaComponents.Style.defaultFontColor
+                    color: OscillateComponents.Style.defaultFontColor
                     text: qsTr("Status") + translationManager.emptyString
                     fontSize: 16 * scaleRatio
                 }
@@ -235,7 +235,7 @@ Rectangle {
                 Layout.fillWidth: true
                 spacing: 16 * scaleRatio
 
-                ArqmaComponents.LineEditMulti {
+                OscillateComponents.LineEditMulti {
                     id: statusText
                     Layout.minimumWidth: 300 * scaleRatio
                     text: qsTr("Not mining") + translationManager.emptyString
@@ -265,7 +265,7 @@ Rectangle {
         stopSoloMinerButton.enabled = !startSoloMinerButton.enabled && daemonReady
     }
 
-    ArqmaComponents.StandardDialog {
+    OscillateComponents.StandardDialog {
         id: errorPopup
         cancelVisible: false
     }

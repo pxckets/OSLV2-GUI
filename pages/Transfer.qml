@@ -1,4 +1,4 @@
-// Copyright (c) 2018, The Arqma Network
+// Copyright (c) 2018, The Oscillate Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -30,12 +30,12 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
-import ArqmaComponents.Clipboard 1.0
-import ArqmaComponents.PendingTransaction 1.0
-import ArqmaComponents.Wallet 1.0
-import ArqmaComponents.NetworkType 1.0
+import OscillateComponents.Clipboard 1.0
+import OscillateComponents.PendingTransaction 1.0
+import OscillateComponents.Wallet 1.0
+import OscillateComponents.NetworkType 1.0
 import "../components"
-import "../components" as ArqmaComponents
+import "../components" as OscillateComponents
 import "." 1.0
 import "../js/TxUtils.js" as TxUtils
 
@@ -119,7 +119,7 @@ Rectangle {
       RowLayout {
           visible: root.warningContent !== ""
 
-          ArqmaComponents.WarningBox {
+          OscillateComponents.WarningBox {
               text: warningContent
               onLinkActivated: {
                   appWindow.startDaemon(appWindow.persistentSettings.daemonFlags);
@@ -249,7 +249,7 @@ Rectangle {
                   }
               }
               inlineButton.icon: "../images/qr.png"
-              inlineButton.buttonColor: ArqmaComponents.Style.heroBlue
+              inlineButton.buttonColor: OscillateComponents.Style.heroBlue
               inlineButton.onClicked: {
                   cameraUi.state = "Capture"
                   cameraUi.qrcode_decoded.connect(updateFromQrCode)
@@ -360,7 +360,7 @@ Rectangle {
           }
       }
 
-      ArqmaComponents.WarningBox {
+      OscillateComponents.WarningBox {
           id: sendButtonWarningBox
           text: root.sendButtonWarning
           visible: root.sendButtonWarning !== ""
@@ -522,7 +522,7 @@ Rectangle {
     FileDialog {
         id: signTxDialog
         title: qsTr("Please choose a file") + translationManager.emptyString
-        folder: "file://" +ArqmaAccountsDir
+        folder: "file://" +OscillateAccountsDir
         nameFilters: [ "Unsigned transfers (*)"]
 
         onAccepted: {
@@ -583,7 +583,7 @@ Rectangle {
     FileDialog {
         id: submitTxDialog
         title: qsTr("Please choose a file") + translationManager.emptyString
-        folder: "file://" +ArqmaAccountsDir
+        folder: "file://" +OscillateAccountsDir
         nameFilters: [ "signed transfers (*)"]
 
         onAccepted: {

@@ -33,10 +33,10 @@ import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import "../../js/Windows.js" as Windows
 import "../../js/Utils.js" as Utils
-import "../../components" as ArqmaComponents
+import "../../components" as OscillateComponents
 import "../../pages"
 import "."
-import ArqmaComponents.Clipboard 1.0
+import OscillateComponents.Clipboard 1.0
 
 ColumnLayout {
     id: settingsPage

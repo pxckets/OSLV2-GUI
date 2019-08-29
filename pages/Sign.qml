@@ -32,9 +32,9 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 
-import ArqmaComponents.Clipboard 1.0
-import ArqmaComponents.WalletManager 1.0
-import "../components" as ArqmaComponents
+import OscillateComponents.Clipboard 1.0
+import OscillateComponents.WalletManager 1.0
+import "../components" as OscillateComponents
 
 Rectangle {
     property bool messageMode: true
@@ -96,7 +96,7 @@ Rectangle {
 
         spacing: 20 * scaleRatio
 
-        ArqmaComponents.Label {
+        OscillateComponents.Label {
             fontSize: 24 * scaleRatio
             text: qsTr("Sign/verify") + translationManager.emptyString
         }
@@ -105,9 +105,9 @@ Rectangle {
             text: qsTr("This page lets you sign/verify a message (or file contents) with your address.") + translationManager.emptyString
             wrapMode: Text.Wrap
             Layout.fillWidth: true
-            font.family: ArqmaComponents.Style.fontRegular.name
+            font.family: OscillateComponents.Style.fontRegular.name
             font.pixelSize: 14 * scaleRatio
-            color: ArqmaComponents.Style.defaultFontColor
+            color: OscillateComponents.Style.defaultFontColor
         }
 
         ColumnLayout {
@@ -120,17 +120,17 @@ Rectangle {
                 Layout.topMargin: 12 * scaleRatio
                 text: qsTr("Mode") + translationManager.emptyString
                 wrapMode: Text.Wrap
-                font.family: ArqmaComponents.Style.fontRegular.name
+                font.family: OscillateComponents.Style.fontRegular.name
                 font.pixelSize: 20 * scaleRatio
                 textFormat: Text.RichText
-                color: ArqmaComponents.Style.defaultFontColor
+                color: OscillateComponents.Style.defaultFontColor
             }
 
             RowLayout {
                 id: modeButtonsRow
                 Layout.topMargin: 10 * scaleRatio
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: handleMessageButton
                     text: qsTr("Message") + translationManager.emptyString
                     enabled: fileMode
@@ -140,7 +140,7 @@ Rectangle {
                     }
                 }
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: handleFileButton
                     text: qsTr("File") + translationManager.emptyString
                     enabled: messageMode
@@ -156,7 +156,7 @@ Rectangle {
             id: signSection
             spacing: 10 * scaleRatio
 
-            ArqmaComponents.LabelSubheader {
+            OscillateComponents.LabelSubheader {
                 Layout.fillWidth: true
                 Layout.topMargin: 12 * scaleRatio
                 Layout.bottomMargin: 24 * scaleRatio
@@ -170,7 +170,7 @@ Rectangle {
                 spacing: 10 * scaleRatio
                 visible: messageMode
 
-                ArqmaComponents.LineEditMulti {
+                OscillateComponents.LineEditMulti {
                     id: signMessageLine
                     Layout.fillWidth: true
                     labelFontSize: 14 * scaleRatio
@@ -189,7 +189,7 @@ Rectangle {
                 Layout.fillWidth: true
                 visible: fileMode
 
-                ArqmaComponents.LineEditMulti {
+                OscillateComponents.LineEditMulti {
                     id: signFileLine
                     labelFontSize: 14 * scaleRatio
                     labelText: qsTr("File") + translationManager.emptyString
@@ -202,7 +202,7 @@ Rectangle {
                     text: ''
                 }
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: loadFileToSignButton
                     Layout.alignment: Qt.AlignBottom
                     small: false
@@ -217,7 +217,7 @@ Rectangle {
             ColumnLayout {
                 id: signSignatureRow
 
-                ArqmaComponents.LineEditMulti {
+                OscillateComponents.LineEditMulti {
                     id: signSignatureLine
                     labelFontSize: 14 * scaleRatio
                     labelText: qsTr("Signature") + translationManager.emptyString
@@ -234,7 +234,7 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignRight
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: clearSignButton
                     text: qsTr("Clear") + translationManager.emptyString
                     enabled: signMessageLine.text !== '' || signFileLine.text !== ''
@@ -246,7 +246,7 @@ Rectangle {
                     }
                 }
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: signMessageButton
                     visible: messageMode
                     text: qsTr("Sign Message") + translationManager.emptyString
@@ -258,7 +258,7 @@ Rectangle {
                     }
                 }
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: signFileButton
                     visible: fileMode
                     small: true
@@ -277,14 +277,14 @@ Rectangle {
             id: verifySection
             spacing: 16 * scaleRatio
 
-            ArqmaComponents.LabelSubheader  {
+            OscillateComponents.LabelSubheader  {
                 Layout.fillWidth: true
                 Layout.bottomMargin: 24 * scaleRatio
                 textFormat: Text.RichText
                 text: fileMode ? qsTr("Verify file") + translationManager.emptyString : qsTr("Verify message") + translationManager.emptyString
             }
 
-            ArqmaComponents.LineEditMulti {
+            OscillateComponents.LineEditMulti {
                 id: verifyMessageLine
                 visible: messageMode
                 Layout.fillWidth: true
@@ -303,7 +303,7 @@ Rectangle {
                 Layout.fillWidth: true
                 visible: fileMode
 
-                ArqmaComponents.LineEditMulti {
+                OscillateComponents.LineEditMulti {
                     id: verifyFileLine
                     labelFontSize: 14 * scaleRatio
                     labelText: qsTr("File") + translationManager.emptyString
@@ -315,7 +315,7 @@ Rectangle {
                     text: ''
                 }
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: loadFileToVerifyButton
                     Layout.alignment: Qt.AlignBottom
                     small: false
@@ -327,7 +327,7 @@ Rectangle {
                 }
             }
 
-            ArqmaComponents.LineEditMulti {
+            OscillateComponents.LineEditMulti {
                 id: verifyAddressLine
                 Layout.fillWidth: true
                 labelFontSize: 14 * scaleRatio
@@ -340,7 +340,7 @@ Rectangle {
                 pasteButton: true
             }
 
-            ArqmaComponents.LineEditMulti {
+            OscillateComponents.LineEditMulti {
                 id: verifySignatureLine
                 labelFontSize: 14 * scaleRatio
                 labelText: qsTr("Signature") + translationManager.emptyString
@@ -357,7 +357,7 @@ Rectangle {
                 Layout.topMargin: 12 * scaleRatio
                 Layout.alignment: Qt.AlignRight
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: clearVerifyButton
                     text: qsTr("Clear") + translationManager.emptyString
                     enabled: verifyMessageLine.text !== '' || verifyFileLine.text !== '' || verifyAddressLine.text !== '' || verifySignatureLine.text  !== ''
@@ -370,7 +370,7 @@ Rectangle {
                     }
                 }
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: verifyFileButton
                     visible: fileMode
                     small: true
@@ -382,7 +382,7 @@ Rectangle {
                     }
                 }
 
-                ArqmaComponents.StandardButton {
+                OscillateComponents.StandardButton {
                     id: verifyMessageButton
                     visible: messageMode
                     small: true

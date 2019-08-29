@@ -31,7 +31,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
 
 import "../../js/Utils.js" as Utils
-import "../../components" as ArqmaComponents
+import "../../components" as OscillateComponents
 
 
 Rectangle {
@@ -56,15 +56,15 @@ Rectangle {
 //            Layout.preferredHeight: 1 * scaleRatio
 //            Layout.fillWidth: true
 //            Layout.bottomMargin: 8 * scaleRatio
-//            color: ArqmaComponents.Style.dividerColor
-//            opacity: ArqmaComponents.Style.dividerOpacity
+//            color: OscillateComponents.Style.dividerColor
+//            opacity: OscillateComponents.Style.dividerOpacity
 //        }
 
         Text {
             Layout.bottomMargin: 2 * scaleRatio
-            color: ArqmaComponents.Style.defaultFontColor
+            color: OscillateComponents.Style.defaultFontColor
             font.pixelSize: 18 * scaleRatio
-            font.family: ArqmaComponents.Style.fontRegular.name
+            font.family: OscillateComponents.Style.fontRegular.name
             text: qsTr("Log level") + translationManager.emptyString
         }
 
@@ -84,7 +84,7 @@ Rectangle {
                ListElement { column1: "custom"; }
             }
 
-            ArqmaComponents.StandardDropdown {
+            OscillateComponents.StandardDropdown {
                id: logLevelDropdown
                dataModel: logLevel
                itemTopMargin: 2 * scaleRatio
@@ -109,7 +109,7 @@ Rectangle {
                z: parent.z + 1
                }
 
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 id: logCategories
                 visible: logLevelDropdown.currentIndex === 5
                 Layout.fillWidth: true
@@ -132,9 +132,9 @@ Rectangle {
         Text {
             Layout.topMargin: 10 * scaleRatio
             Layout.bottomMargin: 2 * scaleRatio
-            color: ArqmaComponents.Style.defaultFontColor
+            color: OscillateComponents.Style.defaultFontColor
             font.pixelSize: 18 * scaleRatio
-            font.family: ArqmaComponents.Style.fontRegular.name
+            font.family: OscillateComponents.Style.fontRegular.name
             text: qsTr("Daemon log") + translationManager.emptyString
         }
 
@@ -146,7 +146,7 @@ Rectangle {
             Rectangle {
                 anchors.fill: parent
                 color: "transparent"
-                border.color: ArqmaComponents.Style.inputBorderColorActive
+                border.color: OscillateComponents.Style.inputBorderColorActive
                 border.width: 1
                 radius: 4
             }
@@ -157,12 +157,12 @@ Rectangle {
 
                 TextArea.flickable: TextArea {
                     id : consoleArea
-                    color: ArqmaComponents.Style.defaultFontColor
-                    selectionColor: ArqmaComponents.Style.dimmedFontColor
+                    color: OscillateComponents.Style.defaultFontColor
+                    selectionColor: OscillateComponents.Style.dimmedFontColor
                     textFormat: TextEdit.RichText
                     selectByMouse: true
                     selectByKeyboard: true
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     wrapMode: TextEdit.Wrap
                     readOnly: true
@@ -211,7 +211,7 @@ Rectangle {
             }
         }
 
-        ArqmaComponents.LineEdit {
+        OscillateComponents.LineEdit {
             id: sendCommandText
             Layout.fillWidth: true
             fontBold: false

@@ -33,10 +33,10 @@ import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import "../../js/Windows.js" as Windows
 import "../../js/Utils.js" as Utils
-import "../../components" as ArqmaComponents
+import "../../components" as OscillateComponents
 import "../../pages"
 import "."
-import ArqmaComponents.Clipboard 1.0
+import OscillateComponents.Clipboard 1.0
 
 Rectangle {
     Layout.fillWidth: true
@@ -56,7 +56,7 @@ Rectangle {
             property string fontColor: "white"
             property int fontSize: 13 * scaleRatio
             property bool fontBold: true
-            property var fontFamily: ArqmaComponents.Style.fontRegular.name
+            property var fontFamily: OscillateComponents.Style.fontRegular.name
             property string borderColor: "#00006E"
             property int textMargin: {
                 // left-right margins for a given cell

@@ -30,12 +30,12 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
-import "../components" as ArqmaComponents
+import "../components" as OscillateComponents
 import "../js/TxUtils.js" as TxUtils
-import ArqmaComponents.AddressBook 1.0
-import ArqmaComponents.AddressBookModel 1.0
-import ArqmaComponents.Clipboard 1.0
-import ArqmaComponents.NetworkType 1.0
+import OscillateComponents.AddressBook 1.0
+import OscillateComponents.AddressBookModel 1.0
+import OscillateComponents.Clipboard 1.0
+import OscillateComponents.NetworkType 1.0
 
 ColumnLayout {
     id: root
@@ -50,7 +50,7 @@ ColumnLayout {
         spacing: 26 * scaleRatio
         visible: !root.selectAndSend
 
-        ArqmaComponents.LineEditMulti {
+        OscillateComponents.LineEditMulti {
             id: addressLine
             Layout.fillWidth: true
             fontBold: true
@@ -81,7 +81,7 @@ ColumnLayout {
                 }
             }
             inlineButton.icon: "../images/qr.png"
-            inlineButton.buttonColor: ArqmaComponents.Style.heroBlue
+            inlineButton.buttonColor: OscillateComponents.Style.heroBlue
             inlineButton.onClicked: {
                 cameraUi.state = "Capture"
                 cameraUi.qrcode_decoded.connect(updateFromQrCode)
@@ -89,7 +89,7 @@ ColumnLayout {
             inlineButtonVisible : appWindow.qrScannerEnabled && !addressLine.text
         }
 
-        ArqmaComponents.StandardButton {
+        OscillateComponents.StandardButton {
             id: resolveButton
             text: qsTr("Resolve") + translationManager.emptyString
             visible: TxUtils.isValidOpenAliasAddress(addressLine.text)
@@ -133,7 +133,7 @@ ColumnLayout {
             }
         }
 
-        ArqmaComponents.LineEditMulti {
+        OscillateComponents.LineEditMulti {
             id: paymentIdLine
             Layout.fillWidth: true
             labelText: qsTr("Payment ID <font size='2'>(Optional)</font>") + translationManager.emptyString
@@ -143,7 +143,7 @@ ColumnLayout {
 //                    + translationManager.emptyString
         }
 
-        ArqmaComponents.LineEditMulti {
+        OscillateComponents.LineEditMulti {
             id: descriptionLine
             Layout.fillWidth: true
             labelText: qsTr("Description <font size='2'>(Optional)</font>") + translationManager.emptyString
@@ -154,7 +154,7 @@ ColumnLayout {
         RowLayout {
             id: addButton
             Layout.bottomMargin: 17 * scaleRatio
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 text: qsTr("Add") + translationManager.emptyString
                 enabled: checkInformation(addressLine.text, paymentIdLine.text, appWindow.persistentSettings.nettype)
 
@@ -192,7 +192,7 @@ ColumnLayout {
             NumberAnimation { duration: 200; easing.type: Easing.InQuad }
         }
 
-        ArqmaComponents.Scroll {
+        OscillateComponents.Scroll {
             id: flickableScroll
             anchors.right: table.right
             anchors.rightMargin: -14 * scaleRatio
@@ -201,7 +201,7 @@ ColumnLayout {
             flickable: table
         }
 
-        ArqmaComponents.AddressBookTable {
+        OscillateComponents.AddressBookTable {
             id: table
             anchors.left: parent.left
             anchors.right: parent.right
@@ -268,7 +268,7 @@ ColumnLayout {
       oaPopup.open()
     }
 
-    ArqmaComponents.StandardDialog {
+    OscillateComponents.StandardDialog {
         property var onCloseCallback
         id: oaPopup
         cancelVisible: false

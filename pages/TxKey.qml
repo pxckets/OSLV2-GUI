@@ -31,8 +31,8 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 
-import "../components" as ArqmaComponents
-import ArqmaComponents.Clipboard 1.0
+import "../components" as OscillateComponents
+import OscillateComponents.Clipboard 1.0
 
 import "../js/TxUtils.js" as TxUtils
 
@@ -57,7 +57,7 @@ Rectangle {
             id: soloBox
             spacing: 20 * scaleRatio
 
-            ArqmaComponents.Label {
+            OscillateComponents.Label {
                 id: soloTitleLabel
                 fontSize: 24 * scaleRatio
                 text: qsTr("Prove Transaction") + translationManager.emptyString
@@ -68,12 +68,12 @@ Rectangle {
                 text: qsTr("Generate a proof of your incoming/outgoing payment by supplying the transaction ID, the recipient address and an optional message. \n" +
                            "For the case of outgoing payments, you can get a 'Spend Proof' that proves the authorship of a transaction. In this case, you don't need to specify the recipient address.") + translationManager.emptyString
                 wrapMode: Text.Wrap
-                font.family: ArqmaComponents.Style.fontRegular.name
+                font.family: OscillateComponents.Style.fontRegular.name
                 font.pixelSize: 14 * scaleRatio
-                color: ArqmaComponents.Style.defaultFontColor
+                color: OscillateComponents.Style.defaultFontColor
             }
 
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 id: getProofTxIdLine
                 Layout.fillWidth: true
                 labelFontSize: 14 * scaleRatio
@@ -85,7 +85,7 @@ Rectangle {
                 copyButton: true
             }
 
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 id: getProofAddressLine
                 Layout.fillWidth: true
                 labelFontSize: 14 * scaleRatio
@@ -97,7 +97,7 @@ Rectangle {
                 copyButton: true
             }
 
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 id: getProofMessageLine
                 Layout.fillWidth: true
                 fontSize: 16 * scaleRatio
@@ -109,7 +109,7 @@ Rectangle {
                 copyButton: true
             }
 
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 Layout.topMargin: 16 * scaleRatio
                 small: true
                 text: qsTr("Generate") + translationManager.emptyString
@@ -129,7 +129,7 @@ Rectangle {
                 anchors.bottomMargin: 3 * scaleRatio
             }
 
-            ArqmaComponents.Label {
+            OscillateComponents.Label {
                 id: soloTitleLabel2
                 fontSize: 24 * scaleRatio
                 text: qsTr("Check Transaction") + translationManager.emptyString
@@ -140,13 +140,13 @@ Rectangle {
                            "For the case with Spend Proof, you don't need to specify the recipient address.") + translationManager.emptyString
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true
-                font.family: ArqmaComponents.Style.fontRegular.name
+                font.family: OscillateComponents.Style.fontRegular.name
                 font.pixelSize: 14 * scaleRatio
-                color: ArqmaComponents.Style.defaultFontColor
+                color: OscillateComponents.Style.defaultFontColor
             }
 
             RowLayout {
-                ArqmaComponents.LineEdit {
+                OscillateComponents.LineEdit {
                     id: checkProofAddressLine
                     labelText: qsTr("Address") + translationManager.emptyString
                     fontSize: 16 * scaleRatio
@@ -158,7 +158,7 @@ Rectangle {
                 }
             }
 
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 id: checkProofTxIdLine
                 Layout.fillWidth: true
                 labelFontSize: 14 * scaleRatio
@@ -170,7 +170,7 @@ Rectangle {
                 copyButton: true
             }
 
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 id: checkProofMessageLine
                 Layout.fillWidth: true
                 fontSize: 16 * scaleRatio
@@ -182,7 +182,7 @@ Rectangle {
                 copyButton: true
             }
 
-            ArqmaComponents.LineEdit {
+            OscillateComponents.LineEdit {
                 id: checkProofSignatureLine
                 Layout.fillWidth: true
                 fontSize: 16 * scaleRatio
@@ -194,7 +194,7 @@ Rectangle {
                 copyButton: true
             }
 
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 Layout.topMargin: 16 * scaleRatio
                 small: true
                 text: qsTr("Check") + translationManager.emptyString
@@ -219,9 +219,9 @@ Rectangle {
                 text: qsTr("If a payment had several transactions then each must be checked and the results combined.") + translationManager.emptyString
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true
-                font.family: ArqmaComponents.Style.fontRegular.name
+                font.family: OscillateComponents.Style.fontRegular.name
                 font.pixelSize: 14 * scaleRatio
-                color: ArqmaComponents.Style.defaultFontColor
+                color: OscillateComponents.Style.defaultFontColor
             }
         }
     }

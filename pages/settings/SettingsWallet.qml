@@ -32,7 +32,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2
 
 import "../../js/Utils.js" as Utils
-import "../../components" as ArqmaComponents
+import "../../components" as OscillateComponents
 
 Rectangle {
     color: "transparent"
@@ -55,8 +55,8 @@ Rectangle {
             Layout.preferredHeight: 1 * scaleRatio
             Layout.fillWidth: true
             Layout.bottomMargin: 8 * scaleRatio
-            color: ArqmaComponents.Style.dividerColor
-            opacity: ArqmaComponents.Style.dividerOpacity
+            color: OscillateComponents.Style.dividerColor
+            opacity: OscillateComponents.Style.dividerOpacity
         }
 
         GridLayout {
@@ -75,15 +75,15 @@ Rectangle {
                     Layout.topMargin: 8 * scaleRatio
                     color: "white"
                     font.bold: true
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 16 * scaleRatio
                     text: qsTr("Close this wallet") + translationManager.emptyString
                 }
 
                 TextArea {
                     Layout.fillWidth: true
-                    color: ArqmaComponents.Style.dimmedFontColor
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    color: OscillateComponents.Style.dimmedFontColor
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     horizontalAlignment: TextInput.AlignLeft
                     selectByMouse: false
@@ -104,7 +104,7 @@ Rectangle {
                 }
             }
 
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 small: true
                 text: qsTr("Close wallet") + translationManager.emptyString
                 onClicked: {
@@ -123,8 +123,8 @@ Rectangle {
             Layout.fillWidth: true
             Layout.topMargin: 8 * scaleRatio
             Layout.bottomMargin: 8 * scaleRatio
-            color: ArqmaComponents.Style.dividerColor
-            opacity: ArqmaComponents.Style.dividerOpacity
+            color: OscillateComponents.Style.dividerColor
+            opacity: OscillateComponents.Style.dividerOpacity
         }
 
         GridLayout {
@@ -143,15 +143,15 @@ Rectangle {
                     Layout.topMargin: 8 * scaleRatio
                     color: "white"
                     font.bold: true
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 16 * scaleRatio
                     text: qsTr("Create a view-only wallet") + translationManager.emptyString
                 }
 
                 TextArea {
                     Layout.fillWidth: true
-                    color: ArqmaComponents.Style.dimmedFontColor
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    color: OscillateComponents.Style.dimmedFontColor
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     horizontalAlignment: TextInput.AlignLeft
                     selectByMouse: false
@@ -172,7 +172,7 @@ Rectangle {
                 }
             }
 
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 small: true
                 text: qsTr("Create wallet") + translationManager.emptyString
                 onClicked: {
@@ -199,8 +199,8 @@ Rectangle {
             Layout.fillWidth: true
             Layout.topMargin: 8 * scaleRatio
             Layout.bottomMargin: 8 * scaleRatio
-            color: ArqmaComponents.Style.dividerColor
-            opacity: ArqmaComponents.Style.dividerOpacity
+            color: OscillateComponents.Style.dividerColor
+            opacity: OscillateComponents.Style.dividerOpacity
         }
 
         GridLayout {
@@ -219,15 +219,15 @@ Rectangle {
                     Layout.topMargin: 8 * scaleRatio
                     color: "white"
                     font.bold: true
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 16 * scaleRatio
                     text: qsTr("Show Mnemonic seed & keys") + translationManager.emptyString
                 }
 
                 TextArea {
                     Layout.fillWidth: true
-                    color: ArqmaComponents.Style.dimmedFontColor
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    color: OscillateComponents.Style.dimmedFontColor
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     horizontalAlignment: TextInput.AlignLeft
                     selectByMouse: false
@@ -248,7 +248,7 @@ Rectangle {
                 }
             }
 
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 small: true
                 text: qsTr("Show seed") + translationManager.emptyString
                 onClicked: {
@@ -264,8 +264,8 @@ Rectangle {
             Layout.fillWidth: true
             Layout.topMargin: 8 * scaleRatio
             Layout.bottomMargin: 8 * scaleRatio
-            color: ArqmaComponents.Style.dividerColor
-            opacity: ArqmaComponents.Style.dividerOpacity
+            color: OscillateComponents.Style.dividerColor
+            opacity: OscillateComponents.Style.dividerOpacity
         }
 
         GridLayout {
@@ -285,15 +285,15 @@ Rectangle {
                     Layout.topMargin: 8 * scaleRatio
                     color: "white"
                     font.bold: true
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 16 * scaleRatio
                     text: qsTr("Rescan wallet balance") + translationManager.emptyString
                 }
 
                 TextArea {
                     Layout.fillWidth: true
-                    color: ArqmaComponents.Style.dimmedFontColor
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    color: OscillateComponents.Style.dimmedFontColor
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     horizontalAlignment: TextInput.AlignLeft
                     selectByMouse: false
@@ -314,7 +314,7 @@ Rectangle {
                 }
             }
 
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 small: true
                 text: qsTr("Rescan") + translationManager.emptyString
                 onClicked: {
@@ -344,8 +344,8 @@ Rectangle {
             Layout.fillWidth: true
             Layout.topMargin: 8 * scaleRatio
             Layout.bottomMargin: 8 * scaleRatio
-            color: ArqmaComponents.Style.dividerColor
-            opacity: ArqmaComponents.Style.dividerOpacity
+            color: OscillateComponents.Style.dividerColor
+            opacity: OscillateComponents.Style.dividerOpacity
         }
 
         GridLayout {
@@ -364,15 +364,15 @@ Rectangle {
                     Layout.topMargin: 8 * scaleRatio
                     color: "white"
                     font.bold: true
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 16 * scaleRatio
                     text: qsTr("Change wallet password") + translationManager.emptyString
                 }
 
                 TextArea {
                     Layout.fillWidth: true
-                    color: ArqmaComponents.Style.dimmedFontColor
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    color: OscillateComponents.Style.dimmedFontColor
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 14 * scaleRatio
                     horizontalAlignment: TextInput.AlignLeft
                     selectByMouse: false
@@ -391,7 +391,7 @@ Rectangle {
                 }
             }
 
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 small: true
                 text: qsTr("Change password") + translationManager.emptyString
                 onClicked: {

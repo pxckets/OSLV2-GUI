@@ -29,7 +29,7 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
-import "../../components" as ArqmaComponents
+import "../../components" as OscillateComponents
 
 Rectangle{
     color: "transparent"
@@ -64,8 +64,8 @@ Rectangle{
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: 1
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
             Rectangle {
@@ -109,7 +109,7 @@ Rectangle{
                     anchors.top: parent.top
                     color: "white"
                     font.bold: true
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 16 * scaleRatio
                     text: qsTr("Local node") + translationManager.emptyString
                 }
@@ -120,8 +120,8 @@ Rectangle{
                     anchors.topMargin: 4 * scaleRatio
                     anchors.left: localNodeIcon.right
                     anchors.leftMargin: 14 * scaleRatio
-                    color: ArqmaComponents.Style.dimmedFontColor
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    color: OscillateComponents.Style.dimmedFontColor
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 15 * scaleRatio
                     horizontalAlignment: TextInput.AlignLeft
                     selectByMouse: false
@@ -164,8 +164,8 @@ Rectangle{
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: 1
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
 
             Rectangle {
@@ -209,7 +209,7 @@ Rectangle{
                     anchors.top: parent.top
                     color: "white"
                     font.bold: true
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 16 * scaleRatio
                     text: qsTr("Remote node") + translationManager.emptyString
                 }
@@ -220,8 +220,8 @@ Rectangle{
                     anchors.topMargin: 4 * scaleRatio
                     anchors.left: remoteNodeIcon.right
                     anchors.leftMargin: 14 * scaleRatio
-                    color: ArqmaComponents.Style.dimmedFontColor
-                    font.family: ArqmaComponents.Style.fontRegular.name
+                    color: OscillateComponents.Style.dimmedFontColor
+                    font.family: OscillateComponents.Style.fontRegular.name
                     font.pixelSize: 15 * scaleRatio
                     activeFocusOnPress: false
                     horizontalAlignment: TextInput.AlignLeft
@@ -260,8 +260,8 @@ Rectangle{
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
                 height: 1
-                color: ArqmaComponents.Style.dividerColor
-                opacity: ArqmaComponents.Style.dividerOpacity
+                color: OscillateComponents.Style.dividerColor
+                opacity: OscillateComponents.Style.dividerOpacity
             }
         }
 
@@ -273,13 +273,13 @@ Rectangle{
             Layout.topMargin: 20
             visible: !isMobile && persistentSettings.useRemoteNode
 
-            ArqmaComponents.WarningBox {
+            OscillateComponents.WarningBox {
                 Layout.topMargin: 26 * scaleRatio
                 Layout.bottomMargin: 6 * scaleRatio
                 text: qsTr("To find a remote node, type 'Oscillate remote node' into your favorite search engine. Please ensure the node is run by a trusted and verified third-party.") + translationManager.emptyString
             }
 
-            ArqmaComponents.RemoteNodeEdit {
+            OscillateComponents.RemoteNodeEdit {
                 id: remoteNodeEdit
                 Layout.minimumWidth: 100 * scaleRatio
 
@@ -312,7 +312,7 @@ Rectangle{
                 columns: (isMobile) ? 1 : 2
                 columnSpacing: 32
 
-                ArqmaComponents.LineEdit {
+                OscillateComponents.LineEdit {
                     id: daemonUsername
                     Layout.fillWidth: true
                     labelText: "Daemon username"
@@ -323,7 +323,7 @@ Rectangle{
                     fontSize: 15 * scaleRatio
                 }
 
-                ArqmaComponents.LineEdit {
+                OscillateComponents.LineEdit {
                     id: daemonPassword
                     Layout.fillWidth: true
                     labelText: "Daemon password"
@@ -336,7 +336,7 @@ Rectangle{
                 }
             }
 
-            ArqmaComponents.CheckBox {
+            OscillateComponents.CheckBox {
                 id: setTrustedDaemonCheckBox
                 checked: persistentSettings.is_trusted_daemon
                 onClicked: {
@@ -346,7 +346,7 @@ Rectangle{
                 text: qsTr("Mark as Trusted Daemon") + translationManager.emptyString
             }
 
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 id: btnConnectRemote
                 enabled: remoteNodeEdit.isValid()
                 small: true
@@ -371,7 +371,7 @@ Rectangle{
             Layout.topMargin: 40
             visible: !isMobile && !persistentSettings.useRemoteNode
 
-            ArqmaComponents.StandardButton {
+            OscillateComponents.StandardButton {
                 small: true
                 text: (appWindow.daemonRunning ? qsTr("Stop local node") : qsTr("Start daemon")) + translationManager.emptyString
                 onClicked: {
@@ -385,7 +385,7 @@ Rectangle{
             }
 
             RowLayout {
-                ArqmaComponents.LineEditMulti {
+                OscillateComponents.LineEditMulti {
                     id: blockchainFolder
                     Layout.preferredWidth: 200
                     Layout.fillWidth: true
@@ -412,7 +412,7 @@ Rectangle{
                 }
             }
 
-            ArqmaComponents.LineEditMulti {
+            OscillateComponents.LineEditMulti {
                 id: daemonFlags
                 Layout.fillWidth: true
                 labelFontSize: 14 * scaleRatio
@@ -432,14 +432,14 @@ Rectangle{
                 ColumnLayout {
                     Layout.fillWidth: true
 
-                    ArqmaComponents.RemoteNodeEdit {
+                    OscillateComponents.RemoteNodeEdit {
                         id: bootstrapNodeEdit
                         Layout.minimumWidth: 100 * scaleRatio
                         Layout.bottomMargin: 20 * scaleRatio
 
                         lineEditBackgroundColor: "transparent"
                         lineEditFontColor: "white"
-                        lineEditBorderColor: ArqmaComponents.Style.inputBorderColorActive
+                        lineEditBorderColor: OscillateComponents.Style.inputBorderColorActive
                         placeholderFontSize: 15 * scaleRatio
                         labelFontSize: 14 * scaleRatio
                         lineEditFontBold: false

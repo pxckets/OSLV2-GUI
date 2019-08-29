@@ -5,18 +5,18 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Dialogs 1.2
 
-import ArqmaComponents.Clipboard 1.0
-import ArqmaComponents.Wallet 1.0
-import ArqmaComponents.WalletManager 1.0
-import ArqmaComponents.TransactionHistory 1.0
-import ArqmaComponents.TransactionHistoryModel 1.0
-import ArqmaComponents.Subaddress 1.0
-import ArqmaComponents.SubaddressModel 1.0
+import OscillateComponents.Clipboard 1.0
+import OscillateComponents.Wallet 1.0
+import OscillateComponents.WalletManager 1.0
+import OscillateComponents.TransactionHistory 1.0
+import OscillateComponents.TransactionHistoryModel 1.0
+import OscillateComponents.Subaddress 1.0
+import OscillateComponents.SubaddressModel 1.0
 
 import "../../js/Windows.js" as Windows
 import "../../js/TxUtils.js" as TxUtils
 import "../../js/Utils.js" as Utils
-import "../../components" as ArqmaComponents
+import "../../components" as OscillateComponents
 import "../../pages"
 import "."
 
@@ -409,7 +409,7 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onEntered: {
-                                parent.color = ArqmaComponents.Style.heroBlue
+                                parent.color = OscillateComponents.Style.heroBlue
                             }
                             onExited: {
                                 parent.color = parent._color
@@ -569,7 +569,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: 14 * scaleRatio
             font.bold: true
-            color: ArqmaComponents.Style.blue
+            color: OscillateComponents.Style.blue
             text: qsTr("The merchant page requires a larger window")
         }
     }
