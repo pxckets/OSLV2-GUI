@@ -1,4 +1,4 @@
-// Copyright (c) 2015, The Arqma Network
+// Copyright (c) 2015, The Oscillate Network
 // Copyright (c) 2014-2015, The Monero Project
 //
 // All rights reserved.

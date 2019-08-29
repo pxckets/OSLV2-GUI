@@ -1,16 +1,16 @@
-# Arqma GUI
+# Oscillate GUI
 
 Copyright (c) 2018-2019, ArQmA Project
 
 Copyright (c) 2014-2018, The Monero Project
 
-## Compiling the Arqma GUI from source
+## Compiling the Oscillate GUI from source
 
 ### On Linux:
 
 (Tested on Ubuntu 17.10 x64, Ubuntu 18.04 x64 and Gentoo x64)
 
-1. Install Arqma dependencies
+1. Install Oscillate dependencies
 
   - For Debian/Ubuntu Distributions
 
@@ -33,14 +33,14 @@ Copyright (c) 2014-2018, The Monero Project
    `sudo emerge dev-qt/qtcore:5 dev-qt/qtdeclarative:5 dev-qt/qtquickcontrols:5 dev-qt/qtquickcontrols2:5 dev-qt/qtgraphicaleffects:5 dev-qt/qtmultimedia:5 media-gfx/zbar`
 
 
-3. Clone Arqma GUI Repository
+3. Clone Oscillate GUI Repository
 
-	  `git clone https://github.com/arqma/arqma-gui.git`
+	  `git clone https://github.com/oscillate/oscillate-gui.git`
 
 4. Build the GUI
 
     ```
-    cd arqma-gui
+    cd oscillate-gui
     git checkout release-v0.4
     QT_SELECT=5 ./build.sh
     ```
@@ -53,7 +53,7 @@ The executable can be found in the build/release/bin folder.
 
 2. Install [homebrew](http://brew.sh/)
 
-3. Install [arqma](https://github.com/arqma/arqma) dependencies:
+3. Install [oscillate](https://github.com/oscillate/oscillate) dependencies:
 
   `brew install boost`
 
@@ -94,12 +94,12 @@ The executable can be found in the build/release/bin folder.
 
 6. Grab an up-to-date copy of the arq-gui repository
 
-  `git clone https://github.com/arqma/arqma-gui.git`
+  `git clone https://github.com/oscillate/oscillate-gui.git`
 
 7. Go into the repository
 
   ```
-  cd arqma-gui
+  cd oscillate-gui
   git checkout release-v0.4
   ```
 
@@ -130,13 +130,13 @@ POSIX system. The toolchain runs within the environment and *cross-compiles*
 binaries that can run outside of the environment as a regular Windows
 application.
 
-**Before start GUI on Win 10 allow arqmad in firewall**
+**Before start GUI on Win 10 allow oscillated in firewall**
 
 Run cmd as Administrator:
 	
-	netsh advfirewall firewall add rule name="allow arqmad" dir=in program="C:\Program Files\Arqma GUI Wallet\arqmad.exe" security=authnoencap action=allow
+	netsh advfirewall firewall add rule name="allow oscillated" dir=in program="C:\Program Files\Oscillate GUI Wallet\oscillated.exe" security=authnoencap action=allow
 	
-This script allow arqmad.exe communication in case You use default installation directory. In case You use other installation dir modify path (program="installation dir\arqmad.exe")
+This script allow oscillated.exe communication in case You use default installation directory. In case You use other installation dir modify path (program="installation dir\oscillated.exe")
 	
 **Preparing the build environment**
 
@@ -174,14 +174,14 @@ This script allow arqmad.exe communication in case You use default installation 
 
 4. Clone repository
 
-    `git clone https://github.com/arqma/arqma-gui.git`
+    `git clone https://github.com/oscillate/oscillate-gui.git`
 
 5. Build the GUI
 
 Latest Msys2 and QT-5.12 has issue with bad_address at qml_cache. Workaround to get it compile without any issues is as follows:
 
     ```
-    cd arqma-gui
+    cd oscillate-gui
     git checkout release-v0.4
     source ./build.sh
     ```

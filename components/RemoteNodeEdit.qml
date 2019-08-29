@@ -80,7 +80,7 @@ GridLayout {
     LineEdit {
         id: daemonAddr
         Layout.fillWidth: true
-        placeholderText: qsTr("Remote Arqma-Node Hostname / IP") + translationManager.emptyString
+        placeholderText: qsTr("Remote Oscillate-Node Hostname / IP") + translationManager.emptyString
         placeholderFontFamily: root.placeholderFontFamily
         placeholderFontBold: root.placeholderFontBold
         placeholderFontSize: root.placeholderFontSize

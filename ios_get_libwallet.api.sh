@@ -21,35 +21,35 @@ if [ -z $OPENSSL_ROOT_DIR ]; then
     OPENSSL_ROOT_DIR=${ROOT_DIR}/../openssl/1.0.2j
 fi
 if [ -z $INSTALL_PREFIX ]; then
-    INSTALL_PREFIX=${ROOT_DIR}/arqma
+    INSTALL_PREFIX=${ROOT_DIR}/oscillate
 fi
 
 echo "Building IOS armv7"
-rm -r arqma/build > /dev/null
-mkdir -p arqma/build/release
-pushd arqma/build/release
+rm -r oscillate/build > /dev/null
+mkdir -p oscillate/build/release
+pushd oscillate/build/release
 cmake -D IOS=ON -D ARCH=armv7 -D BOOST_LIBRARYDIR=${BOOST_LIBRARYDIR} -D BOOST_INCLUDEDIR=${BOOST_INCLUDEDIR} -D OPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR} -D OPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} -D CMAKE_BUILD_TYPE=debug -D STATIC=ON -D BUILD_GUI_DEPS=ON -D INSTALL_VENDORED_LIBUNBOUND=ON -D SODIUM_LIBRARY=$SODIUM_LIBRARY -D SODIUM_INCLUDE_DIR=$SODIUM_INCLUDE -D CMAKE_INSTALL_PREFIX=$INSTALL_PREFIX  ../..
 make -j4 && make install
 popd
 
 echo "Building IOS arm64"
-rm -r arqma/build > /dev/null
-mkdir -p arqma/build/release
-pushd arqma/build/release
+rm -r oscillate/build > /dev/null
+mkdir -p oscillate/build/release
+pushd oscillate/build/release
 cmake -D IOS=ON -D ARCH=arm64 -D BOOST_LIBRARYDIR=${BOOST_LIBRARYDIR} -D BOOST_INCLUDEDIR=${BOOST_INCLUDEDIR} -D OPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR} -D OPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} -D CMAKE_BUILD_TYPE=debug -D STATIC=ON -D BUILD_GUI_DEPS=ON -D INSTALL_VENDORED_LIBUNBOUND=ON -D SODIUM_LIBRARY=$SODIUM_LIBRARY -D SODIUM_INCLUDE_DIR=$SODIUM_INCLUDE -D CMAKE_INSTALL_PREFIX=$INSTALL_PREFIX  ../..
 make -j4 && make install
 popd
 
 echo "Building IOS x86"
-rm -r arqma/build > /dev/null
-mkdir -p arqma/build/release
-pushd arqma/build/release
+rm -r oscillate/build > /dev/null
+mkdir -p oscillate/build/release
+pushd oscillate/build/release
 cmake -D IOS=ON -D ARCH=x86_64 -D IOS_PLATFORM=SIMULATOR64 -D BOOST_LIBRARYDIR=${BOOST_LIBRARYDIR_x86_64} -D BOOST_INCLUDEDIR=${BOOST_INCLUDEDIR} -D OPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR} -D OPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} -D CMAKE_BUILD_TYPE=debug -D STATIC=ON -D BUILD_GUI_DEPS=ON -D INSTALL_VENDORED_LIBUNBOUND=ON -D SODIUM_LIBRARY=$SODIUM_LIBRARY -D SODIUM_INCLUDE_DIR=$SODIUM_INCLUDE -D CMAKE_INSTALL_PREFIX=$INSTALL_PREFIX  ../..
 make -j4 && make install
 popd
 
 echo "Creating fat library for armv7 and arm64"
-pushd arqma
+pushd oscillate
 mkdir -p lib-ios
 lipo -create lib-armv7/libwallet_merged.a lib-x86_64/libwallet_merged.a lib-armv8-a/libwallet_merged.a -output lib-ios/libwallet_merged.a
 lipo -create lib-armv7/libunbound.a lib-x86_64/libunbound.a lib-armv8-a/libunbound.a -output lib-ios/libunbound.a

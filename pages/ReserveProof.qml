@@ -59,7 +59,7 @@ Rectangle {
 
         Text {
             text: qsTr("This page allows you to interact with the shared ring database. " +
-                       "This database is meant for use by Arqma wallets as well as wallets from Arqma clones which reuse the Arqma keys.") + translationManager.emptyString
+                       "This database is meant for use by Oscillate wallets as well as wallets from Oscillate clones which reuse the Oscillate keys.") + translationManager.emptyString
             wrapMode: Text.Wrap
             Layout.fillWidth: true
             font.family: ArqmaComponents.Style.fontRegular.name

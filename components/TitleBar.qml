@@ -113,7 +113,7 @@ Rectangle {
             anchors.topMargin: 11
             width: 132
             height: 22
-            source: "../images/arqmaLogo_white.png"
+            source: "../images/oscillateLogo_white.png"
         }
     }
 

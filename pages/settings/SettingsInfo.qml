@@ -94,12 +94,12 @@ Rectangle {
             ArqmaComponents.TextBlock {
                 id: guiArqmaVersion
                 font.pixelSize: 14 * scaleRatio
-                text: qsTr("Embedded Arqma version: ") + translationManager.emptyString
+                text: qsTr("Embedded Oscillate version: ") + translationManager.emptyString
             }
 
             ArqmaComponents.TextBlock {
                 font.pixelSize: 14 * scaleRatio
-                text: Version.GUI_ARQMA_VERSION + translationManager.emptyString
+                text: Version.GUI_OSCILLATE_VERSION + translationManager.emptyString
             }
 
             Rectangle {
@@ -287,7 +287,7 @@ Rectangle {
             onClicked: {
                 var data = "";
                 data += "GUI version: " + Version.GUI_VERSION + " (Qt " + qtRuntimeVersion + ")";
-                data += "\nEmbedded Arqma version: " + Version.GUI_ARQMA_VERSION;
+                data += "\nEmbedded Oscillate version: " + Version.GUI_OSCILLATE_VERSION;
                 data += "\nWallet path: ";
 
                 var wallet_path = walletPath();

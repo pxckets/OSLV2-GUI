@@ -1,4 +1,4 @@
-ARG IMAGE_FROM=arqma-android32
+ARG IMAGE_FROM=oscillate-android32
 FROM ${IMAGE_FROM}
 
 ARG NPROC=1
@@ -82,11 +82,11 @@ RUN cd tools && curl -O http://dl-ssl.google.com/android/repository/tools_r25.2.
   && rm -f tools_r25.2.5-linux.zip \
   && echo y | $ANDROID_SDK_ROOT/tools/android update sdk --no-ui --all --filter build-tools-25.0.3
 
-  ADD . ${WORKDIR}/arqma-gui
-  RUN cd ${WORKDIR}/arqma-gui \
+  ADD . ${WORKDIR}/oscillate-gui
+  RUN cd ${WORKDIR}/oscillate-gui \
       && CMAKE_INCLUDE_PATH="${PREFIX}/include" \
          CMAKE_LIBRARY_PATH="${PREFIX}/lib" \
          ANDROID_STANDALONE_TOOLCHAIN_PATH=${TOOLCHAIN_DIR} \
          PATH=${HOST_PATH} ./build.sh release-android
 
-  #RUN cd ${WORKDIR}/arqma-gui/build && PATH=${HOST_PATH} make deploy
+  #RUN cd ${WORKDIR}/oscillate-gui/build && PATH=${HOST_PATH} make deploy

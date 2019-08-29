@@ -276,7 +276,7 @@ Rectangle{
             ArqmaComponents.WarningBox {
                 Layout.topMargin: 26 * scaleRatio
                 Layout.bottomMargin: 6 * scaleRatio
-                text: qsTr("To find a remote node, type 'Arqma remote node' into your favorite search engine. Please ensure the node is run by a trusted and verified third-party.") + translationManager.emptyString
+                text: qsTr("To find a remote node, type 'Oscillate remote node' into your favorite search engine. Please ensure the node is run by a trusted and verified third-party.") + translationManager.emptyString
             }
 
             ArqmaComponents.RemoteNodeEdit {
@@ -294,7 +294,7 @@ Rectangle{
                 daemonPortLabelText: qsTr("Port")
 
                 property var rna: persistentSettings.remoteNodeAddress
-                daemonAddrText: rna.search(":") != -1 ? rna.split(":")[0].trim() : "node.supportarqma.com"
+                daemonAddrText: rna.search(":") != -1 ? rna.split(":")[0].trim() : "node.supportoscillate.com"
                 daemonPortText: rna.search(":") != -1 ? (rna.split(":")[1].trim() == "") ? appWindow.getDefaultDaemonRpcPort(persistentSettings.nettype) : rna.split(":")[1] : ""
                 onEditingFinished: {
                     persistentSettings.remoteNodeAddress = remoteNodeEdit.getAddress();

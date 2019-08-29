@@ -67,7 +67,7 @@ function isValidOpenAliasAddress(address) {
 }
 
 function makeQRCodeString(addr, amount) {
-    var ARQ_URI_SCHEME = "arqma:"
+    var ARQ_URI_SCHEME = "oscillate:"
     var ARQ_AMOUNT = "tx_amount"
     var qrCodeString =""
     qrCodeString += (ARQ_URI_SCHEME + addr)

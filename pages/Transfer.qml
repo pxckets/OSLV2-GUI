@@ -136,14 +136,14 @@ Rectangle {
               Layout.fillWidth: true
               Layout.minimumWidth: 200 * scaleRatio
 
-              // Arqma amount input
+              // Oscillate amount input
               LineEdit {
                   id: amountLine
                   Layout.fillWidth: true
                   Layout.minimumWidth: 200
                   inlineIcon: true
                   labelText: qsTr("<style type='text/css'>a {text-decoration: none; color: #858585; font-size: 14px;}</style>\
-                                   Arqma Amount <font size='2'>  ( </font> <a href='#'>Change account</a><font size='2'> )</font>")
+                                   Oscillate Amount <font size='2'>  ( </font> <a href='#'>Change account</a><font size='2'> )</font>")
                              + translationManager.emptyString
                   onLabelLinkActivated: {
                       middlePanel.accountView.selectAndSend = true;
@@ -595,7 +595,7 @@ Rectangle {
                 informationPopup.open();
             } else {
                 informationPopup.title = qsTr("Information") + translationManager.emptyString
-                informationPopup.text  = qsTr("Arqma sent successfully") + translationManager.emptyString
+                informationPopup.text  = qsTr("Oscillate sent successfully") + translationManager.emptyString
                 informationPopup.icon  = StandardIcon.Information
                 informationPopup.onCloseCallback = null
                 informationPopup.open();

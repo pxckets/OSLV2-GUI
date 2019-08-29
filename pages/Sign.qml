@@ -334,7 +334,7 @@ Rectangle {
                 labelText: qsTr("Address") + translationManager.emptyString
                 addressValidation: true
                 placeholderFontSize: 16 * scaleRatio
-                placeholderText: qsTr("Enter Arqma Wallet Address (example: ar46iCiw5uB7SjnYhL5...)") + translationManager.emptyString
+                placeholderText: qsTr("Enter Oscillate Wallet Address (example: ar46iCiw5uB7SjnYhL5...)") + translationManager.emptyString
                 wrapMode: Text.WrapAnywhere
                 text: ''
                 pasteButton: true

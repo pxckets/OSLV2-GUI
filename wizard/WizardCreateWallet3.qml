@@ -55,7 +55,7 @@ Rectangle {
 
             WizardHeader {
                 title: qsTr("Daemon settings") + translationManager.emptyString
-                subtitle: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to a Arqma node. For best privacy it's recommended to run your own node.") + translationManager.emptyString
+                subtitle: qsTr("To be able to communicate with the Arq-Net your wallet needs to be connected to a Oscillate node. For best privacy it's recommended to run your own node.") + translationManager.emptyString
             }
 
             WizardDaemonSettings {

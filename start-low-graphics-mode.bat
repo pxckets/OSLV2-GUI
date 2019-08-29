@@ -2,4 +2,4 @@
 
 set QMLSCENE_DEVICE=softwarecontext
 
-start /b arqma-wallet-gui.exe
+start /b oscillate-wallet-gui.exe

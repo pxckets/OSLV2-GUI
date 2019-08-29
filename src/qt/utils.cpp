@@ -15,6 +15,6 @@ QString getAccountName(){
     if (accountName.isEmpty())
         accountName = qgetenv("USERNAME"); // Windows
     if (accountName.isEmpty())
-        accountName = "My Arqma Account";
+        accountName = "My Oscillate Account";
     return accountName;
 }

@@ -279,7 +279,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignHCenter
                 fontColor: "#a5a5a5"
                 fontSize: 18 * scaleRatio
-                text: saveToQRImageButton.buttonRectState == "hover" ? qsTr("Save Qr-Code Image") : copyToClipboardButton.buttonRectState == "hover" ? qsTr("Copy Address to Clipboard") : qsTr("Your Arqma Wallet Address")
+                text: saveToQRImageButton.buttonRectState == "hover" ? qsTr("Save Qr-Code Image") : copyToClipboardButton.buttonRectState == "hover" ? qsTr("Copy Address to Clipboard") : qsTr("Your Oscillate Wallet Address")
                 textHorizontalAlignment: TextInput.AlignHCenter
                 readOnly: true
                 borderDisabled: true

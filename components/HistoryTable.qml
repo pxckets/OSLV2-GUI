@@ -141,7 +141,7 @@ ListView {
 
             Image {
                 id: arrowImage
-                source: isOut ? "../images/downArrow.png" : confirmationsRequired === 18  ? "../images/arqma-32x32.png" : "../images/upArrow-green.png"
+                source: isOut ? "../images/downArrow.png" : confirmationsRequired === 18  ? "../images/oscillate-32x32.png" : "../images/upArrow-green.png"
                 height: 18 * scaleRatio
                 width: (confirmationsRequired === 18 ? 18 : 12) * scaleRatio
                 anchors.top: parent.top

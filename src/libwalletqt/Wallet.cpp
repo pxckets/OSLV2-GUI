@@ -777,7 +777,7 @@ void Wallet::setWalletCreationHeight(quint64 height)
 
 QString Wallet::getDaemonLogPath() const
 {
-    return QString::fromStdString(m_walletImpl->getDefaultDataDir()) + "/arqma.log";
+    return QString::fromStdString(m_walletImpl->getDefaultDataDir()) + "/oscillate.log";
 }
 
 bool Wallet::blackballOutput(const QString &amount, const QString &offset)

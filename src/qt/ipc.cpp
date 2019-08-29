@@ -38,7 +38,7 @@ void IPC::bind(){
     connect(this->m_server, &QLocalServer::newConnection, this, &IPC::handleConnection);
 }
 
-// Process incoming IPC command. First check if arqma-wallet-gui is
+// Process incoming IPC command. First check if oscillate-wallet-gui is
 // already running. If it is, send it to that instance instead, if not,
 // queue the command for later use inside our QML engine. Returns true
 // when queued, false if sent to another instance, at which point we can

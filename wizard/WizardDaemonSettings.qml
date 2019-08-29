@@ -117,7 +117,7 @@ ColumnLayout {
             }
 
             TextArea {
-                text: qsTr("Additionally, you may specify a bootstrap node to use Arqma immediately.") + translationManager.emptyString
+                text: qsTr("Additionally, you may specify a bootstrap node to use Oscillate immediately.") + translationManager.emptyString
                 Layout.topMargin: 4 * scaleRatio
                 Layout.fillWidth: true
 

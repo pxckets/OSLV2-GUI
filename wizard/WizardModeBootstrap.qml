@@ -78,7 +78,7 @@ Rectangle {
                 }
 
                 Text {
-                    text: qsTr("Temporary use of remote nodes is useful in order to use Arqma immediately (hence the name <i>bootstrap</i>), however be aware that when using remote nodes (including with the bootstrap setting), nodes could track your IP address, track your \"restore height\" and associated block request data, and send you inaccurate information to learn more about transactions you make.") + translationManager.emptyString
+                    text: qsTr("Temporary use of remote nodes is useful in order to use Oscillate immediately (hence the name <i>bootstrap</i>), however be aware that when using remote nodes (including with the bootstrap setting), nodes could track your IP address, track your \"restore height\" and associated block request data, and send you inaccurate information to learn more about transactions you make.") + translationManager.emptyString
                     wrapMode: Text.Wrap
                     Layout.topMargin: 8 * scaleRatio
                     Layout.fillWidth: true

@@ -1,18 +1,18 @@
-; Arqma Devils Touch Installer for Microsoft Windows Operating Systems
-; Copyright (c) 2018-2019, The Arqma Network
+; Oscillate Devils Touch Installer for Microsoft Windows Operating Systems
+; Copyright (c) 2018-2019, The Oscillate Network
 ; Copyright (c) 2014-2018, The Monero Project
 ; See LICENSE
 
 [Setup]
-AppName=Arqma GUI Wallet
+AppName=Oscillate GUI Wallet
 ; For InnoSetup this is the property that uniquely identifies the application as such
 ; Thus it's important to keep this stable over releases
 ; With a different "AppName" InnoSetup would treat a mere update as a completely new application and thus mess up
 
 AppVersion=0.5
-DefaultDirName={pf}\Arqma GUI Wallet
-DefaultGroupName=Arqma GUI Wallet
-UninstallDisplayIcon={app}\arqma-wallet-gui.exe
+DefaultDirName={pf}\Oscillate GUI Wallet
+DefaultGroupName=Oscillate GUI Wallet
+UninstallDisplayIcon={app}\oscillate-wallet-gui.exe
 PrivilegesRequired=admin
 ArchitecturesInstallIn64BitMode=x64
 ArchitecturesAllowed=x64
@@ -21,8 +21,8 @@ WizardImageFile=WelcomeImage.bmp
 DisableWelcomePage=no
 LicenseFile=LICENSE
 AppPublisher=ArQmA Network
-AppPublisherURL=https://arqma.com
-OutputBaseFilename=Arqma-WinGUI
+AppPublisherURL=https://oscillate.com
+OutputBaseFilename=Oscillate-WinGUI
 
 UsedUserAreasWarning=yes
 ; The above directive silences the following compiler warning:
@@ -30,7 +30,7 @@ UsedUserAreasWarning=yes
 ;    are used by the script. Regardless of the version of Windows, if the installation is administrative then you should
 ;    be careful about making any per-user area changes: such changes may not achieve what you are intending.
 ; Background info:
-; This installer indeed asks for admin rights so the Arqma files can be copied to a place where they have at least
+; This installer indeed asks for admin rights so the Oscillate files can be copied to a place where they have at least
 ; a minimum of protection against changes, e.g. by malware, plus it handles things for the currently logged-in user
 ; in the registry (GUI wallet per-user options) and for some of the icons. For reasons too complicated to fully explain
 ; here this does not work as intended if the installing user does not have admin rights and has to provide the password
@@ -58,49 +58,49 @@ Name: "en"; MessagesFile: "compiler:Default.isl"
 ; .exe/.dll file possibly with version info).
 ;
 ; This is far more robust than relying on version info or on file dates (flag "comparetimestamp").
-; As of version 0.1.1.0, the arqma .exe files do not carry version info anyway in their .exe headers.
+; As of version 0.1.1.0, the oscillate .exe files do not carry version info anyway in their .exe headers.
 ; The only small drawback seems to be somewhat longer update times because each and every file is
 ; copied again, even if already present with correct file date and identical content.
 ;
 ; Note that it would be very dangerous to use "ignoreversion" on files that may be shared with other
-; applications somehow. Luckily this is no issue here because ALL files are "private" to Arqma.
+; applications somehow. Luckily this is no issue here because ALL files are "private" to Oscillate.
 
 Source: "ReadMe.htm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "FinishImage.bmp"; Flags: dontcopy
 
-; Arqma GUI wallet
-Source: "bin\arqma-wallet-gui.exe"; DestDir: "{app}"; Flags: ignoreversion
+; Oscillate GUI wallet
+Source: "bin\oscillate-wallet-gui.exe"; DestDir: "{app}"; Flags: ignoreversion
 
-; Arqma GUI wallet log file
+; Oscillate GUI wallet log file
 ; The GUI wallet does not have the "--log-file" command-line option of the CLI wallet and insists to put the .log beside the .exe
 ; so pre-create the file and give the necessary permissions to the wallet to write into it
 ; Flag is "onlyifdoesntexist": We do not want to overwrite an already existing log
-Source: "arqma-wallet-gui.log"; DestDir: "{app}"; Flags: onlyifdoesntexist; Permissions: users-modify
+Source: "oscillate-wallet-gui.log"; DestDir: "{app}"; Flags: onlyifdoesntexist; Permissions: users-modify
 
-; Arqma CLI wallet
-Source: "bin\arqma-wallet-cli.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\arqma-gen-trusted-multisig.exe"; DestDir: "{app}"; Flags: ignoreversion
+; Oscillate CLI wallet
+Source: "bin\oscillate-wallet-cli.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\oscillate-gen-trusted-multisig.exe"; DestDir: "{app}"; Flags: ignoreversion
 
-; Arqma wallet RPC interface implementation
-Source: "bin\arqma-wallet-rpc.exe"; DestDir: "{app}"; Flags: ignoreversion
+; Oscillate wallet RPC interface implementation
+Source: "bin\oscillate-wallet-rpc.exe"; DestDir: "{app}"; Flags: ignoreversion
 
-; Arqma daemon
-Source: "bin\arqmad.exe"; DestDir: "{app}"; Flags: ignoreversion
+; Oscillate daemon
+Source: "bin\oscillated.exe"; DestDir: "{app}"; Flags: ignoreversion
 
-; Arqma daemon wrapped in a batch file that stops before the text window closes, to see any error messages
-Source: "arqma-daemon.bat"; DestDir: "{app}"; Flags: ignoreversion;
+; Oscillate daemon wrapped in a batch file that stops before the text window closes, to see any error messages
+Source: "oscillate-daemon.bat"; DestDir: "{app}"; Flags: ignoreversion;
 
-; Arqma blockchain utilities
-Source: "bin\arqma-blockchain-export.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\arqma-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\arqma-blockchain-mark-spent-outputs.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\arqma-blockchain-usage.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\arqma-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\arqma-blockchain-ancestry.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\arqma-blockchain-depth.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\arqma-blockchain-prune.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\arqma-blockchain-prune-known-spent-data.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\arqma-generate-ssl-certificate.exe"; DestDir: "{app}"; Flags: ignoreversion
+; Oscillate blockchain utilities
+Source: "bin\oscillate-blockchain-export.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\oscillate-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\oscillate-blockchain-mark-spent-outputs.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\oscillate-blockchain-usage.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\oscillate-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\oscillate-blockchain-ancestry.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\oscillate-blockchain-depth.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\oscillate-blockchain-prune.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\oscillate-blockchain-prune-known-spent-data.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\oscillate-generate-ssl-certificate.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Various .qm files for translating the wallet UI "on the fly" into all supported languages
 Source: "bin\translations\*"; DestDir: "{app}\translations"; Flags: recursesubdirs ignoreversion
@@ -259,7 +259,7 @@ Name: desktopicon; Description: "Create a &desktop icon"; GroupDescription: "Add
 Filename: "{app}\ReadMe.htm"; Description: "Show ReadMe"; Flags: postinstall shellexec skipifsilent
 
 ; DON'T offer to run the wallet right away, let the people read about initial blockchain download first in the ReadMe
-; Filename: "{app}\arqma-wallet-gui.exe"; Description: "Run GUI Wallet now"; Flags: postinstall nowait skipifsilent
+; Filename: "{app}\oscillate-wallet-gui.exe"; Description: "Run GUI Wallet now"; Flags: postinstall nowait skipifsilent
 
 [Code]
 var
@@ -281,8 +281,8 @@ begin
   WizardForm.WizardBitmapImage2.Bitmap.LoadFromFile(ExpandConstant('{tmp}\FinishImage.bmp'));
 
   // Additional wizard page for entering a special blockchain location
-  blockChainDefaultDir := ExpandConstant('{commonappdata}\arqma');
-  s := 'The default folder to store the Arqma blockchain is ' + blockChainDefaultDir;
+  blockChainDefaultDir := ExpandConstant('{commonappdata}\oscillate');
+  s := 'The default folder to store the Oscillate blockchain is ' + blockChainDefaultDir;
   s := s + '. As this will need more than 50 GB of free space, you may want to use a folder on a different drive.';
   s := s + ' If yes, specify that folder here.';
 
@@ -331,7 +331,7 @@ end;
 function DaemonLog(Param: String) : String;
 // Full filename of the log of the daemon
 begin
-  Result := BlockChainDir('') + '\arqma.log';
+  Result := BlockChainDir('') + '\oscillate.log';
   // No quotes for filename with blanks as this is never used as part of a command line
 end;
 
@@ -358,12 +358,12 @@ procedure CurStepChanged(CurStep: TSetupStep);
 var s: TArrayOfString;
 begin
   if CurStep = ssPostInstall then begin
-    // Re-build "arqma-daemon.bat" according to actual install and blockchain directory used
+    // Re-build "oscillate-daemon.bat" according to actual install and blockchain directory used
     SetArrayLength(s, 3);
-    s[0] := 'REM Execute the Arqma daemon and then stay with window open after it exits';
-    s[1] := '"' + ExpandConstant('{app}\arqmad.exe') + '" ' + DaemonFlags('');
+    s[0] := 'REM Execute the Oscillate daemon and then stay with window open after it exits';
+    s[1] := '"' + ExpandConstant('{app}\oscillated.exe') + '" ' + DaemonFlags('');
     s[2] := 'PAUSE';
-    SaveStringsToFile(ExpandConstant('{app}\arqma-daemon.bat'), s, false);
+    SaveStringsToFile(ExpandConstant('{app}\oscillate-daemon.bat'), s, false);
   end;
 end;
 
@@ -379,40 +379,40 @@ end;
 
 
 [Icons]
-; Icons in the "Arqma GUI Wallet" program group
+; Icons in the "Oscillate GUI Wallet" program group
 ; Windows will almost always display icons in alphabetical order, per level, so specify the text accordingly
-Name: "{group}\Arqma GUI Wallet"; Filename: "{app}\arqma-wallet-gui.exe"
-Name: "{group}\Uninstall Arqma GUI Wallet"; Filename: "{uninstallexe}"
+Name: "{group}\Oscillate GUI Wallet"; Filename: "{app}\oscillate-wallet-gui.exe"
+Name: "{group}\Uninstall Oscillate GUI Wallet"; Filename: "{uninstallexe}"
 
 ; Sub-folder "Utilities";
 ; Note that Windows 10, unlike Windows 7, ignores such sub-folders completely
 ; and insists on displaying ALL icons on one single level
-Name: "{group}\Utilities\Arqma Daemon"; Filename: "{app}\arqmad.exe"; Parameters: {code:DaemonFlags}
+Name: "{group}\Utilities\Oscillate Daemon"; Filename: "{app}\oscillated.exe"; Parameters: {code:DaemonFlags}
 Name: "{group}\Utilities\Read Me"; Filename: "{app}\ReadMe.htm"
 
 ; CLI wallet: Needs a working directory ("Start in:") set in the icon, because with no such directory set
 ; it tries to create new wallets without a path given in the probably non-writable program folder and will abort with an error
-Name: "{group}\Utilities\Textual (CLI) Wallet"; Filename: "{app}\arqma-wallet-cli.exe"; WorkingDir: "{userdocs}\Arqma\wallets"
+Name: "{group}\Utilities\Textual (CLI) Wallet"; Filename: "{app}\oscillate-wallet-cli.exe"; WorkingDir: "{userdocs}\Oscillate\wallets"
 
 ; Icons for troubleshooting problems / testing / debugging
 ; To show that they are in some way different (not for everyday use), make them visually different
 ; from the others by text, and make them sort at the end by the help of "x" in front
 Name: "{group}\Utilities\x (Check Blockchain Folder)"; Filename: "{win}\Explorer.exe"; Parameters: {code:BlockChainDir}
 Name: "{group}\Utilities\x (Check Daemon Log)"; Filename: "Notepad"; Parameters: {code:DaemonLog}
-Name: "{group}\Utilities\x (Check Default Wallet Folder)"; Filename: "{win}\Explorer.exe"; Parameters: "{userdocs}\Arqma\wallets"
-Name: "{group}\Utilities\x (Check GUI Wallet Log)"; Filename: "Notepad"; Parameters: "{app}\arqma-wallet-gui.log"
-Name: "{group}\Utilities\x (Try Daemon, Exit Confirm)"; Filename: "{app}\arqma-daemon.bat"
+Name: "{group}\Utilities\x (Check Default Wallet Folder)"; Filename: "{win}\Explorer.exe"; Parameters: "{userdocs}\Oscillate\wallets"
+Name: "{group}\Utilities\x (Check GUI Wallet Log)"; Filename: "Notepad"; Parameters: "{app}\oscillate-wallet-gui.log"
+Name: "{group}\Utilities\x (Try Daemon, Exit Confirm)"; Filename: "{app}\oscillate-daemon.bat"
 Name: "{group}\Utilities\x (Try GUI Wallet Low Graphics Mode)"; Filename: "{app}\start-low-graphics-mode.bat"
-Name: "{group}\Utilities\x (Try Kill Daemon)"; Filename: "Taskkill.exe"; Parameters: "/IM arqmad.exe /T /F"
+Name: "{group}\Utilities\x (Try Kill Daemon)"; Filename: "Taskkill.exe"; Parameters: "/IM oscillated.exe /T /F"
 
 ; Desktop icons, optional with the help of the "Task" section
-Name: "{userdesktop}\Arqma GUI Wallet"; Filename: "{app}\arqma-wallet-gui.exe"; Tasks: desktopicon
+Name: "{userdesktop}\Oscillate GUI Wallet"; Filename: "{app}\oscillate-wallet-gui.exe"; Tasks: desktopicon
 
 
 [Registry]
 ; Store any special flags for the daemon in the registry location where the GUI wallet will take it from
 ; So if the wallet is used to start the daemon instead of the separate icon the wallet will pass the correct flags
 ; Side effect, mostly positive: The uninstaller will clean the registry
-Root: HKCU; Subkey: "Software\arqma"; Flags: uninsdeletekeyifempty
-Root: HKCU; Subkey: "Software\arqma\arqma"; Flags: uninsdeletekey
-Root: HKCU; Subkey: "Software\arqma\arqma"; ValueType: string; ValueName: "daemonFlags"; ValueData: {code:DaemonFlags};
+Root: HKCU; Subkey: "Software\oscillate"; Flags: uninsdeletekeyifempty
+Root: HKCU; Subkey: "Software\oscillate\oscillate"; Flags: uninsdeletekey
+Root: HKCU; Subkey: "Software\oscillate\oscillate"; ValueType: string; ValueName: "daemonFlags"; ValueData: {code:DaemonFlags};

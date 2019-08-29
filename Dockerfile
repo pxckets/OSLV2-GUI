@@ -2,13 +2,13 @@
 # NOTE: This downloads Qt and builds it statically, so this can take a long time
 
 #To run this, execute in the root of the repository
-#    docker build -t arqma-gui-image .
+#    docker build -t oscillate-gui-image .
 
 # Then execute the script in the root of the repository to copy out the release
 # binaries into build/release/bin
 #    ./collect.sh
 
-# This produces a arqma-gui-wallet binary with the following dependencies
+# This produces a oscillate-gui-wallet binary with the following dependencies
 # linux-vdso.so.1
 # libxcb-glx.so.0
 # libX11-xcb.so.1
@@ -267,7 +267,7 @@ RUN set -ex \
  ARG ZBAR_VERSION=0.10
  ENV PATH=/usr/lib/x86_64-linux-gnu/qt5/bin:${PATH}
  RUN set -ex \
-     && curl -O -L https://arqma.com/zbar-${ZBAR_VERSION}.tar.gz \
+     && curl -O -L https://oscillate.com/zbar-${ZBAR_VERSION}.tar.gz \
      && tar -xvf zbar-${ZBAR_VERSION}.tar.gz \
      && cd zbar-${ZBAR_VERSION} \
      && CFLAGS="-fPIC" CXXFLAGS="-fPIC" ./configure --enable-static --disable-video --without-qt --without-java --without-gtk --without-python CFLAGS=-DNDEBUG \

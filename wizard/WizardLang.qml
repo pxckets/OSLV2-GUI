@@ -90,7 +90,7 @@ Rectangle {
             visible: parent.subtitle !== ""
 
             color: ArqmaComponents.Style.dimmedFontColor
-            text: qsTr("Change the language of the Arqma GUI.") + translationManager.emptyString
+            text: qsTr("Change the language of the Oscillate GUI.") + translationManager.emptyString
 
             font.family: ArqmaComponents.Style.fontRegular.name
             font.pixelSize: {

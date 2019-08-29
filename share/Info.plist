@@ -18,16 +18,16 @@
   <string>Graphical User Interface</string>
 
   <key>CFBundleSignature</key>
-  <string>Arqma-Network</string>
+  <string>Oscillate-Network</string>
 
   <key>CFBundleExecutable</key>
-  <string>arqma-wallet-gui</string>
+  <string>oscillate-wallet-gui</string>
 
   <key>CFBundleName</key>
-  <string>Arqma GUI iWallet</string>
+  <string>Oscillate GUI iWallet</string>
 
   <key>CFBundleIdentifier</key>
-  <string>com.arqma-iWallet-gui</string>
+  <string>com.oscillate-iWallet-gui</string>
 
   <key>NSSupportsAutomaticGraphicsSwitching</key>
   <true/>
@@ -39,10 +39,10 @@
   <array>
     <dict>
       <key>CFBundleURLName</key>
-      <string>Arqma Handler</string>
+      <string>Oscillate Handler</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>arqma</string>
+        <string>oscillate</string>
       </array>
     </dict>
     <dict>
@@ -50,7 +50,7 @@
       <string>Arqmaseed Handler</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>arqmaseed</string>
+        <string>oscillateseed</string>
       </array>
     </dict>
   </array>

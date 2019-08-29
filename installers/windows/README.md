@@ -5,7 +5,7 @@ Copyright (c) 2014-2018, The Monero Project
 
 ## Introduction ##
 
-This is a *Inno Setup* script `Arqma.iss` plus some related files
+This is a *Inno Setup* script `Oscillate.iss` plus some related files
 that allows you to build a standalone Windows installer (.exe) for
 the GUI wallet that comes with the Devils Touch release of ArQmA.
 

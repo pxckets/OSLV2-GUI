@@ -7,7 +7,7 @@ TEMPLATE = app
 
 QT += svg qml gui-private quick widgets
 
-WALLET_ROOT=$$PWD/arqma
+WALLET_ROOT=$$PWD/oscillate
 
 CONFIG += c++11 link_pkgconfig
 packagesExist(libusb-1.0) {
@@ -21,7 +21,7 @@ packagesExist(hidapi-libusb) {
     QMAKE_LFLAGS += -fstack-protector -fstack-protector-strong
 }
 
-# cleaning "auto-generated" Arqma directory on "make distclean"
+# cleaning "auto-generated" Oscillate directory on "make distclean"
 QMAKE_DISTCLEAN += -r $$WALLET_ROOT
 
 INCLUDEPATH +=  $$WALLET_ROOT/include \
@@ -318,7 +318,7 @@ linux {
             -Wl,-Bdynamic \
             -lGL
     }
-    # currently Arqma has an issue with "static" build and linunwind-dev,
+    # currently Oscillate has an issue with "static" build and linunwind-dev,
     # so we link libunwind-dev only for non-Ubuntu distros
     CONFIG(libunwind_off) {
         message(Building without libunwind)
@@ -361,7 +361,7 @@ macx {
 
 
 # translation stuff
-TRANSLATIONS = $$files($$PWD/translations/arqma-core_*.ts)
+TRANSLATIONS = $$files($$PWD/translations/oscillate-core_*.ts)
 
 CONFIG(release, debug|release) {
     DESTDIR = release/bin
@@ -456,7 +456,7 @@ linux:!android {
 }
 
 android {
-    deploy.commands += make install INSTALL_ROOT=$$DESTDIR && androiddeployqt --input android-libarqma-wallet-gui.so-deployment-settings.json --output $$DESTDIR --deployment bundled --android-platform android-21 --jdk /usr/lib/jvm/java-8-openjdk-amd64 -qmldir=$$PWD
+    deploy.commands += make install INSTALL_ROOT=$$DESTDIR && androiddeployqt --input android-liboscillate-wallet-gui.so-deployment-settings.json --output $$DESTDIR --deployment bundled --android-platform android-21 --jdk /usr/lib/jvm/java-8-openjdk-amd64 -qmldir=$$PWD
 }
 
 
@@ -466,7 +466,7 @@ OTHER_FILES += \
 
 DISTFILES += \
     notes.txt \
-    arqma/src/wallet/CMakeLists.txt
+    oscillate/src/wallet/CMakeLists.txt
 
 
 # windows application icon

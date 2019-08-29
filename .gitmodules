@@ -1,4 +1,4 @@
-[submodule "arqma"]
-	path = arqma
-	url = https://github.com/arqma/arqma.git
+[submodule "oscillate"]
+	path = oscillate
+	url = https://github.com/osl-coin/OSLV2.git
 	branch = release-v0.5.1

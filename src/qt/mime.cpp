@@ -12,24 +12,24 @@ void registerXdgMime(QApplication &app){
 
     QString xdg = QString(
             "[Desktop Entry]\n"
-            "Name=Arqma GUI\n"
-            "GenericName=Arqma-GUI\n"
-            "X-GNOME-FullName=Arqma-GUI\n"
-            "Comment=Arqma GUI\n"
-            "Keywords=Arqma;\n"
+            "Name=Oscillate GUI\n"
+            "GenericName=Oscillate-GUI\n"
+            "X-GNOME-FullName=Oscillate-GUI\n"
+            "Comment=Oscillate GUI\n"
+            "Keywords=Oscillate;\n"
             "Exec=%1 %u\n"
             "Terminal=false\n"
             "Type=Application\n"
-            "Icon=arqma\n"
+            "Icon=oscillate\n"
             "Categories=Network;GNOME;Qt;\n"
-            "MimeType=x-scheme-handler/arqma;x-scheme-handler/arqmaseed\n"
+            "MimeType=x-scheme-handler/oscillate;x-scheme-handler/oscillateseed\n"
             "StartupNotify=true\n"
             "X-GNOME-Bugzilla-Bugzilla=GNOME\n"
             "X-GNOME-UsesNotifications=true\n"
     ).arg(app.applicationFilePath());
 
     QString appPath = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
-    QString filePath = QString("%1/arqma-gui.desktop").arg(appPath);
+    QString filePath = QString("%1/oscillate-gui.desktop").arg(appPath);
 
     qDebug() << QString("Writing %1").arg(filePath);
     QFile file(filePath);

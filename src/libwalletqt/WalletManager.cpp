@@ -351,7 +351,7 @@ QUrl WalletManager::localPathToUrl(const QString &path) const
 double WalletManager::getPasswordStrength(const QString &password) const
 {
     static const char *local_dict[] = {
-        "arqma", "malbit", NULL
+        "oscillate", "malbit", NULL
     };
 
     if (!ZxcvbnInit("zxcvbn.dict")) {

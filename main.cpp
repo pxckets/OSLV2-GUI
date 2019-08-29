@@ -111,9 +111,9 @@ int main(int argc, char *argv[])
 
     MainApp app(argc, argv);
 
-    app.setApplicationName("arqma-gui-wallet");
-    app.setOrganizationDomain("arqma.com");
-    app.setOrganizationName("Arqma Network");
+    app.setApplicationName("oscillate-gui-wallet");
+    app.setOrganizationDomain("oscillate.com");
+    app.setOrganizationName("Oscillate Network");
 
 #if defined(Q_OS_LINUX)
     if (isDesktop) app.setWindowIcon(QIcon(":/images/appicon.ico"));
@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
 
     // Log settings
     const QString logPath = getLogPath(parser.value(logPathOption));
-    Monero::Wallet::init(argv[0], "arqma-wallet-gui", logPath.toStdString().c_str(), true);
+    Monero::Wallet::init(argv[0], "oscillate-wallet-gui", logPath.toStdString().c_str(), true);
     qInstallMessageHandler(messageHandler);
 
     // Get default Account Name
@@ -288,11 +288,11 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("daemonManager", daemonManager);
 #endif
 
-//  export to QML arqma accounts root directory
+//  export to QML oscillate accounts root directory
 //  wizard is talking about where
 //  to save the wallet file (.keys, .bin), they have to be user-accessible for
-//  backups - I reckon we save that in My Documents\Arqma Accounts\ on
-//  Windows, ~/Arqma Accounts/ on nix / osx
+//  backups - I reckon we save that in My Documents\Oscillate Accounts\ on
+//  Windows, ~/Oscillate Accounts/ on nix / osx
 #if defined(Q_OS_WIN) || defined(Q_OS_IOS)
     QStringList ArqmaAccountsRootDir = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
 #else
@@ -319,7 +319,7 @@ int main(int argc, char *argv[])
 
     if (!ArqmaAccountsRootDir.empty())
     {
-        QString ArqmaAccountsDir = ArqmaAccountsRootDir.at(0) + "/arqma/wallets";
+        QString ArqmaAccountsDir = ArqmaAccountsRootDir.at(0) + "/oscillate/wallets";
         engine.rootContext()->setContextProperty("ArqmaAccountsDir", ArqmaAccountsDir);
     }
 

@@ -61,7 +61,7 @@
         <file>images/helpIcon.png</file>
         <file>images/maximizeIcon.png</file>
         <file>images/minimizeIcon.png</file>
-        <file>images/arqmaLogo.png</file>
+        <file>images/oscillateLogo.png</file>
         <file>images/whatIsIcon.png</file>
         <file>images/lockIcon.png</file>
         <file>images/menuIndicator.png</file>
@@ -79,7 +79,7 @@
         <file>images/dropdownSend_new.png</file>
         <file>images/tip.png</file>
         <file>images/deleteIcon.png</file>
-        <file>images/arqmaIcon.png</file>
+        <file>images/oscillateIcon.png</file>
         <file>images/whiteDropIndicator.png</file>
         <file>images/checkedOrangeIcon.png</file>
         <file>images/uncheckedIcon.png</file>
@@ -92,7 +92,7 @@
         <file>images/dropdownDel_new.png</file>
         <file>images/gotoBasicVersion.png</file>
         <file>images/goToBasicVersionHovered.png</file>
-        <file>images/arqmaLogo2.png</file>
+        <file>images/oscillateLogo2.png</file>
         <file>images/checkedVioletIcon.png</file>
         <file>images/resize.png</file>
         <file>images/resizeHovered.png</file>
@@ -110,10 +110,10 @@
         <file>images/minimize.png</file>
         <file>images/fullscreen.png</file>
         <file>images/close.png</file>
-        <file>images/arqmaLogo_white.png</file>
-        <file>images/arqmaIcon-trans28x28.png</file>
-        <file>images/arqmaIcon-trans84x84.png</file>
-        <file>images/arqmaIcon-trans56x56.png</file>
+        <file>images/oscillateLogo_white.png</file>
+        <file>images/oscillateIcon-trans28x28.png</file>
+        <file>images/oscillateIcon-trans84x84.png</file>
+        <file>images/oscillateIcon-trans56x56.png</file>
         <file>images/question.png</file>
         <file>images/expand.png</file>
         <file>images/titlebarGradient.jpg</file>
@@ -123,7 +123,7 @@
         <file>images/lightning.png</file>
         <file>images/leftPanelBg.jpg</file>
         <file>images/logout.png</file>
-        <file>images/arqmaIcon-28x28.png</file>
+        <file>images/oscillateIcon-28x28.png</file>
         <file>images/lightning-white.png</file>
         <file>images/middlePanelBg.jpg</file>
         <file>images/checkedIcon-black.png</file>

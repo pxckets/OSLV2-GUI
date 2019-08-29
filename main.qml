@@ -47,7 +47,7 @@ import "js/Windows.js" as Windows
 
 ApplicationWindow {
     id: appWindow
-    title: "Arqma"
+    title: "Oscillate"
 
     Image {
         anchors.fill: parent
@@ -402,8 +402,8 @@ ApplicationWindow {
     }
 
     function onUriHandler(uri) {
-        if(uri.startsWith("arqma://")) {
-            var address = uri.substring("arqma://".length);
+        if(uri.startsWith("oscillate://")) {
+            var address = uri.substring("oscillate://".length);
 
             var params = {}
             if(address.length === 0) return;
@@ -658,7 +658,7 @@ ApplicationWindow {
         currentWallet.startRefresh();
         daemonRunning = false;
         informationPopup.title = qsTr("Daemon failed to start") + translationManager.emptyString;
-        informationPopup.text  = qsTr("Please check your wallet and daemon log for errors. You can also try to start %1 manually.").arg((isWindows)? "arqmad.exe" : "arqmad")
+        informationPopup.text  = qsTr("Please check your wallet and daemon log for errors. You can also try to start %1 manually.").arg((isWindows)? "oscillated.exe" : "oscillated")
         informationPopup.icon  = StandardIcon.Critical
         informationPopup.onCloseCallback = null
         informationPopup.open();
@@ -695,7 +695,7 @@ ApplicationWindow {
 
     function onWalletMoneySent(txId, amount) {
         // refresh transaction history here
-        console.log("Arqma sent found")
+        console.log("Oscillate sent found")
         currentWallet.history.refresh(currentWallet.currentSubaddressAccount) // this will refresh model
     }
 
@@ -776,10 +776,10 @@ ApplicationWindow {
 
         // validate amount;
         if (amount !== "(all)") {
-            var arqma_amount = walletManager.amountFromString(amount);
-            console.log("integer amount: ", arqma_amount);
+            var oscillate_amount = walletManager.amountFromString(amount);
+            console.log("integer amount: ", oscillate_amount);
             console.log("integer unlocked", currentWallet.unlockedBalance)
-            if (arqma_amount <= 0) {
+            if (oscillate_amount <= 0) {
                 hideProcessingSplash()
                 informationPopup.title = qsTr("Error") + translationManager.emptyString;
                 informationPopup.text  = qsTr("Amount is wrong: expected number from %1 to %2")
@@ -791,7 +791,7 @@ ApplicationWindow {
                 informationPopup.onCloseCallback = null
                 informationPopup.open()
                 return;
-            } else if (arqma_amount > currentWallet.unlockedBalance) {
+            } else if (oscillate_amount > currentWallet.unlockedBalance) {
                 hideProcessingSplash()
                 informationPopup.title = qsTr("Error") + translationManager.emptyString;
                 informationPopup.text  = qsTr("Insufficient funds. Unlocked balance: %1")
@@ -808,7 +808,7 @@ ApplicationWindow {
         if (amount === "(all)")
             currentWallet.createTransactionAllAsync(address, paymentId, mixinCount, priority);
         else
-            currentWallet.createTransactionAsync(address, paymentId, arqma_amount, mixinCount, priority);
+            currentWallet.createTransactionAsync(address, paymentId, oscillate_amount, mixinCount, priority);
     }
 
     //Choose where to save transaction
@@ -906,7 +906,7 @@ ApplicationWindow {
                     txid_text += ", "
                 txid_text += txid[i]
             }
-            informationPopup.text  = (viewOnly)? qsTr("Transaction saved to file: %1").arg(path) : qsTr("Arqma sent successfully: %1 transaction(s) ").arg(txid.length) + txid_text + translationManager.emptyString
+            informationPopup.text  = (viewOnly)? qsTr("Transaction saved to file: %1").arg(path) : qsTr("Oscillate sent successfully: %1 transaction(s) ").arg(txid.length) + txid_text + translationManager.emptyString
             informationPopup.icon  = StandardIcon.Information
             if (transactionDescription.length > 0) {
                 for (var i = 0; i < txid.length; ++i)
@@ -976,10 +976,10 @@ ApplicationWindow {
                 informationPopup.icon = StandardIcon.Critical;
             } else if (received > 0) {
                 if (in_pool) {
-                    informationPopup.text = qsTr("This address received %1 Arqma, but the transaction is not yet mined").arg(walletManager.displayAmount(received));
+                    informationPopup.text = qsTr("This address received %1 Oscillate, but the transaction is not yet mined").arg(walletManager.displayAmount(received));
                 }
                 else {
-                    informationPopup.text = qsTr("This address received %1 Arqma, with %2 confirmation(s).").arg(walletManager.displayAmount(received)).arg(confirmations);
+                    informationPopup.text = qsTr("This address received %1 Oscillate, with %2 confirmation(s).").arg(walletManager.displayAmount(received)).arg(confirmations);
                 }
             }
             else {
@@ -1139,7 +1139,7 @@ ApplicationWindow {
         property bool receiveShowAdvanced: false
         property string blockchainDataDir: ""
         property bool useRemoteNode: false
-        property string remoteNodeAddress: "node.supportarqma.com:19994"
+        property string remoteNodeAddress: "node.supportoscillate.com:19994"
         property string bootstrapNodeAddress: ""
         property string remoteNodeRegion: ""
         property bool segregatePreForkOutputs: true
@@ -1385,7 +1385,7 @@ ApplicationWindow {
                 PropertyChanges { target: titleBar; basicButtonVisible: false }
                 PropertyChanges { target: titleBar; showMaximizeButton: true }
                 PropertyChanges { target: titleBar; visible: true }
-                PropertyChanges { target: titleBar; title: qsTr("Arqma") + translationManager.emptyString }
+                PropertyChanges { target: titleBar; title: qsTr("Oscillate") + translationManager.emptyString }
             }, State {
                 name: "normal"
                 PropertyChanges { target: leftPanel; visible: isMobile ? false : true }
@@ -1399,7 +1399,7 @@ ApplicationWindow {
 //                PropertyChanges { target: frameArea; blocked: true }
                 PropertyChanges { target: titleBar; visible: true }
 //                PropertyChanges { target: titleBar; y: 0 }
-                PropertyChanges { target: titleBar; title: qsTr("Arqma") + translationManager.emptyString }
+                PropertyChanges { target: titleBar; title: qsTr("Oscillate") + translationManager.emptyString }
                 PropertyChanges { target: mobileHeader; visible: isMobile ? true : false }
             }
         ]
@@ -1962,7 +1962,7 @@ ApplicationWindow {
           var hash = parts[1]
           var user_url = parts[2]
           var auto_url = parts[3]
-          var msg = qsTr("New version of arqma-wallet-gui is available: %1<br>%2").arg(version).arg(user_url) + translationManager.emptyString
+          var msg = qsTr("New version of oscillate-wallet-gui is available: %1<br>%2").arg(version).arg(user_url) + translationManager.emptyString
           notifier.show(msg)
         }
         else {
@@ -1971,7 +1971,7 @@ ApplicationWindow {
     }
 
     function checkUpdates() {
-        walletManager.checkUpdatesAsync("arqma-gui", "gui")
+        walletManager.checkUpdatesAsync("oscillate-gui", "gui")
     }
 
     Timer {

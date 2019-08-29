@@ -63,8 +63,8 @@ fi
 source ./utils.sh
 pushd $(pwd)
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-ARQMA_DIR=arqma
-ARQMA_EXEC=arqmad
+OSCILLATE_DIR=oscillate
+OSCILLATE_EXEC=oscillated
 
 MAKE='make'
 if [[ $platform == *bsd* ]]; then
@@ -91,30 +91,30 @@ if [ "$ANDROID" != true ] && ([ "$platform" == "linux32" ] || [ "$platform" == "
 fi
 
 if [ "$platform" == "darwin" ]; then
-    BIN_PATH=$BIN_PATH/arqma-wallet-gui.app/Contents/MacOS/
+    BIN_PATH=$BIN_PATH/oscillate-wallet-gui.app/Contents/MacOS/
 elif [ "$platform" == "mingw64" ] || [ "$platform" == "mingw32" ]; then
-    ARQMA_EXEC=arqmad.exe
+    OSCILLATE_EXEC=oscillated.exe
 fi
 
 # force version update
 get_tag
 echo "var GUI_VERSION = \"$TAGNAME\"" > version.js
-pushd "$ARQMA_DIR"
+pushd "$OSCILLATE_DIR"
 get_tag
 popd
-echo "var GUI_ARQMA_VERSION = \"$TAGNAME\"" >> version.js
+echo "var GUI_OSCILLATE_VERSION = \"$TAGNAME\"" >> version.js
 
 cd build
 if ! QMAKE=$(find_command qmake qmake-qt5); then
     echo "Failed to find suitable qmake command."
     exit 1
 fi
-$QMAKE ../arqma-wallet-gui.pro "$CONFIG" || exit
+$QMAKE ../oscillate-wallet-gui.pro "$CONFIG" || exit
 $MAKE || exit
 
-# Copy arqmad to bin folder
+# Copy oscillated to bin folder
 if [ "$platform" != "mingw32" ] && [ "$ANDROID" != true ]; then
-cp ../$ARQMA_DIR/bin/$ARQMA_EXEC $BIN_PATH
+cp ../$OSCILLATE_DIR/bin/$OSCILLATE_EXEC $BIN_PATH
 fi
 
 make deploy

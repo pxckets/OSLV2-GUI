@@ -21,7 +21,7 @@ Rectangle {
         anchors.verticalCenterOffset: -5
         anchors.left: parent.left
         anchors.leftMargin: 50 * scaleRatio
-        source: "../images/arqmaLogo2.png"
+        source: "../images/oscillateLogo2.png"
     }
 
     Image {
@@ -30,7 +30,7 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: 40 * scaleRatio
-        source: "../images/arqmaIcon.png"
+        source: "../images/oscillateIcon.png"
     }
 
     Grid {

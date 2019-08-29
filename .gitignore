@@ -9,5 +9,5 @@ moc_*
 *.mak
 *.build
 *.xcodeproj
-arqma-wallet-gui_plugin_import.cpp
-arqma-wallet-gui_qml_plugin_import.cpp
+oscillate-wallet-gui_plugin_import.cpp
+oscillate-wallet-gui_qml_plugin_import.cpp

@@ -9,15 +9,15 @@
 #include "wallet/api/wallet2_api.h"
 
 // default log path by OS (should be writable)
-static const QString defaultLogName = "arqma-wallet-gui.log";
+static const QString defaultLogName = "oscillate-wallet-gui.log";
 #if defined(Q_OS_IOS)
     //AppDataLocation = "<APPROOT>/Library/Application Support"
     static const QString osPath = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(0);
-    static const QString appFolder = "arqma-wallet-gui";
+    static const QString appFolder = "oscillate-wallet-gui";
 #elif defined(Q_OS_WIN)
     //AppDataLocation = "C:/Users/<USER>/AppData/Roaming/<APPNAME>"
     static const QString osPath = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(0);
-    static const QString appFolder = "arqma-wallet-gui";
+    static const QString appFolder = "oscillate-wallet-gui";
 #elif defined(Q_OS_ANDROID)
     //AppDataLocation = "<USER>/<APPNAME>/files"
     static const QString osPath = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(1);
@@ -29,7 +29,7 @@ static const QString defaultLogName = "arqma-wallet-gui.log";
 #else // linux + bsd
     //HomeLocation = "~"
     static const QString osPath = QStandardPaths::standardLocations(QStandardPaths::HomeLocation).at(0);
-    static const QString appFolder = ".arqma";
+    static const QString appFolder = ".oscillate";
 #endif
 
 

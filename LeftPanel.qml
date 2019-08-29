@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2019, The Arqma Network
+// Copyright (c) 2018-2019, The Oscillate Network
 // Copyright (c) 2014-2018, The Monero Project
 //
 // All rights reserved.
@@ -98,7 +98,7 @@ Rectangle {
         z: 1
     }
 
-    // card with Arqma Card
+    // card with Oscillate Card
     Column {
         visible: !isMobile
         z: 2

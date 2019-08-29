@@ -135,8 +135,8 @@ function restoreWalletCheckViewSpendAddress(walletmanager, nettype, viewkey, spe
 //usage: getApproximateBlockchainHeight("March 18 2016") or getApproximateBlockchainHeight("2016-11-11")
 //returns estimated block height with 1 month buffer prior to requested date.
 function getApproximateBlockchainHeight(_date){
-    // time of Arqma birth 2018-06-14 19:05:25 (1397818193)
-    var arqmaBirthTime = 1529003125;
+    // time of Oscillate birth 2018-06-14 19:05:25 (1397818193)
+    var oscillateBirthTime = 1529003125;
     var secondsPerBlockV7 = 240;
     var forkTime = 1552431155;
     // v11 fork block
@@ -146,12 +146,12 @@ function getApproximateBlockchainHeight(_date){
     var requestedTime = Math.floor(new Date(_date) / 1000);
     var approxBlockchainHeight;
     var secondsPerBlock;
-    if (requestedTime < arqmaBirthTime){
-        console.log("Calculated blockchain height: 0, requestedTime < arqmaBirthTime " );
+    if (requestedTime < oscillateBirthTime){
+        console.log("Calculated blockchain height: 0, requestedTime < oscillateBirthTime " );
         return 0;
     }
-    if (requestedTime > arqmaBirthTime && requestedTime < forkTime){
-        approxBlockchainHeight = Math.floor((requestedTime - arqmaBirthTime)/secondsPerBlockV7);
+    if (requestedTime > oscillateBirthTime && requestedTime < forkTime){
+        approxBlockchainHeight = Math.floor((requestedTime - oscillateBirthTime)/secondsPerBlockV7);
         console.log("Calculated blockchain height: " + approxBlockchainHeight );
         secondsPerBlock = secondsPerBlockV7;
     }
